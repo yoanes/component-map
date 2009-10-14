@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+   
+    <bean id="locationDelegate"
+            class="au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate"
+            init-method="validateState"  scope="prototype">
+
+        <property name="locationManager" ref="map.locationManager" />
+    </bean>
+    
+    <!-- ======================================================================================= -->
+    <!-- Beans for transforming map URLs for telstra 2G customers.  -->
+    <!-- ======================================================================================= -->
+    <bean id="mapUrlTransformerImplChooserMap"
+            class="au.com.sensis.sal.common.ImplChooserMap">
+        <constructor-arg index="0">
+            <map>
+                <entry>
+                    <key>
+                        <ref bean="salCommon:telstraWapImplKey"/>
+                    </key>
+                    <ref local="mapUrlTransformer2G"/>
+                </entry>
+            </map>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <value>au.com.sensis.wireless.web.common.UrlStringTransformer</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="mapUrlTransformer2G"
+            class="au.com.sensis.wireless.web.common.AppendStringToSubdomainUrlStringTransformer"
+            init-method="validateState">
+
+        <property name="stringToAppend">
+            <value>${app.mapUrlTransformer.2G.stringToAppend}</value>
+        </property>
+    </bean>
+</beans>

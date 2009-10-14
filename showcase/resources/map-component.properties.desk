@@ -1,0 +1,18 @@
+handler.mapping.url.prefix=**/map/
+context.root.component.prefix=/map-component-showcase/comp/map/
+
+############################################################################
+# "Maps" properties (related to EMS zoom properties below)
+############################################################################
+
+maps.minZoom=1
+maps.maxZoom=10
+
+# 5px margin on each side of the map, + 1px for border each side.
+maps.widthMargin.medium=12
+# 8px margin to cater for navigation buttons
+maps.heightMargin.medium=16
+# 8px margin on each side of the map, + 1px for border each side.
+maps.widthMargin.large=18
+# 11px margin to cater for navigation buttons
+maps.heightMargin.large=22

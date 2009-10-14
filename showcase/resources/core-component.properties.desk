@@ -1,0 +1,2 @@
+handler.mapping.url.prefix=**/core/
+context.root.component.prefix=/map-component-showcase/comp/core/

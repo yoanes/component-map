@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+                
+    <!-- Load properties from mandatory file provided by this component.-->            
+    <bean id="map-component.properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location">
+            <value>classpath:/au/com/sensis/mobile/web/component/map/map-component.properties</value>
+        </property>
+        
+    </bean>                
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <!-- Default properties provided by this component. -->
+        <property name="properties" ref="map-component.properties"/>
+        <property name="placeholderPrefix" value="@{map-component."/>
+        
+        <!-- Optional properties provided by the client of this component. -->
+        <property name="location">
+            <value>classpath:/map-component.properties</value>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
+
+    <bean name="map-component.mapComponentHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                @{map-component.handler.mapping.url.prefix}/js/**/*=map-component.getJavaScript
+                @{map-component.handler.mapping.url.prefix}/jsexploded/**/*=map-component.getExplodedJavaScript
+            </value>
+        </property>
+    </bean>
+    
+    <bean id="map-component.buildDateSimpleDateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg index="0" value="dd-MM-yy HH:mm:ss"/>
+    </bean>
+    
+    <bean id="map-component.abstractClasspathResourceGetter" 
+        class="au.com.sensis.mobile.web.component.core.spring.AbstractResourceLoaderController"
+        abstract="true">
+        <property name="resourceLastModifiedDate">
+            <bean factory-bean="map-component.buildDateSimpleDateFormat" factory-method="parse">
+                <constructor-arg index="0" value="@{map-component.build.date}"/>            
+            </bean>
+        </property>
+        <property name="buildVersion" value="@{map-component.build.version}"/>
+        <property name="resourceLoader" ref="map-component.resourceLoader"/>
+        <property name="supportCaching" value="@{map-component.support.httpClientCaching}"/>
+                
+        <!-- 
+          - Allow clients to use cached response for about 10 years so that they don't always have to 
+          - re-validate the cached copy. This relies on new deployments serving up JS files from a new, unique URL.
+          - This in turn affects all Volantis *.mscr files.  
+          -->
+        <!-- <property name="cacheSeconds" value="315360000"/>-->
+    </bean>
+    
+    <bean id="map-component.getJavaScript" class="au.com.sensis.mobile.web.component.core.spring.GetJavaScriptController"
+        parent="map-component.abstractClasspathResourceGetter">
+        <property name="contextRootComponentPrefix" value="@{map-component.context.root.component.prefix}"/>    
+    </bean>
+    
+    <bean id="map-component.getExplodedJavaScript" class="au.com.sensis.mobile.web.component.core.spring.GetExplodedJavaScriptController"
+        parent="map-component.abstractClasspathResourceGetter">
+    </bean>
+    
+    <bean name="map-component.resourceLoader" class="au.com.sensis.mobile.web.component.core.spring.ClasspathResourceLoader"/>    
+</beans>

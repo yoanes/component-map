@@ -1,0 +1,35 @@
+########################################################
+## ENVIRONMENT : DESK
+########################################################
+
+###########################################################
+# ems
+###########################################################
+
+env.ems.service.timeout.connect=10000
+env.ems.service.timeout.read=20000
+
+#prod
+
+env.ems.clientPolicy=emsProxiedHttpClientPolicy
+env.ems.service=https://ems.whereis.com/v1/soap/ems
+env.ems.token=4316381136292159452
+env.ems.password=dev?755545!!whitep
+
+#drs (staging)
+
+#env.ems.clientPolicy=emsHttpClientPolicy
+#env.ems.service=http://ems-int.drs.sensis.com.au:24121/v1/soap/internal/ems
+#env.ems.token=4316381136292159452
+#env.ems.password=dev?755545!!whitep
+
+# ems has it's own proxy settings so we can point to prod locally
+ems.http.proxyHost=161.117.238.233
+ems.http.proxyPort=8080
+ems.http.proxyUser=
+ems.http.proxyPass=
+
+sal.http.proxyHost=
+sal.http.proxyPort=1
+sal.http.proxyUser=
+sal.http.proxyPass=

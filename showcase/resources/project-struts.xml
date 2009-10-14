@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="map-component-default" namespace="/" extends="testbed-default">
+
+        <!-- Home Page Action -->
+        <action name="home" class="homeAction">
+            <result name="success" type="tiles">map.component.home</result>
+        </action>
+
+    </package>
+
+    <!-- Add packages here -->
+    <include file="../view/map/map.xml"/>
+</struts>

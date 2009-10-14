@@ -1,0 +1,164 @@
+Build and deployment notes (cloned from map-component-ri)
+==========================
+
+Local map-component-ri build procedure:
+
+1. ant showcase-deploy-local
+2. Hit http://localhost:8080/map-component-showcase/home.action
+
+Sandpit map-component-ri build procedure:
+
+1. ant -Djava.version.target=1.5 -Dproject.platform=sandpit showcase-package
+
+2. Sandpit deployment is to /app/smtestapp/testapps/mcstestapp:
+
+devices/     -> manually put devices.mdpr under here (already done)
+policies/    -> untar map-component-policies-sandpit-0.1.1.tar here (already done)
+imageserver/ 
+    images/common -> from /imageserver/wpm/images/common in CVS (already done)
+
+    following manually captured map images as stubbed placeholders (pan and zoom
+        images not used at the moment):
+
+        imageserver/map-images/camberwellVic.png
+        imageserver/map-images/camberwellVicPanEast.png
+        imageserver/map-images/camberwellVicPanNorth.png
+        imageserver/map-images/camberwellVicPanSouth.png
+        imageserver/map-images/camberwellVicPanWest.png
+        imageserver/map-images/camberwellVicZoomIn.png
+        imageserver/map-images/camberwellVicZoomOut.png
+
+unjar the map-component-showcase-sandpit-0.1.1.war to /app/smtestapp/testapps/mcstestapp
+
+3. Hit http://dsb.sensis.com.au/mcstestapp/map/home.action
+
+Build and deployment notes (cloned from map-component-ri)
+==========================
+
+1. Build scripts currently hacked up to use emsManagerContext.xml.sandpit for
+sandpit and emsManagerContext.xml.default for all other environments. Former is
+configued with EMSManagerStubImpl. In general, probably not a bad approach to
+slotting in stubbed implementations for different environments. However, Boyd
+apparently has a runtime Spring context switcher which is probably even better.
+
+2. Projects may not hook up to Eclipse that well yet. eg. when Heather tried,
+she encountered a few errors that we had to hack around. This is primarily due
+to different devs having different Eclipse configs. eg. WPM devs have Eclipse
+set up for hotdeploy. I have fixed a few of these issues but not all.
+
+3. map-component-ri depends on the jar produced by core-component-ri by pulling
+it in from ivy. core-component-ri has an ant target to publish its jar to ivy:
+
+ant componentPublishJar
+
+After publishing, you have to clean the local ivy cache under
+C:\ivy-cache\com.sensis\core-component-ri\jars to get the map-component-ri build
+scripts to pull in the latest jar (since we are not updating the build numbers
+at the moment).
+
+4. CVS code is tagged as v0_1_8. This deploys to:
+4.1 local apache tomcat 6.0.18, jdk 1.6. All functionality works. Requires standard image
+server to be deployed.
+4.2 local apache tomcat 5.0.28, jdk 1.5. All functionality works. Requires standard image
+server to be deployed.
+4.2 sandpit apache tomcat 5.0.28, jdk 1.5. All functionality works but uses a
+dummy EMS service to return a fixed, hardcoded map url.
+
+!!! NOTE: build scripts of map-component-ri are the latest. core-component-ri
+scripts are older but also include necessary differences to handle the fact that
+the core-component-ri is a bit special (eg. it contains antlib.xml). !!!
+
+TODOs
+=====
+
+High Priority
+=============
+
+1. Build script javascript bundling needs to support:
+
+1.1 Configuration of separate bundles per component. eg. at the moment, the
+core-component-ri bundle is 61 kB in size (the cache size limit for an iphone is
+apparently 20 kB per item). The build scripts should support
+configuring the component to build several smaller bundles. Might be able to use
+a similar configuration approach to that used by Jawr.
+
+1.2 As a corollary to 1.1, the build scripts should also support creating device
+specific bundles that don't necessarily include all of the device invariant js
+files. (theoretical example) for an iphone, some of the Mootool features could be 
+redundant as the iphone might provide a better replacement.
+
+2. WED: Finish ivy lib resolution:
+Take a peek at how sdpcommon works.
+2.1 top level dir: eclipse/build, eclipse/lib
+2.2 build-resolve-eclipse.xml needs to be part of top level build script, not part of core component's build script.
+Still a bit messy but it will do.
+
+4. WED/THU: Figure out hot deploy/dev lifecycle with new project structure.
+    - build two wars: a) inflated component jar, b) non-inflated component jar
+    - try filesync plugin to copy map tag files etc? What if target dir not exist? Investigate AgentSmith.
+
+3. THU/FRI: Move showcase code out of map component and into the shared dir.
+
+5. Next MON/TUES: Should testbed support multiple client technologies? eg. illustrate how component is used via
+   Struts1 versus Struts2? Should be able to support alongside one another. As part of this,
+   clean up map tags etc. so that they don't depend on Struts2.
+
+6. Remove any code from core and map components that is no longer needed.
+
+7. Next WED: Investigate good Java<->JSON API.
+
+8. Next THU: Figure out what to do with the sdpcommon code in the map component and its showcase.
+
+9. Think about versioning and governence. eg. separate tests between those that test public interface
+   and those that test internals. If you commit changes to the former, major version has to be changed?
+   A bit strict cos compatibilty might not be affected.
+   
+10. build-classpaths should probably be encapsulated in target that depends on resolve otherwise libs
+    not guranteed to exist when the classpath is built? How does it currently work, then, including WPM?
+    WPM probably requires dev to have run ant resolve first. 
+
+Medium Priority
+===============
+
+1. (Will this be superceded by a new sandpit env???) Sandpit deployment of map-component-ri: 
+would be nice if we had EMS connectivity. EMSManagerStubImpl is currently hard coded to return 
+one and only one map image.
+
+
+Low Priority
+============
+
+1. Implement a checkstyle rule to check that no developer uses <mcs:script/> in
+setup.tag files of a component. Rule should produce an error.
+
+2. Rename showcase to testbed.
+
+Dev framework usage features
+============================
+
+1. Deploy component testbed to standalone Tomcat, supporting multiple platforms and modes (for dev and sandpit only):
+    Platforms:
+        dev, sandpit, tst, stg, prd
+    Modes (for dev and sandpit only): 
+        component embedded in the testbed as a jar, component embedded in the testbed as individual files (ie. the inflated jar)  
+
+2. Deploy component testbed to Eclipse integrated Tomcat supporting a single mode: 
+    component embedded in the testbed as individual files (ie. the inflated jar)
+    
+   Should support modification and redeploy of individual JSPs, JSP tag files and javascript files without redeploying 
+   the entire webapp (NOTE: not sure if we can achieve this with one project containing all components). 
+
+3. Manage JAR dependencies via Ivy.
+
+4. Allow component developer to integrate the component into the testbed:
+   a) Developer should only need to create code/changes specifically for the component.
+      Non-component specific testbed code should be shared and centralised.
+   b) Test bed should support the component being used via: 
+        - struts1
+        - struts2
+        - all of the above at the same time (eg. each accessible via links on a homepage).
+      This allows the testbed to illustrate how to incorporate the component into any of our current and older webapps.
+      
+5. Provide an API for packing Java objects into JSON and vice versa.
+
+6. JavaScript framework.      

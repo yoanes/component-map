@@ -1,0 +1,9 @@
+mcs.devicerepository.filepath=D:/var/mcs/devices/devices.mdpr
+mcs.policies.filepath=D:/var/mcs/policies
+
+mcs.mgrp.base.url=http://localhost:8080/wpm-imageserver/
+mcs.mgrp.component.scripts.base.url=/map-component-showcase/comp/
+mcs.mgrp.component.images.base.url=http://localhost:8080/wpm-imageserver/
+
+mcs.cache.policies=false
+mcs.script.asset.path=/map-component-showcase/scripts/

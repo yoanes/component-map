@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <!-- 
+      - NOTE: we are not using this web module definition for the purposes of deployment.
+      - We are _only_ using it to allow code navigation in JSPs and to allow setting of breakpoints 
+      - in JSPs.
+      -->
+    <wb-module deploy-name="map-component-showcase">
+        <wb-resource deploy-path="/" source-path="/showcase/web"/>
+        <wb-resource deploy-path="/" source-path="/src/web"/>
+        <!-- <wb-resource deploy-path="/" source-path="/src/web/META-INF"/>
+             <wb-resource deploy-path="/WEB-INF/taglibs" source-path="/src/web/META-INF"/>-->
+        <wb-resource deploy-path="/" source-path="/lib/java/wl.webapp.testbed-exploded/web"/>
+        <property name="context-root" value="map-component-showcase"/>
+        <property name="java-output-path"/>
+    </wb-module>
+</project-modules>

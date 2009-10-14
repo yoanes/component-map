@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+    <!-- ======================================================================================= -->
+    <!-- Base Layout                                                                             -->
+    <!-- ======================================================================================= -->
+
+    <definition name="map.component.base" extends="testbed.base">
+
+        <put-attribute name="title" value="map-component-showcase"/>
+    </definition>
+
+    <!-- ======================================================================================= -->
+    <!-- Common                                                                                  -->
+    <!-- ======================================================================================= -->
+
+    <definition name="map.component.error" extends="map.component.base">
+
+        <put-attribute name="title" value="/WEB-INF/view/common/jsp/errorTitle.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/view/common/jsp/error.jsp"/>
+    </definition>
+
+    <!-- ======================================================================================= -->
+    <!-- Map                                                                                     -->
+    <!-- ======================================================================================= -->
+    
+    <definition name="map.component.home" extends="map.component.base">
+
+        <put-attribute name="componentSetup" value="/WEB-INF/view/common/jsp/componentSetup.jsp"/>
+        <put-attribute name="xform" value="/WEB-INF/view/map/jsp/mapXform.jsp"/>
+        <put-attribute name="body" value="map.component.body"/>
+    </definition>
+    
+    <definition name="map.component.body" template="/WEB-INF/view/map/layout/mapBodyLayout.jsp">
+
+        <put-attribute name="mapForm" value="/WEB-INF/view/map/jsp/mapForm.jsp"/>
+        <put-attribute name="map" value="/WEB-INF/view/map/jsp/map.jsp"/>
+    </definition>
+
+
+</tiles-definitions>

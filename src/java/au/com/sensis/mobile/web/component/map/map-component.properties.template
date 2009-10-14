@@ -1,0 +1,24 @@
+handler.mapping.url.prefix=**/map/
+context.root.component.prefix=/comp/map/
+context.root.component.prefix=/comp/map/
+support.httpClientCaching=false
+
+# Build date is used to set the last modified time of JavaScript files served up by this component.
+build.date=@BUILDDATE@
+build.version=@BUILDVERSION@
+
+############################################################################
+# "Maps" properties (related to EMS zoom properties below)
+############################################################################
+
+maps.minZoom=1
+maps.maxZoom=10
+
+# 5px margin on each side of the map, + 1px for border each side.
+maps.widthMargin.medium=12
+# 8px margin to cater for navigation buttons
+maps.heightMargin.medium=16
+# 8px margin on each side of the map, + 1px for border each side.
+maps.widthMargin.large=18
+# 11px margin to cater for navigation buttons
+maps.heightMargin.large=22
