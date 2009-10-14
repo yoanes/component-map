@@ -1,0 +1,8 @@
+==== Version 1.0.1 (tag: v1_0_1) ====
+
+Deliverable from iteration 1.0.1 of the rockit Common UI project 
+(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly 
+on the project structure, testbed structure and build scripts. 
+All build targets should work.
+ 
+ 
