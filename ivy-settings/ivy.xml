@@ -127,7 +127,7 @@
         <!-- Testing -->
         <dependency org="junit" name="junit" rev="4.4" conf="test->default"/>
         <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="test->default"/>
-        <dependency org="com.sensis" name="sdpCommon-testing" rev="0.4-003" conf="test->default"/>
+        <dependency org="com.sensis" name="sdpCommon-testing" rev="0.4-004" conf="test->default"/>
         <dependency org="org.springframework" name="spring-test" rev="2.5.5" conf="test->default"/>
         <dependency org="hsqldb" name="hsqldb" rev="1.8.0.1" conf="test->default"/>
         <dependency org="com.thoughtworks" name="selenium-java-client-driver" rev="1.0-beta-1" conf="test->default"/>
