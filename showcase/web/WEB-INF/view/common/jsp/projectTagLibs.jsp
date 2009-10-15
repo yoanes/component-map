@@ -1,1 +1,1 @@
-<%@ taglib prefix="map" uri="/META-INF/taglibs/map.tld"%>
+<%@ taglib prefix="map" uri="/au/com/sensis/mobile/web/component/map/map.tld"%>

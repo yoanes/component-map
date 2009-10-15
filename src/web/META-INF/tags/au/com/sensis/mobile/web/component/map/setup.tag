@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="/WEB-INF/taglibs/c.tld"%>
-<%@ taglib prefix="core" uri="/META-INF/taglibs/core.tld"%>
+<%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 
 <%--
   - Work around for Tomcat 5.0.28 to ensure that the JSP Expression Language is processed. 
@@ -21,4 +21,3 @@
 
 <%-- Scripts for current component. --%>
 <core:script src="${baseCompMcsPath}/map/scripts/map-component.mscr"></core:script>
-

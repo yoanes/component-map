@@ -6,13 +6,13 @@
 >
 
     <tlib-version>1.0</tlib-version>
-    <uri>/META-INF/taglibs/map.tld</uri>
+    <uri>/au/com/sensis/mobile/web/component/map/map.tld</uri>
     <tag-file>
         <name>render</name>
-        <path>/META-INF/tags/render.tag</path>
+        <path>/META-INF/tags/au/com/sensis/mobile/web/component/map/render.tag</path>
     </tag-file>
     <tag-file>
         <name>setup</name>
-        <path>/META-INF/tags/setup.tag</path>
+        <path>/META-INF/tags/au/com/sensis/mobile/web/component/map/setup.tag</path>
     </tag-file>
 </taglib>
