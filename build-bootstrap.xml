@@ -44,10 +44,15 @@
     <!-- Private targets (names start with a hyphen so they cannot be executed directly). -->
     
     <!-- Top level target to initialize all properties. -->
-    <target name="-bootstrap-init-props" depends="-bootstrap-init-dir-props, -bootstrap-init-ivy-props"/>
+    <target name="-bootstrap-init-props" depends="-bootstrap-init-dir-props, -bootstrap-init-lib-props, -bootstrap-init-ivy-props"/>
     
     <target name="-bootstrap-init-dir-props" depends="-bootstrap-require-shared-build-scripts-dir-prop">
         <property name="lib.dir" value="lib"/>
+    </target>
+    	
+    <target name="-bootstrap-init-lib-props">
+        <!-- Fileset include pattern to match the wl build scripts zip that will be retrieved by ivy. --> 
+        <property name="build.scripts.zip.fileset.pattern" value="wl-build-scripts-*.zip"/>
     </target>
     
     <target name="-bootstrap-require-shared-build-scripts-dir-prop" unless="shared.build.scripts.dir">
@@ -56,7 +61,7 @@
     
     <target name="-bootstrap-init-ivy-props" depends="-bootstrap-init-dir-props">
         <property name="ivy.dep.file" value="${basedir}/ivy-settings/ivy.xml"/>
-        <property name="ivy.retrieve.pattern" value="${lib.dir}/[type]/[conf]/[artifact].[ext]"/>
+        <property name="ivy.retrieve.pattern" value="${lib.dir}/[type]/[conf]/[artifact]-[revision].[ext]"/>
         <property name="ivy.cache.dir" location="c:\ivy-cache"/>
         <property name="ivy.local.desk.repository.dir" location="C:\ivy-local-desk-repository"/>        
         <property name="ivy.local.desk.repository.cache.dir" location="C:\ivy-local-desk-repository-cache"/>        
@@ -97,8 +102,10 @@
         
         <unzip dest="${shared.build.scripts.dir}" 
             description="Installing shared build scripts."
-            src="${lib.dir}/zip/buildBootstrap/wl-build-scripts.zip" 
-            overwrite="true" />
+            overwrite="true">
+            
+            <fileset dir="${lib.dir}/zip/buildBootstrap" includes="${build.scripts.zip.fileset.pattern}"/>                 	
+        </unzip>
         
         <echo message="Shared build scripts installed to ${shared.build.scripts.dir}."/>
     </target>
@@ -106,9 +113,14 @@
     <!-- Resolve and retrieve Ivy dependencies. -->
     <target name="-resolve" depends="-bootstrap-init, -ivy-setup">
         <echo message="Retrieving shared build scripts."/>
-        
-        <ivy:resolve file="${ivy.dep.file}" conf="buildBootstrap" />
-        <ivy:retrieve pattern="${ivy.retrieve.pattern}" conf="buildBootstrap"/>
+
+        <!--
+          - Resolve and retrieve all configurations, even though we really only need the bootstrap 
+          - config at the moment. This is because we want to retrieve with sync set to true. If you set
+          - this but don't ask for all configs, ivy will remove libs from all other configs. 
+          -->
+        <ivy:resolve file="${ivy.dep.file}" conf="*" />
+        <ivy:retrieve pattern="${ivy.retrieve.pattern}" conf="*" sync="true"/>
     </target>
 
     <target name="-ivy-setup" depends="-bootstrap-init-ivy-props">
