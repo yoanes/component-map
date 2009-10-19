@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="/WEB-INF/taglibs/c.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 
 <%--
@@ -17,7 +17,6 @@
 <%-- TODO: really should use something equivalent to core:script to avoid duplicates. --%>
 <link rel="mcs:theme" href="${baseCompMcsPath}/map/map.mthm"/>
 <link rel="mcs:theme"  href="${baseCompMcsPath}/map/imageSizeCategory.mthm"/>
-
 
 <%-- Scripts for current component. --%>
 <core:script src="${baseCompMcsPath}/map/scripts/map-component.mscr"></core:script>
