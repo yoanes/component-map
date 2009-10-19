@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
+<%-- TODO: Should not reference struts tags. Should only use JSTL.--%>
+
 <%--
   - Work around for Tomcat 5.0.28 to ensure that the JSP Expression Language is processed. 
   - Configuring this in web.xml using a jsp-property-group didn't seem to work (not sure why). 
