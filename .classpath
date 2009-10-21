@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="test/java"/>
 	<classpathentry kind="src" path="test/selenium/resources"/>
 	<classpathentry kind="src" path="test/selenium/java"/>
 	<classpathentry kind="src" path="src/web"/>
 	<classpathentry kind="src" path="showcase/resources"/>
 	<classpathentry kind="src" path="showcase/java"/>
 	<classpathentry kind="src" path="src/resources"/>
-	<classpathentry kind="src" path="test/resources"/>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v6.0"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6"/>
-	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy-settings%2Fivy.xml&amp;confs=default%2Ctest%2Cshowcase&amp;ivySettingsPath=file%3A%2FD%3A%2FData%2Feclipse-projects%2FmobilesComponents-map%2Fivy-settings%2Fivy-eclipse.xml"/>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy-settings%2Fivy.xml&amp;confs=default%2Cshowcase%2Ctest&amp;ivySettingsPath=file%3A%2FD%3A%2FData%2Feclipse-projects%2FmobilesComponents-map%2Fivy-settings%2Fivy-eclipse.xml"/>
 	<classpathentry kind="output" path="eclipseBin"/>
 </classpath>

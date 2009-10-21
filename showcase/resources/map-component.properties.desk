@@ -1,5 +1,6 @@
 handler.mapping.url.prefix=**/map/
 context.root.component.prefix=/map-component-showcase/comp/map/
+support.httpClientCaching=true
 
 ############################################################################
 # "Maps" properties (related to EMS zoom properties below)

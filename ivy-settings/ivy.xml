@@ -141,6 +141,8 @@
           - WARNING: Make sure you don't create a circular dependency.  
           -->
         <dependency org="com.sensis" name="core-component" rev="1.0+" conf="default"/>
+        <dependency org="com.sensis" name="logging-component" rev="1.0+" conf="default"/>
+        <dependency org="com.sensis" name="perftest-component" rev="1.0+" conf="default"/>
         
 <!-- TODO: wl-webapp-testbed should be in showcase conf but it contains some "sdpcommon" code that we need ... sdpcommon really needs to be fixed !!!-->
         <dependency org="com.sensis" name="wl-webapp-testbed" rev="1.0+" conf="default"/>

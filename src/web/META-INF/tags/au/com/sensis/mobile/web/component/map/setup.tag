@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
+<%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
 <%--
   - Work around for Tomcat 5.0.28 to ensure that the JSP Expression Language is processed. 
@@ -12,6 +13,7 @@
 
 <%-- Setup components that we depend on. --%>
 <core:setup baseCompMcsPath="${baseCompMcsPath}"/>
+<logging:setup baseCompMcsPath="${baseCompMcsPath}"/>
 
 <%-- Themes for current component. --%>
 <%-- TODO: really should use something equivalent to core:script to avoid duplicates. --%>
