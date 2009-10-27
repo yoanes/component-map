@@ -1,2 +1,0 @@
-handler.mapping.url.prefix=**/perftest/
-context.root.component.prefix=/map-component-showcase/comp/perftest/

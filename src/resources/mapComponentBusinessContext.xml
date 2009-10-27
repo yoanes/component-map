@@ -12,10 +12,10 @@
 
         <!-- TODO: parameterise emsManager bean name, defaulting to emsManager. -->
         <property name="emsManager" ref="emsManager" />
-        <property name="mapWidthMarginLarge" value="@{map-component.maps.widthMargin.large}"/>
-        <property name="mapHeightMarginLarge" value="@{map-component.maps.heightMargin.large}"/>
-        <property name="mapWidthMarginMedium" value="@{map-component.maps.widthMargin.medium}"/>
-        <property name="mapHeightMarginMedium" value="@{map-component.maps.heightMargin.medium}"/>
+        <property name="mapWidthMarginLarge" value="@{map.component.maps.widthMargin.large}"/>
+        <property name="mapHeightMarginLarge" value="@{map.component.maps.heightMargin.large}"/>
+        <property name="mapWidthMarginMedium" value="@{map.component.maps.widthMargin.medium}"/>
+        <property name="mapHeightMarginMedium" value="@{map.component.maps.heightMargin.medium}"/>
 <!--       <property name="emsLocationUtilityManager" ref="emsLocationUtilityManager" />-->
     </bean>
     
@@ -25,7 +25,7 @@
         <property name="locationManager" ref="map.locationManager"/>
         
         <!-- TODO: should be from map component properties, not app properties. -->
-        <property name="minZoom" value="@{map-component.maps.minZoom}" />
-        <property name="maxZoom" value="@{map-component.maps.maxZoom}" />
+        <property name="minZoom" value="@{map.component.maps.minZoom}" />
+        <property name="maxZoom" value="@{map.component.maps.maxZoom}" />
     </bean>
 </beans>

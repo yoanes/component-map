@@ -1,2 +1,0 @@
-handler.mapping.url.prefix=**/logging/
-context.root.component.prefix=/map-component-showcase/comp/logging/
