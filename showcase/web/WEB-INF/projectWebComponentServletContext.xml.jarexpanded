@@ -19,5 +19,4 @@
     <import resource="mapComponentSpringMVCContext-Overrides.xml" />
     <import resource="classpath:/coreComponentSpringMVCContext.xml" />
     <import resource="classpath:/loggingComponentSpringMVCContext.xml" />    
-    <import resource="classpath:/perftestComponentSpringMVCContext.xml" />        
 </beans>

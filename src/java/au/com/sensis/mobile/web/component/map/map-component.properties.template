@@ -1,10 +1,6 @@
+# Template for the properties file that is by default used by this component.
 handler.mapping.url.prefix=**/map/
 context.root.component.prefix=/comp/map/
-support.httpClientCaching=false
-
-# Build date is used to set the last modified time of JavaScript files served up by this component.
-build.date=@BUILDDATE@
-build.version=@BUILDVERSION@
 
 ############################################################################
 # "Maps" properties (related to EMS zoom properties below)

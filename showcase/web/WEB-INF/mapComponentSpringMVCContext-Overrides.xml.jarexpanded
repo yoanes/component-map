@@ -8,7 +8,9 @@
                 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
                 
-    <bean name="map-component.resourceLoader" class="au.com.sensis.mobile.web.component.core.spring.ServletContextResourceLoader">
+    <bean name="map-component.resourceBundleLoader" 
+        class="au.com.sensis.mobile.web.component.core.spring.ServletContextResourceLoader"
+        parent="core.component.abstractResourceBundleLoader">
         <property name="servletContext">
             <bean class="org.springframework.web.context.support.ServletContextFactoryBean"/>
         </property>
