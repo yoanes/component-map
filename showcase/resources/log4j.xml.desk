@@ -29,6 +29,17 @@
         </layout>
     </appender>
     
+    <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.base}/logs/map-showcase.log"/>
+        <param name="Append" value="true"/>
+        <param name="Threshold" value="DEBUG"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-4r [%d] [%t] %-5p %c %x - %m%n"/>
+        </layout>
+    </appender>
+    
     <appender name="CAPTURE" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="File" value="${catalina.base}/logs/capture.log"/>
         <param name="Append" value="true"/>
@@ -44,6 +55,7 @@
     <logger name="au.com.sensis.mobile" additivity="false">
         <level value="debug" />
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </logger>
     
     <logger name="SERVLET_CAPTURE" additivity="false">
@@ -54,6 +66,7 @@
     <root>
         <priority value="INFO"/>
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </log4j:configuration>
