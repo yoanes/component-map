@@ -17,6 +17,7 @@
     <import resource="mapComponentBusinessContext.xml" />
     <import resource="mapComponentSpringMVCContext.xml" />
     <import resource="mapComponentSpringMVCContext-Overrides.xml" />
+    <import resource="classpath:/coreComponentBusinessContext.xml" />    
     <import resource="classpath:/coreComponentSpringMVCContext.xml" />
     <import resource="classpath:/loggingComponentSpringMVCContext.xml" />    
 </beans>

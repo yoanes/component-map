@@ -17,6 +17,7 @@
     <!-- TODO: need some sort of wildcard support so that component's context are automatically plugged in.  -->
     <import resource="classpath:/mapComponentBusinessContext.xml" />
     <import resource="classpath:/mapComponentSpringMVCContext.xml" />
+    <import resource="classpath:/coreComponentBusinessContext.xml" />    
     <import resource="classpath:/coreComponentSpringMVCContext.xml" />
     <import resource="classpath:/loggingComponentSpringMVCContext.xml" />    
 </beans>
