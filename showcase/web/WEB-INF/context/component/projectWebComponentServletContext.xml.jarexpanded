@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
+
+
+    <!-- ======================================================================================= -->
+    <!-- 
+      - Override the default testbed projectWebComponentServletContext.xml. 
+      -->
+    <!-- ======================================================================================= -->
+
+    <!-- 
+      - Jar expanded imports for current component. Note that the Spring ServletContext resource loader does
+      - not seem to support ant patterns so you have to list each context file explicitly here !!! Luckily,
+      - this is only for the showcase, anyway.
+      -->   
+    <import resource="au/com/sensis/mobile/web/component/networknav/context/beanfactorypostprocessor/mapComponentPropertiesContext.xml" />
+    <import resource="au/com/sensis/mobile/web/component/networknav/context/dispatcherservlet/mapComponentSpringMVCContext.xml" />
+    
+    <!-- Standard component imports. -->
+    <import resource="classpath*:/au/com/sensis/mobile/web/component/*/context/beanfactorypostprocessor/*Context.xml" />
+    <import resource="classpath*:/au/com/sensis/mobile/web/component/*/context/dispatcherservlet/*Context.xml" />
+</beans>
