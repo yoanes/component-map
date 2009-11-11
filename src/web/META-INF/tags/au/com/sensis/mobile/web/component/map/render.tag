@@ -1,112 +1,86 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="s" uri="/struts-tags" %>
-
-<%-- TODO: Should not reference struts tags. Should only use JSTL.--%>
 
 <%--
   - Work around for Tomcat 5.0.28 to ensure that the JSP Expression Language is processed. 
-  - Configuring this in web.xml using a jsp-property-group didn't seem to work (not sure why). 
   - Should also work with Tomcat 6.  
   --%>
 <%@ tag isELIgnored="false" %>
 
-<%-- true if the map should be displayed. --%>
-<%@ attribute name="display" required="true" type="java.lang.Boolean"%>
-
-<%-- 
-  - Criteria that was used to retrieve the map. Needed to build zoom and pan URLs so 
-  - that the URLs contain the state that the zoom/pan should be relative to.
-  --%>
 <%@ attribute name="mapResult" required="true"
-    type="au.com.sensis.mobile.web.component.map.model.MapResult"  %>
-
-<%-- If map available show the Map. --%>
-<c:if test="${display}">
-    <div class="map">
-
-        <div class="mapArea">
-
-            <object src="${mapResult.mapUrl}" id="mapImage"
-                    srctype="image/png">
-                <param name="mcs-transcode" value="false"/>
-            </object>
-
+    type="au.com.sensis.mobile.web.component.map.model.MapResult"  
+    description="MapResult returned by the MapDelegate." %>
+    
+<%@ attribute name="zoomInUrl" required="true" 
+    description="Zoom in URL to be used for server side maps." %>
+<%@ attribute name="zoomOutUrl" required="true" 
+    description="Zoom out URL to be used for server side maps." %>
+<%@ attribute name="panNorthUrl" required="true" 
+    description="Pan north URL to be used for server side maps." %>
+<%@ attribute name="panSouthUrl" required="true" 
+    description="Pan south URL to be used for server side maps." %>
+<%@ attribute name="panEastUrl" required="true" 
+    description="Pan east URL to be used for server side maps." %>
+<%@ attribute name="panWestUrl" required="true" 
+    description="Pan west URL to be used for server side maps." %>
+    
+<c:choose>
+    <c:when test="${not empty mapResult && mapResult.mapRetrievalClientResponsible}">
+        <%-- Cater to funky phones that can generate the map "themselves" (eg. via an AJAX call). --%>
+        
+        <%--TODO: inline style should be a class. --%>
+        <div id="mapWindow" style="margin-top:10px;height:300px;position:relative">
+            &#160;
         </div>
-
-        <div class="mapControls">
-
-            <%--
-              - Do not specify action or value attribute of s:url. We submit to the same URL that
-              - rendered this page. This is important since different URLs can render this same
-              - page. We also ensure that the submission uses the exact same parameters that were
-              - used to render this page by setting includeParams to "all".
-              --%>
-            <s:url id="browseMapUrl" namespace="/map" action="manMap" includeParams="all"
-                    includeContext="true" escapeAmp="false">
-
-                <%-- Reset action param so that we no longer think we are executing an action. --%>
-                <s:param name="act"></s:param>
-                
-                <%--
-                  - Current state of the map so that further manipulations will be relative to this. 
-                  --%>
-                <s:param name="mclat"><s:property value="#attr.mapResult.mapState.coordinates.latitude"/></s:param>
-                <s:param name="mclon"><s:property value="#attr.mapResult.mapState.coordinates.longitude"/></s:param>
-                <s:param name="tllat"><s:property value="#attr.mapResult.mapState.mapBoundingBox.topLeft.latitude"/></s:param>
-                <s:param name="tllon"><s:property value="#attr.mapResult.mapState.mapBoundingBox.topLeft.longitude"/></s:param>
-                <s:param name="brlat"><s:property value="#attr.mapResult.mapState.mapBoundingBox.bottomRight.latitude"/></s:param>
-                <s:param name="brlon"><s:property value="#attr.mapResult.mapState.mapBoundingBox.bottomRight.longitude"/></s:param>
-                <s:param name="mz"><s:property value="#attr.mapResult.mapState.zoomLevel"/></s:param>                
-            </s:url>
-
-            <div class="zoomControls">
-                <s:url id="zoomInUrl" value="%{browseMapUrl}" includeContext="false">
-                    <s:param name="act" value="%{'mzi'}" />
-                </s:url>
-                <a id="mapZoomInButton" href="${zoomInUrl}">
-                    <object src="/comp/map/images/furniture/mapInIcon.mimg" id="zoomInImage" />
-                </a>
-
-                <s:url id="zoomOutUrl" value="%{browseMapUrl}" includeContext="false">
-                    <s:param name="act" value="%{'mzo'}" />
-                </s:url>
-                <a id="mapZoomOutButton" href="${zoomOutUrl}">
-                    <object src="/comp/map/images/furniture/mapOutIcon.mimg" id="zoomOutImage" />
-                </a>
+    </c:when>
+    
+    <c:otherwise>
+        <%-- Cater to less funky phones that need the server to generate the map. --%>
+        
+        <c:if test="${not empty mapResult}"> 
+            <div class="map">
+        
+                <div class="mapArea">
+        
+                    <object src="${mapResult.mapUrl}" id="mapImage"
+                            srctype="image/png">
+                        <param name="mcs-transcode" value="false"/>
+                    </object>
+        
+                </div>
+        
+                <div class="mapControls">
+        
+                    <div class="zoomControls">
+                        <a id="mapZoomInButton" href="${zoomInUrl}">
+                            <object src="/comp/map/images/furniture/mapInIcon.mimg" id="zoomInImage" />
+                        </a>
+        
+                        <a id="mapZoomOutButton" href="${zoomOutUrl}">
+                            <object src="/comp/map/images/furniture/mapOutIcon.mimg" id="zoomOutImage" />
+                        </a>
+                    </div>
+        
+                    <div class="panControls">
+                        <a id="mapPanNorthButton" href="${panNorthUrl}">
+                            <object src="/comp/map/images/furniture/mapNorthIcon.mimg" id="moveNorthImage" />
+                        </a>
+        
+                        <a id="mapPanSouthButton" href="${panSouthUrl}">
+                            <object src="/comp/map/images/furniture/mapSouthIcon.mimg" id="moveSouthImage" />
+                        </a>
+        
+                        <a id="mapPanWestButton" href="${panWestUrl}">
+                            <object src="/comp/map/images/furniture/mapWestIcon.mimg" id="moveEastImage" />
+                        </a>
+        
+                        <a id="mapPanEastButton" href="${panEastUrl}">
+                            <object src="/comp/map/images/furniture/mapEastIcon.mimg" id="moveWestImage" />
+                        </a>
+                    </div>
+        
+                </div>
+        
             </div>
-
-            <div class="panControls">
-                <s:url id="moveNorthUrl" value="%{browseMapUrl}" includeContext="false">
-                    <s:param name="act" value="%{'mpn'}" />
-                </s:url>
-                <a id="mapPanNorthButton" href="${moveNorthUrl}">
-                    <object src="/comp/map/images/furniture/mapNorthIcon.mimg" id="moveNorthImage" />
-                </a>
-
-                <s:url id="moveSouthUrl" value="%{browseMapUrl}" includeContext="false">
-                    <s:param name="act" value="%{'mps'}" />
-                </s:url>
-                <a id="mapPanSouthButton" href="${moveSouthUrl}">
-                    <object src="/comp/map/images/furniture/mapSouthIcon.mimg" id="moveSouthImage" />
-                </a>
-
-                <s:url id="moveWestUrl" value="%{browseMapUrl}" includeContext="false">
-                    <s:param name="act" value="%{'mpw'}" />
-                </s:url>
-                <a id="mapPanWestButton" href="${moveWestUrl}">
-                    <object src="/comp/map/images/furniture/mapWestIcon.mimg" id="moveEastImage" />
-                </a>
-
-                <s:url id="moveEastUrl" value="%{browseMapUrl}" includeContext="false">
-                    <s:param name="act" value="%{'mpe'}" />
-                </s:url>
-                <a id="mapPanEastButton" href="${moveEastUrl}">
-                    <object src="/comp/map/images/furniture/mapEastIcon.mimg" id="moveWestImage" />
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-
-</c:if>
+        </c:if>
+    </c:otherwise>
+</c:choose>

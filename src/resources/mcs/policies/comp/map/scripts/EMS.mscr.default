@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<variable-policy xmlns="http://www.volantis.com/xmlns/2006/02/marlin-lpdm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpdm="http://www.volantis.com/xmlns/2006/02/marlin-rpdm" xmlns:struct="http://www.volantis.com/xmlns/2005/10/ThemeStruct" xsi:schemaLocation="http://www.volantis.com/xmlns/2006/02/marlin-lpdm http://www.volantis.com/schema/2006/02/marlin-lpdm.xsd">
+    <type>script</type>
+    <variants>
+        <variant>
+            <type>null</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>Master</device>
+                    </devices>
+                </targeted>
+            </selection>
+        </variant>
+        <variant>
+            <type>script</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>PC-Win32</device>
+                        <device>Apple</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <meta-data>
+                <script>
+                    <encoding>javascript</encoding>
+                    <character-set>utf-8</character-set>
+                </script>
+            </meta-data>
+            <content>
+                <url>
+                    <!-- Default token for desk, dev etc. platforms. -->
+                    <relative>http://ems.whereis.com/v1/web/js/ems/lib/EMS.js?token=4316381136292159452</relative>
+                </url>
+            </content>
+        </variant>
+    </variants>
+</variable-policy>

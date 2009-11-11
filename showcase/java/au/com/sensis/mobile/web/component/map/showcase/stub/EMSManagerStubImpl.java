@@ -22,68 +22,65 @@ import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 
 public class EMSManagerStubImpl implements EMSManager {
 
-	
-	public JourneyDescriptor getJourneyDescriptor(ScreenDimensions arg0,
-			JourneyWaypoints arg1, RoutingOption arg2, UserContext arg3) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public JourneyDescriptor getJourneyDescriptor(final ScreenDimensions arg0,
+            final JourneyWaypoints arg1, final RoutingOption arg2, final UserContext arg3) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	
-	public JourneyTransportOptionDescriptor getJourneyTransportOptions(
-			JourneyWaypoints arg0, Collection<RoutingOption> arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public JourneyTransportOptionDescriptor getJourneyTransportOptions(
+            final JourneyWaypoints arg0, final Collection<RoutingOption> arg1) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	
-	public MapUrl getLegStepMap(JourneyDescriptor arg0, ScreenDimensions arg1,
-			WGS84Point arg2, int arg3, MapLayer arg4, UserContext arg5) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public MapUrl getLegStepMap(final JourneyDescriptor arg0, final ScreenDimensions arg1,
+            final WGS84Point arg2, final int arg3, final MapLayer arg4, final UserContext arg5) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	
-	public MapUrl getMap(ScreenDimensions arg0, WGS84Point requestedCentre,
-			MobilesIconType arg2, MapLayer arg3, PanZoomDetail panZoomDetail,
-			UserContext arg5) {
-		LocationMapUrl locationMapUrl = new LocationMapUrl();
-		
-		final double camberwellVicLongitude = 145.0730816;
-		final double camberwellVicLatitude = -37.8388769;
-		WGS84Point dummyCentre = new WGS84Point(camberwellVicLongitude, camberwellVicLatitude);
-		WGS84Point boundingBoxTopLeft = new WGS84Point(145.065708553125, -37.832174505905165);
-		WGS84Point boundingBoxBottomRight = new WGS84Point(145.08045464687498, -37.84557929409483);
-		locationMapUrl.setBoundingBox(new MobilesBoundingBox(boundingBoxTopLeft, boundingBoxBottomRight));
-		locationMapUrl.setMapCentre(dummyCentre);
-		locationMapUrl.setImageUrl("http://dsb.sensis.com.au/mcstestapp/imageserver/map-images/camberwellVic.png");
-		return locationMapUrl;
-	}
+    public MapUrl getMap(final ScreenDimensions arg0, final WGS84Point requestedCentre,
+            final MobilesIconType arg2, final MapLayer arg3, final PanZoomDetail panZoomDetail,
+            final UserContext arg5) {
+        final LocationMapUrl locationMapUrl = new LocationMapUrl();
 
-	
-	public MapUrl getPoiMap(ScreenDimensions arg0, WGS84Point arg1,
-			MapLayer arg2, List<WGS84Point> arg3, double arg4, UserContext arg5) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        final double camberwellVicLongitude = 145.0730816;
+        final double camberwellVicLatitude = -37.8388769;
+        final WGS84Point dummyCentre =
+                new WGS84Point(camberwellVicLongitude, camberwellVicLatitude);
+        final WGS84Point boundingBoxTopLeft =
+                new WGS84Point(145.065708553125, -37.832174505905165);
+        final WGS84Point boundingBoxBottomRight =
+                new WGS84Point(145.08045464687498, -37.84557929409483);
+        locationMapUrl.setBoundingBox(new MobilesBoundingBox(
+                boundingBoxTopLeft, boundingBoxBottomRight));
+        locationMapUrl.setMapCentre(dummyCentre);
+        locationMapUrl
+                .setImageUrl("http://dsb.sensis.com.au/mcstestapp/imageserver/map-images/camberwellVic.png");
+        return locationMapUrl;
+    }
 
-	
-	public List<GeocodedAddress> resolveAddress(GeocodedAddress arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public MapUrl getPoiMap(final ScreenDimensions arg0, final WGS84Point arg1,
+            final MapLayer arg2, final List<WGS84Point> arg3, final double arg4, final UserContext arg5) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	
-	public List<GeocodedAddress> resolveAddress(GeocodedAddress arg0,
-			AustralianState arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<GeocodedAddress> resolveAddress(final GeocodedAddress arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	
-	public GeocodedAddress reverseGeocode(WGS84Point arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<GeocodedAddress> resolveAddress(final GeocodedAddress arg0,
+            final AustralianState arg1) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public GeocodedAddress reverseGeocode(final WGS84Point arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

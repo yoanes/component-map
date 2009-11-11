@@ -10,71 +10,83 @@ import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 
 import com.opensymphony.xwork2.ModelDriven;
 
-public class ManipulateMapAction extends BusinessAction implements ModelDriven<ManipulateMapForm>{
-	
-	private ManipulateMapForm manipulateMapForm;
-	
-	private LocationDelegate locationDelegate;
-	private MapDelegate mapDelegate;
-	
-	private MapResult mapResult;
-	
-	public String execute() {
-		MapState mapState = getModel().asMapState();
-	
-		MapResult mapResult = getMapDelegate().manipulateMap(mapState, getModel().getAction(), getContext());
-		setMapResult(mapResult);
-		
-		return ResultName.SUCCESS;
-	}
+public class ManipulateMapAction extends BusinessAction implements
+        ModelDriven<ManipulateMapForm> {
 
-	public ManipulateMapForm getModel() {
-		if (manipulateMapForm == null) {
-			manipulateMapForm = new ManipulateMapForm();
-		}
-		return manipulateMapForm;
-	}
+    private ManipulateMapForm manipulateMapForm;
 
-	/**
-	 * @return the locationDelegate
-	 */
-	public LocationDelegate getLocationDelegate() {
-		return locationDelegate;
-	}
+    private LocationDelegate locationDelegate;
+    private MapDelegate mapDelegate;
 
-	/**
-	 * @param locationDelegate the locationDelegate to set
-	 */
-	public void setLocationDelegate(LocationDelegate locationDelegate) {
-		this.locationDelegate = locationDelegate;
-	}
+    private MapResult mapResult;
 
-	/**
-	 * @return the mapDelegate
-	 */
-	public MapDelegate getMapDelegate() {
-		return mapDelegate;
-	}
+    public String execute() {
+        final MapState mapState = getModel().asMapState();
 
-	/**
-	 * @param mapDelegate the mapDelegate to set
-	 */
-	public void setMapDelegate(MapDelegate mapDelegate) {
-		this.mapDelegate = mapDelegate;
-	}
+        // TODO: should just return a raw MapUrl from the MapDelegate like Heather does.
+        // This is an sdpcommon interface that theoretically contains everything that we need.
+        // However, can't be stuffed trying to do this upgrade now because MapUrl
+        // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
+        // more work than I can muster right now. I do prefer my class names and the
+        // separation of the MapState from the imageUrl but oh well.
+        final MapResult mapResult =
+                getMapDelegate().manipulateMap(mapState,
+                        getModel().getAction(), getContext());
+        setMapResult(mapResult);
 
-	/**
-	 * @return the mapResult
-	 */
-	public MapResult getMapResult() {
-		return mapResult;
-	}
+        return ResultName.SUCCESS;
+    }
 
-	/**
-	 * @param mapResult the mapResult to set
-	 */
-	public void setMapResult(MapResult mapResult) {
-		this.mapResult = mapResult;
-	}
+    public ManipulateMapForm getModel() {
+        if (manipulateMapForm == null) {
+            manipulateMapForm = new ManipulateMapForm();
+        }
+        return manipulateMapForm;
+    }
+
+    /**
+     * @return the locationDelegate
+     */
+    public LocationDelegate getLocationDelegate() {
+        return locationDelegate;
+    }
+
+    /**
+     * @param locationDelegate
+     *            the locationDelegate to set
+     */
+    public void setLocationDelegate(final LocationDelegate locationDelegate) {
+        this.locationDelegate = locationDelegate;
+    }
+
+    /**
+     * @return the mapDelegate
+     */
+    public MapDelegate getMapDelegate() {
+        return mapDelegate;
+    }
+
+    /**
+     * @param mapDelegate
+     *            the mapDelegate to set
+     */
+    public void setMapDelegate(final MapDelegate mapDelegate) {
+        this.mapDelegate = mapDelegate;
+    }
+
+    /**
+     * @return the mapResult
+     */
+    public MapResult getMapResult() {
+        return mapResult;
+    }
+
+    /**
+     * @param mapResult
+     *            the mapResult to set
+     */
+    public void setMapResult(final MapResult mapResult) {
+        this.mapResult = mapResult;
+    }
 
 }
