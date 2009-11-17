@@ -11,6 +11,8 @@
         <!-- <wb-resource deploy-path="/" source-path="/src/web/META-INF"/>
              <wb-resource deploy-path="/WEB-INF/taglibs" source-path="/src/web/META-INF"/>-->
         <wb-resource deploy-path="/" source-path="/lib/java/wl.webapp.testbed-exploded/web"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test/unit/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test/unit/java"/>
         <property name="context-root" value="map-component-showcase"/>
         <property name="java-output-path"/>
     </wb-module>

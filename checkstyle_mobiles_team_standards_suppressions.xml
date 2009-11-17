@@ -25,6 +25,11 @@
       - Ignore cyclomatic complexity in test cases.
      -->
     <suppress checks="CyclomaticComplexity" files=".*Test.*\.java"/>
+    
+    <!--
+      - Ignore javadocs for methods in test cases.
+     -->
+    <suppress checks="JavadocMethod" files=".*Test.*\.java"/>
 
     <!--
       - Make sure that all compiled JSPs are ignored.

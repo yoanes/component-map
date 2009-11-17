@@ -27,7 +27,7 @@ public class GetMapAction extends BusinessAction implements
 
     private LocationDelegate locationDelegate;
     private LocationManager locationManager;
-    private MapDelegate mapDelegate;
+    private MapDelegate mapDelegateImpl;
 
     private MapResult mapResult;
 
@@ -37,8 +37,8 @@ public class GetMapAction extends BusinessAction implements
         final GeocodedAddress addressToMap =
                 determineSingleLocationToMap(getModel().getLocation());
 
-        // Example of how to use the MapDelegate to get an initial map.
-        // TODO: should just return a raw MapUrl from the MapDelegate like Heather does.
+        // Example of how to use the MapDelegateImpl to get an initial map.
+        // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather does.
         // This is an sdpcommon interface that theoretically contains everything that we need.
         // However, can't be stuffed trying to do this upgrade now because MapUrl
         // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
@@ -156,18 +156,18 @@ public class GetMapAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapDelegate
+     * @return the mapDelegateImpl
      */
     public MapDelegate getMapDelegate() {
-        return mapDelegate;
+        return mapDelegateImpl;
     }
 
     /**
-     * @param mapDelegate
-     *            the mapDelegate to set
+     * @param mapDelegateImpl
+     *            the mapDelegateImpl to set
      */
-    public void setMapDelegate(final MapDelegate mapDelegate) {
-        this.mapDelegate = mapDelegate;
+    public void setMapDelegate(final MapDelegate mapDelegateImpl) {
+        this.mapDelegateImpl = mapDelegateImpl;
     }
 
 }

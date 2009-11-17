@@ -16,14 +16,14 @@ public class ManipulateMapAction extends BusinessAction implements
     private ManipulateMapForm manipulateMapForm;
 
     private LocationDelegate locationDelegate;
-    private MapDelegate mapDelegate;
+    private MapDelegate mapDelegateImpl;
 
     private MapResult mapResult;
 
     public String execute() {
         final MapState mapState = getModel().asMapState();
 
-        // TODO: should just return a raw MapUrl from the MapDelegate like Heather does.
+        // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather does.
         // This is an sdpcommon interface that theoretically contains everything that we need.
         // However, can't be stuffed trying to do this upgrade now because MapUrl
         // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
@@ -60,18 +60,18 @@ public class ManipulateMapAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapDelegate
+     * @return the mapDelegateImpl
      */
     public MapDelegate getMapDelegate() {
-        return mapDelegate;
+        return mapDelegateImpl;
     }
 
     /**
-     * @param mapDelegate
-     *            the mapDelegate to set
+     * @param mapDelegateImpl
+     *            the mapDelegateImpl to set
      */
-    public void setMapDelegate(final MapDelegate mapDelegate) {
-        this.mapDelegate = mapDelegate;
+    public void setMapDelegate(final MapDelegate mapDelegateImpl) {
+        this.mapDelegateImpl = mapDelegateImpl;
     }
 
     /**

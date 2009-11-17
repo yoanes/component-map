@@ -15,15 +15,15 @@ public class ManipulateMapForm {
     private Double boundingBoxBottomRightLatitude;
     private Double boundingBoxBottomRightLongitude;
     private int zoomLevel;
-    
+
     /**
      * Parameter that indicates the action being performed, where the valid values correspond to
      * {@link Action}. Convert to a real {@link Action} via {@link Action#fromValue(String)}. May be
      * null.
      */
     private String action;
-    
-    
+
+
     /**
      * @return  the centreLatitude.
      */
@@ -234,7 +234,7 @@ public class ManipulateMapForm {
 
         setZoomLevel(zoomLevel);
     }
-    
+
     /**
      * @return  the action.
      */
@@ -263,15 +263,15 @@ public class ManipulateMapForm {
 
 
 	public MapState asMapState() {
-		WGS84Point mapCentre = new WGS84Point(getCentreLongitude(), getCentreLatitude());
-		
-		WGS84Point boundingBoxTopLeft = new WGS84Point(getBoundingBoxTopLeftLongitude(), getBoundingBoxTopLeftLatitude()); 
-		WGS84Point boundingBoxBottomRight = new WGS84Point(getBoundingBoxBottomRightLongitude(), getBoundingBoxBottomRightLatitude()); 
-		MobilesBoundingBox mobilesBoundingBox = new MobilesBoundingBox(boundingBoxTopLeft, boundingBoxBottomRight);
-		MapState mapState = new MapState(mapCentre, mobilesBoundingBox, getZoomLevel());
-		
+		final WGS84Point mapCentre = new WGS84Point(getCentreLongitude(), getCentreLatitude());
+
+		final WGS84Point boundingBoxTopLeft = new WGS84Point(getBoundingBoxTopLeftLongitude(), getBoundingBoxTopLeftLatitude());
+		final WGS84Point boundingBoxBottomRight = new WGS84Point(getBoundingBoxBottomRightLongitude(), getBoundingBoxBottomRightLatitude());
+		final MobilesBoundingBox mobilesBoundingBox = new MobilesBoundingBox(boundingBoxTopLeft, boundingBoxBottomRight);
+		final MapState mapState = new MapState(mapCentre, mobilesBoundingBox, getZoomLevel());
+
 		return mapState;
 	}
 
-	
+
 }
