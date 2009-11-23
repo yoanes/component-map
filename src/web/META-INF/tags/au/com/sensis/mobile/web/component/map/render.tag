@@ -23,8 +23,9 @@
     description="Pan east URL to be used for server side maps." %>
 <%@ attribute name="panWestUrl" required="true" 
     description="Pan west URL to be used for server side maps." %>
-    
-<logging:info logger="au.com.sensis.mobile.web.component.map" message="Entering render.tag" />
+
+<logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
+<logging:info logger="${logger}" message="Entering render.tag" />
     
 <c:choose>
     <c:when test="${not empty mapResult && mapResult.mapRetrievalClientResponsible}">
@@ -88,4 +89,4 @@
     </c:otherwise>
 </c:choose>
 
-<logging:info logger="au.com.sensis.mobile.web.component.map" message="Exiting render.tag" />
+<logging:info logger="${logger}" message="Exiting render.tag" />

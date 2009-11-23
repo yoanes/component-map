@@ -10,7 +10,8 @@
 
 <%@ attribute name="baseCompMcsPath" required="true" type="java.lang.String"%>
 
-<logging:info logger="au.com.sensis.mobile.web.component.map" message="Entering setup.tag" />
+<logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
+<logging:info logger="${logger}" message="Entering setup.tag" />
 
 <%-- 
   - MapResult returned by the MapDelegate.
@@ -44,4 +45,4 @@
     </core:script>
 </c:if>
 
-<logging:info logger="au.com.sensis.mobile.web.component.map" message="Exiting setup.tag" />
+<logging:info logger="${logger}" message="Exiting setup.tag" />
