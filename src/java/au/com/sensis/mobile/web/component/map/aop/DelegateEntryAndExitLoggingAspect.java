@@ -14,7 +14,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class DelegateEntryAndExitLoggingAspect
         extends
-        au.com.sensis.mobile.web.component.core.aop.AbstractEntryAndExitLoggingAspect {
+        au.com.sensis.mobile.web.component.logging.aop.AbstractEntryAndExitLoggingAspect {
 
     private static Logger logger = Logger.getLogger(DelegateEntryAndExitLoggingAspect.class);
 

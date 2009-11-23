@@ -8,26 +8,26 @@
                 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
                 
-    <bean name="map.component.handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <bean name="map.comp.handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <value>
-                @{map.component.handler.mapping.url.prefix}/js/**/*=map.component.getJavaScriptBundle
-                @{map.component.handler.mapping.url.prefix}/jsmember/**/*=core.component.getJavaScriptBundleMember
+                @{map.comp.handler.mapping.url.prefix}/js/**/*=map.comp.getJavaScriptBundle
+                @{map.comp.handler.mapping.url.prefix}/jsmember/**/*=core.comp.getJavaScriptBundleMember
             </value>
         </property>
         <property name="interceptors">
             <list>
-                <bean class="au.com.sensis.mobile.web.component.core.spring.EntryAndExitLoggingWebRequestInterceptor">
-                    <property name="ndcMessage" value="@{map.component.name}"/>
+                <bean class="au.com.sensis.mobile.web.component.logging.spring.EntryAndExitLoggingWebRequestInterceptor">
+                    <property name="ndcMessage" value="@{map.comp.name}"/>
                 </bean>
             </list>
         </property>
     </bean>
     
     
-    <bean id="map.component.getJavaScriptBundle" class="au.com.sensis.mobile.web.component.core.bundle.ResourceBundleLoaderController"
-        parent="core.component.getJavaScriptBundle"
+    <bean id="map.comp.getJavaScriptBundle"
+        parent="core.comp.abstractGetJavaScriptBundle"
         init-method="validateState">
-        <property name="contextRootComponentPrefix" value="@{map.component.context.root.component.prefix}"/>
+        <property name="contextRootComponentPrefix" value="@{core.comp.context.root.component.prefix}/@{map.comp.name}"/>
     </bean>
 </beans>

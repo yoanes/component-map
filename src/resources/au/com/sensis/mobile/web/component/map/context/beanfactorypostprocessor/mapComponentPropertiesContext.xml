@@ -8,23 +8,36 @@
                 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
                 
+    <!-- ================================================================================================ -->                
+    
     <!-- Load properties from mandatory file provided by this component.-->            
-    <bean id="map.component.properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="location">
-            <value>classpath:/au/com/sensis/mobile/web/component/map/map-component.properties</value>
+    <bean id="map.comp.properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:/au/com/sensis/mobile/web/component/map/map-component.properties</value>
+                
+                <!-- Load a platform dependent environment properties file. -->
+                <value>classpath:/au/com/sensis/mobile/web/component/map/map-environment.properties.@{global.platform}</value>
+            </list>
         </property>
-        
     </bean>                
     
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <!-- Define PropertyPlaceholderConfigurer that merges the mandatory properties with optional properties. -->
+    <bean class="au.com.sensis.mobile.web.component.core.spring.LazyPropertiesInjectingPropertyPlaceholderConfigurer">
         <!-- Default properties provided by this component. -->
-        <property name="properties" ref="map.component.properties"/>
-        <property name="placeholderPrefix" value="@{map.component."/>
+        <property name="propertiesBeanName" value="map.comp.properties"/>
         
-        <!-- Optional properties provided by the client of this component. -->
-        <property name="location">
-            <value>classpath:/map-component.properties</value>
+        <property name="placeholderPrefix" value="@{map."/>
+        
+        <!-- Optional properties provided by the client of this component to override the default properties. -->
+        <property name="locations">
+            <list>
+                <value>classpath:/map-component.properties</value>
+                <value>classpath:/map-environment.properties</value>
+            </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
     </bean>
+    
+    <!-- ================================================================================================ -->
 </beans>

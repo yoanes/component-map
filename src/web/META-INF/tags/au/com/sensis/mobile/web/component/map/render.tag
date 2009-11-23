@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
 <%--
   - Work around for Tomcat 5.0.28 to ensure that the JSP Expression Language is processed. 
@@ -22,6 +23,8 @@
     description="Pan east URL to be used for server side maps." %>
 <%@ attribute name="panWestUrl" required="true" 
     description="Pan west URL to be used for server side maps." %>
+    
+<logging:info logger="au.com.sensis.mobile.web.component.map" message="Entering render.tag" />
     
 <c:choose>
     <c:when test="${not empty mapResult && mapResult.mapRetrievalClientResponsible}">
@@ -84,3 +87,5 @@
         </c:if>
     </c:otherwise>
 </c:choose>
+
+<logging:info logger="au.com.sensis.mobile.web.component.map" message="Exiting render.tag" />

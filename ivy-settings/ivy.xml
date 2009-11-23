@@ -124,6 +124,11 @@
         <dependency org="hibernate" name="hibernate-commons-annotations" rev="3.3.0.ga" conf="showcase->default"/>
         <dependency org="hibernate" name="hibernate-annotations" rev="3.3.0.ga" conf="showcase->default"/>
         
+        <!--
+          - Dependencies on other components.
+          -->
+        <dependency org="com.sensis" name="core-component" rev="1.0+" conf="default,test"/>
+        
         <!-- Testing -->
         <dependency org="junit" name="junit" rev="4.4" conf="test->default"/>
         <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="test->default"/>
@@ -134,15 +139,6 @@
         <dependency org="com.thoughtworks" name="selenium-server" rev="1.0-beta-1" conf="test->default"/>
         <dependency org="com.vladium" name="emma" rev="2.0" conf="test->default"/>
 
-        <!--
-          - Dependencies between artifacts published by this ui-components project (!!!).
-          - This is expected to only cover the case of each component depending on the core component.
-          -
-          - WARNING: Make sure you don't create a circular dependency.  
-          -->
-        <dependency org="com.sensis" name="core-component" rev="1.0+" conf="default,test"/>
-        <dependency org="com.sensis" name="logging-component" rev="1.0+" conf="default"/>
-        
         <dependency org="com.sensis" name="wl-webapp-testbed" rev="1.0+" conf="showcase->default"/>        
     </dependencies>
 </ivy-module>

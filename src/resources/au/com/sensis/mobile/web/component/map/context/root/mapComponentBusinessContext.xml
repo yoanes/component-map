@@ -8,26 +8,26 @@
                 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
                 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
                 
-    <bean id="map.locationManager"
+    <bean id="map.comp.locationManager"
             class="au.com.sensis.mobile.web.component.map.service.LocationManagerImpl"
             init-method="validateState">
 
         <!-- TODO: parameterise emsManager bean name, defaulting to emsManager. -->
         <property name="emsManager" ref="emsManager" />
-        <property name="mapWidthMarginLarge" value="@{map.component.maps.widthMargin.large}"/>
-        <property name="mapHeightMarginLarge" value="@{map.component.maps.heightMargin.large}"/>
-        <property name="mapWidthMarginMedium" value="@{map.component.maps.widthMargin.medium}"/>
-        <property name="mapHeightMarginMedium" value="@{map.component.maps.heightMargin.medium}"/>
+        <property name="mapWidthMarginLarge" value="@{map.comp.maps.widthMargin.large}"/>
+        <property name="mapHeightMarginLarge" value="@{map.comp.maps.heightMargin.large}"/>
+        <property name="mapWidthMarginMedium" value="@{map.comp.maps.widthMargin.medium}"/>
+        <property name="mapHeightMarginMedium" value="@{map.comp.maps.heightMargin.medium}"/>
 <!--       <property name="emsLocationUtilityManager" ref="emsLocationUtilityManager" />-->
     </bean>
     
-    <bean id="map.mapDelegate"
+    <bean id="map.comp.mapDelegate"
             class="au.com.sensis.mobile.web.component.map.business.MapDelegateImpl"
             init-method="validateState">
-        <property name="locationManager" ref="map.locationManager"/>
+        <property name="locationManager" ref="map.comp.locationManager"/>
         
         <!-- TODO: should be from map component properties, not app properties. -->
-        <property name="minZoom" value="@{map.component.maps.minZoom}" />
-        <property name="maxZoom" value="@{map.component.maps.maxZoom}" />
+        <property name="minZoom" value="@{map.comp.maps.minZoom}" />
+        <property name="maxZoom" value="@{map.comp.maps.maxZoom}" />
     </bean>
 </beans>

@@ -9,7 +9,7 @@
             class="au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate"
             init-method="validateState"  scope="prototype">
 
-        <property name="locationManager" ref="map.locationManager" />
+        <property name="locationManager" ref="map.comp.locationManager" />
     </bean>
     
     <!-- ======================================================================================= -->

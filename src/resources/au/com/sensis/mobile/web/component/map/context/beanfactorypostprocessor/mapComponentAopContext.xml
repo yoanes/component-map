@@ -15,8 +15,8 @@
         <aop:include name="map.*" />
     </aop:aspectj-autoproxy>                
     
-    <bean id="map.delegateEntryAndExitLoggingAspect" 
+    <bean id="map.comp.delegateEntryAndExitLoggingAspect" 
         class="au.com.sensis.mobile.web.component.map.aop.DelegateEntryAndExitLoggingAspect">
-        <property name="ndcMessage" value="@{map.component.name}" />
+        <property name="ndcMessage" value="@{map.comp.name}" />
     </bean>
 </beans>
