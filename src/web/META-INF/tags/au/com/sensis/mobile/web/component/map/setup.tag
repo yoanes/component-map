@@ -24,9 +24,8 @@
 <logging:setup baseCompMcsPath="${baseCompMcsPath}"/>
 
 <%-- Themes for current component. --%>
-<%-- TODO: really should use something equivalent to core:script to avoid duplicates. --%>
-<link rel="mcs:theme" href="${baseCompMcsPath}/map/map.mthm"/>
-<link rel="mcs:theme"  href="${baseCompMcsPath}/map/imageSizeCategory.mthm"/>
+<core:link rel="mcs:theme" href="${baseCompMcsPath}/map/map.mthm" />
+<core:link rel="mcs:theme"  href="${baseCompMcsPath}/map/imageSizeCategory.mthm"/>
 
 <%-- Scripts for current component. --%>
 <%-- TODO: Openlayers not needed in stage since env differs to prod. Would be better if env is the same. --%>
