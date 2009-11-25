@@ -20,6 +20,6 @@
     
     <!-- ==================================================================================== -->
     <!-- Import shared build scripts. --> 
-    <import file="${shared.build.scripts.dir}/src/toplevel/build-component-with-showcase-support.xml" />
+    <import file="shared-build-scripts/src/toplevel/build-component-with-showcase-support.xml" />
 	
 </project>

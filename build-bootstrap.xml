@@ -46,17 +46,16 @@
     <!-- Top level target to initialize all properties. -->
     <target name="-bootstrap-init-props" depends="-bootstrap-init-dir-props, -bootstrap-init-lib-props, -bootstrap-init-ivy-props"/>
     
-    <target name="-bootstrap-init-dir-props" depends="-bootstrap-require-shared-build-scripts-dir-prop">
+    <target name="-bootstrap-init-dir-props">
+        <!-- Location to install the shared build scripts, relative to the project being built. -->
+        <property name="shared.build.scripts.dir" location="shared-build-scripts"/>
+        
         <property name="lib.dir" value="lib"/>
     </target>
-    	
+        
     <target name="-bootstrap-init-lib-props">
         <!-- Fileset include pattern to match the wl build scripts zip that will be retrieved by ivy. --> 
         <property name="build.scripts.zip.fileset.pattern" value="wl-build-scripts-*.zip"/>
-    </target>
-    
-    <target name="-bootstrap-require-shared-build-scripts-dir-prop" unless="shared.build.scripts.dir">
-        <fail message="shared.build.scripts.dir must be defined in build.properties"/>  
     </target>
     
     <target name="-bootstrap-init-ivy-props" depends="-bootstrap-init-dir-props">
@@ -104,7 +103,7 @@
             description="Installing shared build scripts."
             overwrite="true">
             
-            <fileset dir="${lib.dir}/zip/buildBootstrap" includes="${build.scripts.zip.fileset.pattern}"/>                 	
+            <fileset dir="${lib.dir}/zip/buildBootstrap" includes="${build.scripts.zip.fileset.pattern}"/>                  
         </unzip>
         
         <echo message="Shared build scripts installed to ${shared.build.scripts.dir}."/>
