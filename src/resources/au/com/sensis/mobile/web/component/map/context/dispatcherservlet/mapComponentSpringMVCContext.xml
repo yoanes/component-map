@@ -28,6 +28,6 @@
     <bean id="map.comp.getJavaScriptBundle"
         parent="core.comp.abstractGetJavaScriptBundle"
         init-method="validateState">
-        <property name="contextRootComponentPrefix" value="@{core.comp.context.root.component.prefix}/@{map.comp.name}"/>
+        <property name="contextRootComponentPrefix" value="@{core.comp.context.root.component.prefix}@{map.comp.name}/"/>
     </bean>
 </beans>
