@@ -113,20 +113,10 @@ public interface MapDelegate {
 
     // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather
     // does.
-    // This is an sdpcommon interface that theoretically contains everything
-    // that we need.
-    // However, can't be stuffed trying to do this upgrade now because MapUrl
-    // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
-    // more work than I can muster right now.
     MapResult retrieveInitialMap(final GeocodedAddress geocodedAddress,
             final int zoomLevel, final MobileContext mobileContext);
 
     // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather does.
-    // This is an sdpcommon interface that theoretically contains everything that we need.
-    // However, can't be stuffed trying to do this upgrade now because MapUrl
-    // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
-    // more work than I can muster right now. I do prefer my class names and the
-    // separation of the MapState from the imageUrl but oh well.
     MapResult manipulateMap(final MapState currentMapState,
             final Action mapManipulationAction,
             final MobileContext mobileContext);
