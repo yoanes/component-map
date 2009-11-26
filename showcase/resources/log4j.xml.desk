@@ -53,19 +53,19 @@
     
     
     <logger name="au.com.sensis.mobile" additivity="false">
-        <level value="debug" />
+        <level value="DEBUG" />
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
     
     <logger name="org.springframework" additivity="false">
-        <level value="info" />
+        <level value="INFO" />
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
     
     <logger name="SERVLET_CAPTURE" additivity="false">
-        <level value="info" />
+        <level value="INFO" />
         <appender-ref ref="CAPTURE"/>
     </logger>
 
