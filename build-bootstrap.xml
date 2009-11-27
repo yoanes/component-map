@@ -97,8 +97,13 @@
     </target>
 
     <target name="-bootstrap-build-scripts-install" depends="-bootstrap-init, -resolve">
-        <echo message="Installing shared build scripts ..."/>
+        <echo message="Installing shared build scripts. This may take some time ..."/>
         
+        <echo message="Ensuring that any existing installation is writable (Windows only for now) ..." />
+        <attrib readonly="false" hidden="false" verbose="true">
+            <fileset dir="${shared.build.scripts.dir}" includes="**/*"/>
+         </attrib>
+
         <unzip dest="${shared.build.scripts.dir}" 
             description="Installing shared build scripts."
             overwrite="true">
@@ -106,13 +111,18 @@
             <fileset dir="${lib.dir}/zip/buildBootstrap" includes="${build.scripts.zip.fileset.pattern}"/>                  
         </unzip>
         
+        <echo message="Ensuring that the installation is readonly and hidden (Windows only for now) ..." />
+        <attrib readonly="true" hidden="true" verbose="true">
+            <fileset dir="${shared.build.scripts.dir}" includes="**/*" excludes="generated/**/*" />
+        </attrib>
+        
         <echo message="Shared build scripts installed to ${shared.build.scripts.dir}."/>
     </target>
     
     <!-- Resolve and retrieve Ivy dependencies. -->
     <target name="-resolve" depends="-bootstrap-init, -ivy-setup">
         <echo message="Retrieving shared build scripts."/>
-
+    	
         <!--
           - Resolve and retrieve all configurations, even though we really only need the bootstrap 
           - config at the moment. This is because we want to retrieve with sync set to true. If you set
