@@ -1,3 +1,10 @@
+==== Version 1.0.4 (tag: map_v1_0_4) ====
+
+Deliverable from iteration 1.0.4 of the rockit Common UI project 
+(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly 
+on adding logging support to the current framework, adding a template
+component and fixing up various other, smaller issues.
+
 ==== Version 1.0.3 (tag: map_v1_0_3) ====
 
 Deliverable from iteration 1.0.3 of the rockit Common UI project 
