@@ -3,9 +3,9 @@ package au.com.sensis.mobile.web.component.map.business;
 import org.apache.commons.lang.StringUtils;
 
 import au.com.sensis.address.GeocodedAddress;
-import au.com.sensis.mobile.web.component.core.sdpcommon.web.framework.MobileContext;
 import au.com.sensis.mobile.web.component.map.model.MapResult;
 import au.com.sensis.mobile.web.component.map.model.MapState;
+import au.com.sensis.wireless.web.mobile.MobileContext;
 
 public interface MapDelegate {
 

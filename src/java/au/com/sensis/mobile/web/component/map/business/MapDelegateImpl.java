@@ -4,7 +4,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import au.com.sensis.address.GeocodedAddress;
-import au.com.sensis.mobile.web.component.core.sdpcommon.web.framework.MobileContext;
 import au.com.sensis.mobile.web.component.map.model.MapCriteria;
 import au.com.sensis.mobile.web.component.map.model.MapResult;
 import au.com.sensis.mobile.web.component.map.model.MapState;
@@ -13,6 +12,7 @@ import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.UserMapInteraction;
 import au.com.sensis.wireless.web.common.exception.ApplicationRuntimeException;
 import au.com.sensis.wireless.web.common.validation.Validatable;
+import au.com.sensis.wireless.web.mobile.MobileContext;
 
 /**
  * @author Adrian.Koh2@sensis.com.au
