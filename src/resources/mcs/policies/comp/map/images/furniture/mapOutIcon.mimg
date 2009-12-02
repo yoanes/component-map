@@ -29,7 +29,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/common/out_M_18x18.gif</relative>
+                    <relative>images/icons/out_M_18x18.gif</relative>
                 </url>
             </content>
         </variant>
@@ -59,7 +59,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/common/out_M_18x18.gif</relative>
+                    <relative>images/icons/out_M_18x18.gif</relative>
                 </url>
             </content>
         </variant>
@@ -89,7 +89,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/common/out_M_18x18.gif</relative>
+                    <relative>images/icons/out_M_18x18.gif</relative>
                 </url>
             </content>
         </variant>
@@ -119,7 +119,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/common/out_L_25x25.gif</relative>
+                    <relative>images/icons/out_L_25x25.gif</relative>
                 </url>
             </content>
         </variant>
