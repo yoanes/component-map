@@ -47,6 +47,7 @@
     
     <publications>
         <artifact name="map-component" type="jar" ext="jar" conf="default"/>
+        <artifact name="map-component-src" type="source" ext="zip" conf="default"/>
     </publications>
 
     <dependencies>
