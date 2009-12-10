@@ -13,6 +13,6 @@
     </xf:instance>
 
     <xf:submission id="mapFormSubmission"
-            action="<s:url namespace="/map" action="getMap" />"/>
+            action="<s:url namespace='/map' action='getMap' />"/>
 
 </xf:model>
