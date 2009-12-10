@@ -56,7 +56,7 @@
         <dependency org="com.sensis" name="wl-build-scripts" rev="1.0+" conf="buildBootstrap->default" />
         
         <!-- Commons -->
-        <dependency org="org.apache" name="commons-lang" rev="2.3" conf="default" />
+        <dependency org="apache" name="commons-lang" rev="2.4" conf="default" />
         <dependency org="apache" name="commons-io" rev="1.1" conf="default"/>
         
         <!-- jstl tags -->
