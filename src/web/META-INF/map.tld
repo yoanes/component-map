@@ -10,13 +10,11 @@
     <tag-file>
         <name>setup</name>
         <description>Setup the map component. Must be called in the HTML head.</description>        
-        <body-content>empty</body-content>
         <path>/META-INF/tags/au/com/sensis/mobile/web/component/map/setup.tag</path>
     </tag-file>
     <tag-file>
         <name>render</name>
         <description>Render a map. Must be called in the HTML body.</description>
-        <body-content>empty</body-content>
         <path>/META-INF/tags/au/com/sensis/mobile/web/component/map/render.tag</path>
     </tag-file>    
 </taglib>

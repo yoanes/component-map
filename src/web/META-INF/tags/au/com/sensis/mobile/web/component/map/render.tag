@@ -1,11 +1,7 @@
+<%@ tag body-content="empty" isELIgnored="false" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
-
-<%--
-  - Work around for Tomcat 5.0.28 to ensure that the JSP Expression Language is processed. 
-  - Should also work with Tomcat 6.  
-  --%>
-<%@ tag isELIgnored="false" %>
 
 <%@ attribute name="mapResult" required="true"
     type="au.com.sensis.mobile.web.component.map.model.MapResult"  
