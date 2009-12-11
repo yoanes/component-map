@@ -1,5 +1,5 @@
 ########################################################
-## ENVIRONMENT : map-showcase SANDPIT-dev overrides
+## ENVIRONMENT : map-showcase SANDPIT-test overrides
 ########################################################
 
 # True if you want bundle explosion initially activated for each new session. 
@@ -11,4 +11,4 @@ env.bundleExplosionInitialValue=true
 env.bypassClientCacheInitialValue=true
 
 # Context root relative prefix for all components.
-env.context.root.component.prefix=/dev/map-component-showcase/comp/
+env.context.root.component.prefix=/test/map-component-showcase/comp/
