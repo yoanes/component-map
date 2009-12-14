@@ -20,7 +20,7 @@ env.ems.service.timeout.read=20000
 
 env.ems.clientPolicy=emsProxiedHttpClientPolicy
 env.ems.service=https://ems.whereis.com/v1/soap/ems
-env.ems.token=1386742213227490342
+env.ems.token=4316381136292159452
 env.ems.password=dev?755545!!whitep
 
 #drs (staging)
@@ -31,7 +31,7 @@ env.ems.password=dev?755545!!whitep
 #env.ems.password=dev?755545!!whitep
 
 # ems has it's own proxy settings so we can point to prod locally
-ems.http.proxyHost=161.117.238.233
+ems.http.proxyHost=10.89.6.97
 ems.http.proxyPort=8080
 ems.http.proxyUser=
 ems.http.proxyPass=

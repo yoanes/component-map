@@ -20,7 +20,7 @@ env.ems.service.timeout.read=20000
 
 env.ems.clientPolicy=emsProxiedHttpClientPolicy
 env.ems.service=https://ems.whereis.com/v1/soap/ems
-env.ems.token=1386742213227490342
+env.ems.token=4316381136292159452
 env.ems.password=dev?755545!!whitep
 
 #drs (staging)
