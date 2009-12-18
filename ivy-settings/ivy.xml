@@ -128,7 +128,7 @@
         <!--
           - Dependencies on other components.
           -->
-        <dependency org="com.sensis" name="core-component" rev="1.0+" conf="default,test"/>
+        <dependency org="com.sensis" name="wl-core-component" rev="1.0.6" conf="default,test"/>
         
         <!-- Testing -->
         <dependency org="junit" name="junit" rev="4.4" conf="test->default"/>
