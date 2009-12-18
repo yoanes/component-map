@@ -1,3 +1,9 @@
+==== Version 1.0.6 (tag: map_v1_0_6) ====
+
+Deliverable from iteration 1.0.6 (and 1.0.5 since I skipped that tag) 
+of the rockit Common UI project (http://jira.sensis.com.au/browse/CUI). 
+These iterations focused mainly on stabilising the framework.
+
 ==== Version 1.0.4 (tag: map_v1_0_4) ====
 
 Deliverable from iteration 1.0.4 of the rockit Common UI project 

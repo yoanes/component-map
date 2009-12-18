@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<project name="map-component">
+<project name="wl-map-component">
 
     <description>Builds the map-component.</description>
 
