@@ -11,4 +11,4 @@ env.bundleExplosionInitialValue=true
 env.bypassClientCacheInitialValue=true
 
 # Context root relative prefix for all components.
-env.context.root.component.prefix=/map-component-showcase/comp/
+env.context.root.component.prefix=/wl-map-component-showcase/comp/
