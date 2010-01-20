@@ -1,3 +1,9 @@
+==== Version 1.0.8 (tag: map_v1_0_8) ====
+
+Upgraded libs:
+- sdpCommon-manager from 1.0-050 to 1.0-058.
+- wl-core-component from 1.0.6 to 1.0.9.
+
 ==== Version 1.0.7 (tag: map_v1_0_7) ====
 
 Fixed showcase bug introduced from previous release when 
