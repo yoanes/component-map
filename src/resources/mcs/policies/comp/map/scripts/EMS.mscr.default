@@ -19,6 +19,7 @@
                     <devices>
                         <device>PC-Win32</device>
                         <device>Apple</device>
+                        <device>Android-OS</device>
                     </devices>
                 </targeted>
             </selection>

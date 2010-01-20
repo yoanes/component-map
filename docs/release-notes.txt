@@ -1,3 +1,8 @@
+==== Version 1.0.9 (tag: map_v1_0_9) ====
+
+Upgraded to Yoanes' latest JavaScript from the devhome project.
+Updated MCS mscr files to support Android-OS devices.
+
 ==== Version 1.0.8 (tag: map_v1_0_8) ====
 
 Upgraded libs:

@@ -70,5 +70,32 @@
                 </url>
             </content>
         </variant>
+        <variant>
+            <type>script</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>Android-OS</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <meta-data>
+                <script>
+                    <encoding>javascript</encoding>
+                    <character-set>utf-8</character-set>
+                </script>
+            </meta-data>
+            <content>
+                <url>
+                    <base>
+                        <policy-reference>
+                            <name>/comp/map/map-scripts.mgrp</name>
+                            <type>base-url</type>
+                        </policy-reference>
+                    </base>
+                    <relative>map/js/map-component-android.js</relative>
+                </url>
+            </content>
+        </variant>
     </variants>
 </variable-policy>

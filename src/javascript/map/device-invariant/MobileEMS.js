@@ -69,14 +69,17 @@ var MobEMS = new Class({
 			mapDiv.style.left = '0px';
 			mapDiv.style.height = '100%';
 			mapDiv.style.width = '100%';
+			mapDiv.style.overflow = 'hidden';
 			
 			$(mapWrapper).appendChild(mapDiv);
 			return true;
 		}
 		
 		else {
-			if(sensis instanceof Logger)
+			try {
 				sensis.warn('mapWrapper element is not defined');
+			}
+			catch(e) {}
 				
 			return false;
 		}
@@ -168,8 +171,10 @@ var MobEMS = new Class({
 		var resultLength = markersList.length;
 
 		if(resultLength == 0) {
-			if(sensis instanceof Logger) 
-				sensis.log("no results found");
+			try { 
+				sensis.log("no results found"); 
+			}
+			catch(e) { }
 			return;
 		}
 		for(var i = 0; i < resultLength; i++) {
@@ -179,7 +184,10 @@ var MobEMS = new Class({
 	
 	clearPois: function() {
 		this.Map.markersLayer.clearMarkers();
-		if($defined(this.Popup)) this.Map.removePopup(this.Popup);
+		if($defined(this.Popup)) {
+			this.Map.removePopup(this.Popup);
+			this.Popup.destroy();
+		}
 	},
 	/** END **/
 	
@@ -267,6 +275,16 @@ var MobEMS = new Class({
 	clearMap: function() {
 		this.clearRoutes();
 		this.clearPois();
+	},
+	
+	/**
+	 * Switch the map view between photo and street. Presumably 
+	 * the hybrid is excluded. 
+	 */
+	switchView: function() {
+		if(this.Map.baseLayer.name == "Whereis Street")
+			this.Map.setBaseLayer(this.Map.whereis_photo_wms);
+		else this.Map.setBaseLayer(this.Map.whereis_street_wms);
 	},
 	
 	/* generate pois for hardcoded addresses. For perf testing purpose only. Same thing for addMultiRoute() */

@@ -16,5 +16,9 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
             </fileset>
         </bundle>
+        <bundle name="android" parent="common">
+            <fileset dir="${src.javascript.dir}/map/device-variant/android">
+            </fileset>
+        </bundle>
     </bundles>
 </bs:bundlesConfig>
