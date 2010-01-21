@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
-<%@ attribute name="mapResult" required="true"
-    type="au.com.sensis.mobile.web.component.map.model.MapResult"  
-    description="MapResult returned by the MapDelegate." %>
+<%@ attribute name="mapUrlHolder" required="true"
+    type="au.com.sensis.mobile.web.component.map.model.MapUrlHolder"  
+    description="MapUrlHolder returned by the MapDelegate." %>
     
 <%@ attribute name="zoomInUrl" required="true" 
     description="Zoom in URL to be used for server side maps." %>
@@ -24,8 +24,14 @@
 <logging:info logger="${logger}" message="Entering render.tag" />
     
 <c:choose>
-    <c:when test="${not empty mapResult && mapResult.mapRetrievalClientResponsible}">
-        <%-- Cater to funky phones that can generate the map "themselves" (eg. via an AJAX call). --%>
+    <c:when test="${not empty mapUrlHolder && mapUrlHolder.mapImageRetrievalDeferredToClient}">
+        <%--
+          - Optional case: if it is known that the client will generate the map itself (eg. by accessing 
+          - EMS directly for JavaScript enhanced maps), the backend may be set up to not bother
+          - generating a map itself at all. At the moment (21 Jan 2010) this is not the case,
+          - since doing so prevents the application from degrading gracefully if the client device has
+          - JavaScript disabled.
+          --%>
         
         <%--TODO: inline style should be a class. --%>
         <div id="mapWindow" style="margin-top:10px;height:300px;position:relative">
@@ -36,12 +42,12 @@
     <c:otherwise>
         <%-- Cater to less funky phones that need the server to generate the map. --%>
         
-        <c:if test="${not empty mapResult}"> 
-            <div class="map">
+        <c:if test="${not empty mapUrlHolder}"> 
+            <div id="mapWindow" class="map" style="margin-top:10px;height:300px;position:relative">
         
                 <div class="mapArea">
         
-                    <object src="${mapResult.mapUrl}" id="mapImage"
+                    <object src="${mapUrlHolder.mapUrl.imageUrl}" id="mapImage"
                             srctype="image/png">
                         <param name="mcs-transcode" value="false"/>
                     </object>

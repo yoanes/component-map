@@ -111,7 +111,7 @@
         <!-- SDP Common -->
         <dependency org="com.sensis" name="sdpCommon-logging" rev="0.5" conf="default"/>        
         <dependency org="com.sensis" name="sdpCommon-web" rev="1.6-012" conf="default"/>
-        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.0-058" conf="default"/>
+        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.0-059" conf="default"/>
 
         <!-- EMS dependencies -->
         <dependency org="com.sensis" name="ems-cxf-client" rev="1.6" conf="showcase->default"/>

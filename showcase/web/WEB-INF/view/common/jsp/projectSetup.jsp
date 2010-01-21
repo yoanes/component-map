@@ -1,4 +1,4 @@
 <jsp:directive.include file="/WEB-INF/view/common/jsp/configInclude.jsp"/>
 
-<map:setup mapResult="${mapResult}" />
+<map:setup mapUrlHolder="${mapUrlHolder}" />
 

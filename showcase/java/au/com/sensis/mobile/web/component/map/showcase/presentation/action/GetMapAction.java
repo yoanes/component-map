@@ -9,7 +9,7 @@ import au.com.sensis.address.GeocodedAddress;
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.simple.GeocodedAddressImpl;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
-import au.com.sensis.mobile.web.component.map.model.MapResult;
+import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
 import au.com.sensis.mobile.web.component.map.service.LocationManager;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
@@ -18,6 +18,11 @@ import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 
 import com.opensymphony.xwork2.ModelDriven;
 
+/**
+ * Demonstrates how to get an initial map using the {@link MapDelegate}.
+ *
+ * @author Adrian.Koh2@sensis.com.au
+ */
 public class GetMapAction extends BusinessAction implements
         ModelDriven<MapForm> {
 
@@ -27,38 +32,36 @@ public class GetMapAction extends BusinessAction implements
 
     private LocationDelegate locationDelegate;
     private LocationManager locationManager;
-    private MapDelegate mapDelegateImpl;
+    private MapDelegate mapDelegate;
 
-    private MapResult mapResult;
+    private MapUrlHolder mapUrlHolder;
 
     private int defaultZoom;
 
+    /**
+     * Executes this action and returns a result name.
+     * @return result name.
+     */
     public String execute() {
         final GeocodedAddress addressToMap =
                 determineSingleLocationToMap(getModel().getLocation());
 
-        // Example of how to use the MapDelegateImpl to get an initial map.
-        // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather does.
-        // This is an sdpcommon interface that theoretically contains everything that we need.
-        // However, can't be stuffed trying to do this upgrade now because MapUrl
-        // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
-        // more work than I can muster right now. I do prefer my class names and the
-        // separation of the MapState from the imageUrl but oh well.
-        final MapResult mapResult =
-                getMapDelegate().retrieveInitialMap(addressToMap,
+        // Example of how to use the MapDelegate to get an initial map.
+        final MapUrlHolder mapUrlHolder =
+                getMapDelegate().retrieveInitialMap(addressToMap.getCoordinates(),
                         getDefaultZoom(), getContext());
-        setMapResult(mapResult);
+        setMapUrlHolder(mapUrlHolder);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("mapUrl found (yep !!!!!): "
-                    + getMapResult().getMapUrl());
+            logger.debug("mapUrl found: "
+                    + getMapUrlHolder().getMapUrl());
         }
 
         return ResultName.SUCCESS;
     }
 
     /**
-     * Hacky code just for this showcase prototype to quickly get a
+     * TODO: Hacky code just for this showcase prototype to quickly get a
      * {@link GeocodedAddress} to map based on the entered location.
      *
      * @param location
@@ -88,6 +91,10 @@ public class GetMapAction extends BusinessAction implements
         return addressToMap;
     }
 
+    /**
+     * @return Model being used to drive this action.
+     * @see com.opensymphony.xwork2.ModelDriven#getModel()
+     */
     public MapForm getModel() {
         if (mapForm == null) {
             mapForm = new MapForm();
@@ -133,18 +140,18 @@ public class GetMapAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapResult
+     * @return the mapUrlHolder
      */
-    public MapResult getMapResult() {
-        return mapResult;
+    public MapUrlHolder getMapUrlHolder() {
+        return mapUrlHolder;
     }
 
     /**
-     * @param mapResult
-     *            the mapResult to set
+     * @param mapUrlHolder
+     *            the mapUrlHolder to set
      */
-    public void setMapResult(final MapResult mapResult) {
-        this.mapResult = mapResult;
+    public void setMapUrlHolder(final MapUrlHolder mapUrlHolder) {
+        this.mapUrlHolder = mapUrlHolder;
     }
 
     /**
@@ -156,18 +163,18 @@ public class GetMapAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapDelegateImpl
+     * @return the mapDelegate
      */
     public MapDelegate getMapDelegate() {
-        return mapDelegateImpl;
+        return mapDelegate;
     }
 
     /**
-     * @param mapDelegateImpl
-     *            the mapDelegateImpl to set
+     * @param mapDelegate
+     *            the mapDelegate to set
      */
-    public void setMapDelegate(final MapDelegate mapDelegateImpl) {
-        this.mapDelegateImpl = mapDelegateImpl;
+    public void setMapDelegate(final MapDelegate mapDelegate) {
+        this.mapDelegate = mapDelegate;
     }
 
 }

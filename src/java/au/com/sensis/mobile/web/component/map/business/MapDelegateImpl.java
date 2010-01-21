@@ -3,15 +3,19 @@ package au.com.sensis.mobile.web.component.map.business;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import au.com.sensis.address.GeocodedAddress;
-import au.com.sensis.mobile.web.component.map.model.MapCriteria;
-import au.com.sensis.mobile.web.component.map.model.MapResult;
-import au.com.sensis.mobile.web.component.map.model.MapState;
-import au.com.sensis.mobile.web.component.map.service.LocationManager;
+import au.com.sensis.address.WGS84Point;
+import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.mobile.web.component.map.model.MapUrlHolderImpl;
+import au.com.sensis.wireless.manager.ems.EMSManager;
+import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
+import au.com.sensis.wireless.manager.mapping.MobilesIconType;
+import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
+import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 import au.com.sensis.wireless.manager.mapping.UserMapInteraction;
 import au.com.sensis.wireless.web.common.exception.ApplicationRuntimeException;
 import au.com.sensis.wireless.web.common.validation.Validatable;
+import au.com.sensis.wireless.web.common.validation.ValidatableUtils;
 import au.com.sensis.wireless.web.mobile.MobileContext;
 
 /**
@@ -22,117 +26,116 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /** Not final so that we can inject a mock for unit testing. */
     private static Logger logger = Logger.getLogger(MapDelegateImpl.class);
 
-    private LocationManager locationManager;
+    private EMSManager emsManager;
+
+    private ScreenDimensionsStrategy screenDimensionsStrategy;
 
     private int minZoom;
     private int maxZoom;
 
+    /**
+     * Strategy interface for determining the {@link ScreenDimensions} for the
+     * current user's device. This interface arose due to WPM, WM and YM having
+     * different existing rules for calculating the screen dimensions. In
+     * future, the rules may be unified. For now, though, we shield the
+     * difference behind an interface.
+     */
+    public interface ScreenDimensionsStrategy {
+        /**
+         * @param mobileContext
+         *            Context of the user that the map is being retrieved for.
+         *
+         * @return {@link ScreenDimensions} for the current user's device. Map
+         *         not be null.
+         */
+        ScreenDimensions createScreenDimensions(MobileContext mobileContext);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void validateState() throws ApplicationRuntimeException {
-        // TODO Auto-generated method stub
-
+        ValidatableUtils.validateObjectIsNotNull(getEmsManager(), "emsManager");
+        ValidatableUtils.validateObjectIsNotNull(getScreenDimensionsStrategy(),
+                "screenDimensionsStrategy");
     }
 
-    // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather
-    // does.
-    // This is an sdpcommon interface that theoretically contains everything
-    // that we need.
-    // However, can't be stuffed trying to do this upgrade now because MapUrl
-    // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
-    // more work than I can muster right now.
-    /* (non-Javadoc)
-     * @see au.com.sensis.mobile.web.component.map.business.MapDelegate#retrieveInitialMap(au.com.sensis.address.GeocodedAddress, int, au.com.sensis.mobile.web.component.core.sdpcommon.web.framework.MobileContext)
+    /**
+     * {@inheritDoc}
      */
-    public MapResult retrieveInitialMap(final GeocodedAddress geocodedAddress,
+    public MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, final MobileContext mobileContext) {
-        if (mobileContext.getDevice().isWeb2Supported()) {
-            final MapState mapState = new MapState(geocodedAddress.getCoordinates(),
-                    null, zoomLevel);
-            return MapResult.createMapRetrievalClientResponsible(mapState);
+        if (clientWillRetrieveMapItself(mobileContext)) {
+            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre, zoomLevel);
         } else {
-            final MapCriteria mapCriteria = new MapCriteria();
-            mapCriteria.setCoordinates(geocodedAddress.getCoordinates());
-            mapCriteria.setDirection(UserMapInteraction.NO_ACTION);
 
-            // TODO: need to range check the zoom level.
-            mapCriteria.setZoom(zoomLevel);
-
-            packMobileContextIntoMapCriteria(mobileContext, mapCriteria);
-
-            // bounding box not known yet.
-            mapCriteria.setMapBoundingBox(null);
-            return retrieveMapFromLocationManager(mapCriteria, mobileContext);
+            // Construct PanZoomDetail with a null bounding box since this is
+            // the initial map retrieval.
+            final PanZoomDetail panZoomDetail =
+                    new PanZoomDetail(null, mapCentre,
+                            UserMapInteraction.NO_ACTION, zoomLevel);
+            final MapUrl mapUrl =
+                    getEmsManager().getMap(
+                            getScreenDimensionsStrategy()
+                                    .createScreenDimensions(mobileContext),
+                            mapCentre, MobilesIconType.CROSS_HAIR,
+                            MapLayer.Map, panZoomDetail,
+                            mobileContext.asUserContext());
+            return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre, mapUrl);
         }
 
-    }
-
-    // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather does.
-    // This is an sdpcommon interface that theoretically contains everything that we need.
-    // However, can't be stuffed trying to do this upgrade now because MapUrl
-    // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
-    // more work than I can muster right now. I do prefer my class names and the
-    // separation of the MapState from the imageUrl but oh well.
-    /* (non-Javadoc)
-     * @see au.com.sensis.mobile.web.component.map.business.MapDelegate#manipulateMap(au.com.sensis.mobile.web.component.map.model.MapState, au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.Action, au.com.sensis.mobile.web.component.core.sdpcommon.web.framework.MobileContext)
-     */
-    public MapResult manipulateMap(final MapState currentMapState,
-            final Action mapManipulationAction, final MobileContext mobileContext) {
-        final MapCriteria mapCriteria = new MapCriteria();
-        mapCriteria.setCoordinates(currentMapState.getCoordinates());
-
-        if (mapManipulationAction.isPanAction()) {
-            mapCriteria
-                    .setDirection(transformActionToMapCriteriaDirection(mapManipulationAction));
-            mapCriteria.setMapBoundingBox(currentMapState.getMapBoundingBox());
-            mapCriteria.setZoom(currentMapState.getZoomLevel());
-        } else if (mapManipulationAction.isZoomAction()) {
-            mapCriteria.setDirection(UserMapInteraction.ZOOM);
-            mapCriteria.setZoom(calculateNewZoomLevel(currentMapState
-                    .getZoomLevel(), mapManipulationAction));
-        } else {
-            // Just retrieve the original map again.
-            mapCriteria.setDirection(UserMapInteraction.NO_ACTION);
-            mapCriteria.setZoom(currentMapState.getZoomLevel());
-        }
-
-        packMobileContextIntoMapCriteria(mobileContext, mapCriteria);
-
-        return retrieveMapFromLocationManager(mapCriteria, mobileContext);
     }
 
     /**
-     * @param mobileContext
-     * @param mapCriteria
-     * @return
+     * @return True if the client will retrieve the map itself.
      */
-    // TODO: I suspect Heather has a better implementation of this in WhereisMobile
-    // that doesn't use the WPM MapCriteria.
-    private MapResult retrieveMapFromLocationManager(final MapCriteria mapCriteria,
+    private boolean clientWillRetrieveMapItself(
             final MobileContext mobileContext) {
-        final MapUrl mapUrl =
-                getLocationManager().retrieveMapUrlFromEms(mapCriteria,
-                        mobileContext.asUserContext());
-
-        final MapState mapState =
-                new MapState(mapUrl.getMapCentre(), mapUrl.getBoundingBox(),
-                        mapCriteria.getZoom());
-        return MapResult.createMapRetrievedResult(mapState, mapUrl.getImageUrl());
+        // TODO: implement this method in future if we need to avoid the server
+        // side map retrieval for phones that can retrieve the map themselves.
+        // At the moment, the server will always retrieve the map and
+        // the client will then replace it with an enhanced map. This approach
+        // allows the application to degrade gracefully if the client device has
+        // JavaScript disabled.
+        return false;
     }
 
     /**
-     * @param mobileContext
-     * @param mapCriteria
+     * {@inheritDoc}
      */
-    private void packMobileContextIntoMapCriteria(final MobileContext mobileContext,
-            final MapCriteria mapCriteria) {
-        mapCriteria.setScreenWidth(mobileContext.getDevice().getPixelsX());
-        mapCriteria.setScreenHeight(mobileContext.getDevice().getPixelsY());
+    public MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
+            final MapUrl existingMapUrl,
+            final Action mapManipulationAction, final MobileContext mobileContext) {
 
-        // TODO: mobileContext.getDevice().isLargeDevice() is not yet available
-        // in sdpcommon.
-        // mapCriteria.setLargeDevice(mobileContext.getDevice().isLargeDevice());
+        PanZoomDetail panZoomDetail;
+        if (mapManipulationAction.isPanAction()) {
+            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
+                    existingMapUrl.getMapCentre(),
+                    transformPanActionToUserMapInteraction(mapManipulationAction),
+                    existingMapUrl.getZoom());
+
+        } else if (mapManipulationAction.isZoomAction()) {
+            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
+                    existingMapUrl.getMapCentre(), UserMapInteraction.ZOOM,
+                    calculateNewZoomLevel(existingMapUrl.getZoom(),
+                            mapManipulationAction));
+        } else {
+            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
+                    existingMapUrl.getMapCentre(),
+                    UserMapInteraction.NO_ACTION, existingMapUrl.getZoom());
+        }
+
+        final MapUrl mapUrl = getEmsManager().getMap(
+                getScreenDimensionsStrategy()
+                        .createScreenDimensions(mobileContext),
+                        originalMapCentrePoint, MobilesIconType.CROSS_HAIR,
+                MapLayer.Map, panZoomDetail,
+                mobileContext.asUserContext());
+        return MapUrlHolderImpl.createMapRetrievedInstance(
+                originalMapCentrePoint, mapUrl);
     }
 
-    private UserMapInteraction transformActionToMapCriteriaDirection(
+    private UserMapInteraction transformPanActionToUserMapInteraction(
             final Action mapManipulationAction) {
         if (Action.MOVE_EAST.equals(mapManipulationAction)) {
             return UserMapInteraction.EAST;
@@ -144,14 +147,15 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             return UserMapInteraction.WEST;
         } else {
             throw new IllegalStateException(
-                    "mapManipulationAction argument should have corresponded to a pan action but it was not: '"
+                    "mapManipulationAction argument should have corresponded to "
+                            + "a pan action but it was not: '"
                             + mapManipulationAction + "'");
         }
     }
 
     private int calculateNewZoomLevel(
             final int zoomLevel,
-            final au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.Action mapManipulationAction) {
+            final Action mapManipulationAction) {
 
         int newZoomValue;
         if (Action.ZOOM_IN.equals(mapManipulationAction)) {
@@ -176,21 +180,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             return zoomLevel;
         }
 
-    }
-
-    /**
-     * @return the locationManager
-     */
-    public LocationManager getLocationManager() {
-        return locationManager;
-    }
-
-    /**
-     * @param locationManager
-     *            the locationManager to set
-     */
-    public void setLocationManager(final LocationManager locationManager) {
-        this.locationManager = locationManager;
     }
 
     /**
@@ -221,6 +210,35 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      */
     public void setMaxZoom(final int maxZoom) {
         this.maxZoom = maxZoom;
+    }
+
+    /**
+     * @return the emsManager
+     */
+    public EMSManager getEmsManager() {
+        return emsManager;
+    }
+
+    /**
+     * @param emsManager the emsManager to set
+     */
+    public void setEmsManager(final EMSManager emsManager) {
+        this.emsManager = emsManager;
+    }
+
+    /**
+     * @return the screenDimensionsStrategy
+     */
+    public ScreenDimensionsStrategy getScreenDimensionsStrategy() {
+        return screenDimensionsStrategy;
+    }
+
+    /**
+     * @param screenDimensionsStrategy the screenDimensionsStrategy to set
+     */
+    public void setScreenDimensionsStrategy(
+            final ScreenDimensionsStrategy screenDimensionsStrategy) {
+        this.screenDimensionsStrategy = screenDimensionsStrategy;
     }
 
 }

@@ -4,11 +4,9 @@
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
-<%-- 
-  - MapResult returned by the MapDelegate.
-  --%>
-<%@ attribute name="mapResult" required="true"
-    type="au.com.sensis.mobile.web.component.map.model.MapResult"  %>
+<%@ attribute name="mapUrlHolder" required="true"
+    type="au.com.sensis.mobile.web.component.map.model.MapUrlHolder"  
+    description="MapUrlHolder returned by the MapDelegate." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
 <logging:info logger="${logger}" message="Entering setup.tag" />
@@ -30,13 +28,16 @@
 <core:script src="${compMcsBasePath}/map/scripts/CommMode.mscr"></core:script>
 <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
 
-<c:if test="${not empty mapResult && mapResult.mapRetrievalClientResponsible}">
+<c:if test="${not empty mapUrlHolder}">
     <core:script name="create-map" type="text/javascript">
-        var MEMS = new MobEMS('mapWindow', {
-            'longitude': <c:out value="${mapResult.mapState.coordinates.longitude}"/>, 
-            'latitude': <c:out value="${mapResult.mapState.coordinates.latitude}"/>, 
-            'zoom': <c:out value="${mapResult.mapState.zoomLevel}"/>
-            });
+        if(typeof(MobEMS) != 'undefined') {
+        
+            var MEMS = new MobEMS('mapWindow', {
+                'longitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.longitude}"/>, 
+                'latitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.latitude}"/>, 
+                'zoom': <c:out value="${mapUrlHolder.mapUrl.zoom}"/>
+                });
+        }
     </core:script>
 </c:if>
 

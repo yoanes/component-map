@@ -2,15 +2,31 @@ package au.com.sensis.mobile.web.component.map.business;
 
 import org.apache.commons.lang.StringUtils;
 
-import au.com.sensis.address.GeocodedAddress;
-import au.com.sensis.mobile.web.component.map.model.MapResult;
-import au.com.sensis.mobile.web.component.map.model.MapState;
+import au.com.sensis.address.WGS84Point;
+import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.web.mobile.MobileContext;
 
+/**
+ * Delegate for all map operations, such as:
+ * <ol>
+ * <li>getting a map centred at a particular location.</li>
+ * <li>getting a map with a route rendered on it.</li>
+ * <li>getting a map with a set of icons rendered on it at specified locations.</li>
+ * </ol>
+ *
+ * @author Adrian.Koh2@sensis.com.au
+ */
 public interface MapDelegate {
 
     /**
-     * Indicates the action being performed on a listing.
+     * Indicates the action being performed on a {@link MapUrl}. Note that this
+     * enum is related to but not identical to the lower level
+     * {@link au.com.sensis.wireless.manager.mapping.UserMapInteraction}. The
+     * latter has a single ZOOM specification which must be used in conjunction
+     * with a specific zoom level. The former is relative to the state of an existing
+     * {@link MapUrl}. Furthermore, this {@link Action} provides a mapping between
+     * short {@link String} codes that a web tier may use for request parameters.
      */
     public static enum Action {
         /** Zoom map in action. */
@@ -111,14 +127,50 @@ public interface MapDelegate {
         }
     }
 
-    // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather
-    // does.
-    MapResult retrieveInitialMap(final GeocodedAddress geocodedAddress,
+    /**
+     * Retrieve an initial map centred at a particular coordinate (as opposed to
+     * manipulating an existing map - see
+     * {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}).
+     *
+     * @param mapCentre
+     *            Coordinates of the centre of the map
+     * @param zoomLevel
+     *            Zoom level of the map. TODO: at the moment the range of
+     *            allowed values is actually governed by the injection of the
+     *            mobileToEmsZoomConversionMap into the underlying
+     *            MobilesEMSManager. This is bad from the MapDelegate caller's
+     *            perspective as it isn't clear what values can be passed in.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link MapUrlHolder}. May not be null.
+     */
+    MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, final MobileContext mobileContext);
 
-    // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather does.
-    MapResult manipulateMap(final MapState currentMapState,
-            final Action mapManipulationAction,
+    /**
+     * Manipulate an existing map, such as panning or zooming it.
+     *
+     * @param originalMapCentrePoint
+     *            The original map centre that was passed to
+     *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)}.
+     *            Also contained by the {@link MapUrlHolder} returned by that
+     *            method.
+     * @param existingMapUrl
+     *            The existing {@link MapUrl} to be manipulated.
+     *            Contained in the {@link MapUrlHolder} returned by a previous
+     *            call to
+     *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)} or
+     *            this
+     *            {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}.
+     * @param mapManipulationAction
+     *            {@link Action} describing the type of manipulation to be
+     *            performed.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link MapUrlHolder}. May not be null.
+     */
+    MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
+            final MapUrl existingMapUrl, final Action mapManipulationAction,
             final MobileContext mobileContext);
 
 }

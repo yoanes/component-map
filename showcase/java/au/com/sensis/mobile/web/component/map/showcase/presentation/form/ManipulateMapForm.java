@@ -2,12 +2,20 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.form;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
-import au.com.sensis.mobile.web.component.map.model.MapState;
+import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
+import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 
+/**
+ * Form for submitting map manipulation parameters.
+ *
+ * @author Adrian.Koh2@sensis.com.au
+ */
 public class ManipulateMapForm {
 
     // Current state of the map.
+    private Double originalCentreLatitude;
+    private Double originalCentreLongitude;
     private Double centreLatitude;
     private Double centreLongitude;
     private Double boundingBoxTopLeftLatitude;
@@ -261,17 +269,100 @@ public class ManipulateMapForm {
         setAction(action);
     }
 
+    /**
+     * Packs this {@link ManipulateMapForm} into a new {@link MapUrl},
+     * discarding data that cannot be converted, such as {@link #getAction()}.
+     *
+     * @return this {@link ManipulateMapForm} packed into a new {@link MapUrl},
+     * discarding data that cannot be converted, such as {@link #getAction()}.
+     */
+    public MapUrl getMapUrl() {
+        final LocationMapUrl locationMapUrl = new LocationMapUrl();
 
-	public MapState asMapState() {
-		final WGS84Point mapCentre = new WGS84Point(getCentreLongitude(), getCentreLatitude());
+        final WGS84Point boundingBoxTopLeft =
+                new WGS84Point(getBoundingBoxTopLeftLongitude(),
+                        getBoundingBoxTopLeftLatitude());
+        final WGS84Point boundingBoxBottomRight =
+                new WGS84Point(getBoundingBoxBottomRightLongitude(),
+                        getBoundingBoxBottomRightLatitude());
+        final MobilesBoundingBox mobilesBoundingBox =
+                new MobilesBoundingBox(boundingBoxTopLeft,
+                        boundingBoxBottomRight);
+        locationMapUrl.setBoundingBox(mobilesBoundingBox);
 
-		final WGS84Point boundingBoxTopLeft = new WGS84Point(getBoundingBoxTopLeftLongitude(), getBoundingBoxTopLeftLatitude());
-		final WGS84Point boundingBoxBottomRight = new WGS84Point(getBoundingBoxBottomRightLongitude(), getBoundingBoxBottomRightLatitude());
-		final MobilesBoundingBox mobilesBoundingBox = new MobilesBoundingBox(boundingBoxTopLeft, boundingBoxBottomRight);
-		final MapState mapState = new MapState(mapCentre, mobilesBoundingBox, getZoomLevel());
+        final WGS84Point mapCentre =
+                new WGS84Point(getCentreLongitude(), getCentreLatitude());
+        locationMapUrl.setMapCentre(mapCentre);
 
-		return mapState;
-	}
+        locationMapUrl.setZoom(zoomLevel);
+        return locationMapUrl;
+    }
+
+    /**
+     * Packs this {@link ManipulateMapForm} into a new {@link MapUrl},
+     * discarding data that cannot be converted, such as {@link #getAction()}.
+     *
+     * @return this {@link ManipulateMapForm} packed into a new {@link MapUrl},
+     * discarding data that cannot be converted, such as {@link #getAction()}.
+     */
+    public WGS84Point getOrignalMapCentre() {
+        return new WGS84Point(getOriginalCentreLongitude(),
+                    getOriginalCentreLatitude());
+    }
+
+
+    /**
+     * @return the originalCentreLatitude
+     */
+    public Double getOriginalCentreLatitude() {
+        return originalCentreLatitude;
+    }
+
+
+    /**
+     * @param originalCentreLatitude the originalCentreLatitude to set
+     */
+    public void setOriginalCentreLatitude(final Double originalCentreLatitude) {
+        this.originalCentreLatitude = originalCentreLatitude;
+    }
+
+    /**
+     * Shorthand for {@link #setOriginalCentreLatitude(Double)} so that it can be more easily
+     * set from request params.
+     *
+     * @param originalCentreLatitude the originalCentreLatitude to set.
+     */
+    public void setMoclat(final Double originalCentreLatitude) {
+
+        setOriginalCentreLatitude(originalCentreLatitude);
+    }
+
+
+    /**
+     * @return the originalCentreLongitude
+     */
+    public Double getOriginalCentreLongitude() {
+        return originalCentreLongitude;
+    }
+
+
+    /**
+     * @param originalCentreLongitude the originalCentreLongitude to set
+     */
+    public void setOriginalCentreLongitude(final Double originalCentreLongitude) {
+        this.originalCentreLongitude = originalCentreLongitude;
+    }
+
+    /**
+     * Shorthand for {@link #setOriginalCentreLongitude(Double)} so that it can be more easily
+     * set from request params.
+     *
+     * @param originalCentreLongitude the originalCentreLongitude to set.
+     */
+    public void setMoclon(final Double originalCentreLongitude) {
+
+        setOriginalCentreLongitude(originalCentreLongitude);
+    }
 
 
 }

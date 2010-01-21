@@ -1,8 +1,7 @@
 package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
-import au.com.sensis.mobile.web.component.map.model.MapResult;
-import au.com.sensis.mobile.web.component.map.model.MapState;
+import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.ManipulateMapForm;
 import au.com.sensis.mobile.web.testbed.ResultName;
@@ -10,33 +9,40 @@ import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 
 import com.opensymphony.xwork2.ModelDriven;
 
+/**
+ * Demonstrates how to manipulate (eg. pan or zoom) an existing map using the {@link MapDelegate}.
+ *
+ * @author Adrian.Koh2@sensis.com.au
+ */
 public class ManipulateMapAction extends BusinessAction implements
         ModelDriven<ManipulateMapForm> {
 
     private ManipulateMapForm manipulateMapForm;
 
     private LocationDelegate locationDelegate;
-    private MapDelegate mapDelegateImpl;
+    private MapDelegate mapDelegate;
 
-    private MapResult mapResult;
+    private MapUrlHolder mapUrlHolder;
 
+    /**
+     * Executes this action and returns a result name.
+     * @return result name.
+     */
     public String execute() {
-        final MapState mapState = getModel().asMapState();
-
-        // TODO: should just return a raw MapUrl from the MapDelegateImpl like Heather does.
-        // This is an sdpcommon interface that theoretically contains everything that we need.
-        // However, can't be stuffed trying to do this upgrade now because MapUrl
-        // from 1.0-050 doesn't contain getZoom but upgrading to 1.0-057 requires
-        // more work than I can muster right now. I do prefer my class names and the
-        // separation of the MapState from the imageUrl but oh well.
-        final MapResult mapResult =
-                getMapDelegate().manipulateMap(mapState,
+        // Example of how to use the MapDelegate to pan/zoom an existing map.
+        final MapUrlHolder mapUrlHolder =
+                getMapDelegate().manipulateMap(getModel().getOrignalMapCentre(),
+                        getModel().getMapUrl(),
                         getModel().getAction(), getContext());
-        setMapResult(mapResult);
+        setMapUrlHolder(mapUrlHolder);
 
         return ResultName.SUCCESS;
     }
 
+    /**
+     * @return Model being used to drive this action.
+     * @see com.opensymphony.xwork2.ModelDriven#getModel()
+     */
     public ManipulateMapForm getModel() {
         if (manipulateMapForm == null) {
             manipulateMapForm = new ManipulateMapForm();
@@ -60,33 +66,33 @@ public class ManipulateMapAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapDelegateImpl
+     * @return the mapDelegate
      */
     public MapDelegate getMapDelegate() {
-        return mapDelegateImpl;
+        return mapDelegate;
     }
 
     /**
-     * @param mapDelegateImpl
-     *            the mapDelegateImpl to set
+     * @param mapDelegate
+     *            the mapDelegate to set
      */
-    public void setMapDelegate(final MapDelegate mapDelegateImpl) {
-        this.mapDelegateImpl = mapDelegateImpl;
+    public void setMapDelegate(final MapDelegate mapDelegate) {
+        this.mapDelegate = mapDelegate;
     }
 
     /**
-     * @return the mapResult
+     * @return the mapUrlHolder
      */
-    public MapResult getMapResult() {
-        return mapResult;
+    public MapUrlHolder getMapUrlHolder() {
+        return mapUrlHolder;
     }
 
     /**
-     * @param mapResult
-     *            the mapResult to set
+     * @param mapUrlHolder
+     *            the mapUrlHolder to set
      */
-    public void setMapResult(final MapResult mapResult) {
-        this.mapResult = mapResult;
+    public void setMapUrlHolder(final MapUrlHolder mapUrlHolder) {
+        this.mapUrlHolder = mapUrlHolder;
     }
 
 }

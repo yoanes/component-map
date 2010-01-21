@@ -1,3 +1,19 @@
+==== Version 1.0.10 (tag: map_v1_0_10) ====
+
+Heavy refactoring of MapDelegate interface and the classes behind it. Some of this based on WhereisMobile.
+Notable changes:
+- MapDelegate now accepts a WGS84Point instead of a GeocodedAddress, as per WhereisMobile.
+- Replaced MapResult with new MapUrlHolder interface.
+- MapDelegateImpl no longer depends on the LocationManager that was inherited from WhitePagesMobile.
+- The screen dimensions calculation of the device has been encapsulated behind a ScreenDimensionsStrategy
+  interface. This may change in future once the real requirements become apparent.
+- Fixed a bug inherited from WhitePagesMobile where panning the map moves the "centre" icon to the new centre. 
+  The new implementation has been based on WhereisMobile. This relies on passing the original centre coordinate
+  down to the EMSManager, whilst the new centre is encapsulated in the PanZoomDetail.
+  
+Also upgraded sdpCommon-manager to 1.0-059 in order to obtain new equals and hashCode methods on some
+key model classes. 
+
 ==== Version 1.0.9 (tag: map_v1_0_9) ====
 
 Upgraded to Yoanes' latest JavaScript from the devhome project.

@@ -16,13 +16,15 @@
         <%--
           - Current state of the map so that further manipulations will be relative to this. 
           --%>
-        <s:param name="mclat"><s:property value="#attr.mapResult.mapState.coordinates.latitude"/></s:param>
-        <s:param name="mclon"><s:property value="#attr.mapResult.mapState.coordinates.longitude"/></s:param>
-        <s:param name="tllat"><s:property value="#attr.mapResult.mapState.mapBoundingBox.topLeft.latitude"/></s:param>
-        <s:param name="tllon"><s:property value="#attr.mapResult.mapState.mapBoundingBox.topLeft.longitude"/></s:param>
-        <s:param name="brlat"><s:property value="#attr.mapResult.mapState.mapBoundingBox.bottomRight.latitude"/></s:param>
-        <s:param name="brlon"><s:property value="#attr.mapResult.mapState.mapBoundingBox.bottomRight.longitude"/></s:param>
-        <s:param name="mz"><s:property value="#attr.mapResult.mapState.zoomLevel"/></s:param>                
+        <s:param name="moclat"><s:property value="#attr.mapUrlHolder.originalMapCentre.latitude"/></s:param>
+        <s:param name="moclon"><s:property value="#attr.mapUrlHolder.originalMapCentre.longitude"/></s:param>
+        <s:param name="mclat"><s:property value="#attr.mapUrlHolder.mapUrl.mapCentre.latitude"/></s:param>
+        <s:param name="mclon"><s:property value="#attr.mapUrlHolder.mapUrl.mapCentre.longitude"/></s:param>
+        <s:param name="tllat"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.topLeft.latitude"/></s:param>
+        <s:param name="tllon"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.topLeft.longitude"/></s:param>
+        <s:param name="brlat"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.bottomRight.latitude"/></s:param>
+        <s:param name="brlon"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.bottomRight.longitude"/></s:param>
+        <s:param name="mz"><s:property value="#attr.mapUrlHolder.mapUrl.zoom"/></s:param>                
     </s:url>
 
     <s:url id="zoomInUrl" value="%{browseMapUrl}" includeContext="false">
@@ -51,7 +53,7 @@
         
 
     Map goes here:
-    <map:render mapResult="${mapResult}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
+    <map:render mapUrlHolder="${mapUrlHolder}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
         panNorthUrl="${moveNorthUrl}" panSouthUrl="${moveSouthUrl}"
         panEastUrl="${moveEastUrl}" panWestUrl="${moveWestUrl}"/>
 </div>
