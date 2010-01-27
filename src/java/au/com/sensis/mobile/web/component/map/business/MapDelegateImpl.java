@@ -64,7 +64,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * {@inheritDoc}
      */
     public MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
-            final int zoomLevel, final MapLayer mapLayer,
+            final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
             final MobileContext mobileContext) {
         if (clientWillRetrieveMapItself(mobileContext)) {
             return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
@@ -80,7 +80,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                     getEmsManager().getMap(
                             getScreenDimensionsStrategy()
                                     .createScreenDimensions(mobileContext),
-                            mapCentre, MobilesIconType.CROSS_HAIR,
+                            mapCentre, centreIconType,
                             mapLayer, panZoomDetail,
                             mobileContext.asUserContext());
             return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre,
@@ -117,6 +117,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      */
     public MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, final MapLayer mapLayer,
+            final MobilesIconType originalCentreIconType,
             final Action mapManipulationAction, final MobileContext mobileContext) {
 
         PanZoomDetail panZoomDetail;
@@ -140,7 +141,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         final MapUrl mapUrl = getEmsManager().getMap(
                 getScreenDimensionsStrategy()
                         .createScreenDimensions(mobileContext),
-                        originalMapCentrePoint, MobilesIconType.CROSS_HAIR,
+                        originalMapCentrePoint, originalCentreIconType,
                 mapLayer, panZoomDetail,
                 mobileContext.asUserContext());
         return MapUrlHolderImpl.createMapRetrievedInstance(

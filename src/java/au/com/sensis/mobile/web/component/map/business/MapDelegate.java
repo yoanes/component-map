@@ -6,6 +6,7 @@ import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
+import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.web.mobile.MobileContext;
 
 /**
@@ -144,12 +145,13 @@ public interface MapDelegate {
      * @param mapLayer
      *            The {@link MapLayer} that should be rendered to produce the
      *            map image.
+     * @param centreIconType Type of icon to display at the centre of the map.
      * @param mobileContext
      *            Context of the user that the map is being retrieved for.
      * @return {@link MapUrlHolder}. May not be null.
      */
     MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
-            final int zoomLevel, MapLayer mapLayer,
+            final int zoomLevel, MapLayer mapLayer, MobilesIconType centreIconType,
             final MobileContext mobileContext);
 
     /**
@@ -163,15 +165,17 @@ public interface MapDelegate {
      *            Also contained by the {@link MapUrlHolder} returned by that
      *            method.
      * @param existingMapUrl
-     *            The existing {@link MapUrl} to be manipulated.
-     *            Contained in the {@link MapUrlHolder} returned by a previous
-     *            call to
+     *            The existing {@link MapUrl} to be manipulated. Contained in
+     *            the {@link MapUrlHolder} returned by a previous call to
      *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)} or
      *            this
-     *            {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}.
+     *            {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}
+     *            .
      * @param mapLayer
      *            The {@link MapLayer} that should be rendered to produce the
      *            map image.
+     * @param originalCentreIconType
+     *            Type of icon to display at the original centre of the map.
      * @param mapManipulationAction
      *            {@link Action} describing the type of manipulation to be
      *            performed.
@@ -181,6 +185,7 @@ public interface MapDelegate {
      */
     MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, MapLayer mapLayer,
+            MobilesIconType originalCentreIconType,
             final Action mapManipulationAction,
             final MobileContext mobileContext);
 

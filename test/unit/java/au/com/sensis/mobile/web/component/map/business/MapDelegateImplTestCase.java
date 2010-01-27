@@ -122,7 +122,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final MapUrlHolder mapUrlHolder =
                 getObjectUnderTest().retrieveInitialMap(getPoint1(),
-                        ZOOM_LEVEL, MapLayer.PhotoWithStreets, getMockMobileContext());
+                        ZOOM_LEVEL, MapLayer.PhotoWithStreets,
+                        MobilesIconType.CROSS_HAIR, getMockMobileContext());
 
         Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
                 .isMapImageRetrieved());
@@ -230,7 +231,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final MapUrlHolder mapUrlHolder =
                 getObjectUnderTest().manipulateMap(getPoint2(), getMockExistingMapUrl(),
-                        MapLayer.Photo, mapDelegateAction, getMockMobileContext());
+                        MapLayer.Photo, MobilesIconType.CROSS_HAIR,
+                        mapDelegateAction, getMockMobileContext());
 
         Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
                 .isMapImageRetrieved());

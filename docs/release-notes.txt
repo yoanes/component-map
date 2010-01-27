@@ -1,3 +1,7 @@
+==== Version 1.0.12 (tag: map_v1_0_12) ====
+
+MapDelegate methods for obtaining a map of a location, now accept a MobilesIconType.
+
 ==== Version 1.0.11 (tag: map_v1_0_11) ====
 
 Added MapLayer support to MapDelegate. Added photo/map layer toggle button to
