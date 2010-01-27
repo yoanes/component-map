@@ -32,7 +32,7 @@ public class ManipulateMapAction extends BusinessAction implements
         // Example of how to use the MapDelegate to pan/zoom an existing map.
         final MapUrlHolder mapUrlHolder =
                 getMapDelegate().manipulateMap(getModel().getOrignalMapCentre(),
-                        getModel().getMapUrl(),
+                        getModel().getMapUrl(), getModel().getMapLayer(),
                         getModel().getAction(), getContext());
         setMapUrlHolder(mapUrlHolder);
 

@@ -1,6 +1,7 @@
 package au.com.sensis.mobile.web.component.map.model;
 
 import au.com.sensis.address.WGS84Point;
+import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 
 /**
@@ -48,5 +49,57 @@ public interface MapUrlHolder {
      *         , otherwise the original reference point will be lost.
      */
     WGS84Point getOriginalMapCentre();
+
+    /**
+     * Returns true if the map was/is to be rendered using a
+     * {@link au.com.sensis.wireless.manager.mapping.MapLayer#Map} layer.
+     *
+     * @return true if the map was/is to be rendered using a
+     *         {@link au.com.sensis.wireless.manager.mapping.MapLayer#Map} layer.
+     */
+    boolean isMapLayer();
+
+    /**
+     * Returns true if the map was/is to be rendered using a
+     * {@link au.com.sensis.wireless.manager.mapping.MapLayer#Photo} layer.
+     *
+     * @return true if the map was/is to be rendered using a
+     *         {@link au.com.sensis.wireless.manager.mapping.MapLayer#Photo} layer.
+     */
+    boolean isPhotoLayer();
+
+    /**
+     * Returns true if the map was/is to be rendered using a
+     * {@link au.com.sensis.wireless.manager.mapping.MapLayer#PhotoWithStreets} layer.
+     *
+     * @return true if the map was/is to be rendered using a
+     *         {@link au.com.sensis.wireless.manager.mapping.MapLayer#PhotoWithStreets} layer.
+     */
+    boolean isPhotoWithStreetsLayer();
+
+    /**
+     * @return true if the requested zoom level is the minimum allowed.
+     */
+    boolean isAtMinimumZoom();
+
+    /**
+     * @return true if the requested zoom level is the maximum allowed.
+     */
+    boolean isAtMaximumZoom();
+
+    /**
+     * Returns the {@link MapLayer} that the map was/is to be rendered using.
+     *
+     * @return Returns the {@link MapLayer} that the map was/is to be rendered
+     *         using.
+     */
+    MapLayer getMapLayer();
+
+    /**
+     * String short code representation of {@link #getMapLayer()}.
+     *
+     * @return String short code representation of {@link #getMapLayer()}.
+     */
+    String getMapLayerShortCode();
 
 }

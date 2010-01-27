@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.web.mobile.MobileContext;
 
@@ -140,15 +141,21 @@ public interface MapDelegate {
      *            mobileToEmsZoomConversionMap into the underlying
      *            MobilesEMSManager. This is bad from the MapDelegate caller's
      *            perspective as it isn't clear what values can be passed in.
+     * @param mapLayer
+     *            The {@link MapLayer} that should be rendered to produce the
+     *            map image.
      * @param mobileContext
      *            Context of the user that the map is being retrieved for.
      * @return {@link MapUrlHolder}. May not be null.
      */
     MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
-            final int zoomLevel, final MobileContext mobileContext);
+            final int zoomLevel, MapLayer mapLayer,
+            final MobileContext mobileContext);
 
     /**
-     * Manipulate an existing map, such as panning or zooming it.
+     * Manipulate an existing map, such as panning or zooming it, or changing
+     * the {@link MapLayer}. Note that to only change the {@link MapLayer}, you
+     * should set the mapManipulationAction parameter to {@link Action#NO_OP}.
      *
      * @param originalMapCentrePoint
      *            The original map centre that was passed to
@@ -162,6 +169,9 @@ public interface MapDelegate {
      *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)} or
      *            this
      *            {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}.
+     * @param mapLayer
+     *            The {@link MapLayer} that should be rendered to produce the
+     *            map image.
      * @param mapManipulationAction
      *            {@link Action} describing the type of manipulation to be
      *            performed.
@@ -170,7 +180,8 @@ public interface MapDelegate {
      * @return {@link MapUrlHolder}. May not be null.
      */
     MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
-            final MapUrl existingMapUrl, final Action mapManipulationAction,
+            final MapUrl existingMapUrl, MapLayer mapLayer,
+            final Action mapManipulationAction,
             final MobileContext mobileContext);
 
 }

@@ -2,6 +2,7 @@ package au.com.sensis.mobile.web.component.map.model;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
+import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 
 /**
@@ -30,10 +31,17 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
 
     }
 
+    private static final MapLayerTransformer MAP_LAYER_TRANSFORMER
+        = new MapLayerTransformer();
+
     private MapUrl mapUrl;
     private WGS84Point originalMapCentre;
+    private MapLayer mapLayer;
 
     private MapImageStatus mapImageStatus;
+
+    private boolean atMinimumZoom;
+    private boolean atMaximumZoom;
 
     /**
      * Private constructor. Use one of the create* factory methods instead (see
@@ -48,12 +56,21 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *            {@link MapImageStatus} indicating if the map image has been
      *            retrieved or whether this has been deferred to the client to
      *            do.
+     * @param atMinimumZoom
+     *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
+     * @param atMaximumZoom
+     *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
      */
     private MapUrlHolderImpl(final WGS84Point originalMapCentre,
-            final MapUrl mapUrl, final MapImageStatus mapImageStatus) {
+            final MapLayer mapLayer, final MapUrl mapUrl,
+            final MapImageStatus mapImageStatus, final boolean atMinimumZoom,
+            final boolean atMaximumZoom) {
         setOriginalMapCentre(originalMapCentre);
+        setMapLayer(mapLayer);
         setStatus(mapImageStatus);
         setMapUrl(mapUrl);
+        setAtMinimumZoom(atMinimumZoom);
+        setAtMaximumZoom(atMaximumZoom);
     }
 
     /**
@@ -63,15 +80,22 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *
      * @param originalMapCentre
      *            Original centre of the map.
+     * @param mapLayer {@link MapLayer} requested.
      * @param mapUrl
      *            {@link MapUrl} containing the retrieved map image.
+     * @param atMinimumZoom
+     *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
+     * @param atMaximumZoom
+     *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
      * @return an instance of this {@link MapUrlHolderImpl} for which
      *         {@link #isMapImageRetrieved()} is true.
      */
     public static MapUrlHolderImpl createMapRetrievedInstance(
-            final WGS84Point originalMapCentre, final MapUrl mapUrl) {
-        return new MapUrlHolderImpl(originalMapCentre, mapUrl,
-                MapImageStatus.MAP_IMAGE_RETRIEVED);
+            final WGS84Point originalMapCentre, final MapLayer mapLayer,
+            final MapUrl mapUrl, final boolean atMinimumZoom,
+            final boolean atMaximumZoom) {
+        return new MapUrlHolderImpl(originalMapCentre, mapLayer, mapUrl,
+                MapImageStatus.MAP_IMAGE_RETRIEVED, atMinimumZoom, atMaximumZoom);
     }
 
 
@@ -82,18 +106,26 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *
      * @param originalMapCentre
      *            Original centre of the map.
+     * @param mapLayer {@link MapLayer} requested.
      * @param zoomLevel
      *            Zoom level requested.
+     * @param atMinimumZoom
+     *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
+     * @param atMaximumZoom
+     *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
      * @return an instance of this {@link MapUrlHolderImpl} for which
      *         {@link #isMapImageRetrievalDeferredToClient()} is true.
      */
     public static MapUrlHolderImpl createMapRetrievalDeferrendInstance(
-            final WGS84Point originalMapCentre, final int zoomLevel) {
+            final WGS84Point originalMapCentre, final MapLayer mapLayer,
+            final int zoomLevel, final boolean atMinimumZoom,
+            final boolean atMaximumZoom) {
         final LocationMapUrl locationMapUrl = new LocationMapUrl();
         locationMapUrl.setMapCentre(originalMapCentre);
         locationMapUrl.setZoom(zoomLevel);
-        return new MapUrlHolderImpl(originalMapCentre, locationMapUrl,
-                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT);
+        return new MapUrlHolderImpl(originalMapCentre, mapLayer, locationMapUrl,
+                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT, atMinimumZoom,
+                atMaximumZoom);
     }
 
     /**
@@ -150,5 +182,77 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
         this.originalMapCentre = originalMapCentre;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isMapLayer() {
+        return MapLayer.Map.equals(getMapLayer());
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isPhotoLayer() {
+        return MapLayer.Photo.equals(getMapLayer());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isPhotoWithStreetsLayer() {
+        return MapLayer.PhotoWithStreets.equals(getMapLayer());
+    }
+
+    /**
+     * @param mapLayer the mapLayer to set
+     */
+    private void setMapLayer(final MapLayer mapLayer) {
+        this.mapLayer = mapLayer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isAtMaximumZoom() {
+        return atMaximumZoom;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isAtMinimumZoom() {
+        return atMinimumZoom;
+    }
+
+    /**
+     * @param atMinimumZoom the atMinimumZoom to set
+     */
+    public void setAtMinimumZoom(final boolean atMinimumZoom) {
+        this.atMinimumZoom = atMinimumZoom;
+    }
+
+    /**
+     * @param atMaximumZoom the atMaximumZoom to set
+     */
+    public void setAtMaximumZoom(final boolean atMaximumZoom) {
+        this.atMaximumZoom = atMaximumZoom;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public MapLayer getMapLayer() {
+        return mapLayer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getMapLayerShortCode() {
+        return getMapLayerTransformer().transformToShortCode(getMapLayer());
+    }
+
+    private static MapLayerTransformer getMapLayerTransformer() {
+        return MAP_LAYER_TRANSFORMER;
+    }
 }

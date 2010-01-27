@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.WGS84PointTestDataFactory;
+import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
 
@@ -37,7 +38,8 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
     public void testCreateMapRetrievedInstance() throws Throwable {
         final MapUrlHolder mapUrlHolder =
                 MapUrlHolderImpl.createMapRetrievedInstance(getWgs84Point1(),
-                        getMockMapUrl());
+                        MapLayer.Photo,
+                        getMockMapUrl(), true, false);
 
         Assert.assertTrue("isMapImageRetrieved() should be true", mapUrlHolder
                 .isMapImageRetrieved());
@@ -48,6 +50,15 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
                 .getMapUrl());
         Assert.assertEquals("originalMapCentre is wrong", getWgs84Point1(),
                 mapUrlHolder.getOriginalMapCentre());
+        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
+                mapUrlHolder.isPhotoWithStreetsLayer());
+
+        Assert.assertTrue("isAtMinimumZoom should be true",
+                mapUrlHolder.isAtMinimumZoom());
+        Assert.assertFalse("isAtMaximumZoom should be false",
+                mapUrlHolder.isAtMaximumZoom());
 
     }
 
@@ -55,7 +66,7 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
     public void testCreateMapRetrievalDeferrendInstance() throws Throwable {
         final MapUrlHolder mapUrlHolder =
                 MapUrlHolderImpl.createMapRetrievalDeferrendInstance(
-                        getWgs84Point1(), ZOOM_LEVEL);
+                        getWgs84Point1(), MapLayer.Map, ZOOM_LEVEL, false, true);
 
         Assert.assertFalse("isMapImageRetrieved() should be false",
                 mapUrlHolder.isMapImageRetrieved());
@@ -76,7 +87,32 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
 
         Assert.assertEquals("originalMapCentre is wrong", getWgs84Point1(),
                 mapUrlHolder.getOriginalMapCentre());
+        Assert.assertTrue("isMapLayer is wrong", mapUrlHolder.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
+                mapUrlHolder.isPhotoWithStreetsLayer());
 
+        Assert.assertFalse("isAtMinimumZoom should be false",
+                mapUrlHolder.isAtMinimumZoom());
+        Assert.assertTrue("isAtMaximumZoom should be true",
+                mapUrlHolder.isAtMaximumZoom());
+    }
+
+    @Test
+    public void testGetMapLayerShortCode() throws Throwable {
+        final MapLayer[] testValues =
+                { MapLayer.Map, MapLayer.Photo, MapLayer.PhotoWithStreets };
+        final String[] expectedValues = { "m", "p", "ps" };
+
+        for (int i = 0; i < testValues.length; i++) {
+            final MapUrlHolder mapUrlHolder =
+                    MapUrlHolderImpl.createMapRetrievedInstance(
+                            getWgs84Point1(), testValues[i], getMockMapUrl(),
+                            true, false);
+
+            Assert.assertEquals("MapLayer short code is wrong",
+                    expectedValues[i], mapUrlHolder.getMapLayerShortCode());
+        }
     }
 
     /**

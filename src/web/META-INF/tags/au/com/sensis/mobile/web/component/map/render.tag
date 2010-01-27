@@ -1,6 +1,7 @@
 <%@ tag body-content="empty" isELIgnored="false" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
 <%@ attribute name="mapUrlHolder" required="true"
@@ -19,9 +20,16 @@
     description="Pan east URL to be used for server side maps." %>
 <%@ attribute name="panWestUrl" required="true" 
     description="Pan west URL to be used for server side maps." %>
+<%@ attribute name="photoLayerUrl" required="true" 
+    description="URL to be used for generating photo layer server side maps." %>
+<%@ attribute name="mapLayerUrl" required="true" 
+    description="URL to be used for generating map layer server side maps." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
 <logging:info logger="${logger}" message="Entering render.tag" />
+
+<%-- Set the default resource bundle for the current tag file. --%>    
+<fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
     
 <c:choose>
     <c:when test="${not empty mapUrlHolder && mapUrlHolder.mapImageRetrievalDeferredToClient}">
@@ -56,35 +64,70 @@
         
                 <div class="mapControls">
         
-                    <div class="zoomControls">
-                        <a id="mapZoomInButton" href="${zoomInUrl}">
-                            <object src="/comp/map/images/furniture/mapInIcon.mimg" id="zoomInImage" />
-                        </a>
-        
-                        <a id="mapZoomOutButton" href="${zoomOutUrl}">
-                            <object src="/comp/map/images/furniture/mapOutIcon.mimg" id="zoomOutImage" />
-                        </a>
+                    <div id="mapZoomControls">
+                        <c:choose>
+                           <c:when test="${mapUrlHolder.atMinimumZoom}">
+                                <object src="/comp/map/images/furniture/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
+                           </c:when>
+                           <c:otherwise>
+                                <a id="mapZoomInButton" href="${zoomInUrl}" class="mapControl">
+                                    <object src="/comp/map/images/furniture/zoomIn.mimg" id="mapZoomInImage">+</object>
+                                </a>
+                           </c:otherwise>
+                        </c:choose>
+                        
+                        <c:choose>
+                           <c:when test="${mapUrlHolder.atMaximumZoom}">
+                                <object src="/comp/map/images/furniture/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
+                           </c:when>
+                           <c:otherwise>
+                                <a id="mapZoomOutButton" href="${zoomOutUrl}" class="mapControl">
+                                    <object src="/comp/map/images/furniture/zoomOut.mimg" id="mapZoomOutImage">-</object>
+                                </a>
+                           </c:otherwise>
+                        </c:choose>
                     </div>
+                    
         
-                    <div class="panControls">
-                        <a id="mapPanNorthButton" href="${panNorthUrl}">
-                            <object src="/comp/map/images/furniture/mapNorthIcon.mimg" id="moveNorthImage" />
+                    <div class="mapDirectionControls">
+                        <a id="mapPanNorthButton" href="${panNorthUrl}" class="mapControl">
+                            <object src="/comp/map/images/furniture/panNorth.mimg" id="mapPanNorthImage"> /\ </object>
                         </a>
         
-                        <a id="mapPanSouthButton" href="${panSouthUrl}">
-                            <object src="/comp/map/images/furniture/mapSouthIcon.mimg" id="moveSouthImage" />
+                        <a id="mapPanSouthButton" href="${panSouthUrl}" class="mapControl">
+                            <object src="/comp/map/images/furniture/panSouth.mimg" id="mapPanSouthImage"> \/ </object>
                         </a>
         
-                        <a id="mapPanWestButton" href="${panWestUrl}">
-                            <object src="/comp/map/images/furniture/mapWestIcon.mimg" id="moveEastImage" />
+                        <a id="mapPanWestButton" href="${panWestUrl}" class="mapControl">
+                            <object src="/comp/map/images/furniture/panWest.mimg" id="mapPanWestImage"> &#60; </object>
                         </a>
         
-                        <a id="mapPanEastButton" href="${panEastUrl}">
-                            <object src="/comp/map/images/furniture/mapEastIcon.mimg" id="moveWestImage" />
+                        <a id="mapPanEastButton" href="${panEastUrl}" class="mapControl">
+                            <object src="/comp/map/images/furniture/panEast.mimg" id="mapPanEastImage"> &#62; </object>
                         </a>
                     </div>
         
                 </div>
+                
+                <div id="viewControls">
+                    <c:choose>
+                        <c:when test="${mapUrlHolder.mapLayer}">
+                            <a href="${photoLayerUrl}">
+                                <object src="/comp/map/images/furniture/photoLayer.mimg">
+                                    <fmt:message key="comp.photoLayer.label"/>
+                                </object>
+                            </a>
+                        </c:when>
+                        <c:when test="${mapUrlHolder.photoLayer}">
+                            <a href="${mapLayerUrl}">
+                                <object src="/comp/map/images/furniture/mapLayer.mimg">
+                                    <fmt:message key="comp.mapLayer.label"/>
+                                </object>
+                            </a>
+                        </c:when>
+                    </c:choose>
+                </div>
+                
         
             </div>
         </c:if>

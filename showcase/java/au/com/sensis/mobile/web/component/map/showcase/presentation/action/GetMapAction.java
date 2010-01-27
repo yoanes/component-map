@@ -15,6 +15,7 @@ import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDe
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
 import au.com.sensis.mobile.web.testbed.ResultName;
 import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
+import au.com.sensis.wireless.manager.mapping.MapLayer;
 
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -49,7 +50,7 @@ public class GetMapAction extends BusinessAction implements
         // Example of how to use the MapDelegate to get an initial map.
         final MapUrlHolder mapUrlHolder =
                 getMapDelegate().retrieveInitialMap(addressToMap.getCoordinates(),
-                        getDefaultZoom(), getContext());
+                        getDefaultZoom(), MapLayer.Map, getContext());
         setMapUrlHolder(mapUrlHolder);
 
         if (logger.isDebugEnabled()) {
@@ -176,5 +177,4 @@ public class GetMapAction extends BusinessAction implements
     public void setMapDelegate(final MapDelegate mapDelegate) {
         this.mapDelegate = mapDelegate;
     }
-
 }

@@ -64,9 +64,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * {@inheritDoc}
      */
     public MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
-            final int zoomLevel, final MobileContext mobileContext) {
+            final int zoomLevel, final MapLayer mapLayer,
+            final MobileContext mobileContext) {
         if (clientWillRetrieveMapItself(mobileContext)) {
-            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre, zoomLevel);
+            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
+                    mapLayer, zoomLevel, isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         } else {
 
             // Construct PanZoomDetail with a null bounding box since this is
@@ -79,11 +81,21 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                             getScreenDimensionsStrategy()
                                     .createScreenDimensions(mobileContext),
                             mapCentre, MobilesIconType.CROSS_HAIR,
-                            MapLayer.Map, panZoomDetail,
+                            mapLayer, panZoomDetail,
                             mobileContext.asUserContext());
-            return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre, mapUrl);
+            return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre,
+                    mapLayer, mapUrl, isZoomLevelMin(mapUrl.getZoom()),
+                    isZoomLevelMax(mapUrl.getZoom()));
         }
 
+    }
+
+    private boolean isZoomLevelMax(final int zoomLevel) {
+        return getMaxZoom() == zoomLevel;
+    }
+
+    private boolean isZoomLevelMin(final int zoomLevel) {
+        return getMinZoom() == zoomLevel;
     }
 
     /**
@@ -104,7 +116,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * {@inheritDoc}
      */
     public MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
-            final MapUrl existingMapUrl,
+            final MapUrl existingMapUrl, final MapLayer mapLayer,
             final Action mapManipulationAction, final MobileContext mobileContext) {
 
         PanZoomDetail panZoomDetail;
@@ -129,10 +141,12 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 getScreenDimensionsStrategy()
                         .createScreenDimensions(mobileContext),
                         originalMapCentrePoint, MobilesIconType.CROSS_HAIR,
-                MapLayer.Map, panZoomDetail,
+                mapLayer, panZoomDetail,
                 mobileContext.asUserContext());
         return MapUrlHolderImpl.createMapRetrievedInstance(
-                originalMapCentrePoint, mapUrl);
+                originalMapCentrePoint, mapLayer, mapUrl,
+                isZoomLevelMin(mapUrl.getZoom()),
+                isZoomLevelMax(mapUrl.getZoom()));
     }
 
     private UserMapInteraction transformPanActionToUserMapInteraction(

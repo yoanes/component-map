@@ -28,32 +28,72 @@
     </s:url>
 
     <s:url id="zoomInUrl" value="%{browseMapUrl}" includeContext="false">
+        <%--
+          - Specific lyr here since we need a specific value for photoLayerUrl 
+          - and mapLayerUrl below. 
+          --%>
+        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />
         <s:param name="act" value="%{'mzi'}" />
     </s:url>
 
     <s:url id="zoomOutUrl" value="%{browseMapUrl}" includeContext="false">
+        <%--
+          - Specific lyr here since we need a specific value for photoLayerUrl 
+          - and mapLayerUrl below. 
+          --%>
+        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />
         <s:param name="act" value="%{'mzo'}" />
     </s:url>
     
-    <s:url id="moveNorthUrl" value="%{browseMapUrl}" includeContext="false">
+    <s:url id="panNorthUrl" value="%{browseMapUrl}" includeContext="false">
+        <%--
+          - Specific lyr here since we need a specific value for photoLayerUrl 
+          - and mapLayerUrl below. 
+          --%>
+        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
         <s:param name="act" value="%{'mpn'}" />
     </s:url>
 
-    <s:url id="moveSouthUrl" value="%{browseMapUrl}" includeContext="false">
+    <s:url id="panSouthUrl" value="%{browseMapUrl}" includeContext="false">
+        <%--
+          - Specific lyr here since we need a specific value for photoLayerUrl 
+          - and mapLayerUrl below. 
+          --%>
+        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
         <s:param name="act" value="%{'mps'}" />
     </s:url>
 
-    <s:url id="moveWestUrl" value="%{browseMapUrl}" includeContext="false">
+    <s:url id="panWestUrl" value="%{browseMapUrl}" includeContext="false">
+        <%--
+          - Specific lyr here since we need a specific value for photoLayerUrl 
+          - and mapLayerUrl below. 
+          --%>
+        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
         <s:param name="act" value="%{'mpw'}" />
     </s:url>
 
-    <s:url id="moveEastUrl" value="%{browseMapUrl}" includeContext="false">
+    <s:url id="panEastUrl" value="%{browseMapUrl}" includeContext="false">
+        <%--
+          - Specific lyr here since we need a specific value for photoLayerUrl 
+          - and mapLayerUrl below. 
+          --%>
+        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
         <s:param name="act" value="%{'mpe'}" />
     </s:url>
-        
+    
+    <s:url id="photoLayerUrl" value="%{browseMapUrl}" includeContext="false">
+        <s:param name="lyr" value="%{'p'}" />
+        <%-- No action required here because we are not panning or zooming.--%>
+    </s:url>
+    
+    <s:url id="mapLayerUrl" value="%{browseMapUrl}" includeContext="false">
+        <s:param name="lyr" value="%{'m'}" />
+        <%-- No action required here because we are not panning or zooming.--%>
+    </s:url>
 
     Map goes here:
     <map:render mapUrlHolder="${mapUrlHolder}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
-        panNorthUrl="${moveNorthUrl}" panSouthUrl="${moveSouthUrl}"
-        panEastUrl="${moveEastUrl}" panWestUrl="${moveWestUrl}"/>
+        panNorthUrl="${panNorthUrl}" panSouthUrl="${panSouthUrl}"
+        panEastUrl="${panEastUrl}" panWestUrl="${panWestUrl}"
+        photoLayerUrl="${photoLayerUrl}" mapLayerUrl="${mapLayerUrl}"/>
 </div>

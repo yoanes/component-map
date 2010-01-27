@@ -2,7 +2,9 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.form;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
+import au.com.sensis.mobile.web.component.map.model.MapLayerTransformer;
 import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
+import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 
@@ -24,6 +26,8 @@ public class ManipulateMapForm {
     private Double boundingBoxBottomRightLongitude;
     private int zoomLevel;
 
+    private String mapLayer;
+
     /**
      * Parameter that indicates the action being performed, where the valid values correspond to
      * {@link Action}. Convert to a real {@link Action} via {@link Action#fromValue(String)}. May be
@@ -31,6 +35,8 @@ public class ManipulateMapForm {
      */
     private String action;
 
+    private static final MapLayerTransformer MAP_LAYER_TRANSFORMER
+        = new MapLayerTransformer();
 
     /**
      * @return  the centreLatitude.
@@ -363,6 +369,47 @@ public class ManipulateMapForm {
 
         setOriginalCentreLongitude(originalCentreLongitude);
     }
+
+
+    /**
+     * @return the mapLayer
+     */
+    public MapLayer getMapLayer() {
+        return getMapLayerTransformer().transformFromShortCode(
+                getMapLayerAsString());
+    }
+
+
+    /**
+     * @param mapLayer the mapLayer to set
+     */
+    public void setMapLayerAsString(final String mapLayer) {
+        this.mapLayer = mapLayer;
+    }
+
+    /**
+     * @return the mapLayer
+     */
+    public String getMapLayerAsString() {
+        return mapLayer;
+    }
+
+    /**
+     * Shorthand for {@link #setMapLayer(String)}.
+     * @param mapLayer the mapLayer to set
+     */
+    public void setLyr(final String mapLayer) {
+        setMapLayerAsString(mapLayer);
+    }
+
+
+    /**
+     * @return the mapLayerTransformer
+     */
+    private static MapLayerTransformer getMapLayerTransformer() {
+        return MAP_LAYER_TRANSFORMER;
+    }
+
 
 
 }
