@@ -338,12 +338,17 @@ EMS.Control.Resizer = new Class({
 		);	
 		
 		layerDiv.innerHTML = "RR";
-		$(layerDiv).addEvent('click', function(e) { this.doMapResize(); return false;}.bind(this));
+		$(layerDiv).addEvent('click', function(e) { this.rePosition(); this.doMapResize(); return false;}.bind(this));
 		this.div = layerDiv;
 
 		this.map.div.parentNode.appendChild(this.div);
 		
 		this.map.div.onorientationchange = this.redraw.bind(this); 
+	},
+	
+	rePosition: function() {
+		var node = this.map.div.parentNode;
+		window.scroll(0, OpenLayers.Util.docPosition(node)[1]);
 	},
 	
 	doMapResize: function() {
