@@ -18,6 +18,7 @@ import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
  */
 public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
 
+    private static final int EMS_ZOOM_LEVEL = 16;
     private static final int ZOOM_LEVEL = 5;
     private WGS84PointTestDataFactory wgs84PointTestDataFactory;
     private WGS84Point wgs84Point1;
@@ -39,7 +40,7 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
         final MapUrlHolder mapUrlHolder =
                 MapUrlHolderImpl.createMapRetrievedInstance(getWgs84Point1(),
                         MapLayer.Photo,
-                        getMockMapUrl(), true, false);
+                        getMockMapUrl(), EMS_ZOOM_LEVEL, true, false);
 
         Assert.assertTrue("isMapImageRetrieved() should be true", mapUrlHolder
                 .isMapImageRetrieved());
@@ -55,6 +56,9 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
                 mapUrlHolder.isPhotoWithStreetsLayer());
 
+        Assert.assertEquals("EMS zoom is wrong", EMS_ZOOM_LEVEL,
+                mapUrlHolder.getEmsZoom());
+
         Assert.assertTrue("isAtMinimumZoom should be true",
                 mapUrlHolder.isAtMinimumZoom());
         Assert.assertFalse("isAtMaximumZoom should be false",
@@ -66,7 +70,8 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
     public void testCreateMapRetrievalDeferrendInstance() throws Throwable {
         final MapUrlHolder mapUrlHolder =
                 MapUrlHolderImpl.createMapRetrievalDeferrendInstance(
-                        getWgs84Point1(), MapLayer.Map, ZOOM_LEVEL, false, true);
+                        getWgs84Point1(), MapLayer.Map, ZOOM_LEVEL, EMS_ZOOM_LEVEL,
+                        false, true);
 
         Assert.assertFalse("isMapImageRetrieved() should be false",
                 mapUrlHolder.isMapImageRetrieved());
@@ -92,6 +97,9 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
                 mapUrlHolder.isPhotoWithStreetsLayer());
 
+        Assert.assertEquals("EMS zoom is wrong", EMS_ZOOM_LEVEL,
+                mapUrlHolder.getEmsZoom());
+
         Assert.assertFalse("isAtMinimumZoom should be false",
                 mapUrlHolder.isAtMinimumZoom());
         Assert.assertTrue("isAtMaximumZoom should be true",
@@ -108,7 +116,7 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
             final MapUrlHolder mapUrlHolder =
                     MapUrlHolderImpl.createMapRetrievedInstance(
                             getWgs84Point1(), testValues[i], getMockMapUrl(),
-                            true, false);
+                            EMS_ZOOM_LEVEL, true, false);
 
             Assert.assertEquals("MapLayer short code is wrong",
                     expectedValues[i], mapUrlHolder.getMapLayerShortCode());

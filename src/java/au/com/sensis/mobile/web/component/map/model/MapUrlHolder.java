@@ -102,4 +102,14 @@ public interface MapUrlHolder {
      */
     String getMapLayerShortCode();
 
+    /**
+     * Returns the EMS zoom that the map was/is to be rendered using.
+     * Required by AJAX maps that talk to EMS directly.
+     *
+     * @return the EMS zoom that the map was/is to be rendered using.
+     * Required by AJAX maps that talk to EMS directly.
+     *
+     * TODO: This method should possibly be moved into the {@link MapUrl}.
+     */
+    int getEmsZoom();
 }

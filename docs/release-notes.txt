@@ -1,3 +1,8 @@
+==== Version 1.0.13 (tag: map_v1_0_13) ====
+
+Initial zoom level for the hi end JavaScript maps (set up in setup.tag) now correctly
+uses the EMS zoom level instead of the Mobiles zoom level.
+
 ==== Version 1.0.12 (tag: map_v1_0_12) ====
 
 MapDelegate methods for obtaining a map of a location, now accept a MobilesIconType.

@@ -43,6 +43,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     private WGS84Point point3;
 
     private static final int ZOOM_LEVEL = 5;
+    private static final int EMS_ZOOM_LEVEL = 16;
 
     private MobileContext mockMobileContext;
     private UserContext mockUserContext;
@@ -115,6 +116,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         MapLayer.PhotoWithStreets, panZoomDetail,
                         getMockUserContext())).andReturn(
                 getMockMapUrl());
+        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(ZOOM_LEVEL))
+            .andReturn(EMS_ZOOM_LEVEL);
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
 
@@ -139,6 +142,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 mapUrlHolder.isAtMinimumZoom());
         Assert.assertFalse("isAtMaximumZoom() should be false",
                 mapUrlHolder.isAtMaximumZoom());
+
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
+                mapUrlHolder.getEmsZoom());
 
     }
 
@@ -227,6 +233,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
             .atLeastOnce();
 
+        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
+            .andReturn(EMS_ZOOM_LEVEL);
+
         replay();
 
         final MapUrlHolder mapUrlHolder =
@@ -250,6 +259,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 newZoomLevel == MIN_ZOOM, mapUrlHolder.isAtMinimumZoom());
         Assert.assertEquals("isAtMaximumZoom() is wrong",
                 newZoomLevel == MAX_ZOOM, mapUrlHolder.isAtMaximumZoom());
+
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
+                mapUrlHolder.getEmsZoom());
     }
 
     /**

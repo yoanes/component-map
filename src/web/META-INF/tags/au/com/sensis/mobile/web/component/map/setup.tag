@@ -35,7 +35,7 @@
             var MEMS = new MobEMS('mapWindow', {
                 'longitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.longitude}"/>, 
                 'latitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.latitude}"/>, 
-                'zoom': <c:out value="${mapUrlHolder.mapUrl.zoom}"/>
+                'zoom': <c:out value="${mapUrlHolder.emsZoom}"/>
                 });
         }
     </core:script>

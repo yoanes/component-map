@@ -66,9 +66,12 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     public MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
             final MobileContext mobileContext) {
+
+        final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
         if (clientWillRetrieveMapItself(mobileContext)) {
             return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
-                    mapLayer, zoomLevel, isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
+                    mapLayer, zoomLevel, emsZoomLevel,
+                    isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         } else {
 
             // Construct PanZoomDetail with a null bounding box since this is
@@ -84,7 +87,8 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                             mapLayer, panZoomDetail,
                             mobileContext.asUserContext());
             return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre,
-                    mapLayer, mapUrl, isZoomLevelMin(mapUrl.getZoom()),
+                    mapLayer, mapUrl, emsZoomLevel,
+                    isZoomLevelMin(mapUrl.getZoom()),
                     isZoomLevelMax(mapUrl.getZoom()));
         }
 
@@ -144,9 +148,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                         originalMapCentrePoint, originalCentreIconType,
                 mapLayer, panZoomDetail,
                 mobileContext.asUserContext());
+        final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
+                panZoomDetail.getZoom());
         return MapUrlHolderImpl.createMapRetrievedInstance(
                 originalMapCentrePoint, mapLayer, mapUrl,
-                isZoomLevelMin(mapUrl.getZoom()),
+                emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                 isZoomLevelMax(mapUrl.getZoom()));
     }
 

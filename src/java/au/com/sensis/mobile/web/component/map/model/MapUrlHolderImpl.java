@@ -40,6 +40,12 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
 
     private MapImageStatus mapImageStatus;
 
+    /**
+     * Zoom level that {@link MapUrl#getZoom()} corresponds to.
+     * Required by AJAX maps that talk to EMS directly.
+     */
+    private int emsZoom;
+
     private boolean atMinimumZoom;
     private boolean atMaximumZoom;
 
@@ -56,6 +62,9 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *            {@link MapImageStatus} indicating if the map image has been
      *            retrieved or whether this has been deferred to the client to
      *            do.
+     * @param emsZoom
+     *            the EMS zoom that the map was/is to be rendered using.
+     *            Required by AJAX maps that talk to EMS directly.
      * @param atMinimumZoom
      *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
      * @param atMaximumZoom
@@ -63,12 +72,13 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      */
     private MapUrlHolderImpl(final WGS84Point originalMapCentre,
             final MapLayer mapLayer, final MapUrl mapUrl,
-            final MapImageStatus mapImageStatus, final boolean atMinimumZoom,
-            final boolean atMaximumZoom) {
+            final MapImageStatus mapImageStatus, final int emsZoom,
+            final boolean atMinimumZoom, final boolean atMaximumZoom) {
         setOriginalMapCentre(originalMapCentre);
         setMapLayer(mapLayer);
         setStatus(mapImageStatus);
         setMapUrl(mapUrl);
+        setEmsZoom(emsZoom);
         setAtMinimumZoom(atMinimumZoom);
         setAtMaximumZoom(atMaximumZoom);
     }
@@ -83,6 +93,9 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      * @param mapLayer {@link MapLayer} requested.
      * @param mapUrl
      *            {@link MapUrl} containing the retrieved map image.
+     * @param emsZoom
+     *            the EMS zoom that the map was/is to be rendered using.
+     *            Required by AJAX maps that talk to EMS directly.
      * @param atMinimumZoom
      *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
      * @param atMaximumZoom
@@ -92,10 +105,10 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      */
     public static MapUrlHolderImpl createMapRetrievedInstance(
             final WGS84Point originalMapCentre, final MapLayer mapLayer,
-            final MapUrl mapUrl, final boolean atMinimumZoom,
+            final MapUrl mapUrl, final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
         return new MapUrlHolderImpl(originalMapCentre, mapLayer, mapUrl,
-                MapImageStatus.MAP_IMAGE_RETRIEVED, atMinimumZoom, atMaximumZoom);
+                MapImageStatus.MAP_IMAGE_RETRIEVED, emsZoom, atMinimumZoom, atMaximumZoom);
     }
 
 
@@ -109,6 +122,9 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      * @param mapLayer {@link MapLayer} requested.
      * @param zoomLevel
      *            Zoom level requested.
+     * @param emsZoom
+     *            the EMS zoom that the map was/is to be rendered using.
+     *            Required by AJAX maps that talk to EMS directly.
      * @param atMinimumZoom
      *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
      * @param atMaximumZoom
@@ -118,14 +134,14 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      */
     public static MapUrlHolderImpl createMapRetrievalDeferrendInstance(
             final WGS84Point originalMapCentre, final MapLayer mapLayer,
-            final int zoomLevel, final boolean atMinimumZoom,
+            final int zoomLevel, final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
         final LocationMapUrl locationMapUrl = new LocationMapUrl();
         locationMapUrl.setMapCentre(originalMapCentre);
         locationMapUrl.setZoom(zoomLevel);
         return new MapUrlHolderImpl(originalMapCentre, mapLayer, locationMapUrl,
-                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT, atMinimumZoom,
-                atMaximumZoom);
+                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT,
+                emsZoom, atMinimumZoom, atMaximumZoom);
     }
 
     /**
@@ -254,5 +270,19 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
 
     private static MapLayerTransformer getMapLayerTransformer() {
         return MAP_LAYER_TRANSFORMER;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getEmsZoom() {
+        return emsZoom;
+    }
+
+    /**
+     * @param emsZoom the emsZoom to set
+     */
+    private void setEmsZoom(final int emsZoom) {
+        this.emsZoom = emsZoom;
     }
 }
