@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://mobile.sensis.com.au/web/component/map/device"
+    xmlns:dev="http://mobile.sensis.com.au/web/component/core/device"
+    targetNamespace="http://mobile.sensis.com.au/web/component/map/device"
+    elementFormDefault="unqualified" attributeFormDefault="unqualified"
+    version="1.0">
+
+    <xs:annotation>
+        <xs:documentation>
+            Schema for defining file bundles that are be created by concatenating sets of files.
+            For example, using for defining JavaScript bundles. 
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://mobile.sensis.com.au/web/component/core/device"
+        schemaLocation="au.com.sensis.mobile.web.component.core.device.xsd" />
+
+    <!-- ================================================================== -->
+    
+    <xs:complexType name="DeviceConfigType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines a set of bundles.
+            </xs:documentation>
+        </xs:annotation>
+        
+        <xs:complexContent>
+            <xs:extension base="dev:DeviceConfigType">
+                <xs:sequence>
+                    <xs:element name="generateServerSideMap" type="xs:boolean" 
+                        minOccurs="1" maxOccurs="1" default="true"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+</xs:schema>

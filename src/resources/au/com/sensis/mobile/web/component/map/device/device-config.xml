@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:deviceConfigs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:core="http://mobile.sensis.com.au/web/component/core/device"
+    xmlns:map="http://mobile.sensis.com.au/web/component/map/device"
+    xsi:schemaLocation="http://mobile.sensis.com.au/web/component/map/device au.com.sensis.mobile.web.component.map.device.xsd
+        http://mobile.sensis.com.au/web/component/core/device au.com.sensis.mobile.web.component.core.device.xsd">
+
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>Apple</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>    
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>Apple-iPhone</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>    
+</core:deviceConfigs>

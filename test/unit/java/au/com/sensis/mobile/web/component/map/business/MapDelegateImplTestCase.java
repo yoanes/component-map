@@ -7,10 +7,13 @@ import org.junit.Test;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.WGS84PointTestDataFactory;
+import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.ScreenDimensionsStrategy;
+import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
 import au.com.sensis.sal.common.UserContext;
+import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
 import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
@@ -53,6 +56,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     private ScreenDimensionsStrategy mockScreenDimensionsStrategy;
     private ScreenDimensions mockScreenDimensions;
     private MobilesBoundingBox mockMobilesBoundingBox;
+    private DeviceConfigRegistry<DeviceConfigType> mockDeviceConfigRegistry;
+    private Device mockDevice;
+    private DeviceConfigType deviceConfigType;
 
     /**
      * Setup test data.
@@ -66,9 +72,12 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         setPoint2(getWgs84PointTestDataFactory().createValidWGS84Point2());
         setPoint3(getWgs84PointTestDataFactory().createValidWGS84Point3());
 
+        setDeviceConfigType(new DeviceConfigType());
+
         setObjectUnderTest(new MapDelegateImpl());
         getObjectUnderTest().setScreenDimensionsStrategy(getMockScreenDimensionsStrategy());
         getObjectUnderTest().setEmsManager(getMockEmsManager());
+        getObjectUnderTest().setDeviceConfigRegistry(getMockDeviceConfigRegistry());
 
         // TODO: There has to be a better way of validating the zoom. See
         // MapDelegate.retrieveInitialMap comments.
@@ -96,7 +105,18 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testRetrieveInitialMapWhenClientWillNotRetrieveMapItself() throws Throwable {
+    public void testRetrieveInitialMapWhenServerSideMapShouldBeGenerated() throws Throwable {
+
+        getDeviceConfigType().setGenerateServerSideMap(true);
+
+        EasyMock.expect(getMockMobileContext().getDevice())
+            .andReturn(getMockDevice()).atLeastOnce();
+        EasyMock.expect(getMockDeviceConfigRegistry().getDeviceConfig(getMockDevice()))
+            .andReturn(getDeviceConfigType());
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
@@ -132,6 +152,56 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 .isMapImageRetrieved());
         Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
                 mapUrlHolder.getMapUrl());
+        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
+                mapUrlHolder.getOriginalMapCentre());
+        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertTrue("isPhotoWithStreetsLayer is wrong",
+                mapUrlHolder.isPhotoWithStreetsLayer());
+        Assert.assertFalse("isAtMinimumZoom() should be false",
+                mapUrlHolder.isAtMinimumZoom());
+        Assert.assertFalse("isAtMaximumZoom() should be false",
+                mapUrlHolder.isAtMaximumZoom());
+
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
+                mapUrlHolder.getEmsZoom());
+
+    }
+
+    @Test
+    public void testRetrieveInitialMapWhenServerSideMapShouldNotBeGenerated() throws Throwable {
+
+        getDeviceConfigType().setGenerateServerSideMap(false);
+
+        EasyMock.expect(getMockMobileContext().getDevice())
+            .andReturn(getMockDevice()).atLeastOnce();
+        EasyMock.expect(getMockDeviceConfigRegistry().getDeviceConfig(getMockDevice()))
+            .andReturn(getDeviceConfigType());
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(ZOOM_LEVEL))
+            .andReturn(EMS_ZOOM_LEVEL);
+
+        replay();
+
+        final MapUrlHolder mapUrlHolder =
+                getObjectUnderTest().retrieveInitialMap(getPoint1(),
+                        ZOOM_LEVEL, MapLayer.PhotoWithStreets,
+                        MobilesIconType.CROSS_HAIR, getMockMobileContext());
+
+        Assert.assertFalse("isMapImageRetrieved() should be false", mapUrlHolder
+                .isMapImageRetrieved());
+
+        Assert.assertNotNull("mapUrlHolder should have non-null mapUrl",
+                mapUrlHolder.getMapUrl());
+        Assert.assertEquals("mapUrl has wrong mapCentre", getPoint1(),
+                mapUrlHolder.getMapUrl().getMapCentre());
+        Assert.assertEquals("mapUrl has wrong zoom", ZOOM_LEVEL,
+                mapUrlHolder.getMapUrl().getZoom());
+
         Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
                 mapUrlHolder.getOriginalMapCentre());
         Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
@@ -447,5 +517,48 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
      */
     public void setPoint3(final WGS84Point point3) {
         this.point3 = point3;
+    }
+
+    /**
+     * @return the mockDeviceConfigRegistry
+     */
+    public DeviceConfigRegistry<DeviceConfigType> getMockDeviceConfigRegistry() {
+        return mockDeviceConfigRegistry;
+    }
+
+    /**
+     * @param mockDeviceConfigRegistry the mockDeviceConfigRegistry to set
+     */
+    public void setMockDeviceConfigRegistry(
+            final DeviceConfigRegistry<DeviceConfigType> mockDeviceConfigRegistry) {
+        this.mockDeviceConfigRegistry = mockDeviceConfigRegistry;
+    }
+
+    /**
+     * @return the mockDevice
+     */
+    public Device getMockDevice() {
+        return mockDevice;
+    }
+
+    /**
+     * @param mockDevice the mockDevice to set
+     */
+    public void setMockDevice(final Device mockDevice) {
+        this.mockDevice = mockDevice;
+    }
+
+    /**
+     * @return the deviceConfigType
+     */
+    public DeviceConfigType getDeviceConfigType() {
+        return deviceConfigType;
+    }
+
+    /**
+     * @param deviceConfigType the deviceConfigType to set
+     */
+    public void setDeviceConfigType(final DeviceConfigType deviceConfigType) {
+        this.deviceConfigType = deviceConfigType;
     }
 }

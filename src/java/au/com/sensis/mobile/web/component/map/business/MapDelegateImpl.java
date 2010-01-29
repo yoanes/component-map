@@ -4,6 +4,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import au.com.sensis.address.WGS84Point;
+import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
+import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolderImpl;
 import au.com.sensis.wireless.manager.ems.EMSManager;
@@ -29,6 +31,8 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     private EMSManager emsManager;
 
     private ScreenDimensionsStrategy screenDimensionsStrategy;
+
+    private DeviceConfigRegistry<DeviceConfigType> deviceConfigRegistry;
 
     private int minZoom;
     private int maxZoom;
@@ -58,6 +62,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         ValidatableUtils.validateObjectIsNotNull(getEmsManager(), "emsManager");
         ValidatableUtils.validateObjectIsNotNull(getScreenDimensionsStrategy(),
                 "screenDimensionsStrategy");
+        // TODO: validate new deviceConfigRegistry
     }
 
     /**
@@ -68,11 +73,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MobileContext mobileContext) {
 
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
-        if (clientWillRetrieveMapItself(mobileContext)) {
-            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
-                    mapLayer, zoomLevel, emsZoomLevel,
-                    isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
-        } else {
+        if (deviceNeedsServerSideMapGenerated(mobileContext)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will retrieve map for device: "
+                        + mobileContext.getDevice().getName());
+            }
 
             // Construct PanZoomDetail with a null bounding box since this is
             // the initial map retrieval.
@@ -90,8 +95,30 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                     mapLayer, mapUrl, emsZoomLevel,
                     isZoomLevelMin(mapUrl.getZoom()),
                     isZoomLevelMax(mapUrl.getZoom()));
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will NOT retrieve map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
+                    mapLayer, zoomLevel, emsZoomLevel,
+                    isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         }
 
+    }
+
+    /**
+     * @return True if the device needs the server to generate the map. Some
+     *         clients are able to retrieve the map themselves by talking to EMS
+     *         directly and then displaying a really funky AJAX enabled map.
+     */
+    private boolean deviceNeedsServerSideMapGenerated(
+            final MobileContext mobileContext) {
+        final DeviceConfigType deviceConfigType =
+                getDeviceConfigRegistry().getDeviceConfig(
+                        mobileContext.getDevice());
+        return deviceConfigType.isGenerateServerSideMap();
     }
 
     private boolean isZoomLevelMax(final int zoomLevel) {
@@ -100,20 +127,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
     private boolean isZoomLevelMin(final int zoomLevel) {
         return getMinZoom() == zoomLevel;
-    }
-
-    /**
-     * @return True if the client will retrieve the map itself.
-     */
-    private boolean clientWillRetrieveMapItself(
-            final MobileContext mobileContext) {
-        // TODO: implement this method in future if we need to avoid the server
-        // side map retrieval for phones that can retrieve the map themselves.
-        // At the moment, the server will always retrieve the map and
-        // the client will then replace it with an enhanced map. This approach
-        // allows the application to degrade gracefully if the client device has
-        // JavaScript disabled.
-        return false;
     }
 
     /**
@@ -261,5 +274,22 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final ScreenDimensionsStrategy screenDimensionsStrategy) {
         this.screenDimensionsStrategy = screenDimensionsStrategy;
     }
+
+    /**
+     * @return the deviceConfigRegistry
+     */
+    public DeviceConfigRegistry<DeviceConfigType> getDeviceConfigRegistry() {
+        return deviceConfigRegistry;
+    }
+
+    /**
+     * @param deviceConfigRegistry the deviceConfigRegistry to set
+     */
+    public void setDeviceConfigRegistry(
+            final DeviceConfigRegistry<DeviceConfigType> deviceConfigRegistry) {
+        this.deviceConfigRegistry = deviceConfigRegistry;
+    }
+
+
 
 }

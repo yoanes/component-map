@@ -34,5 +34,26 @@
         
         <property name="minZoom" value="@{map.comp.maps.minZoom}" />
         <property name="maxZoom" value="@{map.comp.maps.maxZoom}" />
+        
+        <property name="deviceConfigRegistry">
+            <ref local="map.comp.deviceConfigRegistry"/>
+        </property>
+    </bean>
+    
+    <bean id="map.comp.deviceConfigRegistry"
+        class="au.com.sensis.mobile.web.component.map.device.MapDeviceConfigRegistry">
+        <constructor-arg index="0" value="/au/com/sensis/mobile/web/component/map/device/device-config.xml"/>
+        <constructor-arg index="1">
+            <bean class="au.com.sensis.wireless.common.utils.jaxb.JaxbXMLBinderImpl">
+                <constructor-arg index="0" value="au.com.sensis.mobile.web.component.map.device.generated:au.com.sensis.mobile.web.component.core.device.generated"/>
+                <property name="validationEnabled" value="true"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2">
+            <bean class="au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType">
+                <property name="deviceId" value="DefaultDevice"/>
+                <property name="generateServerSideMap" value="true"/>
+            </bean>
+        </constructor-arg>
     </bean>
 </beans>
