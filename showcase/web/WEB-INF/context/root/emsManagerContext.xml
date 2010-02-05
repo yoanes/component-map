@@ -15,6 +15,7 @@
         <property name="mapComponentCreator" ref="mapComponentCreator"/>
         <property name="directionsComponentCreator" ref="directionsComponentCreator"/>
         <property name="mobileToEmsZoomConversionMap"><ref local="mobileToEmsZoomConversionMap"/></property>
+        <property name="emsToMobileZoomConversionMap"><ref local="emsToMobileZoomConversionMap"/></property>
         <property name="defaultZoomLevel"><value>${app.service.location.defaultZoomLevel}</value></property>
         <property name="mapUrlTransformerImplChooserMap" ref="mapUrlTransformerImplChooserMap"/>
         <property name="stepMapHeightPercentage"><value>${app.directions.step.stepMapHeightPercentage}</value></property>
@@ -471,7 +472,7 @@
       - Conversion map that maps Mobile zoomlevels from 1 (max out) to 10 (max in) to EMS zoom
       - levels 1 (max in) to 16 (max out).
       -->
-    <bean id="mobileToEmsZoomConversionMap" class="java.util.HashMap">
+    <bean id="mobileToEmsZoomConversionMap" class="java.util.TreeMap">
         <constructor-arg>
             <map>
                 <!--   mobile value          ems value  -->
@@ -513,7 +514,7 @@
       - Conversion map that maps EMS zoomlevels from 1 (max out) to 16 (max in) to Mobile zoom
       - levels 1 (max in) to 10 (max out).
       -->
-    <bean id="emsToMobileZoomConversionMap" class="java.util.HashMap">
+    <bean id="emsToMobileZoomConversionMap" class="java.util.TreeMap">
         <constructor-arg>
             <map>
                 <!--     ems value          mobile value  -->

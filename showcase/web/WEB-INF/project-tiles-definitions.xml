@@ -26,21 +26,42 @@
     </definition>
 
     <!-- ======================================================================================= -->
-    <!-- Map                                                                                     -->
+    <!-- Map a location.                                                                         -->
     <!-- ======================================================================================= -->
     
-    <definition name="map.component.home" extends="map.component.base">
+    <definition name="map.component.map" extends="map.component.base">
 
         <put-attribute name="componentSetup" value="/WEB-INF/view/common/jsp/componentSetup.jsp"/>
         <put-attribute name="xform" value="/WEB-INF/view/map/jsp/mapXform.jsp"/>
-        <put-attribute name="body" value="map.component.body"/>
+        <put-attribute name="body" value="map.component.mapAndForm"/>
     </definition>
     
-    <definition name="map.component.body" template="/WEB-INF/view/map/layout/mapBodyLayout.jsp">
-
+    <definition name="map.component.mapAndForm" template="/WEB-INF/view/map/layout/mapAndFormLayout.jsp">
         <put-attribute name="mapForm" value="/WEB-INF/view/map/jsp/mapForm.jsp"/>
-        <put-attribute name="map" value="/WEB-INF/view/map/jsp/map.jsp"/>
+        <put-attribute name="map" value="map.component.mapAndControls"/>
+    </definition>
+    
+    <definition name="map.component.mapAndControls" template="/WEB-INF/view/map/layout/mapAndControlsLayout.jsp">
+        <put-attribute name="mapControlsActionName" value="manMap"/>
     </definition>
 
+    <!-- ======================================================================================= -->
+    <!-- POIs.                                                                                   -->
+    <!-- ======================================================================================= -->
+    
+    <definition name="map.component.pois" extends="map.component.base">
+        <put-attribute name="componentSetup" value="/WEB-INF/view/common/jsp/componentSetup.jsp"/>
+        <put-attribute name="xform" value="/WEB-INF/view/map/jsp/mapXform.jsp"/>
+        <put-attribute name="body" value="map.component.poisAndForm"/>
+    </definition>
+    
+    <definition name="map.component.poisAndForm" template="/WEB-INF/view/map/layout/mapAndFormLayout.jsp">
+        <put-attribute name="mapForm" value="/WEB-INF/view/map/jsp/mapForm.jsp"/>
+        <put-attribute name="map" value="map.component.poisAndControls"/>
+    </definition>
+
+    <definition name="map.component.poisAndControls" template="/WEB-INF/view/map/layout/mapAndControlsLayout.jsp">
+        <put-attribute name="mapControlsActionName" value="manPoiMap"/>
+    </definition>
 
 </tiles-definitions>

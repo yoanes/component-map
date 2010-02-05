@@ -9,7 +9,7 @@
 
         <!-- Home Page Action -->
         <action name="home" class="homeAction">
-            <result name="success" type="tiles">map.component.home</result>
+            <result name="success" type="tiles">map.component.map</result>
         </action>
 
     </package>

@@ -2,33 +2,33 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 
 import org.apache.log4j.Logger;
 
-import au.com.sensis.address.GeocodedAddress;
+import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
-import au.com.sensis.mobile.web.component.map.service.LocationManager;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
 import au.com.sensis.mobile.web.testbed.ResultName;
 import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
-import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 
 import com.opensymphony.xwork2.ModelDriven;
 
 /**
- * Demonstrates how to get an initial map using the {@link MapDelegate}.
+ * Demonstrates how to get an initial POI map using the {@link MapDelegate}.
  *
  * @author Adrian.Koh2@sensis.com.au
  */
-public class GetMapAction extends BusinessAction implements
+public class GetPoisAction extends BusinessAction implements
         ModelDriven<MapForm> {
 
-    private static Logger logger = Logger.getLogger(GetMapAction.class);
+    private static final WGS84Point MELBOURCE_VIC_COORDINATES
+        = new WGS84Point(144.9628322, -37.8133895);
+
+    private static Logger logger = Logger.getLogger(GetPoisAction.class);
 
     private MapForm mapForm;
 
     private LocationDelegate locationDelegate;
-    private LocationManager locationManager;
     private MapDelegate mapDelegate;
 
     private MapUrlHolder mapUrlHolder;
@@ -37,25 +37,24 @@ public class GetMapAction extends BusinessAction implements
 
     /**
      * Executes this action and returns a result name.
+     *
      * @return result name.
      */
     public String execute() {
-        final GeocodedAddress addressToMap =
-                getLocationDelegate().resolveToSingleLocation(getModel().getLocation());
-
-        // Example of how to use the MapDelegate to get an initial map.
         final MapUrlHolder mapUrlHolder =
-                getMapDelegate().retrieveInitialMap(addressToMap.getCoordinates(),
-                        getDefaultZoom(), MapLayer.Map,
-                        MobilesIconType.CROSS_HAIR, getContext());
+                getMapDelegate().getInitialPoiMap(
+                        MELBOURCE_VIC_COORDINATES, MapLayer.Map,
+                        PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
+                        defaultZoom, getContext());
+
         setMapUrlHolder(mapUrlHolder);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("mapUrl found: "
-                    + getMapUrlHolder().getMapUrl());
+            logger.debug("mapUrl found: " + getMapUrlHolder().getMapUrl());
         }
 
         return ResultName.SUCCESS;
+
     }
 
     /**
@@ -82,21 +81,6 @@ public class GetMapAction extends BusinessAction implements
      */
     public void setLocationDelegate(final LocationDelegate locationDelegate) {
         this.locationDelegate = locationDelegate;
-    }
-
-    /**
-     * @return the locationManager
-     */
-    public LocationManager getLocationManager() {
-        return locationManager;
-    }
-
-    /**
-     * @param locationManager
-     *            the locationManager to set
-     */
-    public void setLocationManager(final LocationManager locationManager) {
-        this.locationManager = locationManager;
     }
 
     /**

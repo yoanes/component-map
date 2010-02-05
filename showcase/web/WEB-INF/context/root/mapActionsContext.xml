@@ -24,5 +24,17 @@
         <property name="mapDelegate" ref="map.comp.mapDelegate"/>
     </bean>
 
+    <bean id="getPoisAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetPoisAction"
+            scope="prototype">
+        <property name="locationDelegate" ref="locationDelegate"/>
+        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+        <property name="defaultZoom" value="${app.service.location.defaultZoomLevel}" />
+    </bean>
+
+    <bean id="manPoiMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ManipulatePoiMapAction"
+            scope="prototype">
+        <property name="locationDelegate" ref="locationDelegate"/>
+        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+    </bean>
 
 </beans>

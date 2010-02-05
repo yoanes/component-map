@@ -1,5 +1,9 @@
 <jsp:directive.include file="/WEB-INF/view/common/jsp/configInclude.jsp"/>
 
+<c:set var="mapControlsActionName">
+    <tiles:insertAttribute name="mapControlsActionName"/>
+</c:set>
+
 <div id="map">
     <%--
       - Do not specify action or value attribute of s:url. We submit to the same URL that
@@ -7,7 +11,7 @@
       - page. We also ensure that the submission uses the exact same parameters that were
       - used to render this page by setting includeParams to "all".
       --%>
-    <s:url id="browseMapUrl" namespace="/map" action="manMap" includeParams="all"
+    <s:url id="browseMapUrl" namespace="/map" action="%{#attr.mapControlsActionName}" includeParams="all"
             includeContext="true" escapeAmp="false">
     
         <%-- Reset action param so that we no longer think we are executing an action. --%>
@@ -91,7 +95,6 @@
         <%-- No action required here because we are not panning or zooming.--%>
     </s:url>
 
-    Map goes here:
     <map:render mapUrlHolder="${mapUrlHolder}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
         panNorthUrl="${panNorthUrl}" panSouthUrl="${panSouthUrl}"
         panEastUrl="${panEastUrl}" panWestUrl="${panWestUrl}"

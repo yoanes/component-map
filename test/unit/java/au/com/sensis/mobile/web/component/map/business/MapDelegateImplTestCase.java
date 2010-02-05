@@ -1,5 +1,8 @@
 package au.com.sensis.mobile.web.component.map.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,6 +18,8 @@ import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
 import au.com.sensis.sal.common.UserContext;
 import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
 import au.com.sensis.wireless.manager.ems.EMSManager;
+import au.com.sensis.wireless.manager.mapping.IconDescriptor;
+import au.com.sensis.wireless.manager.mapping.IconType;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
@@ -47,6 +52,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     private static final int ZOOM_LEVEL = 5;
     private static final int EMS_ZOOM_LEVEL = 16;
+    private static final float POI_MAP_RADIUS_MULTIPLIER = 1.05f;
 
     private MobileContext mockMobileContext;
     private UserContext mockUserContext;
@@ -83,6 +89,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         // MapDelegate.retrieveInitialMap comments.
         getObjectUnderTest().setMinZoom(MIN_ZOOM);
         getObjectUnderTest().setMaxZoom(MAX_ZOOM);
+
+        getObjectUnderTest().setPoiMapRadiusMultiplier(POI_MAP_RADIUS_MULTIPLIER);
     }
 
     @Test
@@ -136,6 +144,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         MapLayer.PhotoWithStreets, panZoomDetail,
                         getMockUserContext())).andReturn(
                 getMockMapUrl());
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockMapUrl().getImageUrl())
+            .andReturn("dummy url").anyTimes();
+
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(ZOOM_LEVEL))
             .andReturn(EMS_ZOOM_LEVEL);
 
@@ -313,7 +326,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         MapLayer.Photo, MobilesIconType.CROSS_HAIR,
                         mapDelegateAction, getMockMobileContext());
 
-        Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
+        Assert.assertTrue("isMapImageRetrieved() should be true", mapUrlHolder
                 .isMapImageRetrieved());
         Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
                 mapUrlHolder.getMapUrl());
@@ -333,6 +346,352 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
                 mapUrlHolder.getEmsZoom());
     }
+
+    @Test
+    public void testCreateInitialPoiMapWhenServerSideMapShouldBeGenerated()
+            throws Exception {
+
+        getDeviceConfigType().setGenerateServerSideMap(true);
+
+        EasyMock.expect(getMockMobileContext().getDevice())
+            .andReturn(getMockDevice()).atLeastOnce();
+        EasyMock.expect(getMockDeviceConfigRegistry().getDeviceConfig(getMockDevice()))
+            .andReturn(getDeviceConfigType());
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
+
+        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                getMockScreenDimensions());
+
+        EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
+                getMockUserContext());
+
+        final int mobilesZoomThreshold = 4;
+        EasyMock.expect(mockEmsManager.getPoiMap(
+                EasyMock.same(getMockScreenDimensions()), EasyMock.eq(getPoint1()),
+                EasyMock.eq(MapLayer.Photo), EasyMock.eq(iconDescriptors),
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),
+                EasyMock.eq(mobilesZoomThreshold),
+                EasyMock.isA(UserContext.class))).andReturn(getMockMapUrl());
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockMapUrl().getImageUrl())
+            .andReturn("dummy url").anyTimes();
+
+        EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
+
+        replay();
+
+        final MapUrlHolder mapUrlHolder = getObjectUnderTest().getInitialPoiMap(getPoint1(),
+                MapLayer.Photo, iconDescriptors, mobilesZoomThreshold,
+                getMockMobileContext());
+
+        Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
+                .isMapImageRetrieved());
+        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
+                mapUrlHolder.getMapUrl());
+        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
+                mapUrlHolder.getOriginalMapCentre());
+
+        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
+                mapUrlHolder.isPhotoWithStreetsLayer());
+
+        Assert.assertFalse("isAtMinimumZoom() is wrong", mapUrlHolder.isAtMinimumZoom());
+        Assert.assertFalse("isAtMaximumZoom() is wrong", mapUrlHolder.isAtMaximumZoom());
+
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
+                mapUrlHolder.getEmsZoom());
+
+    }
+
+    @Test
+    public void testCreateInitialPoiMapWhenServerSideMapShouldNotBeGenerated()
+        throws Exception {
+
+        getDeviceConfigType().setGenerateServerSideMap(false);
+
+        EasyMock.expect(getMockMobileContext().getDevice())
+            .andReturn(getMockDevice()).atLeastOnce();
+        EasyMock.expect(getMockDeviceConfigRegistry().getDeviceConfig(getMockDevice()))
+            .andReturn(getDeviceConfigType());
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                                getMockScreenDimensions());
+
+        final int mobilesZoomThreshold = 4;
+        EasyMock.expect(mockEmsManager.getPoiMapZoom(
+                EasyMock.same(getMockScreenDimensions()), EasyMock.eq(getPoint1()),
+                EasyMock.eq(iconDescriptors),
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),
+                EasyMock.eq(mobilesZoomThreshold))).andReturn(ZOOM_LEVEL);
+        EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
+
+        replay();
+
+        final MapUrlHolder mapUrlHolder = getObjectUnderTest().getInitialPoiMap(getPoint1(),
+                MapLayer.PhotoWithStreets, iconDescriptors, mobilesZoomThreshold,
+                getMockMobileContext());
+
+        Assert.assertFalse("isMapImageRetrieved() should be false", mapUrlHolder
+                .isMapImageRetrieved());
+
+        Assert.assertNotNull("mapUrlHolder should have non-null mapUrl",
+                mapUrlHolder.getMapUrl());
+        Assert.assertEquals("mapUrl has wrong mapCentre", getPoint1(),
+                mapUrlHolder.getMapUrl().getMapCentre());
+        Assert.assertEquals("mapUrl has wrong zoom", ZOOM_LEVEL,
+                mapUrlHolder.getMapUrl().getZoom());
+
+        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
+                mapUrlHolder.getOriginalMapCentre());
+        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertTrue("isPhotoWithStreetsLayer is wrong",
+                mapUrlHolder.isPhotoWithStreetsLayer());
+        Assert.assertFalse("isAtMinimumZoom() should be false",
+                mapUrlHolder.isAtMinimumZoom());
+        Assert.assertFalse("isAtMaximumZoom() should be false",
+                mapUrlHolder.isAtMaximumZoom());
+
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
+                mapUrlHolder.getEmsZoom());
+
+    }
+
+    @Test
+    public void testManipulatePoiMap() throws Exception {
+
+        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                getMockScreenDimensions());
+
+        EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
+                getMockUserContext());
+
+        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
+                getMockMobilesBoundingBox());
+
+        final Integer oldZoomLevel = ZOOM_LEVEL;
+        final Integer newZoomLevel = ZOOM_LEVEL - 1;
+        EasyMock.expect(getMockExistingMapUrl().getZoom()).andReturn(
+                oldZoomLevel);
+        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
+                getPoint1()).atLeastOnce();
+
+        final PanZoomDetail panZoomDetail =
+                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                        UserMapInteraction.ZOOM, newZoomLevel);
+
+        EasyMock.expect(
+                getMockEmsManager().manipulatePoiMap(getMockScreenDimensions(),
+                        getPoint2(), iconDescriptors,
+                        MapLayer.Photo, panZoomDetail, getMockUserContext()))
+                .andReturn(getMockMapUrl());
+
+        EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
+                .atLeastOnce();
+
+        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
+                .andReturn(EMS_ZOOM_LEVEL);
+
+        replay();
+
+        final Action mapDelegateAction = Action.ZOOM_IN;
+        final MapUrlHolder mapUrlHolder =
+                getObjectUnderTest().manipulatePoiMap(getPoint2(),
+                        getMockExistingMapUrl(), MapLayer.Photo,
+                        iconDescriptors,
+                        mapDelegateAction,
+                        getMockMobileContext());
+
+        Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
+                .isMapImageRetrieved());
+        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
+                mapUrlHolder.getMapUrl());
+        Assert.assertSame("mapUrlHolder has wrong originalMapCentre",
+                getPoint2(), mapUrlHolder.getOriginalMapCentre());
+
+        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", mapUrlHolder
+                .isPhotoWithStreetsLayer());
+
+        Assert.assertEquals("isAtMinimumZoom() is wrong",
+                newZoomLevel == MIN_ZOOM, mapUrlHolder.isAtMinimumZoom());
+        Assert.assertEquals("isAtMaximumZoom() is wrong",
+                newZoomLevel == MAX_ZOOM, mapUrlHolder.isAtMaximumZoom());
+
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, mapUrlHolder
+                .getEmsZoom());
+    }
+
+    @Test
+    public void testManipulatePoiMapPanEast() throws Throwable {
+        doTestManipulatePoiMap(Action.MOVE_EAST, UserMapInteraction.EAST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapPanWest() throws Throwable {
+        doTestManipulatePoiMap(Action.MOVE_WEST, UserMapInteraction.WEST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapPanNorth() throws Throwable {
+        doTestManipulatePoiMap(Action.MOVE_NORTH, UserMapInteraction.NORTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapPanSouth() throws Throwable {
+        doTestManipulatePoiMap(Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapZoomIn() throws Throwable {
+        doTestManipulatePoiMap(Action.ZOOM_IN, UserMapInteraction.ZOOM,
+                ZOOM_LEVEL, ZOOM_LEVEL - 1);
+    }
+
+    @Test
+    public void testManipulatePoiMapZoomInWhenAlreadyAtMinZoom() throws Throwable {
+        doTestManipulatePoiMap(Action.ZOOM_IN, UserMapInteraction.ZOOM,
+                MIN_ZOOM, MIN_ZOOM);
+    }
+
+    @Test
+    public void testManipulatePoiMapZoomOut() throws Throwable {
+        doTestManipulatePoiMap(Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+                ZOOM_LEVEL, ZOOM_LEVEL + 1);
+    }
+
+    @Test
+    public void testManipulatePoiMapZoomInWhenAlreadyAtMaxZoom() throws Throwable {
+        doTestManipulatePoiMap(Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+                MAX_ZOOM, MAX_ZOOM);
+    }
+
+    @Test
+    public void testManipulatePoiMapNoOp() throws Throwable {
+        doTestManipulatePoiMap(Action.NO_OP, UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+
+    private void doTestManipulatePoiMap(final Action mapDelegateAction,
+            final UserMapInteraction userMapInteraction, final int oldZoomLevel,
+            final int newZoomLevel) {
+
+        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                getMockScreenDimensions());
+
+        EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
+                getMockUserContext());
+
+        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
+                getMockMobilesBoundingBox());
+
+        EasyMock.expect(getMockExistingMapUrl().getZoom()).andReturn(
+                oldZoomLevel);
+        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
+                getPoint1()).atLeastOnce();
+
+        final PanZoomDetail panZoomDetail =
+                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                        userMapInteraction, newZoomLevel);
+
+        EasyMock.expect(
+                getMockEmsManager().manipulatePoiMap(getMockScreenDimensions(),
+                        getPoint2(), iconDescriptors,
+                        MapLayer.Photo, panZoomDetail, getMockUserContext()))
+                .andReturn(getMockMapUrl());
+
+        EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
+                .atLeastOnce();
+
+        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
+                .andReturn(EMS_ZOOM_LEVEL);
+
+        replay();
+
+        final MapUrlHolder mapUrlHolder =
+                getObjectUnderTest().manipulatePoiMap(getPoint2(),
+                        getMockExistingMapUrl(), MapLayer.Photo,
+                        iconDescriptors,
+                        mapDelegateAction,
+                        getMockMobileContext());
+
+        Assert.assertTrue("isMapImageRetrieved() should be true", mapUrlHolder
+                .isMapImageRetrieved());
+        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
+                mapUrlHolder.getMapUrl());
+        Assert.assertSame("mapUrlHolder has wrong originalMapCentre",
+                getPoint2(), mapUrlHolder.getOriginalMapCentre());
+
+        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", mapUrlHolder
+                .isPhotoWithStreetsLayer());
+
+        Assert.assertEquals("isAtMinimumZoom() is wrong",
+                newZoomLevel == MIN_ZOOM, mapUrlHolder.isAtMinimumZoom());
+        Assert.assertEquals("isAtMaximumZoom() is wrong",
+                newZoomLevel == MAX_ZOOM, mapUrlHolder.isAtMaximumZoom());
+
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, mapUrlHolder
+                .getEmsZoom());
+    }
+
+    /**
+     * @return
+     */
+    private List<IconDescriptor> createIconDescriptors() {
+        final List<IconDescriptor> iconDescriptors = new ArrayList<IconDescriptor>();
+        final WGS84Point firstPoiLocation = new WGS84Point(10, 10);
+        final WGS84Point secondPoiLocation = new WGS84Point(20, 20);
+        final IconDescriptor firstIconDescriptor = createIconDescriptorFor(firstPoiLocation);
+        final IconDescriptor secondIconDescriptor = createIconDescriptorFor(secondPoiLocation);
+        iconDescriptors.add(firstIconDescriptor);
+        iconDescriptors.add(secondIconDescriptor);
+        return iconDescriptors;
+    }
+
+    private IconDescriptor createIconDescriptorFor(final WGS84Point firstPoiLocation) {
+
+        final IconDescriptor firstIconDescriptor = new IconDescriptor();
+
+        firstIconDescriptor.setIconType(IconType.FREE);
+        firstIconDescriptor.setPoint(firstPoiLocation);
+
+        return firstIconDescriptor;
+    }
+
 
     /**
      * @return the objectUnderTest

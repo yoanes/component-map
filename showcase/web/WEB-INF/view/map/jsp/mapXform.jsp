@@ -16,3 +16,16 @@
             action="<s:url namespace='/map' action='getMap' />"/>
 
 </xf:model>
+
+<xf:model id="poisFormModel">
+
+    <xf:instance>
+        <si:instance>
+
+        </si:instance>
+    </xf:instance>
+
+    <xf:submission id="poisFormSubmission"
+            action="<s:url namespace='/map' action='getPois' />"/>
+
+</xf:model>

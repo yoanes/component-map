@@ -8,10 +8,19 @@
     <package name="map" namespace="/map" extends="map-component-default">
 
         <action name="getMap" class="getMapAction" >
-            <result name="success" type="tiles">map.component.home</result>
+            <result name="success" type="tiles">map.component.map</result>
         </action>
+
         <action name="manMap" class="manMapAction" >
-            <result name="success" type="tiles">map.component.home</result>
+            <result name="success" type="tiles">map.component.map</result>
+        </action>
+        
+        <action name="getPois" class="getPoisAction" >
+            <result name="success" type="tiles">map.component.pois</result>
+        </action>
+        
+        <action name="manPoiMap" class="manPoiMapAction" >
+            <result name="success" type="tiles">map.component.pois</result>
         </action>
 
     </package>

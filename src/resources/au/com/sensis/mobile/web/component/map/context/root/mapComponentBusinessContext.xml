@@ -38,6 +38,8 @@
         <property name="deviceConfigRegistry">
             <ref local="map.comp.deviceConfigRegistry"/>
         </property>
+        
+        <property name="poiMapRadiusMultiplier" value="1.0"/>
     </bean>
     
     <bean id="map.comp.deviceConfigRegistry"

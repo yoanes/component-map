@@ -1,3 +1,9 @@
+==== Version 1.0.18 (tag: map_v1_0_18) ====
+
+MapDelegate updated with POI support (getInitialPoiMap and manipulatePoiMap).
+Showcase updated with a "Render POIs" button that demonstrates a) rendering a POI map and 
+b) panning, zooming and changing between Photo/Map layers for POI maps.
+
 ==== Version 1.0.17 (tag: map_v1_0_17) ====
 
 Fixed image paths in mapLayer.mimg and photoLayer.mimg.

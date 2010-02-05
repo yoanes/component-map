@@ -1,5 +1,7 @@
 package au.com.sensis.mobile.web.component.map.business;
 
+import java.util.List;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -8,7 +10,9 @@ import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
 import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolderImpl;
+import au.com.sensis.sal.common.UserContext;
 import au.com.sensis.wireless.manager.ems.EMSManager;
+import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
@@ -36,6 +40,8 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
     private int minZoom;
     private int maxZoom;
+
+    private float poiMapRadiusMultiplier;
 
     /**
      * Strategy interface for determining the {@link ScreenDimensions} for the
@@ -91,6 +97,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                             mapCentre, centreIconType,
                             mapLayer, panZoomDetail,
                             mobileContext.asUserContext());
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("map url is " + mapUrl.getImageUrl());
+            }
+
             return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre,
                     mapLayer, mapUrl, emsZoomLevel,
                     isZoomLevelMin(mapUrl.getZoom()),
@@ -137,23 +148,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MobilesIconType originalCentreIconType,
             final Action mapManipulationAction, final MobileContext mobileContext) {
 
-        PanZoomDetail panZoomDetail;
-        if (mapManipulationAction.isPanAction()) {
-            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
-                    existingMapUrl.getMapCentre(),
-                    transformPanActionToUserMapInteraction(mapManipulationAction),
-                    existingMapUrl.getZoom());
-
-        } else if (mapManipulationAction.isZoomAction()) {
-            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
-                    existingMapUrl.getMapCentre(), UserMapInteraction.ZOOM,
-                    calculateNewZoomLevel(existingMapUrl.getZoom(),
-                            mapManipulationAction));
-        } else {
-            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
-                    existingMapUrl.getMapCentre(),
-                    UserMapInteraction.NO_ACTION, existingMapUrl.getZoom());
-        }
+        final PanZoomDetail panZoomDetail =
+                createMapManipulationPanZoomDetail(existingMapUrl,
+                        mapManipulationAction);
 
         final MapUrl mapUrl = getEmsManager().getMap(
                 getScreenDimensionsStrategy()
@@ -215,6 +212,115 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         }
 
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * Implementation originally based on the PoiSearchResultsMapMaker class
+     * from WhereisMobile.
+     * </p>
+     */
+    public MapUrlHolder getInitialPoiMap(final WGS84Point mapCentre,
+            final MapLayer mapLayer, final List<IconDescriptor> poiIcons,
+            final int mobilesZoomThreshold, final MobileContext mobileContext) {
+
+        final ScreenDimensions screenDimensions =
+            getScreenDimensionsStrategy().createScreenDimensions(
+                    mobileContext);
+        if (deviceNeedsServerSideMapGenerated(mobileContext)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will retrieve map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+            MapUrl mapUrl = null;
+
+            final UserContext userContext = mobileContext.asUserContext();
+            mapUrl =
+                    emsManager.getPoiMap(screenDimensions, mapCentre, mapLayer,
+                            poiIcons, getPoiMapRadiusMultiplier(),
+                            mobilesZoomThreshold, userContext);
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("map url is " + mapUrl.getImageUrl());
+            }
+
+            final int emsZoomLevel =
+                    getEmsManager().getEmsZoomLevel(mapUrl.getZoom());
+            return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre, mapLayer,
+                    mapUrl, emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
+                    isZoomLevelMax(mapUrl.getZoom()));
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will NOT retrieve map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+            final int zoomLevel = getEmsManager().getPoiMapZoom(screenDimensions, mapCentre,
+                    poiIcons, getPoiMapRadiusMultiplier(), mobilesZoomThreshold);
+            final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
+            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
+                    mapLayer, zoomLevel, emsZoomLevel,
+                    isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
+        }
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public MapUrlHolder manipulatePoiMap(final WGS84Point originalMapCentrePoint,
+            final MapUrl existingMapUrl, final MapLayer mapLayer,
+            final List<IconDescriptor> poiIcons,
+            final Action mapManipulationAction,
+            final MobileContext mobileContext) {
+
+        final PanZoomDetail panZoomDetail =
+                createMapManipulationPanZoomDetail(existingMapUrl,
+                        mapManipulationAction);
+
+        final MapUrl mapUrl = getEmsManager().manipulatePoiMap(
+                getScreenDimensionsStrategy()
+                        .createScreenDimensions(mobileContext),
+                        originalMapCentrePoint, poiIcons,
+                mapLayer, panZoomDetail,
+                mobileContext.asUserContext());
+        final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
+                panZoomDetail.getZoom());
+        return MapUrlHolderImpl.createMapRetrievedInstance(
+                originalMapCentrePoint, mapLayer, mapUrl,
+                emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
+                isZoomLevelMax(mapUrl.getZoom()));
+
+    }
+
+    /**
+     * @param existingMapUrl
+     * @param mapManipulationAction
+     * @return
+     */
+    private PanZoomDetail createMapManipulationPanZoomDetail(
+            final MapUrl existingMapUrl, final Action mapManipulationAction) {
+        PanZoomDetail panZoomDetail;
+        if (mapManipulationAction.isPanAction()) {
+            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
+                    existingMapUrl.getMapCentre(),
+                    transformPanActionToUserMapInteraction(mapManipulationAction),
+                    existingMapUrl.getZoom());
+
+        } else if (mapManipulationAction.isZoomAction()) {
+            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
+                    existingMapUrl.getMapCentre(), UserMapInteraction.ZOOM,
+                    calculateNewZoomLevel(existingMapUrl.getZoom(),
+                            mapManipulationAction));
+        } else {
+            panZoomDetail = new PanZoomDetail(existingMapUrl.getBoundingBox(),
+                    existingMapUrl.getMapCentre(),
+                    UserMapInteraction.NO_ACTION, existingMapUrl.getZoom());
+        }
+        return panZoomDetail;
+    }
+
 
     /**
      * @return the minZoom
@@ -290,6 +396,19 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         this.deviceConfigRegistry = deviceConfigRegistry;
     }
 
+    /**
+     * @return the poiMapRadiusMultiplier
+     */
+    public float getPoiMapRadiusMultiplier() {
+        return poiMapRadiusMultiplier;
+    }
+
+    /**
+     * @param poiMapRadiusMultiplier the poiMapRadiusMultiplier to set
+     */
+    public void setPoiMapRadiusMultiplier(final float poiMapRadiusMultiplier) {
+        this.poiMapRadiusMultiplier = poiMapRadiusMultiplier;
+    }
 
 
 }

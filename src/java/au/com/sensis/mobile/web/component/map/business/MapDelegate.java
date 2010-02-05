@@ -1,9 +1,12 @@
 package au.com.sensis.mobile.web.component.map.business;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
@@ -186,6 +189,64 @@ public interface MapDelegate {
     MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, MapLayer mapLayer,
             MobilesIconType originalCentreIconType,
+            final Action mapManipulationAction,
+            final MobileContext mobileContext);
+
+
+    /**
+     * Retrieve an initial POI map centred at a particular coordinate (as opposed to
+     * manipulating an existing POI map - see
+     * {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action, MobileContext).
+
+     * @param mapCentre
+     *            Coordinates of the centre of the map
+     * @param mapLayer
+     *            The {@link MapLayer} that should be rendered to produce the
+     *            map image.
+     * @param poiIcons
+     *            List of icons to render on the map.
+     * @param mobilesZoomThreshold
+     *            Threshold that the zoom level of the map will not go below.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link MapUrlHolder}. May not be null.
+     */
+    MapUrlHolder getInitialPoiMap(final WGS84Point mapCentre,
+            MapLayer mapLayer, final List<IconDescriptor> poiIcons,
+            int mobilesZoomThreshold, final MobileContext mobileContext);
+
+    /**
+     * Manipulate an existing POI map, such as panning or zooming it, or changing
+     * the {@link MapLayer}. Note that to only change the {@link MapLayer}, you
+     * should set the mapManipulationAction parameter to {@link Action#NO_OP}.
+     *
+     * @param originalMapCentrePoint
+     *            The original map centre that was passed to
+     *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)}.
+     *            Also contained by the {@link MapUrlHolder} returned by that
+     *            method.
+     * @param existingMapUrl
+     *            The existing {@link MapUrl} to be manipulated. Contained in
+     *            the {@link MapUrlHolder} returned by a previous call to
+     *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext) or
+     *            this
+     *            {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action,
+     *            MobileContext)}.
+     * @param mapLayer
+     *            The {@link MapLayer} that should be rendered to produce the
+     *            map image.
+     * @param poiIcons
+     *            List of icons to render on the map.
+     * @param mapManipulationAction
+     *            {@link Action} describing the type of manipulation to be
+     *            performed.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link MapUrlHolder}. May not be null.
+     */
+    MapUrlHolder manipulatePoiMap(final WGS84Point originalMapCentrePoint,
+            final MapUrl existingMapUrl, MapLayer mapLayer,
+            final List<IconDescriptor> poiIcons,
             final Action mapManipulationAction,
             final MobileContext mobileContext);
 

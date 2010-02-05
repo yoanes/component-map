@@ -107,15 +107,17 @@
         <dependency org="com.sensis" name="sal-positioning" rev="1.9-013" conf="showcase->default"/>
         
         <dependency org="com.sensis" name="wl-smsmanager-cxf-client" rev="1.6.001" conf="showcase->default"/>
+        <dependency org="com.sensis" name="wl-searchService-cxf-client" rev="2.1.5"
+                conf="showcase->default"/>
 
         <!-- SDP Common -->
         <dependency org="com.sensis" name="sdpCommon-logging" rev="0.5" conf="default"/>        
         <dependency org="com.sensis" name="sdpCommon-web" rev="1.6-012" conf="default"/>
-        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.0-060" conf="default"/>
+        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.0-061" conf="default"/>
         <dependency org="com.sensis" name="sdpCommon-utils" rev="1.0-005" conf="default"/>
 
         <!-- EMS dependencies -->
-        <dependency org="com.sensis" name="ems-cxf-client" rev="1.6" conf="showcase->default"/>
+        <dependency org="com.sensis" name="ems-cxf-client" rev="1.11" conf="showcase->default"/>
 
         <!-- Hibernate Persistence -->
         <!-- Should be included in hibernate 3.2.6.ga dependencies??

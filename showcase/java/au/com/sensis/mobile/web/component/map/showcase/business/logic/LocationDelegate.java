@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import au.com.sensis.address.AustralianState;
 import au.com.sensis.address.GeocodedAddress;
+import au.com.sensis.address.WGS84Point;
+import au.com.sensis.address.simple.GeocodedAddressImpl;
 import au.com.sensis.mobile.web.component.map.service.LocationManager;
 import au.com.sensis.mobile.web.component.map.showcase.business.exception.LocationDelegateException;
 import au.com.sensis.wireless.manager.ems.MobilesEMSManagerException;
@@ -22,7 +25,32 @@ public class LocationDelegate
     private static Logger logger = Logger.getLogger(LocationDelegate.class);
 
     private LocationManager locationManager;
-    
+
+    public GeocodedAddress resolveToSingleLocation(final String location) {
+        final List<GeocodedAddress> resolvedLocations =
+                resolveLocation(location);
+        GeocodedAddress addressToMap;
+        if (resolvedLocations.isEmpty()) {
+            addressToMap = new GeocodedAddressImpl();
+            ((GeocodedAddressImpl) addressToMap).setSuburb("Melbourne");
+            ((GeocodedAddressImpl) addressToMap).setState(AustralianState.VIC);
+            final double camberwellVicLongitude = 145.0730816;
+            final double camberwellVicLatitude = -37.8388769;
+            ((GeocodedAddressImpl) addressToMap).setCoordinates(new WGS84Point(
+                    camberwellVicLongitude, camberwellVicLatitude));
+        } else if (resolvedLocations.size() > 1) {
+            addressToMap = resolvedLocations.get(0);
+        } else {
+            addressToMap = resolvedLocations.get(0);
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("addressToMap: " + addressToMap);
+        }
+        return addressToMap;
+
+    }
+
     /**
      * Attempts to resolve entered location via EMS. It sets the return action page depending on the
      * number of results found. If EMS is down, it will simply set location object based on what has
@@ -68,12 +96,12 @@ public class LocationDelegate
 	/**
 	 * @param locationManager the locationManager to set
 	 */
-	public void setLocationManager(LocationManager locationManager) {
+	public void setLocationManager(final LocationManager locationManager) {
 		this.locationManager = locationManager;
 	}
 
 	public void validateState() throws ApplicationRuntimeException {
 		// TODO
-	}    
+	}
 
 }
