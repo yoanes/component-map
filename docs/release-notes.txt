@@ -1,3 +1,8 @@
+==== Version 1.0.20 (tag: map_v1_0_20) ====
+
+Updated with latest MobileEMS.js from Yoanes. Rendering of POIs on
+JavaScript maps now works (tested on iphone on sandpit-dev).
+
 ==== Version 1.0.19 (tag: map_v1_0_19) ====
 
 Updates to support client side JavaScript POI maps.
