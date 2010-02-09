@@ -25,6 +25,7 @@ import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
+import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 import au.com.sensis.wireless.manager.mapping.UserMapInteraction;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
@@ -198,6 +199,16 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(ZOOM_LEVEL))
             .andReturn(EMS_ZOOM_LEVEL);
 
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                getMockScreenDimensions());
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveIcons(getPoint1(),
+                new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
+
         replay();
 
         final MapUrlHolder mapUrlHolder =
@@ -214,6 +225,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 mapUrlHolder.getMapUrl().getMapCentre());
         Assert.assertEquals("mapUrl has wrong zoom", ZOOM_LEVEL,
                 mapUrlHolder.getMapUrl().getZoom());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                mapUrlHolder.getResolvedIcons());
 
         Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
                 mapUrlHolder.getOriginalMapCentre());
@@ -348,7 +362,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testCreateInitialPoiMapWhenServerSideMapShouldBeGenerated()
+    public void testGetInitialPoiMapWhenServerSideMapShouldBeGenerated()
             throws Exception {
 
         getDeviceConfigType().setGenerateServerSideMap(true);
@@ -415,7 +429,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testCreateInitialPoiMapWhenServerSideMapShouldNotBeGenerated()
+    public void testGetInitialPoiMapWhenServerSideMapShouldNotBeGenerated()
         throws Exception {
 
         getDeviceConfigType().setGenerateServerSideMap(false);
@@ -434,7 +448,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                                getMockScreenDimensions());
+                                getMockScreenDimensions()).atLeastOnce();
 
         final int mobilesZoomThreshold = 4;
         EasyMock.expect(mockEmsManager.getPoiMapZoom(
@@ -443,6 +457,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),
                 EasyMock.eq(mobilesZoomThreshold))).andReturn(ZOOM_LEVEL);
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveIcons(getPoint1(),
+                iconDescriptors, getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
 
         replay();
 
@@ -459,6 +478,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 mapUrlHolder.getMapUrl().getMapCentre());
         Assert.assertEquals("mapUrl has wrong zoom", ZOOM_LEVEL,
                 mapUrlHolder.getMapUrl().getZoom());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                mapUrlHolder.getResolvedIcons());
 
         Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
                 mapUrlHolder.getOriginalMapCentre());

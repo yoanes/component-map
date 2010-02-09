@@ -1,5 +1,8 @@
 package au.com.sensis.mobile.web.component.map.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,6 +12,7 @@ import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.WGS84PointTestDataFactory;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
+import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
 
 /**
@@ -56,6 +60,9 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
                 mapUrlHolder.isPhotoWithStreetsLayer());
 
+        Assert.assertEquals("getResolvedIcons() is wrong", new ArrayList<ResolvedIcon>(),
+                mapUrlHolder.getResolvedIcons());
+
         Assert.assertEquals("EMS zoom is wrong", EMS_ZOOM_LEVEL,
                 mapUrlHolder.getEmsZoom());
 
@@ -68,10 +75,11 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testCreateMapRetrievalDeferrendInstance() throws Throwable {
+        final List<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         final MapUrlHolder mapUrlHolder =
                 MapUrlHolderImpl.createMapRetrievalDeferrendInstance(
-                        getWgs84Point1(), MapLayer.Map, ZOOM_LEVEL, EMS_ZOOM_LEVEL,
-                        false, true);
+                        getWgs84Point1(), MapLayer.Map, resolvedIcons,
+                        ZOOM_LEVEL, EMS_ZOOM_LEVEL, false, true);
 
         Assert.assertFalse("isMapImageRetrieved() should be false",
                 mapUrlHolder.isMapImageRetrieved());
@@ -89,6 +97,9 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
                 mapUrlHolder.getMapUrl().getImageUrl());
         Assert.assertNull("boundingBox is wrong",
                 mapUrlHolder.getMapUrl().getBoundingBox());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                mapUrlHolder.getResolvedIcons());
 
         Assert.assertEquals("originalMapCentre is wrong", getWgs84Point1(),
                 mapUrlHolder.getOriginalMapCentre());

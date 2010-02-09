@@ -1,5 +1,6 @@
 package au.com.sensis.mobile.web.component.map.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Level;
@@ -17,6 +18,7 @@ import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
+import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 import au.com.sensis.wireless.manager.mapping.UserMapInteraction;
 import au.com.sensis.wireless.web.common.exception.ApplicationRuntimeException;
@@ -112,8 +114,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                         + mobileContext.getDevice().getName());
             }
 
+            final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
+                    new ArrayList<IconDescriptor>(),
+                    getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
             return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
-                    mapLayer, zoomLevel, emsZoomLevel,
+                    mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         }
 
@@ -259,8 +264,10 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final int zoomLevel = getEmsManager().getPoiMapZoom(screenDimensions, mapCentre,
                     poiIcons, getPoiMapRadiusMultiplier(), mobilesZoomThreshold);
             final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
+            final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
+                    poiIcons, screenDimensions);
             return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
-                    mapLayer, zoomLevel, emsZoomLevel,
+                    mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         }
 

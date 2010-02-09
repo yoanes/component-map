@@ -32,11 +32,29 @@
     <core:script name="create-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
         
+            var icons = [
+                <c:forEach var="resolvedIcon" items="${mapUrlHolder.resolvedIcons}" varStatus="resolvedIconLoopStatus">
+                    <c:if test="${resolvedIconLoopStatus.index > 0}">,</c:if>
+                    {
+                        url: '<c:out value="${resolvedIcon.icon.clientImgSrcPath}" />' ,
+                        width: <c:out value="${resolvedIcon.icon.width}" /> ,                    
+                        height: <c:out value="${resolvedIcon.icon.height}" /> ,                    
+                        offsetX: <c:out value="${resolvedIcon.icon.offsetX}" /> ,                    
+                        offsetY: <c:out value="${resolvedIcon.icon.offsetY}" /> ,
+                        coordinates: {
+                            latitude: <c:out value="${resolvedIcon.point.latitude}" /> ,
+                            longitude: <c:out value="${resolvedIcon.point.longitude}" />
+                        }
+                     }
+                </c:forEach>
+            ];
+        
             var MEMS = new MobEMS('mapWindow', {
-                'longitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.longitude}"/>, 
-                'latitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.latitude}"/>, 
-                'zoom': <c:out value="${mapUrlHolder.emsZoom}"/>
-                });
+                    'longitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.longitude}"/>, 
+                    'latitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.latitude}"/>, 
+                    'zoom': <c:out value="${mapUrlHolder.emsZoom}"/>
+                }, icons
+            );
         }
     </core:script>
 </c:if>

@@ -1,3 +1,17 @@
+==== Version 1.0.19 (tag: map_v1_0_19) ====
+
+Updates to support client side JavaScript POI maps.
+- Now depends on sdpCommon-manager 1.0-062 to obtain support for resolving map icons 
+  needed for client side JavaScript maps.
+- Showcase updates:
+    - environment properties now configure env.ems.client.map.icons.img.src.prefix property needed by latest sdpCommon-manager.
+    - emsManagerContext.xml updated to set clientImgSrcPath property of MobilesIcon instances.
+- MapUrlHolder contains new method "List<ResolvedIcon> getResolvedIcons();". 
+  MapDelegateImpl.retrieveInitialMap and getInitialPoiMap updated to set this when
+  map rendering is deferred to the client.
+- Fixed paths in all *.mimg files based on restructure of component images in the image-server project.
+- setup.tag updated to pass ${mapUrlHolder.resolvedIcons} to the JavaScript MobEMS constructor. 
+
 ==== Version 1.0.18 (tag: map_v1_0_18) ====
 
 MapDelegate updated with POI support (getInitialPoiMap and manipulatePoiMap).

@@ -22,6 +22,7 @@ env.ems.clientPolicy=emsProxiedHttpClientPolicy
 env.ems.service=https://ems.whereis.com/v1/soap/ems
 env.ems.token=4316381136292159452
 env.ems.password=dev?755545!!whitep
+env.ems.client.map.icons.img.src.prefix=/map-component-imageserver/
 
 #drs (staging)
 

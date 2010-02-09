@@ -1,9 +1,13 @@
 package au.com.sensis.mobile.web.component.map.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
+import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 
 /**
  * Default {@link MapUrlHolder} implementation.
@@ -40,6 +44,8 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
 
     private MapImageStatus mapImageStatus;
 
+    private List<ResolvedIcon> resolvedIcons;
+
     /**
      * Zoom level that {@link MapUrl#getZoom()} corresponds to.
      * Required by AJAX maps that talk to EMS directly.
@@ -62,6 +68,9 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *            {@link MapImageStatus} indicating if the map image has been
      *            retrieved or whether this has been deferred to the client to
      *            do.
+     * @param resolvedIcons
+     *            List of {@link ResolvedIcon}s to be used for
+     *            {@link MapImageStatus#MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT}.
      * @param emsZoom
      *            the EMS zoom that the map was/is to be rendered using.
      *            Required by AJAX maps that talk to EMS directly.
@@ -72,7 +81,8 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      */
     private MapUrlHolderImpl(final WGS84Point originalMapCentre,
             final MapLayer mapLayer, final MapUrl mapUrl,
-            final MapImageStatus mapImageStatus, final int emsZoom,
+            final MapImageStatus mapImageStatus,
+            final List<ResolvedIcon> resolvedIcons, final int emsZoom,
             final boolean atMinimumZoom, final boolean atMaximumZoom) {
         setOriginalMapCentre(originalMapCentre);
         setMapLayer(mapLayer);
@@ -81,6 +91,7 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
         setEmsZoom(emsZoom);
         setAtMinimumZoom(atMinimumZoom);
         setAtMaximumZoom(atMaximumZoom);
+        setResolvedIcons(resolvedIcons);
     }
 
     /**
@@ -108,7 +119,8 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
             final MapUrl mapUrl, final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
         return new MapUrlHolderImpl(originalMapCentre, mapLayer, mapUrl,
-                MapImageStatus.MAP_IMAGE_RETRIEVED, emsZoom, atMinimumZoom, atMaximumZoom);
+                MapImageStatus.MAP_IMAGE_RETRIEVED, null,
+                emsZoom, atMinimumZoom, atMaximumZoom);
     }
 
 
@@ -119,7 +131,8 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *
      * @param originalMapCentre
      *            Original centre of the map.
-     * @param mapLayer {@link MapLayer} requested.
+     * @param mapLayer
+     *            {@link MapLayer} requested.
      * @param zoomLevel
      *            Zoom level requested.
      * @param emsZoom
@@ -134,14 +147,16 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      */
     public static MapUrlHolderImpl createMapRetrievalDeferrendInstance(
             final WGS84Point originalMapCentre, final MapLayer mapLayer,
-            final int zoomLevel, final int emsZoom, final boolean atMinimumZoom,
+            final List<ResolvedIcon> resolvedIcons, final int zoomLevel,
+            final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
         final LocationMapUrl locationMapUrl = new LocationMapUrl();
         locationMapUrl.setMapCentre(originalMapCentre);
         locationMapUrl.setZoom(zoomLevel);
-        return new MapUrlHolderImpl(originalMapCentre, mapLayer, locationMapUrl,
+        return new MapUrlHolderImpl(originalMapCentre, mapLayer,
+                locationMapUrl,
                 MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT,
-                emsZoom, atMinimumZoom, atMaximumZoom);
+                resolvedIcons, emsZoom, atMinimumZoom, atMaximumZoom);
     }
 
     /**
@@ -162,7 +177,7 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
     /**
      * {@inheritDoc}
      */
-    public MapUrl getMapUrl() throws IllegalStateException {
+    public MapUrl getMapUrl() {
         return mapUrl;
     }
 
@@ -284,5 +299,23 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      */
     private void setEmsZoom(final int emsZoom) {
         this.emsZoom = emsZoom;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<ResolvedIcon> getResolvedIcons() {
+        if (resolvedIcons != null) {
+            return resolvedIcons;
+        } else {
+            return new ArrayList<ResolvedIcon>();
+        }
+    }
+
+    /**
+     * @param resolvedIcons the resolvedIcons to set
+     */
+    private void setResolvedIcons(final List<ResolvedIcon> resolvedIcons) {
+        this.resolvedIcons = resolvedIcons;
     }
 }
