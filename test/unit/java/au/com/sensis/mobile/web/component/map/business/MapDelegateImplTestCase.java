@@ -87,7 +87,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         getObjectUnderTest().setDeviceConfigRegistry(getMockDeviceConfigRegistry());
 
         // TODO: There has to be a better way of validating the zoom. See
-        // MapDelegate.retrieveInitialMap comments.
+        // MapDelegate.getInitialMap comments.
         getObjectUnderTest().setMinZoom(MIN_ZOOM);
         getObjectUnderTest().setMaxZoom(MAX_ZOOM);
 
@@ -114,7 +114,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testRetrieveInitialMapWhenServerSideMapShouldBeGenerated() throws Throwable {
+    public void testGetInitialMapWhenServerSideMapShouldBeGenerated() throws Throwable {
 
         getDeviceConfigType().setGenerateServerSideMap(true);
 
@@ -158,7 +158,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final MapUrlHolder mapUrlHolder =
-                getObjectUnderTest().retrieveInitialMap(getPoint1(),
+                getObjectUnderTest().getInitialMap(getPoint1(),
                         ZOOM_LEVEL, MapLayer.PhotoWithStreets,
                         MobilesIconType.CROSS_HAIR, getMockMobileContext());
 
@@ -183,7 +183,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testRetrieveInitialMapWhenServerSideMapShouldNotBeGenerated() throws Throwable {
+    public void testGetInitialMapWhenServerSideMapShouldNotBeGenerated() throws Throwable {
 
         getDeviceConfigType().setGenerateServerSideMap(false);
 
@@ -212,7 +212,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final MapUrlHolder mapUrlHolder =
-                getObjectUnderTest().retrieveInitialMap(getPoint1(),
+                getObjectUnderTest().getInitialMap(getPoint1(),
                         ZOOM_LEVEL, MapLayer.PhotoWithStreets,
                         MobilesIconType.CROSS_HAIR, getMockMobileContext());
 

@@ -76,7 +76,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * {@inheritDoc}
      */
-    public MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
+    public MapUrlHolder getInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
             final MobileContext mobileContext) {
 

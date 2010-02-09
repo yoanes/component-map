@@ -1,3 +1,8 @@
+==== Version 1.0.21 (tag: map_v1_0_21) ====
+
+MapDelegate.retrieveInitialMap renamed to getInitialMap.
+Now depends on sdpCommon-manager 1.0-063 for some info logging improvements.
+
 ==== Version 1.0.20 (tag: map_v1_0_20) ====
 
 Updated with latest MobileEMS.js from Yoanes. Rendering of POIs on

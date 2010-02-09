@@ -113,7 +113,7 @@
         <!-- SDP Common -->
         <dependency org="com.sensis" name="sdpCommon-logging" rev="0.5" conf="default"/>        
         <dependency org="com.sensis" name="sdpCommon-web" rev="1.6-012" conf="default"/>
-        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.0-062" conf="default"/>
+        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.0-063" conf="default"/>
         <dependency org="com.sensis" name="sdpCommon-utils" rev="1.0-005" conf="default"/>
 
         <!-- EMS dependencies -->

@@ -17,7 +17,7 @@ import au.com.sensis.wireless.web.mobile.MobileContext;
  * <ol>
  * <li>getting a map centred at a particular location.</li>
  * <li>getting a map with a route rendered on it.</li>
- * <li>getting a map with a set of icons rendered on it at specified locations.</li>
+ * <li>getting a map with a set of icons (POIs) rendered on it at specified locations.</li>
  * </ol>
  *
  * @author Adrian.Koh2@sensis.com.au
@@ -153,7 +153,7 @@ public interface MapDelegate {
      *            Context of the user that the map is being retrieved for.
      * @return {@link MapUrlHolder}. May not be null.
      */
-    MapUrlHolder retrieveInitialMap(final WGS84Point mapCentre,
+    MapUrlHolder getInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, MapLayer mapLayer, MobilesIconType centreIconType,
             final MobileContext mobileContext);
 
@@ -164,13 +164,13 @@ public interface MapDelegate {
      *
      * @param originalMapCentrePoint
      *            The original map centre that was passed to
-     *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)}.
+     *            {@link #getInitialMap(WGS84Point, int, MobileContext)}.
      *            Also contained by the {@link MapUrlHolder} returned by that
      *            method.
      * @param existingMapUrl
      *            The existing {@link MapUrl} to be manipulated. Contained in
      *            the {@link MapUrlHolder} returned by a previous call to
-     *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)} or
+     *            {@link #getInitialMap(WGS84Point, int, MobileContext)} or
      *            this
      *            {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}
      *            .
@@ -222,7 +222,7 @@ public interface MapDelegate {
      *
      * @param originalMapCentrePoint
      *            The original map centre that was passed to
-     *            {@link #retrieveInitialMap(WGS84Point, int, MobileContext)}.
+     *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext)}.
      *            Also contained by the {@link MapUrlHolder} returned by that
      *            method.
      * @param existingMapUrl

@@ -45,7 +45,7 @@ public class GetMapAction extends BusinessAction implements
 
         // Example of how to use the MapDelegate to get an initial map.
         final MapUrlHolder mapUrlHolder =
-                getMapDelegate().retrieveInitialMap(addressToMap.getCoordinates(),
+                getMapDelegate().getInitialMap(addressToMap.getCoordinates(),
                         getDefaultZoom(), MapLayer.Map,
                         MobilesIconType.CROSS_HAIR, getContext());
         setMapUrlHolder(mapUrlHolder);
