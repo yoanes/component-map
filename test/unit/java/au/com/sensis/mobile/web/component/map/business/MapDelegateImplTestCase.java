@@ -14,7 +14,7 @@ import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.ScreenDimensionsStrategy;
 import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
-import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.sal.common.UserContext;
 import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
 import au.com.sensis.wireless.manager.ems.EMSManager;
@@ -157,28 +157,28 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getObjectUnderTest().getInitialMap(getPoint1(),
                         ZOOM_LEVEL, MapLayer.PhotoWithStreets,
                         MobilesIconType.CROSS_HAIR, getMockMobileContext());
 
-        Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
+        Assert.assertTrue("isMapRetrieved() should be true", map
                 .isMapImageRetrieved());
-        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
-                mapUrlHolder.getMapUrl());
-        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
-                mapUrlHolder.getOriginalMapCentre());
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertFalse("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
+                map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre", getPoint1(),
+                map.getOriginalMapCentre());
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", map.isPhotoLayer());
         Assert.assertTrue("isPhotoWithStreetsLayer is wrong",
-                mapUrlHolder.isPhotoWithStreetsLayer());
+                map.isPhotoWithStreetsLayer());
         Assert.assertFalse("isAtMinimumZoom() should be false",
-                mapUrlHolder.isAtMinimumZoom());
+                map.isAtMinimumZoom());
         Assert.assertFalse("isAtMaximumZoom() should be false",
-                mapUrlHolder.isAtMaximumZoom());
+                map.isAtMaximumZoom());
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
-                mapUrlHolder.getEmsZoom());
+                map.getEmsZoom());
 
     }
 
@@ -211,37 +211,37 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getObjectUnderTest().getInitialMap(getPoint1(),
                         ZOOM_LEVEL, MapLayer.PhotoWithStreets,
                         MobilesIconType.CROSS_HAIR, getMockMobileContext());
 
-        Assert.assertFalse("isMapImageRetrieved() should be false", mapUrlHolder
+        Assert.assertFalse("isMapImageRetrieved() should be false", map
                 .isMapImageRetrieved());
 
-        Assert.assertNotNull("mapUrlHolder should have non-null mapUrl",
-                mapUrlHolder.getMapUrl());
+        Assert.assertNotNull("map should have non-null mapUrl",
+                map.getMapUrl());
         Assert.assertEquals("mapUrl has wrong mapCentre", getPoint1(),
-                mapUrlHolder.getMapUrl().getMapCentre());
+                map.getMapUrl().getMapCentre());
         Assert.assertEquals("mapUrl has wrong zoom", ZOOM_LEVEL,
-                mapUrlHolder.getMapUrl().getZoom());
+                map.getMapUrl().getZoom());
 
         Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
-                mapUrlHolder.getResolvedIcons());
+                map.getResolvedIcons());
 
-        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
-                mapUrlHolder.getOriginalMapCentre());
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertFalse("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertSame("map has wrong originalMapCentre", getPoint1(),
+                map.getOriginalMapCentre());
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", map.isPhotoLayer());
         Assert.assertTrue("isPhotoWithStreetsLayer is wrong",
-                mapUrlHolder.isPhotoWithStreetsLayer());
+                map.isPhotoWithStreetsLayer());
         Assert.assertFalse("isAtMinimumZoom() should be false",
-                mapUrlHolder.isAtMinimumZoom());
+                map.isAtMinimumZoom());
         Assert.assertFalse("isAtMaximumZoom() should be false",
-                mapUrlHolder.isAtMaximumZoom());
+                map.isAtMaximumZoom());
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
-                mapUrlHolder.getEmsZoom());
+                map.getEmsZoom());
 
     }
 
@@ -335,30 +335,30 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getObjectUnderTest().manipulateMap(getPoint2(), getMockExistingMapUrl(),
                         MapLayer.Photo, MobilesIconType.CROSS_HAIR,
                         mapDelegateAction, getMockMobileContext());
 
-        Assert.assertTrue("isMapImageRetrieved() should be true", mapUrlHolder
+        Assert.assertTrue("isMapImageRetrieved() should be true", map
                 .isMapImageRetrieved());
-        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
-                mapUrlHolder.getMapUrl());
-        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint2(),
-                mapUrlHolder.getOriginalMapCentre());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
+                map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre", getPoint2(),
+                map.getOriginalMapCentre());
 
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
         Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
-                mapUrlHolder.isPhotoWithStreetsLayer());
+                map.isPhotoWithStreetsLayer());
 
         Assert.assertEquals("isAtMinimumZoom() is wrong",
-                newZoomLevel == MIN_ZOOM, mapUrlHolder.isAtMinimumZoom());
+                newZoomLevel == MIN_ZOOM, map.isAtMinimumZoom());
         Assert.assertEquals("isAtMaximumZoom() is wrong",
-                newZoomLevel == MAX_ZOOM, mapUrlHolder.isAtMaximumZoom());
+                newZoomLevel == MAX_ZOOM, map.isAtMaximumZoom());
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
-                mapUrlHolder.getEmsZoom());
+                map.getEmsZoom());
     }
 
     @Test
@@ -404,27 +404,27 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
-        final MapUrlHolder mapUrlHolder = getObjectUnderTest().getInitialPoiMap(getPoint1(),
+        final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
                 MapLayer.Photo, iconDescriptors, mobilesZoomThreshold,
                 getMockMobileContext());
 
-        Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
+        Assert.assertTrue("isMapRetrieved() should be true", map
                 .isMapImageRetrieved());
-        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
-                mapUrlHolder.getMapUrl());
-        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
-                mapUrlHolder.getOriginalMapCentre());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
+                map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre", getPoint1(),
+                map.getOriginalMapCentre());
 
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
         Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
-                mapUrlHolder.isPhotoWithStreetsLayer());
+                map.isPhotoWithStreetsLayer());
 
-        Assert.assertFalse("isAtMinimumZoom() is wrong", mapUrlHolder.isAtMinimumZoom());
-        Assert.assertFalse("isAtMaximumZoom() is wrong", mapUrlHolder.isAtMaximumZoom());
+        Assert.assertFalse("isAtMinimumZoom() is wrong", map.isAtMinimumZoom());
+        Assert.assertFalse("isAtMaximumZoom() is wrong", map.isAtMaximumZoom());
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
-                mapUrlHolder.getEmsZoom());
+                map.getEmsZoom());
 
     }
 
@@ -465,36 +465,36 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
-        final MapUrlHolder mapUrlHolder = getObjectUnderTest().getInitialPoiMap(getPoint1(),
+        final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
                 MapLayer.PhotoWithStreets, iconDescriptors, mobilesZoomThreshold,
                 getMockMobileContext());
 
-        Assert.assertFalse("isMapImageRetrieved() should be false", mapUrlHolder
+        Assert.assertFalse("isMapImageRetrieved() should be false", map
                 .isMapImageRetrieved());
 
-        Assert.assertNotNull("mapUrlHolder should have non-null mapUrl",
-                mapUrlHolder.getMapUrl());
+        Assert.assertNotNull("map should have non-null mapUrl",
+                map.getMapUrl());
         Assert.assertEquals("mapUrl has wrong mapCentre", getPoint1(),
-                mapUrlHolder.getMapUrl().getMapCentre());
+                map.getMapUrl().getMapCentre());
         Assert.assertEquals("mapUrl has wrong zoom", ZOOM_LEVEL,
-                mapUrlHolder.getMapUrl().getZoom());
+                map.getMapUrl().getZoom());
 
         Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
-                mapUrlHolder.getResolvedIcons());
+                map.getResolvedIcons());
 
-        Assert.assertSame("mapUrlHolder has wrong originalMapCentre", getPoint1(),
-                mapUrlHolder.getOriginalMapCentre());
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertFalse("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+        Assert.assertSame("map has wrong originalMapCentre", getPoint1(),
+                map.getOriginalMapCentre());
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", map.isPhotoLayer());
         Assert.assertTrue("isPhotoWithStreetsLayer is wrong",
-                mapUrlHolder.isPhotoWithStreetsLayer());
+                map.isPhotoWithStreetsLayer());
         Assert.assertFalse("isAtMinimumZoom() should be false",
-                mapUrlHolder.isAtMinimumZoom());
+                map.isAtMinimumZoom());
         Assert.assertFalse("isAtMaximumZoom() should be false",
-                mapUrlHolder.isAtMaximumZoom());
+                map.isAtMaximumZoom());
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
-                mapUrlHolder.getEmsZoom());
+                map.getEmsZoom());
 
     }
 
@@ -540,31 +540,31 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final Action mapDelegateAction = Action.ZOOM_IN;
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getObjectUnderTest().manipulatePoiMap(getPoint2(),
                         getMockExistingMapUrl(), MapLayer.Photo,
                         iconDescriptors,
                         mapDelegateAction,
                         getMockMobileContext());
 
-        Assert.assertTrue("isMapRetrieved() should be true", mapUrlHolder
+        Assert.assertTrue("isMapRetrieved() should be true", map
                 .isMapImageRetrieved());
-        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
-                mapUrlHolder.getMapUrl());
-        Assert.assertSame("mapUrlHolder has wrong originalMapCentre",
-                getPoint2(), mapUrlHolder.getOriginalMapCentre());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
+                map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre",
+                getPoint2(), map.getOriginalMapCentre());
 
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
-        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", mapUrlHolder
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", map
                 .isPhotoWithStreetsLayer());
 
         Assert.assertEquals("isAtMinimumZoom() is wrong",
-                newZoomLevel == MIN_ZOOM, mapUrlHolder.isAtMinimumZoom());
+                newZoomLevel == MIN_ZOOM, map.isAtMinimumZoom());
         Assert.assertEquals("isAtMaximumZoom() is wrong",
-                newZoomLevel == MAX_ZOOM, mapUrlHolder.isAtMaximumZoom());
+                newZoomLevel == MAX_ZOOM, map.isAtMaximumZoom());
 
-        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, mapUrlHolder
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, map
                 .getEmsZoom());
     }
 
@@ -662,31 +662,31 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getObjectUnderTest().manipulatePoiMap(getPoint2(),
                         getMockExistingMapUrl(), MapLayer.Photo,
                         iconDescriptors,
                         mapDelegateAction,
                         getMockMobileContext());
 
-        Assert.assertTrue("isMapImageRetrieved() should be true", mapUrlHolder
+        Assert.assertTrue("isMapImageRetrieved() should be true", map
                 .isMapImageRetrieved());
-        Assert.assertSame("mapUrlHolder has wrong mapUrl", getMockMapUrl(),
-                mapUrlHolder.getMapUrl());
-        Assert.assertSame("mapUrlHolder has wrong originalMapCentre",
-                getPoint2(), mapUrlHolder.getOriginalMapCentre());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
+                map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre",
+                getPoint2(), map.getOriginalMapCentre());
 
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
-        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", mapUrlHolder
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", map
                 .isPhotoWithStreetsLayer());
 
         Assert.assertEquals("isAtMinimumZoom() is wrong",
-                newZoomLevel == MIN_ZOOM, mapUrlHolder.isAtMinimumZoom());
+                newZoomLevel == MIN_ZOOM, map.isAtMinimumZoom());
         Assert.assertEquals("isAtMaximumZoom() is wrong",
-                newZoomLevel == MAX_ZOOM, mapUrlHolder.isAtMaximumZoom());
+                newZoomLevel == MAX_ZOOM, map.isAtMaximumZoom());
 
-        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, mapUrlHolder
+        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, map
                 .getEmsZoom());
     }
 

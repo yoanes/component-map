@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import au.com.sensis.address.WGS84Point;
-import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
@@ -151,9 +151,9 @@ public interface MapDelegate {
      * @param centreIconType Type of icon to display at the centre of the map.
      * @param mobileContext
      *            Context of the user that the map is being retrieved for.
-     * @return {@link MapUrlHolder}. May not be null.
+     * @return {@link Map}. May not be null.
      */
-    MapUrlHolder getInitialMap(final WGS84Point mapCentre,
+    Map getInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, MapLayer mapLayer, MobilesIconType centreIconType,
             final MobileContext mobileContext);
 
@@ -165,11 +165,11 @@ public interface MapDelegate {
      * @param originalMapCentrePoint
      *            The original map centre that was passed to
      *            {@link #getInitialMap(WGS84Point, int, MobileContext)}.
-     *            Also contained by the {@link MapUrlHolder} returned by that
+     *            Also contained by the {@link Map} returned by that
      *            method.
      * @param existingMapUrl
      *            The existing {@link MapUrl} to be manipulated. Contained in
-     *            the {@link MapUrlHolder} returned by a previous call to
+     *            the {@link Map} returned by a previous call to
      *            {@link #getInitialMap(WGS84Point, int, MobileContext)} or
      *            this
      *            {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}
@@ -184,9 +184,9 @@ public interface MapDelegate {
      *            performed.
      * @param mobileContext
      *            Context of the user that the map is being retrieved for.
-     * @return {@link MapUrlHolder}. May not be null.
+     * @return {@link Map}. May not be null.
      */
-    MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
+    Map manipulateMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, MapLayer mapLayer,
             MobilesIconType originalCentreIconType,
             final Action mapManipulationAction,
@@ -209,9 +209,9 @@ public interface MapDelegate {
      *            Threshold that the zoom level of the map will not go below.
      * @param mobileContext
      *            Context of the user that the map is being retrieved for.
-     * @return {@link MapUrlHolder}. May not be null.
+     * @return {@link Map}. May not be null.
      */
-    MapUrlHolder getInitialPoiMap(final WGS84Point mapCentre,
+    Map getInitialPoiMap(final WGS84Point mapCentre,
             MapLayer mapLayer, final List<IconDescriptor> poiIcons,
             int mobilesZoomThreshold, final MobileContext mobileContext);
 
@@ -223,11 +223,11 @@ public interface MapDelegate {
      * @param originalMapCentrePoint
      *            The original map centre that was passed to
      *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext)}.
-     *            Also contained by the {@link MapUrlHolder} returned by that
+     *            Also contained by the {@link Map} returned by that
      *            method.
      * @param existingMapUrl
      *            The existing {@link MapUrl} to be manipulated. Contained in
-     *            the {@link MapUrlHolder} returned by a previous call to
+     *            the {@link Map} returned by a previous call to
      *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext) or
      *            this
      *            {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action,
@@ -242,9 +242,9 @@ public interface MapDelegate {
      *            performed.
      * @param mobileContext
      *            Context of the user that the map is being retrieved for.
-     * @return {@link MapUrlHolder}. May not be null.
+     * @return {@link Map}. May not be null.
      */
-    MapUrlHolder manipulatePoiMap(final WGS84Point originalMapCentrePoint,
+    Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, MapLayer mapLayer,
             final List<IconDescriptor> poiIcons,
             final Action mapManipulationAction,

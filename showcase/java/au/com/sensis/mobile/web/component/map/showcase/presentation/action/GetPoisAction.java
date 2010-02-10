@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
-import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
 import au.com.sensis.mobile.web.testbed.ResultName;
@@ -31,7 +31,7 @@ public class GetPoisAction extends BusinessAction implements
     private LocationDelegate locationDelegate;
     private MapDelegate mapDelegate;
 
-    private MapUrlHolder mapUrlHolder;
+    private Map map;
 
     private int defaultZoom;
 
@@ -41,16 +41,16 @@ public class GetPoisAction extends BusinessAction implements
      * @return result name.
      */
     public String execute() {
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getMapDelegate().getInitialPoiMap(
                         MELBOURCE_VIC_COORDINATES, MapLayer.Map,
                         PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
                         defaultZoom, getContext());
 
-        setMapUrlHolder(mapUrlHolder);
+        setMap(map);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("mapUrl found: " + getMapUrlHolder().getMapUrl());
+            logger.debug("mapUrl found: " + getMap().getMapUrl());
         }
 
         return ResultName.SUCCESS;
@@ -91,18 +91,18 @@ public class GetPoisAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapUrlHolder
+     * @return the map
      */
-    public MapUrlHolder getMapUrlHolder() {
-        return mapUrlHolder;
+    public Map getMap() {
+        return map;
     }
 
     /**
-     * @param mapUrlHolder
-     *            the mapUrlHolder to set
+     * @param map
+     *            the map to set
      */
-    public void setMapUrlHolder(final MapUrlHolder mapUrlHolder) {
-        this.mapUrlHolder = mapUrlHolder;
+    public void setMap(final Map map) {
+        this.map = map;
     }
 
     /**

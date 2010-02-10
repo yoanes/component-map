@@ -1,3 +1,7 @@
+==== Version 1.0.22 (tag: map_v1_0_22) ====
+
+MapUrlHolder renamed to Map. MapUrlHolderImpl renamed to MapImpl.
+
 ==== Version 1.0.21 (tag: map_v1_0_21) ====
 
 MapDelegate.retrieveInitialMap renamed to getInitialMap.

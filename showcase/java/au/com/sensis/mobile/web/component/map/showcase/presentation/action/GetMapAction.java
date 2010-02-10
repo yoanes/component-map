@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import au.com.sensis.address.GeocodedAddress;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
-import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.service.LocationManager;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
@@ -31,7 +31,7 @@ public class GetMapAction extends BusinessAction implements
     private LocationManager locationManager;
     private MapDelegate mapDelegate;
 
-    private MapUrlHolder mapUrlHolder;
+    private Map map;
 
     private int defaultZoom;
 
@@ -44,15 +44,15 @@ public class GetMapAction extends BusinessAction implements
                 getLocationDelegate().resolveToSingleLocation(getModel().getLocation());
 
         // Example of how to use the MapDelegate to get an initial map.
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getMapDelegate().getInitialMap(addressToMap.getCoordinates(),
                         getDefaultZoom(), MapLayer.Map,
                         MobilesIconType.CROSS_HAIR, getContext());
-        setMapUrlHolder(mapUrlHolder);
+        setMap(map);
 
         if (logger.isDebugEnabled()) {
             logger.debug("mapUrl found: "
-                    + getMapUrlHolder().getMapUrl());
+                    + getMap().getMapUrl());
         }
 
         return ResultName.SUCCESS;
@@ -107,18 +107,18 @@ public class GetMapAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapUrlHolder
+     * @return the map
      */
-    public MapUrlHolder getMapUrlHolder() {
-        return mapUrlHolder;
+    public Map getMap() {
+        return map;
     }
 
     /**
-     * @param mapUrlHolder
-     *            the mapUrlHolder to set
+     * @param map
+     *            the map to set
      */
-    public void setMapUrlHolder(final MapUrlHolder mapUrlHolder) {
-        this.mapUrlHolder = mapUrlHolder;
+    public void setMap(final Map map) {
+        this.map = map;
     }
 
     /**

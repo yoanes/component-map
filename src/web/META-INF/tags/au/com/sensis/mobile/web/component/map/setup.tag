@@ -4,9 +4,9 @@
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
-<%@ attribute name="mapUrlHolder" required="true"
-    type="au.com.sensis.mobile.web.component.map.model.MapUrlHolder"  
-    description="MapUrlHolder returned by the MapDelegate." %>
+<%@ attribute name="map" required="true"
+    type="au.com.sensis.mobile.web.component.map.model.Map"  
+    description="Map returned by the MapDelegate." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
 <logging:info logger="${logger}" message="Entering setup.tag" />
@@ -28,12 +28,12 @@
 <core:script src="${compMcsBasePath}/map/scripts/CommMode.mscr"></core:script>
 <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
 
-<c:if test="${not empty mapUrlHolder}">
+<c:if test="${not empty map}">
     <core:script name="create-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
         
             var icons = [
-                <c:forEach var="resolvedIcon" items="${mapUrlHolder.resolvedIcons}" varStatus="resolvedIconLoopStatus">
+                <c:forEach var="resolvedIcon" items="${map.resolvedIcons}" varStatus="resolvedIconLoopStatus">
                     <c:if test="${resolvedIconLoopStatus.index > 0}">,</c:if>
                     {
                         url: '<c:out value="${resolvedIcon.icon.clientImgSrcPath}" />' ,
@@ -50,9 +50,9 @@
             ];
         
             var MEMS = new MobEMS('mapWindow', {
-                    'longitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.longitude}"/>, 
-                    'latitude': <c:out value="${mapUrlHolder.mapUrl.mapCentre.latitude}"/>, 
-                    'zoom': <c:out value="${mapUrlHolder.emsZoom}"/>
+                    'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
+                    'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
+                    'zoom': <c:out value="${map.emsZoom}"/>
                 }, icons
             );
         }

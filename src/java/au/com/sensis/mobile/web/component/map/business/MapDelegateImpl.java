@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
 import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
-import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
-import au.com.sensis.mobile.web.component.map.model.MapUrlHolderImpl;
+import au.com.sensis.mobile.web.component.map.model.Map;
+import au.com.sensis.mobile.web.component.map.model.MapImpl;
 import au.com.sensis.sal.common.UserContext;
 import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
@@ -76,7 +76,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * {@inheritDoc}
      */
-    public MapUrlHolder getInitialMap(final WGS84Point mapCentre,
+    public Map getInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
             final MobileContext mobileContext) {
 
@@ -104,7 +104,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 logger.debug("map url is " + mapUrl.getImageUrl());
             }
 
-            return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre,
+            return MapImpl.createMapRetrievedInstance(mapCentre,
                     mapLayer, mapUrl, emsZoomLevel,
                     isZoomLevelMin(mapUrl.getZoom()),
                     isZoomLevelMax(mapUrl.getZoom()));
@@ -117,7 +117,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
                     new ArrayList<IconDescriptor>(),
                     getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
-            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
+            return MapImpl.createMapRetrievalDeferrendInstance(mapCentre,
                     mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         }
@@ -148,7 +148,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * {@inheritDoc}
      */
-    public MapUrlHolder manipulateMap(final WGS84Point originalMapCentrePoint,
+    public Map manipulateMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, final MapLayer mapLayer,
             final MobilesIconType originalCentreIconType,
             final Action mapManipulationAction, final MobileContext mobileContext) {
@@ -165,7 +165,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
-        return MapUrlHolderImpl.createMapRetrievedInstance(
+        return MapImpl.createMapRetrievedInstance(
                 originalMapCentrePoint, mapLayer, mapUrl,
                 emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                 isZoomLevelMax(mapUrl.getZoom()));
@@ -226,7 +226,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * from WhereisMobile.
      * </p>
      */
-    public MapUrlHolder getInitialPoiMap(final WGS84Point mapCentre,
+    public Map getInitialPoiMap(final WGS84Point mapCentre,
             final MapLayer mapLayer, final List<IconDescriptor> poiIcons,
             final int mobilesZoomThreshold, final MobileContext mobileContext) {
 
@@ -252,7 +252,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
             final int emsZoomLevel =
                     getEmsManager().getEmsZoomLevel(mapUrl.getZoom());
-            return MapUrlHolderImpl.createMapRetrievedInstance(mapCentre, mapLayer,
+            return MapImpl.createMapRetrievedInstance(mapCentre, mapLayer,
                     mapUrl, emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                     isZoomLevelMax(mapUrl.getZoom()));
         } else {
@@ -266,7 +266,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
             final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
                     poiIcons, screenDimensions);
-            return MapUrlHolderImpl.createMapRetrievalDeferrendInstance(mapCentre,
+            return MapImpl.createMapRetrievalDeferrendInstance(mapCentre,
                     mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         }
@@ -276,7 +276,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * {@inheritDoc}
      */
-    public MapUrlHolder manipulatePoiMap(final WGS84Point originalMapCentrePoint,
+    public Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, final MapLayer mapLayer,
             final List<IconDescriptor> poiIcons,
             final Action mapManipulationAction,
@@ -294,7 +294,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
-        return MapUrlHolderImpl.createMapRetrievedInstance(
+        return MapImpl.createMapRetrievedInstance(
                 originalMapCentrePoint, mapLayer, mapUrl,
                 emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                 isZoomLevelMax(mapUrl.getZoom()));

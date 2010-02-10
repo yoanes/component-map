@@ -20,15 +20,15 @@
         <%--
           - Current state of the map so that further manipulations will be relative to this. 
           --%>
-        <s:param name="moclat"><s:property value="#attr.mapUrlHolder.originalMapCentre.latitude"/></s:param>
-        <s:param name="moclon"><s:property value="#attr.mapUrlHolder.originalMapCentre.longitude"/></s:param>
-        <s:param name="mclat"><s:property value="#attr.mapUrlHolder.mapUrl.mapCentre.latitude"/></s:param>
-        <s:param name="mclon"><s:property value="#attr.mapUrlHolder.mapUrl.mapCentre.longitude"/></s:param>
-        <s:param name="tllat"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.topLeft.latitude"/></s:param>
-        <s:param name="tllon"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.topLeft.longitude"/></s:param>
-        <s:param name="brlat"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.bottomRight.latitude"/></s:param>
-        <s:param name="brlon"><s:property value="#attr.mapUrlHolder.mapUrl.boundingBox.bottomRight.longitude"/></s:param>
-        <s:param name="mz"><s:property value="#attr.mapUrlHolder.mapUrl.zoom"/></s:param>                
+        <s:param name="moclat"><s:property value="#attr.map.originalMapCentre.latitude"/></s:param>
+        <s:param name="moclon"><s:property value="#attr.map.originalMapCentre.longitude"/></s:param>
+        <s:param name="mclat"><s:property value="#attr.map.mapUrl.mapCentre.latitude"/></s:param>
+        <s:param name="mclon"><s:property value="#attr.map.mapUrl.mapCentre.longitude"/></s:param>
+        <s:param name="tllat"><s:property value="#attr.map.mapUrl.boundingBox.topLeft.latitude"/></s:param>
+        <s:param name="tllon"><s:property value="#attr.map.mapUrl.boundingBox.topLeft.longitude"/></s:param>
+        <s:param name="brlat"><s:property value="#attr.map.mapUrl.boundingBox.bottomRight.latitude"/></s:param>
+        <s:param name="brlon"><s:property value="#attr.map.mapUrl.boundingBox.bottomRight.longitude"/></s:param>
+        <s:param name="mz"><s:property value="#attr.map.mapUrl.zoom"/></s:param>                
     </s:url>
 
     <s:url id="zoomInUrl" value="%{browseMapUrl}" includeContext="false">
@@ -36,7 +36,7 @@
           - Specific lyr here since we need a specific value for photoLayerUrl 
           - and mapLayerUrl below. 
           --%>
-        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />
+        <s:param name="lyr" value="#attr.map.mapLayerShortCode" />
         <s:param name="act" value="%{'mzi'}" />
     </s:url>
 
@@ -45,7 +45,7 @@
           - Specific lyr here since we need a specific value for photoLayerUrl 
           - and mapLayerUrl below. 
           --%>
-        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />
+        <s:param name="lyr" value="#attr.map.mapLayerShortCode" />
         <s:param name="act" value="%{'mzo'}" />
     </s:url>
     
@@ -54,7 +54,7 @@
           - Specific lyr here since we need a specific value for photoLayerUrl 
           - and mapLayerUrl below. 
           --%>
-        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
+        <s:param name="lyr" value="#attr.map.mapLayerShortCode" />    
         <s:param name="act" value="%{'mpn'}" />
     </s:url>
 
@@ -63,7 +63,7 @@
           - Specific lyr here since we need a specific value for photoLayerUrl 
           - and mapLayerUrl below. 
           --%>
-        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
+        <s:param name="lyr" value="#attr.map.mapLayerShortCode" />    
         <s:param name="act" value="%{'mps'}" />
     </s:url>
 
@@ -72,7 +72,7 @@
           - Specific lyr here since we need a specific value for photoLayerUrl 
           - and mapLayerUrl below. 
           --%>
-        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
+        <s:param name="lyr" value="#attr.map.mapLayerShortCode" />    
         <s:param name="act" value="%{'mpw'}" />
     </s:url>
 
@@ -81,7 +81,7 @@
           - Specific lyr here since we need a specific value for photoLayerUrl 
           - and mapLayerUrl below. 
           --%>
-        <s:param name="lyr" value="#attr.mapUrlHolder.mapLayerShortCode" />    
+        <s:param name="lyr" value="#attr.map.mapLayerShortCode" />    
         <s:param name="act" value="%{'mpe'}" />
     </s:url>
     
@@ -95,7 +95,7 @@
         <%-- No action required here because we are not panning or zooming.--%>
     </s:url>
 
-    <map:render mapUrlHolder="${mapUrlHolder}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
+    <map:render map="${map}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
         panNorthUrl="${panNorthUrl}" panSouthUrl="${panSouthUrl}"
         panEastUrl="${panEastUrl}" panWestUrl="${panWestUrl}"
         photoLayerUrl="${photoLayerUrl}" mapLayerUrl="${mapLayerUrl}"/>

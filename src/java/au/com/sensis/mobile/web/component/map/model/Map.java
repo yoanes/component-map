@@ -8,11 +8,14 @@ import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 
 /**
- * A holder for a {@link MapUrl} instance and supporting methods, where either
- * {@link #isMapImageRetrieved()} or
- * {@link #isMapImageRetrievalDeferredToClient()} is true. The latter indicates
+ * Contains all details of a map to be rendered.
+ * <p>
+ * Either {@link #isMapImageRetrieved()} or
+ * {@link #isMapImageRetrievalDeferredToClient()} will be true. The latter indicates
  * that it is up to the client to retrieve the map image itself (eg. by
- * accessing EMS directly for JavaScript enhanced maps).
+ * accessing EMS directly for JavaScript enhanced maps). The former indicaes
+ * that the map image is contained by {@link #getMapUrl()}.
+ * </p>
  * <p>
  * Also provides {@link #getOriginalMapCentre()} which needs to be retained when
  * calling any of the map manipulation methods in
@@ -26,7 +29,7 @@ import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
  *
  * @author Adrian.Koh2@sensis.com.au
  */
-public interface MapUrlHolder {
+public interface Map {
 
     /**
      * @return true if {@link MapUrl#getImageUrl()} is a valid image url and

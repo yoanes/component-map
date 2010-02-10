@@ -10,17 +10,17 @@ import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 
 /**
- * Default {@link MapUrlHolder} implementation.
+ * Default {@link Map} implementation.
  *
  * @author Adrian.Koh2@sensis.com.au
  */
-public final class MapUrlHolderImpl implements MapUrlHolder {
+public final class MapImpl implements Map {
 
     private static enum MapImageStatus {
 
         /**
          * Map image was retrieved. ie. {@link MapUrl#getImageUrl()} is non-blank in
-         * the {@link MapUrl} returned by  {@link MapUrlHolderImpl#getMapUrl()}.
+         * the {@link MapUrl} returned by  {@link MapImpl#getMapUrl()}.
          */
         MAP_IMAGE_RETRIEVED,
 
@@ -29,7 +29,7 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
          * The client is responsible for the actual map image retrieval
          * (eg. by accessing EMS directly via JavaScript).
          * ie. {@link MapUrl#getImageUrl()} is blank in
-         * the {@link MapUrl} returned by  {@link MapUrlHolderImpl#getMapUrl()}.
+         * the {@link MapUrl} returned by  {@link MapImpl#getMapUrl()}.
          */
         MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT
 
@@ -79,7 +79,7 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      * @param atMaximumZoom
      *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
      */
-    private MapUrlHolderImpl(final WGS84Point originalMapCentre,
+    private MapImpl(final WGS84Point originalMapCentre,
             final MapLayer mapLayer, final MapUrl mapUrl,
             final MapImageStatus mapImageStatus,
             final List<ResolvedIcon> resolvedIcons, final int emsZoom,
@@ -95,7 +95,7 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
     }
 
     /**
-     * Creates an instance of this {@link MapUrlHolderImpl} for which
+     * Creates an instance of this {@link MapImpl} for which
      * {@link #isMapImageRetrieved()} is true. Call this when the map image
      * has been retrieved and is thus contained in the passed in mapUrl.
      *
@@ -111,21 +111,21 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
      * @param atMaximumZoom
      *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
-     * @return an instance of this {@link MapUrlHolderImpl} for which
+     * @return an instance of this {@link MapImpl} for which
      *         {@link #isMapImageRetrieved()} is true.
      */
-    public static MapUrlHolderImpl createMapRetrievedInstance(
+    public static MapImpl createMapRetrievedInstance(
             final WGS84Point originalMapCentre, final MapLayer mapLayer,
             final MapUrl mapUrl, final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
-        return new MapUrlHolderImpl(originalMapCentre, mapLayer, mapUrl,
+        return new MapImpl(originalMapCentre, mapLayer, mapUrl,
                 MapImageStatus.MAP_IMAGE_RETRIEVED, null,
                 emsZoom, atMinimumZoom, atMaximumZoom);
     }
 
 
     /**
-     * Creates an instance of this {@link MapUrlHolderImpl} for which
+     * Creates an instance of this {@link MapImpl} for which
      * {@link #isMapImageRetrievalDeferredToClient()} is true. Call this when
      * the map image has <b>not</b> been retrieved.
      *
@@ -142,10 +142,10 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
      *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
      * @param atMaximumZoom
      *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
-     * @return an instance of this {@link MapUrlHolderImpl} for which
+     * @return an instance of this {@link MapImpl} for which
      *         {@link #isMapImageRetrievalDeferredToClient()} is true.
      */
-    public static MapUrlHolderImpl createMapRetrievalDeferrendInstance(
+    public static MapImpl createMapRetrievalDeferrendInstance(
             final WGS84Point originalMapCentre, final MapLayer mapLayer,
             final List<ResolvedIcon> resolvedIcons, final int zoomLevel,
             final int emsZoom, final boolean atMinimumZoom,
@@ -153,7 +153,7 @@ public final class MapUrlHolderImpl implements MapUrlHolder {
         final LocationMapUrl locationMapUrl = new LocationMapUrl();
         locationMapUrl.setMapCentre(originalMapCentre);
         locationMapUrl.setZoom(zoomLevel);
-        return new MapUrlHolderImpl(originalMapCentre, mapLayer,
+        return new MapImpl(originalMapCentre, mapLayer,
                 locationMapUrl,
                 MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT,
                 resolvedIcons, emsZoom, atMinimumZoom, atMaximumZoom);

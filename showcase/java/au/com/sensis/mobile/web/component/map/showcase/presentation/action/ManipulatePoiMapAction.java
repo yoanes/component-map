@@ -1,7 +1,7 @@
 package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
-import au.com.sensis.mobile.web.component.map.model.MapUrlHolder;
+import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.ManipulateMapForm;
 import au.com.sensis.mobile.web.testbed.ResultName;
@@ -23,19 +23,19 @@ public class ManipulatePoiMapAction extends BusinessAction implements
     private LocationDelegate locationDelegate;
     private MapDelegate mapDelegate;
 
-    private MapUrlHolder mapUrlHolder;
+    private Map map;
 
     /**
      * Executes this action and returns a result name.
      * @return result name.
      */
     public String execute() {
-        final MapUrlHolder mapUrlHolder =
+        final Map map =
                 getMapDelegate().manipulatePoiMap(getModel().getOrignalMapCentre(),
                         getModel().getMapUrl(), getModel().getMapLayer(),
                         PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
                         getModel().getAction(), getContext());
-        setMapUrlHolder(mapUrlHolder);
+        setMap(map);
 
         return ResultName.SUCCESS;
     }
@@ -82,18 +82,18 @@ public class ManipulatePoiMapAction extends BusinessAction implements
     }
 
     /**
-     * @return the mapUrlHolder
+     * @return the map
      */
-    public MapUrlHolder getMapUrlHolder() {
-        return mapUrlHolder;
+    public Map getMap() {
+        return map;
     }
 
     /**
-     * @param mapUrlHolder
-     *            the mapUrlHolder to set
+     * @param map
+     *            the map to set
      */
-    public void setMapUrlHolder(final MapUrlHolder mapUrlHolder) {
-        this.mapUrlHolder = mapUrlHolder;
+    public void setMap(final Map map) {
+        this.map = map;
     }
 
 }

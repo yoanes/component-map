@@ -16,11 +16,11 @@ import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
 
 /**
- * Unit test {@link MapUrlHolderImpl}.
+ * Unit test {@link MapImpl}.
  *
  * @author Adrian.Koh2@sensis.com.au
  */
-public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
+public class MapImplTestCase extends AbstractJUnit4TestCase {
 
     private static final int EMS_ZOOM_LEVEL = 16;
     private static final int ZOOM_LEVEL = 5;
@@ -41,80 +41,80 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testCreateMapRetrievedInstance() throws Throwable {
-        final MapUrlHolder mapUrlHolder =
-                MapUrlHolderImpl.createMapRetrievedInstance(getWgs84Point1(),
+        final Map map =
+                MapImpl.createMapRetrievedInstance(getWgs84Point1(),
                         MapLayer.Photo,
                         getMockMapUrl(), EMS_ZOOM_LEVEL, true, false);
 
-        Assert.assertTrue("isMapImageRetrieved() should be true", mapUrlHolder
+        Assert.assertTrue("isMapImageRetrieved() should be true", map
                 .isMapImageRetrieved());
         Assert.assertFalse(
                 "isMapImageRetrievalDeferredToClient() should be false",
-                mapUrlHolder.isMapImageRetrievalDeferredToClient());
-        Assert.assertEquals("mapUrl is wrong", getMockMapUrl(), mapUrlHolder
+                map.isMapImageRetrievalDeferredToClient());
+        Assert.assertEquals("mapUrl is wrong", getMockMapUrl(), map
                 .getMapUrl());
         Assert.assertEquals("originalMapCentre is wrong", getWgs84Point1(),
-                mapUrlHolder.getOriginalMapCentre());
-        Assert.assertFalse("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+                map.getOriginalMapCentre());
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
         Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
-                mapUrlHolder.isPhotoWithStreetsLayer());
+                map.isPhotoWithStreetsLayer());
 
         Assert.assertEquals("getResolvedIcons() is wrong", new ArrayList<ResolvedIcon>(),
-                mapUrlHolder.getResolvedIcons());
+                map.getResolvedIcons());
 
         Assert.assertEquals("EMS zoom is wrong", EMS_ZOOM_LEVEL,
-                mapUrlHolder.getEmsZoom());
+                map.getEmsZoom());
 
         Assert.assertTrue("isAtMinimumZoom should be true",
-                mapUrlHolder.isAtMinimumZoom());
+                map.isAtMinimumZoom());
         Assert.assertFalse("isAtMaximumZoom should be false",
-                mapUrlHolder.isAtMaximumZoom());
+                map.isAtMaximumZoom());
 
     }
 
     @Test
     public void testCreateMapRetrievalDeferrendInstance() throws Throwable {
         final List<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        final MapUrlHolder mapUrlHolder =
-                MapUrlHolderImpl.createMapRetrievalDeferrendInstance(
+        final Map map =
+                MapImpl.createMapRetrievalDeferrendInstance(
                         getWgs84Point1(), MapLayer.Map, resolvedIcons,
                         ZOOM_LEVEL, EMS_ZOOM_LEVEL, false, true);
 
         Assert.assertFalse("isMapImageRetrieved() should be false",
-                mapUrlHolder.isMapImageRetrieved());
+                map.isMapImageRetrieved());
         Assert.assertTrue(
                 "isMapImageRetrievalDeferredToClient() should be true",
-                mapUrlHolder.isMapImageRetrievalDeferredToClient());
+                map.isMapImageRetrievalDeferredToClient());
 
-        Assert.assertNotNull("mapUrl should not be null", mapUrlHolder
+        Assert.assertNotNull("mapUrl should not be null", map
                 .getMapUrl());
         Assert.assertEquals("mapCentre is wrong", getWgs84Point1(),
-                mapUrlHolder.getMapUrl().getMapCentre());
+                map.getMapUrl().getMapCentre());
         Assert.assertEquals("zoom is wrong", ZOOM_LEVEL,
-                mapUrlHolder.getMapUrl().getZoom());
+                map.getMapUrl().getZoom());
         Assert.assertEquals("imageUrl is wrong", StringUtils.EMPTY,
-                mapUrlHolder.getMapUrl().getImageUrl());
+                map.getMapUrl().getImageUrl());
         Assert.assertNull("boundingBox is wrong",
-                mapUrlHolder.getMapUrl().getBoundingBox());
+                map.getMapUrl().getBoundingBox());
 
         Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
-                mapUrlHolder.getResolvedIcons());
+                map.getResolvedIcons());
 
         Assert.assertEquals("originalMapCentre is wrong", getWgs84Point1(),
-                mapUrlHolder.getOriginalMapCentre());
-        Assert.assertTrue("isMapLayer is wrong", mapUrlHolder.isMapLayer());
-        Assert.assertFalse("isPhotoLayer is wrong", mapUrlHolder.isPhotoLayer());
+                map.getOriginalMapCentre());
+        Assert.assertTrue("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", map.isPhotoLayer());
         Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
-                mapUrlHolder.isPhotoWithStreetsLayer());
+                map.isPhotoWithStreetsLayer());
 
         Assert.assertEquals("EMS zoom is wrong", EMS_ZOOM_LEVEL,
-                mapUrlHolder.getEmsZoom());
+                map.getEmsZoom());
 
         Assert.assertFalse("isAtMinimumZoom should be false",
-                mapUrlHolder.isAtMinimumZoom());
+                map.isAtMinimumZoom());
         Assert.assertTrue("isAtMaximumZoom should be true",
-                mapUrlHolder.isAtMaximumZoom());
+                map.isAtMaximumZoom());
     }
 
     @Test
@@ -124,13 +124,13 @@ public class MapUrlHolderImplTestCase extends AbstractJUnit4TestCase {
         final String[] expectedValues = { "m", "p", "ps" };
 
         for (int i = 0; i < testValues.length; i++) {
-            final MapUrlHolder mapUrlHolder =
-                    MapUrlHolderImpl.createMapRetrievedInstance(
+            final Map map =
+                    MapImpl.createMapRetrievedInstance(
                             getWgs84Point1(), testValues[i], getMockMapUrl(),
                             EMS_ZOOM_LEVEL, true, false);
 
             Assert.assertEquals("MapLayer short code is wrong",
-                    expectedValues[i], mapUrlHolder.getMapLayerShortCode());
+                    expectedValues[i], map.getMapLayerShortCode());
         }
     }
 

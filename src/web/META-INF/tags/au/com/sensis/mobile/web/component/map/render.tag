@@ -4,9 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
-<%@ attribute name="mapUrlHolder" required="true"
-    type="au.com.sensis.mobile.web.component.map.model.MapUrlHolder"  
-    description="MapUrlHolder returned by the MapDelegate." %>
+<%@ attribute name="map" required="true"
+    type="au.com.sensis.mobile.web.component.map.model.Map"  
+    description="Map returned by the MapDelegate." %>
     
 <%@ attribute name="zoomInUrl" required="true" 
     description="Zoom in URL to be used for server side maps." %>
@@ -32,7 +32,7 @@
 <fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
     
 <c:choose>
-    <c:when test="${not empty mapUrlHolder && mapUrlHolder.mapImageRetrievalDeferredToClient}">
+    <c:when test="${not empty map && map.mapImageRetrievalDeferredToClient}">
         <%--
           - Optional case: if it is known that the client will generate the map itself (eg. by accessing 
           - EMS directly for JavaScript enhanced maps), the backend may be set up to not bother
@@ -50,12 +50,12 @@
     <c:otherwise>
         <%-- Cater to less funky phones that need the server to generate the map. --%>
         
-        <c:if test="${not empty mapUrlHolder}"> 
+        <c:if test="${not empty map}"> 
             <div id="mapWindow" class="map" style="margin-top:10px;height:300px;position:relative">
         
                 <div class="mapArea">
         
-                    <object src="${mapUrlHolder.mapUrl.imageUrl}" id="mapImage"
+                    <object src="${map.mapUrl.imageUrl}" id="mapImage"
                             srctype="image/png">
                         <param name="mcs-transcode" value="false"/>
                     </object>
@@ -66,7 +66,7 @@
         
                     <div id="mapZoomControls">
                         <c:choose>
-                           <c:when test="${mapUrlHolder.atMinimumZoom}">
+                           <c:when test="${map.atMinimumZoom}">
                                 <object src="/comp/map/images/furniture/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
                            </c:when>
                            <c:otherwise>
@@ -77,7 +77,7 @@
                         </c:choose>
                         
                         <c:choose>
-                           <c:when test="${mapUrlHolder.atMaximumZoom}">
+                           <c:when test="${map.atMaximumZoom}">
                                 <object src="/comp/map/images/furniture/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
                            </c:when>
                            <c:otherwise>
@@ -111,14 +111,14 @@
                 
                 <div id="viewControls">
                     <c:choose>
-                        <c:when test="${mapUrlHolder.mapLayer}">
+                        <c:when test="${map.mapLayer}">
                             <a href="${photoLayerUrl}">
                                 <object src="/comp/map/images/furniture/photoLayer.mimg">
                                     <fmt:message key="comp.photoLayer.label"/>
                                 </object>
                             </a>
                         </c:when>
-                        <c:when test="${mapUrlHolder.photoLayer}">
+                        <c:when test="${map.photoLayer}">
                             <a href="${mapLayerUrl}">
                                 <object src="/comp/map/images/furniture/mapLayer.mimg">
                                     <fmt:message key="comp.mapLayer.label"/>
