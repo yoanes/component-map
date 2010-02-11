@@ -1,3 +1,8 @@
+==== Version 1.0.23 (tag: map_v1_0_23) ====
+
+Now depends on wl-core-component 1.0.15 to remove transitive dependency on struts2 
+for the default configuration.
+
 ==== Version 1.0.22 (tag: map_v1_0_22) ====
 
 MapUrlHolder renamed to Map. MapUrlHolderImpl renamed to MapImpl.
