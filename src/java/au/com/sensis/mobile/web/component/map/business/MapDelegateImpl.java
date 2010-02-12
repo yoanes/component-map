@@ -149,7 +149,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * {@inheritDoc}
      */
     public Map manipulateMap(final WGS84Point originalMapCentrePoint,
-            final MapUrl existingMapUrl, final MapLayer mapLayer,
+            final MapUrl existingMapUrl, final MapLayer existingMapLayer,
             final MobilesIconType originalCentreIconType,
             final Action mapManipulationAction, final MobileContext mobileContext) {
 
@@ -157,18 +157,42 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 createMapManipulationPanZoomDetail(existingMapUrl,
                         mapManipulationAction);
 
+        final MapLayer newMapLayer = createMapLayerAfterAction(
+                existingMapLayer, mapManipulationAction);
+
         final MapUrl mapUrl = getEmsManager().getMap(
                 getScreenDimensionsStrategy()
                         .createScreenDimensions(mobileContext),
                         originalMapCentrePoint, originalCentreIconType,
-                mapLayer, panZoomDetail,
+                newMapLayer, panZoomDetail,
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
         return MapImpl.createMapRetrievedInstance(
-                originalMapCentrePoint, mapLayer, mapUrl,
+                originalMapCentrePoint, newMapLayer, mapUrl,
                 emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                 isZoomLevelMax(mapUrl.getZoom()));
+    }
+
+    private MapLayer createMapLayerAfterAction(final MapLayer existingMapLayer,
+            final Action mapManipulationAction) {
+        if (mapManipulationAction.isViewAction()) {
+            if (Action.MAP_VIEW.equals(mapManipulationAction)) {
+                return MapLayer.Map;
+            } else if (Action.PHOTO_VIEW.equals(mapManipulationAction)) {
+                return MapLayer.Photo;
+            } else if (Action.HYBRID_VIEW.equals(mapManipulationAction)) {
+                return MapLayer.PhotoWithStreets;
+            } else {
+                if (logger.isEnabledFor(Level.ERROR)) {
+                    logger.error("Action unsupported: '" + mapManipulationAction
+                            + ". Looks like your code has a bug !!! Will assume MapLayer.Map.");
+                }
+                return MapLayer.Map;
+            }
+        } else {
+            return existingMapLayer;
+        }
     }
 
     private UserMapInteraction transformPanActionToUserMapInteraction(
@@ -277,7 +301,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * {@inheritDoc}
      */
     public Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
-            final MapUrl existingMapUrl, final MapLayer mapLayer,
+            final MapUrl existingMapUrl, final MapLayer existingMapLayer,
             final List<IconDescriptor> poiIcons,
             final Action mapManipulationAction,
             final MobileContext mobileContext) {
@@ -285,17 +309,20 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         final PanZoomDetail panZoomDetail =
                 createMapManipulationPanZoomDetail(existingMapUrl,
                         mapManipulationAction);
+        final MapLayer newMapLayer = createMapLayerAfterAction(
+                existingMapLayer, mapManipulationAction);
+
 
         final MapUrl mapUrl = getEmsManager().manipulatePoiMap(
                 getScreenDimensionsStrategy()
                         .createScreenDimensions(mobileContext),
                         originalMapCentrePoint, poiIcons,
-                mapLayer, panZoomDetail,
+                newMapLayer, panZoomDetail,
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
         return MapImpl.createMapRetrievedInstance(
-                originalMapCentrePoint, mapLayer, mapUrl,
+                originalMapCentrePoint, newMapLayer, mapUrl,
                 emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                 isZoomLevelMax(mapUrl.getZoom()));
 

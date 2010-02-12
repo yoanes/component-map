@@ -52,6 +52,15 @@ public interface MapDelegate {
         /** Pan map west action. */
         MOVE_WEST("mpw"),
 
+        /** View the map as a "map" view. */
+        MAP_VIEW("mpv"),
+
+        /** View the map as a photo view. */
+        PHOTO_VIEW("phv"),
+
+        /** View the map as a hybrid map/photo view. */
+        HYBRID_VIEW("hbv"),
+
         /** No operation (ie. default if String conversion fails). */
         NO_OP("nop");
 
@@ -130,6 +139,17 @@ public interface MapDelegate {
 
             return ZOOM_IN.equals(this) || ZOOM_OUT.equals(this);
         }
+
+        /**
+         * Returns true if this action corresponds to a view action.
+         *
+         * @return true if this action corresponds to a view action.
+         */
+        public boolean isViewAction() {
+
+            return MAP_VIEW.equals(this) || PHOTO_VIEW.equals(this)
+                || HYBRID_VIEW.equals(this);
+        }
     }
 
     /**
@@ -158,9 +178,9 @@ public interface MapDelegate {
             final MobileContext mobileContext);
 
     /**
-     * Manipulate an existing map, such as panning or zooming it, or changing
-     * the {@link MapLayer}. Note that to only change the {@link MapLayer}, you
-     * should set the mapManipulationAction parameter to {@link Action#NO_OP}.
+     * Manipulate an existing map, such as panning or zooming it or changing
+     * the type of view. The manipulation to be performed is given by the
+     * mapManipulationAction parameter.
      *
      * @param originalMapCentrePoint
      *            The original map centre that was passed to
@@ -174,9 +194,13 @@ public interface MapDelegate {
      *            this
      *            {@link #manipulateMap(WGS84Point, MapUrl, Action, MobileContext)}
      *            .
-     * @param mapLayer
-     *            The {@link MapLayer} that should be rendered to produce the
-     *            map image.
+     * @param existingMapLayer
+     *            The existing {@link MapLayer} that the existingMapUrl was
+     *            rendered with. Contained in the {@link Map} returned by a previous call to
+     *            {@link #getInitialMap(WGS84Point, int, MapLayer, MobilesIconType, MobileContext)
+     *            or this
+     *            {@link #manipulateMap(WGS84Point, MapUrl, MapLayer, MobilesIconType, Action,
+     *            MobileContext).
      * @param originalCentreIconType
      *            Type of icon to display at the original centre of the map.
      * @param mapManipulationAction
@@ -187,7 +211,7 @@ public interface MapDelegate {
      * @return {@link Map}. May not be null.
      */
     Map manipulateMap(final WGS84Point originalMapCentrePoint,
-            final MapUrl existingMapUrl, MapLayer mapLayer,
+            final MapUrl existingMapUrl, MapLayer existingMapLayer,
             MobilesIconType originalCentreIconType,
             final Action mapManipulationAction,
             final MobileContext mobileContext);
@@ -216,9 +240,9 @@ public interface MapDelegate {
             int mobilesZoomThreshold, final MobileContext mobileContext);
 
     /**
-     * Manipulate an existing POI map, such as panning or zooming it, or changing
-     * the {@link MapLayer}. Note that to only change the {@link MapLayer}, you
-     * should set the mapManipulationAction parameter to {@link Action#NO_OP}.
+     * Manipulate an existing POI map, such as panning or zooming it or changing
+     * the type of view. The manipulation to be performed is given by the
+     * mapManipulationAction parameter.
      *
      * @param originalMapCentrePoint
      *            The original map centre that was passed to
@@ -232,9 +256,13 @@ public interface MapDelegate {
      *            this
      *            {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action,
      *            MobileContext)}.
-     * @param mapLayer
-     *            The {@link MapLayer} that should be rendered to produce the
-     *            map image.
+     * @param existingMapLayer
+     *            The existing {@link MapLayer} that the existingMapUrl was
+     *            rendered with. Contained in the {@link Map} returned by a previous call to
+     *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext) or
+     *            this
+     *            {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action,
+     *            MobileContext)}.
      * @param poiIcons
      *            List of icons to render on the map.
      * @param mapManipulationAction
@@ -245,7 +273,7 @@ public interface MapDelegate {
      * @return {@link Map}. May not be null.
      */
     Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
-            final MapUrl existingMapUrl, MapLayer mapLayer,
+            final MapUrl existingMapUrl, MapLayer existingMapLayer,
             final List<IconDescriptor> poiIcons,
             final Action mapManipulationAction,
             final MobileContext mobileContext);

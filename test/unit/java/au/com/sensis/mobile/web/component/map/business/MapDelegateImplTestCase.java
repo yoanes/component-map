@@ -247,58 +247,79 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapPanEast() throws Throwable {
-        doTestManipulateMap(Action.MOVE_EAST, UserMapInteraction.EAST,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_EAST, UserMapInteraction.EAST,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulateMapPanWest() throws Throwable {
-        doTestManipulateMap(Action.MOVE_WEST, UserMapInteraction.WEST,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_WEST, UserMapInteraction.WEST,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulateMapPanNorth() throws Throwable {
-        doTestManipulateMap(Action.MOVE_NORTH, UserMapInteraction.NORTH,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH, UserMapInteraction.NORTH,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulateMapPanSouth() throws Throwable {
-        doTestManipulateMap(Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulateMapZoomIn() throws Throwable {
-        doTestManipulateMap(Action.ZOOM_IN, UserMapInteraction.ZOOM,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL - 1);
     }
 
     @Test
     public void testManipulateMapZoomInWhenAlreadyAtMinZoom() throws Throwable {
-        doTestManipulateMap(Action.ZOOM_IN, UserMapInteraction.ZOOM,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 MIN_ZOOM, MIN_ZOOM);
     }
 
     @Test
     public void testManipulateMapZoomOut() throws Throwable {
-        doTestManipulateMap(Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL + 1);
     }
 
     @Test
     public void testManipulateMapZoomInWhenAlreadyAtMaxZoom() throws Throwable {
-        doTestManipulateMap(Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 MAX_ZOOM, MAX_ZOOM);
     }
 
     @Test
     public void testManipulateMapNoOp() throws Throwable {
-        doTestManipulateMap(Action.NO_OP, UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.NO_OP,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
-    private void doTestManipulateMap(final Action mapDelegateAction,
+    @Test
+    public void testManipulateMapChangeToMapView() throws Throwable {
+        doTestManipulateMap(MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapChangeToPhotoView() throws Throwable {
+        doTestManipulateMap(MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapChangeToHybridView() throws Throwable {
+        doTestManipulateMap(MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    private void doTestManipulateMap(final MapLayer existingMapLayer,
+            final MapLayer expectedMapLayerAfterAction,
+            final Action mapDelegateAction,
             final UserMapInteraction userMapInteraction, final int oldZoomLevel,
             final int newZoomLevel) {
         EasyMock.expect(
@@ -323,7 +344,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         EasyMock.expect(
                 getMockEmsManager().getMap(getMockScreenDimensions(),
-                        getPoint2(), MobilesIconType.CROSS_HAIR, MapLayer.Photo,
+                        getPoint2(), MobilesIconType.CROSS_HAIR,
+                        getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
+                                mapDelegateAction),
                         panZoomDetail, getMockUserContext())).andReturn(
                 getMockMapUrl());
 
@@ -337,7 +360,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final Map map =
                 getObjectUnderTest().manipulateMap(getPoint2(), getMockExistingMapUrl(),
-                        MapLayer.Photo, MobilesIconType.CROSS_HAIR,
+                        existingMapLayer, MobilesIconType.CROSS_HAIR,
                         mapDelegateAction, getMockMobileContext());
 
         Assert.assertTrue("isMapImageRetrieved() should be true", map
@@ -347,9 +370,12 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertSame("map has wrong originalMapCentre", getPoint2(),
                 map.getOriginalMapCentre());
 
-        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
-        Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
+        Assert.assertEquals("isMapLayer is wrong",
+                MapLayer.Map.equals(expectedMapLayerAfterAction), map.isMapLayer());
+        Assert.assertEquals("isPhotoLayer is wrong",
+                MapLayer.Photo.equals(expectedMapLayerAfterAction), map.isPhotoLayer());
+        Assert.assertEquals("isPhotoWithStreetsLayer is wrong",
+                MapLayer.PhotoWithStreets.equals(expectedMapLayerAfterAction),
                 map.isPhotoWithStreetsLayer());
 
         Assert.assertEquals("isAtMinimumZoom() is wrong",
@@ -359,6 +385,20 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
                 map.getEmsZoom());
+    }
+
+    private MapLayer getNewMapLayerAfterApplyingMapDelegateAction(
+            final MapLayer existingMapLayer, final Action action) {
+
+        if (Action.MAP_VIEW.equals(action)) {
+            return MapLayer.Map;
+        } else if (Action.PHOTO_VIEW.equals(action)) {
+            return MapLayer.Photo;
+        } else if (Action.HYBRID_VIEW.equals(action)) {
+            return MapLayer.PhotoWithStreets;
+        } else {
+            return existingMapLayer;
+        }
     }
 
     @Test
@@ -570,59 +610,81 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulatePoiMapPanEast() throws Throwable {
-        doTestManipulatePoiMap(Action.MOVE_EAST, UserMapInteraction.EAST,
-                ZOOM_LEVEL, ZOOM_LEVEL);
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
+                UserMapInteraction.EAST, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulatePoiMapPanWest() throws Throwable {
-        doTestManipulatePoiMap(Action.MOVE_WEST, UserMapInteraction.WEST,
-                ZOOM_LEVEL, ZOOM_LEVEL);
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
+                UserMapInteraction.WEST, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulatePoiMapPanNorth() throws Throwable {
-        doTestManipulatePoiMap(Action.MOVE_NORTH, UserMapInteraction.NORTH,
-                ZOOM_LEVEL, ZOOM_LEVEL);
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
+                UserMapInteraction.NORTH, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulatePoiMapPanSouth() throws Throwable {
-        doTestManipulatePoiMap(Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
-                ZOOM_LEVEL, ZOOM_LEVEL);
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
+                UserMapInteraction.SOUTH, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
     public void testManipulatePoiMapZoomIn() throws Throwable {
-        doTestManipulatePoiMap(Action.ZOOM_IN, UserMapInteraction.ZOOM,
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL - 1);
     }
 
     @Test
     public void testManipulatePoiMapZoomInWhenAlreadyAtMinZoom() throws Throwable {
-        doTestManipulatePoiMap(Action.ZOOM_IN, UserMapInteraction.ZOOM,
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 MIN_ZOOM, MIN_ZOOM);
     }
 
     @Test
     public void testManipulatePoiMapZoomOut() throws Throwable {
-        doTestManipulatePoiMap(Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL + 1);
     }
 
     @Test
     public void testManipulatePoiMapZoomInWhenAlreadyAtMaxZoom() throws Throwable {
-        doTestManipulatePoiMap(Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 MAX_ZOOM, MAX_ZOOM);
     }
 
     @Test
     public void testManipulatePoiMapNoOp() throws Throwable {
-        doTestManipulatePoiMap(Action.NO_OP, UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.NO_OP,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapChangeToMapView() throws Throwable {
+        doTestManipulatePoiMap(MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapChangeToPhotoView() throws Throwable {
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapChangeToHybridView() throws Throwable {
+        doTestManipulatePoiMap(MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
 
-    private void doTestManipulatePoiMap(final Action mapDelegateAction,
+
+    private void doTestManipulatePoiMap(final MapLayer existingMapLayer,
+            final MapLayer expectedMapLayerAfterAction,
+            final Action mapDelegateAction,
             final UserMapInteraction userMapInteraction, final int oldZoomLevel,
             final int newZoomLevel) {
 
@@ -651,7 +713,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 getMockEmsManager().manipulatePoiMap(getMockScreenDimensions(),
                         getPoint2(), iconDescriptors,
-                        MapLayer.Photo, panZoomDetail, getMockUserContext()))
+                        getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
+                                mapDelegateAction),
+                        panZoomDetail, getMockUserContext()))
                 .andReturn(getMockMapUrl());
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
@@ -664,7 +728,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final Map map =
                 getObjectUnderTest().manipulatePoiMap(getPoint2(),
-                        getMockExistingMapUrl(), MapLayer.Photo,
+                        getMockExistingMapUrl(), existingMapLayer,
                         iconDescriptors,
                         mapDelegateAction,
                         getMockMobileContext());
@@ -676,10 +740,13 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertSame("map has wrong originalMapCentre",
                 getPoint2(), map.getOriginalMapCentre());
 
-        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
-        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", map
-                .isPhotoWithStreetsLayer());
+        Assert.assertEquals("isMapLayer is wrong",
+                MapLayer.Map.equals(expectedMapLayerAfterAction), map.isMapLayer());
+        Assert.assertEquals("isPhotoLayer is wrong",
+                MapLayer.Photo.equals(expectedMapLayerAfterAction), map.isPhotoLayer());
+        Assert.assertEquals("isPhotoWithStreetsLayer is wrong",
+                MapLayer.PhotoWithStreets.equals(expectedMapLayerAfterAction),
+                map.isPhotoWithStreetsLayer());
 
         Assert.assertEquals("isAtMinimumZoom() is wrong",
                 newZoomLevel == MIN_ZOOM, map.isAtMinimumZoom());

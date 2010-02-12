@@ -1,3 +1,20 @@
+==== Version 1.0.24 (tag: map_v1_0_24) ====
+
+MapDelegate interface streamlined based on Heather's feedback during WhereisMobile integration:
+- MapDelegate.Action contains new view related members:
+    - MAP_VIEW
+    - PHOTO_VIEW
+    - HYBRID_VIEW
+    - isViewAction()
+- MapDelegate.manipulateMap and MapDelegate.manipulatePoiMap modified so that the
+  mapLayer argument must be the existing MapLayer, not the new value (which is now
+  controlled by the MapDelegate.Action value above.
+  
+Also updated ivy config (in .classpath) to work with latest Eclipse ivy plugins:
+- Apache Ivy 2.1.0.final_20090925235825
+- Apache IvyDE 2.0.0.final_200907011148-RELEASE
+This allows the ivy-settings path to be project relative.
+
 ==== Version 1.0.23 (tag: map_v1_0_23) ====
 
 Now depends on wl-core-component 1.0.15 to remove transitive dependency on struts2 
