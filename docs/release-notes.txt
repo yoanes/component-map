@@ -1,3 +1,15 @@
+==== Version 1.0.25 (tag: map_v1_0_25) ====
+
+Based on discussions with Heather and Rob, implemented DefaultScreenDimensionsStrategy 
+and configured MapDelegateImpl in mapComponentBusinessContext.xml to use it by default.
+Also refactored the bean definition to be a named bean (map.comp.screenDimensionsStrategy) 
+so that webapps can (if they wish) substitute their own implementation.
+
+Removed WhitePagesMobileScreenDimensionsStrategy. Removed properties that it 
+used to require from map-component.properties.
+
+Added dev and tst config files for JavaScript maps: EMS.mscr.dev and EMS.mscr.tst
+
 ==== Version 1.0.24 (tag: map_v1_0_24) ====
 
 MapDelegate interface streamlined based on Heather's feedback during WhereisMobile integration:

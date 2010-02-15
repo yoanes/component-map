@@ -24,12 +24,7 @@
         <property name="emsManager" ref="emsManager" />            
         
         <property name="screenDimensionsStrategy">
-            <bean class="au.com.sensis.mobile.web.component.map.business.WhitePagesMobileScreenDimensionsStrategy">
-                <property name="mapWidthMarginLarge" value="@{map.comp.maps.widthMargin.large}"/>
-                <property name="mapHeightMarginLarge" value="@{map.comp.maps.heightMargin.large}"/>
-                <property name="mapWidthMarginMedium" value="@{map.comp.maps.widthMargin.medium}"/>
-                <property name="mapHeightMarginMedium" value="@{map.comp.maps.heightMargin.medium}"/>
-            </bean>
+            <ref local="map.comp.screenDimensionsStrategy"/>
         </property>
         
         <property name="minZoom" value="@{map.comp.maps.minZoom}" />
@@ -58,4 +53,7 @@
             </bean>
         </constructor-arg>
     </bean>
+    
+    <bean id="map.comp.screenDimensionsStrategy" 
+        class="au.com.sensis.mobile.web.component.map.business.DefaultScreenDimensionsStrategy" />
 </beans>

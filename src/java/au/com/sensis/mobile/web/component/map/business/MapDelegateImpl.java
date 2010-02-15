@@ -27,6 +27,8 @@ import au.com.sensis.wireless.web.common.validation.ValidatableUtils;
 import au.com.sensis.wireless.web.mobile.MobileContext;
 
 /**
+ * Default {@link MapDelegate} implementation.
+ *
  * @author Adrian.Koh2@sensis.com.au
  */
 public class MapDelegateImpl implements Validatable, MapDelegate {
@@ -48,9 +50,13 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * Strategy interface for determining the {@link ScreenDimensions} for the
      * current user's device. This interface arose due to WPM, WM and YM having
-     * different existing rules for calculating the screen dimensions. In
-     * future, the rules may be unified. For now, though, we shield the
-     * difference behind an interface.
+     * different existing rules for calculating the screen dimensions.
+     * <p>
+     * {@link DefaultScreenDimensionsStrategy} is provided as a
+     * default implementation. Applications can substitute their own implementation
+     * by providing a Spring context file that overrides the default Spring bean
+     * but it is expected that they should not need to.
+     * </p>
      */
     public interface ScreenDimensionsStrategy {
         /**
