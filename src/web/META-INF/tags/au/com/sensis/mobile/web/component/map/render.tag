@@ -125,6 +125,17 @@
                                 </object>
                             </a>
                         </c:when>
+                        <c:otherwise>
+                            <%--
+                              - In the event that the mapLayer is anything else (such as "PhotoWithStreets"),
+                              - display the Map view link.   
+                              --%>
+                            <a href="${mapLayerUrl}">
+                                <object src="/comp/map/images/furniture/mapLayer.mimg">
+                                    <fmt:message key="comp.mapLayer.label"/>
+                                </object>
+                            </a>
+                        </c:otherwise>
                     </c:choose>
                 </div>
                 

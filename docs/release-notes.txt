@@ -1,4 +1,15 @@
+==== Version 1.0.27 (tag: map_v1_0_27) ====
+
+Fixes CUI-95 Map Component - render.tag should default map/photo toggle button to "map" to
+catch external hybrid map requests. Details are below.
+
+render.tag now will now render a "Map" view link in the event that the currently displayed
+MapLayer is anything other than "Map" or "Photo".
+
 ==== Version 1.0.26 (tag: map_v1_0_26) ====
+
+Fixes CUI-92 Map Component - JS EMS authorisation must be configurable per app (WPM, WM, YM).
+Details are below.
 
 EMS.mscr.* files in src/resources/mcs/policies/comp/map/scripts reduced
 to EMS.mscr.default. Url in that file replaced with the following so that 
