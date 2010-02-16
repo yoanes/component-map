@@ -31,8 +31,18 @@
             </meta-data>
             <content>
                 <url>
-                    <!-- Default token for desk, dev etc. platforms. -->
-                    <relative>http://ems.whereis.com/v1/web/js/ems/lib/EMS.js?token=4316381136292159452</relative>
+                    <!-- 
+                      - By default, applications must use Ant token replacement to specify the
+                      - URL of the EMS JavaScript endpoint. If your build scripts call
+                      - the standard sensis:extract-all-component-policies Ant macrodef,
+                      - you can do this by specifying a "filtersetelements" nested element.
+                      -
+                      - Note that the token names currently use the "env.ems" prefix. In future,
+                      - it would be nice to use a map.comp prefix. However, doing so now would
+                      - cause duplication with the properties already used in the EMS Manager
+                      -  config. 
+                      -->
+                    <relative>@env.ems.service.js@@env.ems.token@</relative>
                 </url>
             </content>
         </variant>

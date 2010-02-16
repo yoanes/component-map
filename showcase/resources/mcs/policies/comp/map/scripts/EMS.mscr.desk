@@ -31,8 +31,8 @@
             </meta-data>
             <content>
                 <url>
-                    <!-- Token for dev. -->
-                    <relative>http://ems.whereis.com/v1/web/js/ems/lib/EMS.js?token=7668444328211466035</relative>
+                    <!-- Desk token. -->
+                    <relative>http://ems.whereis.com/v1/web/js/ems/lib/EMS.js?token=4316381136292159452</relative>
                 </url>
             </content>
         </variant>

@@ -1,3 +1,21 @@
+==== Version 1.0.26 (tag: map_v1_0_26) ====
+
+EMS.mscr.* files in src/resources/mcs/policies/comp/map/scripts reduced
+to EMS.mscr.default. Url in that file replaced with the following so that 
+web apps can substitute their own URL and token:
+
+    <relative>@env.ems.service.js@@env.ems.token@</relative>
+    
+EMS.mscr.desk, EMS.mscr.sandpit, EMS.mscr.sandpit-dev and EMS.mscr.sandpit-test
+added to showcase/resources/mcs/policies/comp/map/scripts so that the showcase
+can use its own versions without having to specific a replacement token
+for EMS.mscr.default. This in turn avoids figuring out how the map component
+showcase would override the standard showcase policy extraction in the shared
+build scripts.
+
+Also upgraded ivy.xml to depend on the latest wl-build-scripts 1.0.8 although 
+not strictly required.
+
 ==== Version 1.0.25 (tag: map_v1_0_25) ====
 
 Based on discussions with Heather and Rob, implemented DefaultScreenDimensionsStrategy 
