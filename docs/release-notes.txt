@@ -16,6 +16,31 @@ build scripts.
 Also upgraded ivy.xml to depend on the latest wl-build-scripts 1.0.8 although 
 not strictly required.
 
+Upgrade instructions for webapps:
+1. Your webapp build.xml must use the sensis:extract-all-component-policies task
+   from wl-build-scripts 1.0.8.
+2. When calling the task, you must specify a filtersfile:
+
+        <!--
+          - Extract the policies from all components found in the core libs dir.
+          -->
+        <sensis:extract-all-component-policies 
+            componentLibDir="${lib.dir}/jar/core" destDir="${build.dir}/work/policies"
+            mcsMgrpComponentScriptsBaseUrl="${mcs.mgrp.component.scripts.base.url}"
+            mcsMgrpComponentImagesBaseUrl="${mcs.mgrp.component.images.base.url}"
+            platform="${project.platform}">
+        
+            <filtersetelements>
+                   <filtersfile file="${cfg.dir}/environment.properties.${project.platform}"/>      
+            </filtersetelements>
+        </sensis:extract-all-component-policies>
+        
+   The filters file must define the following properties, where the token must be specific
+   to your application and environment (here, we use the WPM dev token as an example):
+   
+       env.ems.service.js=http://ems.whereis.com/v1/web/js/ems/lib/EMS.js?token=
+       env.ems.token=4316381136292159452
+       
 ==== Version 1.0.25 (tag: map_v1_0_25) ====
 
 Based on discussions with Heather and Rob, implemented DefaultScreenDimensionsStrategy 
