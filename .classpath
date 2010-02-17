@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="test/selenium/resources"/>
 	<classpathentry kind="src" path="test/unit/resources"/>
 	<classpathentry kind="src" path="test/unit/java"/>
 	<classpathentry kind="src" path="test/selenium/java"/>
