@@ -87,6 +87,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MobileContext mobileContext) {
 
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
+                new ArrayList<IconDescriptor>(),
+                getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve map for device: "
@@ -111,7 +114,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             }
 
             return MapImpl.createMapRetrievedInstance(mapCentre,
-                    mapLayer, mapUrl, emsZoomLevel,
+                    mapLayer, mapUrl, resolvedIcons, emsZoomLevel,
                     isZoomLevelMin(mapUrl.getZoom()),
                     isZoomLevelMax(mapUrl.getZoom()));
         } else {
@@ -120,9 +123,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                         + mobileContext.getDevice().getName());
             }
 
-            final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
-                    new ArrayList<IconDescriptor>(),
-                    getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
             return MapImpl.createMapRetrievalDeferrendInstance(mapCentre,
                     mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
@@ -174,8 +174,13 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(
+                originalMapCentrePoint,
+                new ArrayList<IconDescriptor>(),
+                getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
+
         return MapImpl.createMapRetrievedInstance(
-                originalMapCentrePoint, newMapLayer, mapUrl,
+                originalMapCentrePoint, newMapLayer, mapUrl, resolvedIcons,
                 emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                 isZoomLevelMax(mapUrl.getZoom()));
     }
@@ -263,6 +268,8 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         final ScreenDimensions screenDimensions =
             getScreenDimensionsStrategy().createScreenDimensions(
                     mobileContext);
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
+                poiIcons, screenDimensions);
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve map for device: "
@@ -283,7 +290,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final int emsZoomLevel =
                     getEmsManager().getEmsZoomLevel(mapUrl.getZoom());
             return MapImpl.createMapRetrievedInstance(mapCentre, mapLayer,
-                    mapUrl, emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
+                    mapUrl, resolvedIcons, emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                     isZoomLevelMax(mapUrl.getZoom()));
         } else {
             if (logger.isDebugEnabled()) {
@@ -294,8 +301,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final int zoomLevel = getEmsManager().getPoiMapZoom(screenDimensions, mapCentre,
                     poiIcons, getPoiMapRadiusMultiplier(), mobilesZoomThreshold);
             final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
-            final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
-                    poiIcons, screenDimensions);
             return MapImpl.createMapRetrievalDeferrendInstance(mapCentre,
                     mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
@@ -319,16 +324,20 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 existingMapLayer, mapManipulationAction);
 
 
+        final ScreenDimensions screenDimensions = getScreenDimensionsStrategy()
+                .createScreenDimensions(mobileContext);
         final MapUrl mapUrl = getEmsManager().manipulatePoiMap(
-                getScreenDimensionsStrategy()
-                        .createScreenDimensions(mobileContext),
+                screenDimensions,
                         originalMapCentrePoint, poiIcons,
                 newMapLayer, panZoomDetail,
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(
+                originalMapCentrePoint, poiIcons, screenDimensions);
+
         return MapImpl.createMapRetrievedInstance(
-                originalMapCentrePoint, newMapLayer, mapUrl,
+                originalMapCentrePoint, newMapLayer, mapUrl, resolvedIcons,
                 emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
                 isZoomLevelMax(mapUrl.getZoom()));
 

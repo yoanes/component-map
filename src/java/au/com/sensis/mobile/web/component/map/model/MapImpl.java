@@ -70,7 +70,7 @@ public final class MapImpl implements Map {
      *            do.
      * @param resolvedIcons
      *            List of {@link ResolvedIcon}s to be used for
-     *            {@link MapImageStatus#MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT}.
+     *            client generated maps.
      * @param emsZoom
      *            the EMS zoom that the map was/is to be rendered using.
      *            Required by AJAX maps that talk to EMS directly.
@@ -104,6 +104,13 @@ public final class MapImpl implements Map {
      * @param mapLayer {@link MapLayer} requested.
      * @param mapUrl
      *            {@link MapUrl} containing the retrieved map image.
+     * @param resolvedIcons
+     *            List of {@link ResolvedIcon}s to be used for
+     *            client generated maps. Note that we require
+     *            this even though this method explicitly covers
+     *            the case when the map <b>was</b> retrieved. This is a safeguard
+     *            in case we actually generated a map
+     *            that will be replaced with a client generated map.
      * @param emsZoom
      *            the EMS zoom that the map was/is to be rendered using.
      *            Required by AJAX maps that talk to EMS directly.
@@ -116,10 +123,11 @@ public final class MapImpl implements Map {
      */
     public static MapImpl createMapRetrievedInstance(
             final WGS84Point originalMapCentre, final MapLayer mapLayer,
-            final MapUrl mapUrl, final int emsZoom, final boolean atMinimumZoom,
+            final MapUrl mapUrl, final List<ResolvedIcon> resolvedIcons,
+            final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
         return new MapImpl(originalMapCentre, mapLayer, mapUrl,
-                MapImageStatus.MAP_IMAGE_RETRIEVED, null,
+                MapImageStatus.MAP_IMAGE_RETRIEVED, resolvedIcons,
                 emsZoom, atMinimumZoom, atMaximumZoom);
     }
 
@@ -133,6 +141,9 @@ public final class MapImpl implements Map {
      *            Original centre of the map.
      * @param mapLayer
      *            {@link MapLayer} requested.
+     * @param resolvedIcons
+     *            List of {@link ResolvedIcon}s to be used for
+     *            client generated maps.
      * @param zoomLevel
      *            Zoom level requested.
      * @param emsZoom

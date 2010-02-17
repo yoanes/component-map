@@ -41,10 +41,12 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testCreateMapRetrievedInstance() throws Throwable {
+        final List<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         final Map map =
                 MapImpl.createMapRetrievedInstance(getWgs84Point1(),
                         MapLayer.Photo,
-                        getMockMapUrl(), EMS_ZOOM_LEVEL, true, false);
+                        getMockMapUrl(), resolvedIcons,
+                        EMS_ZOOM_LEVEL, true, false);
 
         Assert.assertTrue("isMapImageRetrieved() should be true", map
                 .isMapImageRetrieved());
@@ -70,6 +72,9 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
                 map.isAtMinimumZoom());
         Assert.assertFalse("isAtMaximumZoom should be false",
                 map.isAtMaximumZoom());
+
+        Assert.assertSame("resolvedIcons is wrong", resolvedIcons,
+                map.getResolvedIcons());
 
     }
 
@@ -127,7 +132,8 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
             final Map map =
                     MapImpl.createMapRetrievedInstance(
                             getWgs84Point1(), testValues[i], getMockMapUrl(),
-                            EMS_ZOOM_LEVEL, true, false);
+                            new ArrayList<ResolvedIcon>(), EMS_ZOOM_LEVEL,
+                            true, false);
 
             Assert.assertEquals("MapLayer short code is wrong",
                     expectedValues[i], map.getMapLayerShortCode());

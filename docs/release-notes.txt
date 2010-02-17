@@ -1,3 +1,10 @@
+==== Version 1.0.28 (tag: map_v1_0_28) ====
+
+Fix for "CUI-96: Map Component - always generate icons arg in setup.tag in case 
+generateServerSideMap is true in device-config.xml.". MapDelegate methods
+now ensure that the returned Map contains non-empty "List<ResolvedIcon>" regardless
+of whether the server side map was generated.
+
 ==== Version 1.0.27 (tag: map_v1_0_27) ====
 
 Fixes CUI-95 Map Component - render.tag should default map/photo toggle button to "map" to

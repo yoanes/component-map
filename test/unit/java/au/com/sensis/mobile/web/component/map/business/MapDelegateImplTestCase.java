@@ -130,7 +130,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                getMockScreenDimensions()).atLeastOnce();
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -154,6 +154,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
             .andReturn(EMS_ZOOM_LEVEL);
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveIcons(getPoint1(),
+                new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
 
         replay();
 
@@ -180,6 +185,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
                 map.getEmsZoom());
 
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
     }
 
     @Test
@@ -325,7 +332,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                getMockScreenDimensions()).atLeastOnce();
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -356,6 +363,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
             .andReturn(EMS_ZOOM_LEVEL);
 
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveIcons(getPoint2(),
+                new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
+
         replay();
 
         final Map map =
@@ -385,6 +397,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
                 map.getEmsZoom());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+
+
     }
 
     private MapLayer getNewMapLayerAfterApplyingMapDelegateAction(
@@ -442,6 +459,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
 
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveIcons(getPoint1(),
+                iconDescriptors, getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
+
         replay();
 
         final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
@@ -465,6 +487,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
                 map.getEmsZoom());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
 
     }
 
@@ -536,76 +561,6 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL,
                 map.getEmsZoom());
 
-    }
-
-    @Test
-    public void testManipulatePoiMap() throws Exception {
-
-        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
-
-        EasyMock.expect(
-                getMockScreenDimensionsStrategy().createScreenDimensions(
-                        getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
-
-        EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
-                getMockUserContext());
-
-        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
-                getMockMobilesBoundingBox());
-
-        final Integer oldZoomLevel = ZOOM_LEVEL;
-        final Integer newZoomLevel = ZOOM_LEVEL - 1;
-        EasyMock.expect(getMockExistingMapUrl().getZoom()).andReturn(
-                oldZoomLevel);
-        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
-                getPoint1()).atLeastOnce();
-
-        final PanZoomDetail panZoomDetail =
-                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
-                        UserMapInteraction.ZOOM, newZoomLevel);
-
-        EasyMock.expect(
-                getMockEmsManager().manipulatePoiMap(getMockScreenDimensions(),
-                        getPoint2(), iconDescriptors,
-                        MapLayer.Photo, panZoomDetail, getMockUserContext()))
-                .andReturn(getMockMapUrl());
-
-        EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
-                .atLeastOnce();
-
-        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
-                .andReturn(EMS_ZOOM_LEVEL);
-
-        replay();
-
-        final Action mapDelegateAction = Action.ZOOM_IN;
-        final Map map =
-                getObjectUnderTest().manipulatePoiMap(getPoint2(),
-                        getMockExistingMapUrl(), MapLayer.Photo,
-                        iconDescriptors,
-                        mapDelegateAction,
-                        getMockMobileContext());
-
-        Assert.assertTrue("isMapRetrieved() should be true", map
-                .isMapImageRetrieved());
-        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
-                map.getMapUrl());
-        Assert.assertSame("map has wrong originalMapCentre",
-                getPoint2(), map.getOriginalMapCentre());
-
-        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
-        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
-        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", map
-                .isPhotoWithStreetsLayer());
-
-        Assert.assertEquals("isAtMinimumZoom() is wrong",
-                newZoomLevel == MIN_ZOOM, map.isAtMinimumZoom());
-        Assert.assertEquals("isAtMaximumZoom() is wrong",
-                newZoomLevel == MAX_ZOOM, map.isAtMaximumZoom());
-
-        Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, map
-                .getEmsZoom());
     }
 
     @Test
@@ -724,6 +679,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
                 .andReturn(EMS_ZOOM_LEVEL);
 
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveIcons(getPoint2(),
+                iconDescriptors, getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
+
         replay();
 
         final Map map =
@@ -755,6 +715,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         Assert.assertEquals("emsZoom is wrong", EMS_ZOOM_LEVEL, map
                 .getEmsZoom());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
     }
 
     /**
