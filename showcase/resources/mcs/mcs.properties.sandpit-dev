@@ -2,7 +2,7 @@ mcs.devicerepository.filepath=/app/smtestapp/sandpit-dev/map-component/devices/d
 mcs.policies.filepath=/app/smtestapp/sandpit-dev/map-component/policies
 
 mcs.mgrp.component.scripts.base.url=/dev/map-component-showcase/comp/
-mcs.mgrp.component.images.base.url=/dev/map-component-imageserver/
+mcs.mgrp.component.images.base.url=/dev/map-component-imageserver/images/component/
 
 mcs.cache.policies=false
 #!mcs.script.asset.path=/map-component-showcase/scripts/
