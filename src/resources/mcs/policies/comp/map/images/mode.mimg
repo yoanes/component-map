@@ -44,7 +44,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>component/map/controls/mode_fullscreen.png</relative>
+                    <relative>map/controls/mode_fullscreen.png</relative>
                 </url>
             </content>
         </variant>

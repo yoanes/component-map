@@ -34,7 +34,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>component/map/controls/mc_bg_M_5x30.gif</relative>
+                    <relative>map/controls/mc_bg_M_5x30.gif</relative>
                 </url>
             </content>
         </variant>
@@ -65,7 +65,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>component/map/controls/mc_bg_L_5x40.gif</relative>
+                    <relative>map/controls/mc_bg_L_5x40.gif</relative>
                 </url>
             </content>
         </variant>
@@ -97,7 +97,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>component/map/controls/mc_bg_HD800_5x50.gif</relative>
+                    <relative>map/controls/mc_bg_HD800_5x50.gif</relative>
                 </url>
             </content>
         </variant>

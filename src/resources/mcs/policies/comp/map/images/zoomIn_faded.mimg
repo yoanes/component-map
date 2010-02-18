@@ -33,7 +33,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>component/map/controls/mc_in_g_M_28x30.gif</relative>
+                    <relative>map/controls/mc_in_g_M_28x30.gif</relative>
                 </url>
             </content>
         </variant>
@@ -64,7 +64,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>component/map/controls/mc_in_g_L_37x40.gif</relative>
+                    <relative>map/controls/mc_in_g_L_37x40.gif</relative>
                 </url>
             </content>
         </variant>
@@ -96,7 +96,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>component/map/controls/mc_in_g_HD800_45x50.gif</relative>
+                    <relative>map/controls/mc_in_g_HD800_45x50.gif</relative>
                 </url>
             </content>
         </variant>
