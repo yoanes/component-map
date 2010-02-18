@@ -4,7 +4,7 @@
     <categorization-scheme>custom.imageCategory</categorization-scheme>
     <variants>
         <variant>
-            <type>image</type>
+            <type>null</type>
             <selection>
                 <targeted>
                     <devices>
@@ -16,26 +16,6 @@
                     </categories>
                 </targeted>
             </selection>
-            <meta-data>
-                <image>
-                    <encoding>gif</encoding>
-                    <height>30</height>
-                    <pixel-depth>8</pixel-depth>
-                    <rendering>color</rendering>
-                    <width>50</width>
-                </image>
-            </meta-data>
-            <content>
-                <url>
-                    <base>
-                        <policy-reference>
-                            <name>/comp/map/map-images.mgrp</name>
-                            <type>base-url</type>
-                        </policy-reference>
-                    </base>
-                    <relative>images/component/map/controls/photo_M_50x30.gif</relative>
-                </url>                
-            </content>
         </variant>
         <variant>
             <type>image</type>
@@ -49,11 +29,11 @@
             </selection>
             <meta-data>
                 <image>
-                    <encoding>gif</encoding>
-                    <height>40</height>
+                    <encoding>png</encoding>
+                    <height>28</height>
                     <pixel-depth>8</pixel-depth>
                     <rendering>color</rendering>
-                    <width>67</width>
+                    <width>47</width>
                 </image>
             </meta-data>
             <content>
@@ -64,12 +44,12 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/photo_L_67x40.gif</relative>
-                </url>                
+                    <relative>component/map/controls/mode_fullscreen.png</relative>
+                </url>
             </content>
         </variant>
         <variant>
-            <type>image</type>
+            <type>null</type>
             <selection>
                 <targeted>
                     <categories>
@@ -79,26 +59,6 @@
                     </categories>
                 </targeted>
             </selection>
-            <meta-data>
-                <image>
-                    <encoding>gif</encoding>
-                    <height>50</height>
-                    <pixel-depth>8</pixel-depth>
-                    <rendering>color</rendering>
-                    <width>80</width>
-                </image>
-            </meta-data>
-            <content>
-                <url>
-                    <base>
-                        <policy-reference>
-                            <name>/comp/map/map-images.mgrp</name>
-                            <type>base-url</type>
-                        </policy-reference>
-                    </base>
-                    <relative>images/component/map/controls/photo_HD800_80x50.gif</relative>
-                </url>                
-            </content>
         </variant>
         <variant>
             <type>null</type>

@@ -33,7 +33,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/mc_in_M_28x30.gif</relative>
+                    <relative>component/map/controls/mc_down_M_28x30.gif</relative>
                 </url>
             </content>
         </variant>
@@ -64,7 +64,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/mc_in_L_37x40.gif</relative>
+                    <relative>component/map/controls/mc_down_L_37x40.gif</relative>
                 </url>
             </content>
         </variant>
@@ -85,7 +85,7 @@
                     <height>50</height>
                     <pixel-depth>8</pixel-depth>
                     <rendering>color</rendering>
-                    <width>45</width>
+                    <width>44</width>
                 </image>
             </meta-data>
             <content>
@@ -96,7 +96,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/mc_in_HD800_45x50.gif</relative>
+                    <relative>component/map/controls/mc_down_HD800_44x50.gif</relative>
                 </url>
             </content>
         </variant>

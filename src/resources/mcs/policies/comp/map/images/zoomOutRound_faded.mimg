@@ -7,37 +7,11 @@
             <type>image</type>
             <selection>
                 <targeted>
+                    <devices>
+                        <device>Master</device>
+                    </devices>
                     <categories>
-                        <category>XS</category>
-                    </categories>
-                </targeted>
-            </selection>
-            <meta-data>
-                <image>
-                    <encoding>gif</encoding>
-                    <height>18</height>
-                    <pixel-depth>8</pixel-depth>
-                    <rendering>color</rendering>
-                    <width>18</width>
-                </image>
-            </meta-data>
-            <content>
-                <url>
-                    <base>
-                        <policy-reference>
-                            <name>/comp/map/map-images.mgrp</name>
-                            <type>base-url</type>
-                        </policy-reference>
-                    </base>
-                    <relative>images/component/map/controls/reset_M_18x18.gif</relative>
-                </url>
-            </content>
-        </variant>
-        <variant>
-            <type>image</type>
-            <selection>
-                <targeted>
-                    <categories>
+                        <category>M</category>
                         <category>S</category>
                     </categories>
                 </targeted>
@@ -45,10 +19,10 @@
             <meta-data>
                 <image>
                     <encoding>gif</encoding>
-                    <height>18</height>
+                    <height>30</height>
                     <pixel-depth>8</pixel-depth>
                     <rendering>color</rendering>
-                    <width>18</width>
+                    <width>29</width>
                 </image>
             </meta-data>
             <content>
@@ -59,7 +33,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/reset_M_18x18.gif</relative>
+                    <relative>component/map/controls/mc_out_round_g_M_29x30.gif</relative>
                 </url>
             </content>
         </variant>
@@ -68,36 +42,7 @@
             <selection>
                 <targeted>
                     <categories>
-                        <category>M</category>
-                    </categories>
-                </targeted>
-            </selection>
-            <meta-data>
-                <image>
-                    <encoding>gif</encoding>
-                    <height>18</height>
-                    <pixel-depth>8</pixel-depth>
-                    <rendering>color</rendering>
-                    <width>18</width>
-                </image>
-            </meta-data>
-            <content>
-                <url>
-                    <base>
-                        <policy-reference>
-                            <name>/comp/map/map-images.mgrp</name>
-                            <type>base-url</type>
-                        </policy-reference>
-                    </base>
-                    <relative>images/component/map/controls/reset_M_18x18.gif</relative>
-                </url>
-            </content>
-        </variant>
-        <variant>
-            <type>image</type>
-            <selection>
-                <targeted>
-                    <categories>
+                        <category>HD480</category>
                         <category>L</category>
                     </categories>
                 </targeted>
@@ -105,10 +50,10 @@
             <meta-data>
                 <image>
                     <encoding>gif</encoding>
-                    <height>25</height>
+                    <height>40</height>
                     <pixel-depth>8</pixel-depth>
                     <rendering>color</rendering>
-                    <width>25</width>
+                    <width>38</width>
                 </image>
             </meta-data>
             <content>
@@ -119,9 +64,51 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/reset_L_25x25.gif</relative>
+                    <relative>component/map/controls/mc_out_round_g_L_38x40.gif</relative>
                 </url>
             </content>
+        </variant>
+        <variant>
+            <type>image</type>
+            <selection>
+                <targeted>
+                    <categories>
+                        <category>HD1024</category>
+                        <category>HD640</category>
+                        <category>HD800</category>
+                    </categories>
+                </targeted>
+            </selection>
+            <meta-data>
+                <image>
+                    <encoding>gif</encoding>
+                    <height>50</height>
+                    <pixel-depth>8</pixel-depth>
+                    <rendering>color</rendering>
+                    <width>45</width>
+                </image>
+            </meta-data>
+            <content>
+                <url>
+                    <base>
+                        <policy-reference>
+                            <name>/comp/map/map-images.mgrp</name>
+                            <type>base-url</type>
+                        </policy-reference>
+                    </base>
+                    <relative>component/map/controls/mc_out_round_g_HD800_45x50.gif</relative>
+                </url>
+            </content>
+        </variant>
+        <variant>
+            <type>null</type>
+            <selection>
+                <targeted>
+                    <categories>
+                        <category>XS</category>
+                    </categories>
+                </targeted>
+            </selection>
         </variant>
     </variants>
 </variable-policy>

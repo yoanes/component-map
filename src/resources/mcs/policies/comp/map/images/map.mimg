@@ -22,7 +22,7 @@
                     <height>30</height>
                     <pixel-depth>8</pixel-depth>
                     <rendering>color</rendering>
-                    <width>28</width>
+                    <width>50</width>
                 </image>
             </meta-data>
             <content>
@@ -33,7 +33,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/mc_out_M_28x30.gif</relative>
+                    <relative>component/map/controls/map_M_50x30.gif</relative>
                 </url>
             </content>
         </variant>
@@ -53,7 +53,7 @@
                     <height>40</height>
                     <pixel-depth>8</pixel-depth>
                     <rendering>color</rendering>
-                    <width>37</width>
+                    <width>67</width>
                 </image>
             </meta-data>
             <content>
@@ -64,7 +64,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/mc_out_L_37x40.gif</relative>
+                    <relative>component/map/controls/map_L_67x40.gif</relative>
                 </url>
             </content>
         </variant>
@@ -85,7 +85,7 @@
                     <height>50</height>
                     <pixel-depth>8</pixel-depth>
                     <rendering>color</rendering>
-                    <width>44</width>
+                    <width>80</width>
                 </image>
             </meta-data>
             <content>
@@ -96,7 +96,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>images/component/map/controls/mc_out_HD800_44x50.gif</relative>
+                    <relative>component/map/controls/map_HD800_80x50.gif</relative>
                 </url>
             </content>
         </variant>
