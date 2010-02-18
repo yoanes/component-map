@@ -12,6 +12,7 @@
     description="Zoom in URL to be used for server side maps." %>
 <%@ attribute name="zoomOutUrl" required="true" 
     description="Zoom out URL to be used for server side maps." %>
+    
 <%@ attribute name="panNorthUrl" required="true" 
     description="Pan north URL to be used for server side maps." %>
 <%@ attribute name="panSouthUrl" required="true" 
@@ -20,30 +21,80 @@
     description="Pan east URL to be used for server side maps." %>
 <%@ attribute name="panWestUrl" required="true" 
     description="Pan west URL to be used for server side maps." %>
+    
 <%@ attribute name="photoLayerUrl" required="true" 
     description="URL to be used for generating photo layer server side maps." %>
 <%@ attribute name="mapLayerUrl" required="true" 
     description="URL to be used for generating map layer server side maps." %>
+    
+<%@ attribute name="clientSideGeneratedMapStateChangeUrl" required="false" 
+    description="URL to be used by high end maps to indicate that the state of the map has changed. 
+    Request params indicate what state has changed. If ommitted, state changes will not be reported." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
 <logging:info logger="${logger}" message="Entering render.tag" />
 
 <%-- Set the default resource bundle for the current tag file. --%>    
 <fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
+
+<c:choose>
+    <c:when test="${clientSideGeneratedMapStateChangeUrl != null}">
+        <c:set var="stateChangeUrl" value="${clientSideGeneratedMapStateChangeUrl}"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="stateChangeUrl" value=""/>    
+    </c:otherwise>
+</c:choose>
     
 <c:choose>
     <c:when test="${not empty map && map.mapImageRetrievalDeferredToClient}">
         <%--
-          - Optional case: if it is known that the client will generate the map itself (eg. by accessing 
-          - EMS directly for JavaScript enhanced maps), the backend may be set up to not bother
-          - generating a map itself at all. At the moment (21 Jan 2010) this is not the case,
-          - since doing so prevents the application from degrading gracefully if the client device has
-          - JavaScript disabled.
+          - We know that the client will generate the map itself (eg. by accessing 
+          - EMS directly for JavaScript enhanced maps)
           --%>
         
         <%--TODO: inline style should be a class. --%>
         <div id="mapWindow" style="margin-top:10px;height:300px;position:relative">
             &#160;
+            
+                <%-- Provide some hidden map controls that the client will dress up/reposition as necessary. --%>
+                <div id="mapControls" style="visiblity: hidden;">
+                    <%--
+                      - No href needed for zoom in: no state change reported at the moment.
+                      --%>
+                    <a id="mapZoomInButton" href="#" class="mapControl">
+                        <object src="/comp/map/images/furniture/zoomIn.mimg" id="mapZoomInImage">+</object>
+                    </a>
+
+                    <%--
+                      - No href needed for zoom out: no state change reported at the moment.
+                      --%>
+                    <a id="mapZoomOutButton" href="#" class="mapControl">
+                        <object src="/comp/map/images/furniture/zoomOut.mimg" id="mapZoomOutImage">-</object>
+                    </a>
+                </div>
+
+                <%-- Provide some hidden view controls that the client will dress up/reposition as necessary. --%>
+                <div id="viewControls" style="visiblity: hidden;">
+                    <%--
+                      - Href allows server to be notified of state changes.
+                      --%>
+                    <a id="photoLayerButton" href="${stateChangeUrl}">
+                        <object src="/comp/map/images/furniture/photoLayer.mimg">
+                            <fmt:message key="comp.photoLayer.label"/>
+                        </object>
+                    </a>
+                    
+                    <%--
+                      - Href allows server to be notified of state changes.
+                      --%>
+                    <a id="mapLayerButton" href="${stateChangeUrl}">
+                        <object src="/comp/map/images/furniture/mapLayer.mimg">
+                            <fmt:message key="comp.mapLayer.label"/>
+                        </object>
+                    </a>
+                </div>
+            
         </div>
     </c:when>
     

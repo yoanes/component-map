@@ -14,12 +14,20 @@
         <action name="manMap" class="manMapAction" >
             <result name="success" type="tiles">map.component.map</result>
         </action>
+
+        <action name="mapStateChange" class="clientSideGeneratedMapStateChangeAction" >
+            <result name="success" type="tiles">map.component.map</result>
+        </action>
         
         <action name="getPois" class="getPoisAction" >
             <result name="success" type="tiles">map.component.pois</result>
         </action>
         
         <action name="manPoiMap" class="manPoiMapAction" >
+            <result name="success" type="tiles">map.component.pois</result>
+        </action>
+
+        <action name="poiMapStateChange" class="clientSideGeneratedMapStateChangeAction" >
             <result name="success" type="tiles">map.component.pois</result>
         </action>
 

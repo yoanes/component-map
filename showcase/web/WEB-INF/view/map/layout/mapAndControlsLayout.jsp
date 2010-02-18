@@ -3,14 +3,11 @@
 <c:set var="mapControlsActionName">
     <tiles:insertAttribute name="mapControlsActionName"/>
 </c:set>
+<c:set var="clientSideGeneratedMapStateChangeActionName">
+    <tiles:insertAttribute name="clientSideGeneratedMapStateChangeActionName"/>
+</c:set>
 
 <div id="map">
-    <%--
-      - Do not specify action or value attribute of s:url. We submit to the same URL that
-      - rendered this page. This is important since different URLs can render this same
-      - page. We also ensure that the submission uses the exact same parameters that were
-      - used to render this page by setting includeParams to "all".
-      --%>
     <s:url id="browseMapUrl" namespace="/map" action="%{#attr.mapControlsActionName}" includeParams="all"
             includeContext="true" escapeAmp="false">
     
@@ -64,8 +61,12 @@
         <s:param name="act" value="%{'mpv'}" />
     </s:url>
 
+    <s:url id="stateChangeUrl" namespace="/map" action="%{#attr.clientSideGeneratedMapStateChangeActionName}"
+            includeContext="true"/>
+
     <map:render map="${map}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
         panNorthUrl="${panNorthUrl}" panSouthUrl="${panSouthUrl}"
         panEastUrl="${panEastUrl}" panWestUrl="${panWestUrl}"
-        photoLayerUrl="${photoLayerUrl}" mapLayerUrl="${mapLayerUrl}"/>
+        photoLayerUrl="${photoLayerUrl}" mapLayerUrl="${mapLayerUrl}"
+        clientSideGeneratedMapStateChangeUrl="${stateChangeUrl}" />
 </div>

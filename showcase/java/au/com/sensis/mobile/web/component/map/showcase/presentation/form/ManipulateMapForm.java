@@ -1,5 +1,7 @@
 package au.com.sensis.mobile.web.component.map.showcase.presentation.form;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.model.MapLayerTransformer;
@@ -24,7 +26,7 @@ public class ManipulateMapForm {
     private Double boundingBoxTopLeftLongitude;
     private Double boundingBoxBottomRightLatitude;
     private Double boundingBoxBottomRightLongitude;
-    private int zoomLevel;
+    private Integer zoomLevel;
 
     private String mapLayer;
 
@@ -224,7 +226,7 @@ public class ManipulateMapForm {
     /**
      * @return  the zoomLevel.
      */
-    public int getZoomLevel() {
+    public Integer getZoomLevel() {
 
         return zoomLevel;
     }
@@ -233,7 +235,7 @@ public class ManipulateMapForm {
     /**
      * @param zoomLevel the zoomLevel to set.
      */
-    public void setZoomLevel(final int zoomLevel) {
+    public void setZoomLevel(final Integer zoomLevel) {
 
         this.zoomLevel = zoomLevel;
     }
@@ -244,7 +246,7 @@ public class ManipulateMapForm {
      *
      * @param zoomLevel the zoomLevel to set.
      */
-    public void setMz(final int zoomLevel) {
+    public void setMz(final Integer zoomLevel) {
 
         setZoomLevel(zoomLevel);
     }
@@ -409,6 +411,26 @@ public class ManipulateMapForm {
     private static MapLayerTransformer getMapLayerTransformer() {
         return MAP_LAYER_TRANSFORMER;
     }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+            .append("centreLatitude", centreLatitude)
+            .append("centreLongitude", centreLongitude)
+            .append("boundingBoxTopLeftLatitude", boundingBoxTopLeftLatitude)
+            .append("boundingBoxTopLeftLongitude", boundingBoxTopLeftLongitude)
+            .append("boundingBoxBottomRightLatitude", boundingBoxBottomRightLatitude)
+            .append("boundingBoxBottomRightLongitude", boundingBoxBottomRightLongitude)
+            .append("zoomLevel", zoomLevel)
+            .append("mapLayer", mapLayer)
+            .toString();
+    }
+
+
 
 
 

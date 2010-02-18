@@ -43,6 +43,7 @@
     
     <definition name="map.component.mapAndControls" template="/WEB-INF/view/map/layout/mapAndControlsLayout.jsp">
         <put-attribute name="mapControlsActionName" value="manMap"/>
+        <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="mapStateChange"/>
     </definition>
 
     <!-- ======================================================================================= -->
@@ -62,6 +63,7 @@
 
     <definition name="map.component.poisAndControls" template="/WEB-INF/view/map/layout/mapAndControlsLayout.jsp">
         <put-attribute name="mapControlsActionName" value="manPoiMap"/>
+        <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="poiMapStateChange"/>
     </definition>
 
 </tiles-definitions>

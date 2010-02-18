@@ -294,6 +294,13 @@ public final class MapImpl implements Map {
         return getMapLayerTransformer().transformToShortCode(getMapLayer());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public String getJsMapLayer() {
+        return getMapLayerTransformer().transformToJsCode(getMapLayer());
+    }
+
     private static MapLayerTransformer getMapLayerTransformer() {
         return MAP_LAYER_TRANSFORMER;
     }

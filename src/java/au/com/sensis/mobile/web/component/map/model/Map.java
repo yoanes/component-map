@@ -120,6 +120,15 @@ public interface Map {
     String getMapLayerShortCode();
 
     /**
+     * Returns the {@link MapLayer} converted to a String that can be passed to
+     * the (Mobiles) JavaScript maps interface.
+     *
+     * @return Returns the {@link MapLayer} converted to a String that can be
+     *         passed to the (Mobiles) JavaScript maps interface.
+     */
+    String getJsMapLayer();
+
+    /**
      * Returns the EMS zoom that the map was/is to be rendered using. Required
      * by AJAX maps that talk to EMS directly.
      *

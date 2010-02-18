@@ -53,7 +53,15 @@
                     'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
                     'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
                     'zoom': <c:out value="${map.emsZoom}"/>
-                }, icons
+                }, icons,
+                {
+                    layer: '<c:out value="${map.jsMapLayer}"/>',
+                    photoLayerAnchorId: 'photoLayerButton',
+                    mapLayerAnchorId: 'mapLayerButton',
+                    zoomInAnchorId: 'mapZoomInButton',
+                    zoomOutAnchorId: 'mapZoomOutButton'
+                }
+                
             );
         }
     </core:script>

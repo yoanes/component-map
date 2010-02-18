@@ -31,10 +31,34 @@ public class MapLayerTransformer {
      */
     public static final String MAP_LAYER_PHOTO_WITH_STREETS = "ps";
 
+    /**
+     * Value to convert {@link MapLayer#Map} to in order to pass it
+     * to the (Mobiles) JavaScript maps interface.
+     */
+    public static final String MAP_LAYER_MAP_JS_CODE = "map";
+
+    /**
+     * Value to convert {@link MapLayer#Photo} to in order to pass it
+     * to the (Mobiles) JavaScript maps interface.
+     */
+    public static final String MAP_LAYER_PHOTO_JS_CODE = "photo";
+
+    /**
+     * Value to convert {@link MapLayer#PhotoWithStreets} to in order to pass it
+     * to the (Mobiles) JavaScript maps interface.
+     * <p>
+     * NOTE: at present, we don't support photos with streets on mobiles
+     * so we map this to "map".
+     * </p>
+     */
+    public static final String MAP_LAYER_PHOTO_WITH_STREETS_JS_CODE = "map";
+
     // Use two maps instead of the Apache common's BidiMap so that we can be
     // type safe.
     private final Map<MapLayer, String> mapLayerToShortCodeMap;
     private final Map<String, MapLayer> shortCodeToMapLayerMap;
+
+    private final Map<MapLayer, String> mapLayerToJsMapLayerMap;
 
     /**
      * Default constructor.
@@ -51,6 +75,13 @@ public class MapLayerTransformer {
         shortCodeToMapLayerMap.put(MAP_LAYER_PHOTO, MapLayer.Photo);
         shortCodeToMapLayerMap.put(MAP_LAYER_PHOTO_WITH_STREETS,
                 MapLayer.PhotoWithStreets);
+
+        mapLayerToJsMapLayerMap = new HashMap<MapLayer, String>();
+        mapLayerToJsMapLayerMap.put(MapLayer.Map, MAP_LAYER_MAP_JS_CODE);
+        mapLayerToJsMapLayerMap.put(MapLayer.Photo, MAP_LAYER_PHOTO_JS_CODE);
+        mapLayerToJsMapLayerMap.put(MapLayer.PhotoWithStreets,
+                MAP_LAYER_PHOTO_WITH_STREETS_JS_CODE);
+
     }
 
     /**
@@ -88,6 +119,25 @@ public class MapLayerTransformer {
             throw new IllegalStateException(
                     "Unrecognised mapLayerShortCode parameter: '"
                             + mapLayerShortCode + "'");
+        }
+    }
+
+    /**
+     * Transform the given {@link MapLayer} to a String representation that can
+     * be passed to the (Mobiles) JavaScript interface.
+     *
+     * @param mapLayer
+     *            {@link MapLayer} to transform.
+     * @return the given {@link MapLayer} to a String representation that can be
+     *         passed to the (Mobiles) JavaScript interface.
+     */
+    public String transformToJsCode(final MapLayer mapLayer) {
+        final String transformedValue = mapLayerToJsMapLayerMap.get(mapLayer);
+        if (transformedValue != null) {
+            return transformedValue;
+        } else {
+            throw new IllegalStateException(
+                    "Unrecognised mapLayer parameter: '" + mapLayer + "'");
         }
     }
 }

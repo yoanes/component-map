@@ -140,6 +140,24 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
         }
     }
 
+    @Test
+    public void testGetJsMapLayer() throws Throwable {
+        final MapLayer[] testValues =
+        { MapLayer.Map, MapLayer.Photo, MapLayer.PhotoWithStreets };
+        final String[] expectedValues = { "map", "photo", "map" };
+
+        for (int i = 0; i < testValues.length; i++) {
+            final Map map =
+                MapImpl.createMapRetrievedInstance(
+                        getWgs84Point1(), testValues[i], getMockMapUrl(),
+                        new ArrayList<ResolvedIcon>(),
+                        EMS_ZOOM_LEVEL, true, false);
+
+            Assert.assertEquals("MapLayer short code is wrong",
+                    expectedValues[i], map.getJsMapLayer());
+        }
+    }
+
     /**
      * @return the wgs84Point1
      */

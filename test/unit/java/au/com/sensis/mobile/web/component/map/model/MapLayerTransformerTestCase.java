@@ -51,6 +51,20 @@ public class MapLayerTransformerTestCase {
 
     }
 
+    @Test
+    public void testTransformToJsCode() throws Throwable {
+        final MapLayer[] testValues =
+                { MapLayer.Map, MapLayer.Photo, MapLayer.PhotoWithStreets };
+        final String[] expectedValues = { "map", "photo", "map" };
+
+        for (int i = 0; i < testValues.length; i++) {
+            Assert.assertEquals("MapLayer JS code is wrong",
+                    expectedValues[i], getObjectUnderTest()
+                            .transformToJsCode(testValues[i]));
+        }
+
+    }
+
     /**
      * @return the objectUnderTest
      */

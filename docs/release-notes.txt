@@ -1,3 +1,8 @@
+==== Version 1.0.29 (tag: map_v1_0_29) ====
+
+Fix for "CUI-93 Map Component - add support for AJAX map/photo toggle, including support for retaining server side state".
+Not yet complete since we still need Yoanes' JavaScript support.
+
 ==== Version 1.0.28 (tag: map_v1_0_28) ====
 
 Fix for "CUI-96: Map Component - always generate icons arg in setup.tag in case 
