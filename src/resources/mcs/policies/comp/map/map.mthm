@@ -15,17 +15,56 @@
                 <theme>
                     <style-sheet>
                         <rules>
-                            <!-- Test of map.mthm. -->
                             <rule>
                                 <selector-sequence>
-                                    <id>map</id>
+                                    <id>mapWindow</id>
                                 </selector-sequence>
                                 <properties>
                                     <property name="background-color">
-                                        <colorRGB>#ddddaf</colorRGB>
+                                        <colorRGB>#efefef</colorRGB>
+                                    </property>
+                                    <property name="position">
+                                        <keyword>relative</keyword>
                                     </property>
                                 </properties>
-                            </rule>                        
+                            </rule>
+                            <rule>
+                                <selector-sequence>
+                                    <id>directionControls</id>
+                                </selector-sequence>
+                                <selector-sequence>
+                                    <id>zoomControls</id>
+                                </selector-sequence>
+                                <selector-sequence>
+                                    <id>viewControls</id>
+                                </selector-sequence>
+                                <selector-sequence>
+                                    <id>modeControls</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="display">
+                                        <keyword>inline</keyword>
+                                    </property>
+                                </properties>
+                            </rule>
+                            <rule>
+                                <selector-sequence>
+                                    <id>mapControls</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="background-image">
+                                        <mcs-policy-reference>
+                                            <expression>/comp/map/images/mcBg.mimg</expression>
+                                        </mcs-policy-reference>
+                                    </property>
+                                    <property name="background-repeat">
+                                        <keyword>repeat-x</keyword>
+                                    </property>
+                                    <property name="text-align">
+                                        <keyword>center</keyword>
+                                    </property>
+                                </properties>
+                            </rule>
                         </rules>
                     </style-sheet>
                 </theme>
@@ -45,7 +84,6 @@
                     <import-parent>true</import-parent>
                     <style-sheet>
                         <rules>
-                            <!-- Test of map.mthm. -->
                             <rule>
                                 <selector-sequence>
                                     <id>map</id>
@@ -55,7 +93,7 @@
                                         <colorRGB>#88aaaa</colorRGB>
                                     </property>
                                 </properties>
-                            </rule>                        
+                            </rule>
                         </rules>
                     </style-sheet>
                 </theme>

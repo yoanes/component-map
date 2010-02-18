@@ -54,47 +54,61 @@
           --%>
         
         <%--TODO: inline style should be a class. --%>
-        <div id="mapWindow" style="margin-top:10px;height:300px;position:relative">
-            &#160;
-            
-                <%-- Provide some hidden map controls that the client will dress up/reposition as necessary. --%>
-                <div id="mapControls" style="visiblity: hidden;">
-                    <%--
-                      - No href needed for zoom in: no state change reported at the moment.
-                      --%>
-                    <a id="mapZoomInButton" href="#" class="mapControl">
-                        <object src="/comp/map/images/furniture/zoomIn.mimg" id="mapZoomInImage">+</object>
-                    </a>
-
-                    <%--
-                      - No href needed for zoom out: no state change reported at the moment.
-                      --%>
-                    <a id="mapZoomOutButton" href="#" class="mapControl">
-                        <object src="/comp/map/images/furniture/zoomOut.mimg" id="mapZoomOutImage">-</object>
-                    </a>
-                </div>
-
-                <%-- Provide some hidden view controls that the client will dress up/reposition as necessary. --%>
-                <div id="viewControls" style="visiblity: hidden;">
-                    <%--
-                      - Href allows server to be notified of state changes.
-                      --%>
-                    <a id="photoLayerButton" href="${stateChangeUrl}">
-                        <object src="/comp/map/images/furniture/photoLayer.mimg">
-                            <fmt:message key="comp.photoLayer.label"/>
-                        </object>
-                    </a>
-                    
-                    <%--
-                      - Href allows server to be notified of state changes.
-                      --%>
-                    <a id="mapLayerButton" href="${stateChangeUrl}">
-                        <object src="/comp/map/images/furniture/mapLayer.mimg">
-                            <fmt:message key="comp.mapLayer.label"/>
-                        </object>
-                    </a>
-                </div>
-            
+        <div id="mapWindow">
+            &#160;    
+		</div>
+		
+		<%-- Provide some hidden map controls that the client will dress up/reposition as necessary. --%>
+        <div id="mapControls">
+        
+        	<%-- Provide some hidden view controls that the client will dress up/reposition as necessary. --%>
+        	<div id="viewControls">
+	       		<%--
+	              - Href allows server to be notified of state changes.
+	              --%>
+	            <c:url value="${stateChangeUrl}" value="stateChangeURL" />
+	            
+	            <a id="photoButton" href="${stateChangeUrl}">
+	                <object src="/comp/map/images/photo.mimg">
+	                    <fmt:message key="comp.photoLayer.label"/>
+	                </object>
+	            </a>
+	            
+	            <%--
+	              - Href allows server to be notified of state changes.
+	              --%>
+	            <a id="mapButton" href="${stateChangeUrl}">
+	                <object src="/comp/map/images/map.mimg">
+	                    <fmt:message key="comp.mapLayer.label"/>
+	                </object>
+	            </a>
+	       	</div>
+	       	
+	       	<%-- zoom controls  --%>
+	       	<div id="zoomControls">
+	        	<%--
+              	  - No href needed for zoom in: no state change reported at the moment.
+              	  --%>
+	            <a id="zoomInButton" href="#" class="mapControl">
+	                <object src="/comp/map/images/zoomIn.mimg" id="mapZoomInImage">+</object>
+	            </a>
+	            
+	            
+	            <%--
+	              - No href needed for zoom out: no state change reported at the moment.
+	              --%>
+	            <a id="zoomOutButton" href="#" class="mapControl">
+	                <object src="/comp/map/images/zoomOutRound.mimg" id="mapZoomOutImage">-</object>
+	            </a>
+	       	</div>
+	       	
+	       	<%-- full screen toggle  --%>
+	       	<div id="modeControls">
+	       		<a id="modeButton" href="#" class="mapControl">
+	                <object src="/comp/map/images/mode.mimg" id="mapZoomInImage">+</object>
+	            </a>
+	       	</div>
+	       	
         </div>
     </c:when>
     
@@ -102,95 +116,94 @@
         <%-- Cater to less funky phones that need the server to generate the map. --%>
         
         <c:if test="${not empty map}"> 
-            <div id="mapWindow" class="map" style="margin-top:10px;height:300px;position:relative">
-        
-                <div class="mapArea">
-        
-                    <object src="${map.mapUrl.imageUrl}" id="mapImage"
-                            srctype="image/png">
-                        <param name="mcs-transcode" value="false"/>
-                    </object>
-        
-                </div>
-        
-                <div class="mapControls">
-        
-                    <div id="mapZoomControls">
-                        <c:choose>
-                           <c:when test="${map.atMinimumZoom}">
-                                <object src="/comp/map/images/furniture/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
-                           </c:when>
-                           <c:otherwise>
-                                <a id="mapZoomInButton" href="${zoomInUrl}" class="mapControl">
-                                    <object src="/comp/map/images/furniture/zoomIn.mimg" id="mapZoomInImage">+</object>
-                                </a>
-                           </c:otherwise>
-                        </c:choose>
-                        
-                        <c:choose>
-                           <c:when test="${map.atMaximumZoom}">
-                                <object src="/comp/map/images/furniture/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
-                           </c:when>
-                           <c:otherwise>
-                                <a id="mapZoomOutButton" href="${zoomOutUrl}" class="mapControl">
-                                    <object src="/comp/map/images/furniture/zoomOut.mimg" id="mapZoomOutImage">-</object>
-                                </a>
-                           </c:otherwise>
-                        </c:choose>
-                    </div>
+			<div id="mapWindow">     
+            	<object src="${map.mapUrl.imageUrl}" id="map" srctype="image/png">
+               		<param name="mcs-transcode" value="false"/>
+                </object>
+			</div>
+           
+            <div class="mapControls">
+	            <div id="zoomControls">
+	                <c:choose>
+	                   <c:when test="${map.atMinimumZoom}">
+	                        <object src="/comp/map/images/furniture/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
+	                   </c:when>
+	                   <c:otherwise>
+	                        <a id="zoomInButton" href="${zoomInUrl}" class="mapControl">
+	                            <object src="/comp/map/images/furniture/zoomIn.mimg" id="mapZoomInImage">+</object>
+	                        </a>
+	                   </c:otherwise>
+	                </c:choose>
+	                
+	                <c:choose>
+	                   <c:when test="${map.atMaximumZoom}">
+	                        <object src="/comp/map/images/furniture/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
+	                   </c:when>
+	                   <c:otherwise>
+	                        <a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl">
+	                            <object src="/comp/map/images/furniture/zoomOut.mimg" id="mapZoomOutImage">-</object>
+	                        </a>
+	                   </c:otherwise>
+	                </c:choose>
+	            </div>
                     
         
-                    <div class="mapDirectionControls">
-                        <a id="mapPanNorthButton" href="${panNorthUrl}" class="mapControl">
-                            <object src="/comp/map/images/furniture/panNorth.mimg" id="mapPanNorthImage"> /\ </object>
-                        </a>
-        
-                        <a id="mapPanSouthButton" href="${panSouthUrl}" class="mapControl">
-                            <object src="/comp/map/images/furniture/panSouth.mimg" id="mapPanSouthImage"> \/ </object>
-                        </a>
-        
-                        <a id="mapPanWestButton" href="${panWestUrl}" class="mapControl">
-                            <object src="/comp/map/images/furniture/panWest.mimg" id="mapPanWestImage"> &#60; </object>
-                        </a>
-        
-                        <a id="mapPanEastButton" href="${panEastUrl}" class="mapControl">
-                            <object src="/comp/map/images/furniture/panEast.mimg" id="mapPanEastImage"> &#62; </object>
-                        </a>
-                    </div>
-        
+                <div class="directionControls">
+	               	<c:url value="${panNorthUrl}" var="panNorthURL" />
+	                   <a id="panNorthButton" href="${panNorthURL}" class="mapControl">
+	                       <object src="/comp/map/images/furniture/panNorth.mimg" id="mapPanNorthImage"> /\ </object>
+	                   </a>
+	   				
+	   				<c:url value="${panSouthUrl}" var="panSouthURL" />
+	                   <a id="panSouthButton" href="${panSouthURL}" class="mapControl">
+	                       <object src="/comp/map/images/furniture/panSouth.mimg" id="mapPanSouthImage"> \/ </object>
+	                   </a>
+	   	
+	   				<c:url value="${panWestUrl}" var="panWestURL" />
+	                   <a id="panWestButton" href="${panWestURL}" class="mapControl">
+	                       <object src="/comp/map/images/furniture/panWest.mimg" id="mapPanWestImage"> &#60; </object>
+	                   </a>
+	   
+	   				<c:url value="${panEastUrl}" var="panEastURL" />
+	                   <a id="panEastButton" href="${panEastURL}" class="mapControl">
+	                       <object src="/comp/map/images/furniture/panEast.mimg" id="mapPanEastImage"> &#62; </object>
+	                   </a>
                 </div>
                 
                 <div id="viewControls">
                     <c:choose>
                         <c:when test="${map.mapLayer}">
-                            <a href="${photoLayerUrl}">
-                                <object src="/comp/map/images/furniture/photoLayer.mimg">
+                        	<c:url value="${photoLayerUrl}" var="photoURL" />
+                            <a href="${photoURL}">
+                                <object src="/comp/map/images/photo.mimg">
                                     <fmt:message key="comp.photoLayer.label"/>
                                 </object>
                             </a>
                         </c:when>
+                        
                         <c:when test="${map.photoLayer}">
-                            <a href="${mapLayerUrl}">
-                                <object src="/comp/map/images/furniture/mapLayer.mimg">
+                        	<c:url value="${mapLayerUrl}" var="mapURL" />
+                            <a href="${mapUrl}">
+                                <object src="/comp/map/images/map.mimg">
                                     <fmt:message key="comp.mapLayer.label"/>
                                 </object>
                             </a>
                         </c:when>
+                        
                         <c:otherwise>
                             <%--
                               - In the event that the mapLayer is anything else (such as "PhotoWithStreets"),
                               - display the Map view link.   
                               --%>
-                            <a href="${mapLayerUrl}">
-                                <object src="/comp/map/images/furniture/mapLayer.mimg">
+                        	<c:url value="${mapLayerUrl}" var="mapURL" />
+                            <a href="${mapURL}">
+                                <object src="/comp/map/images/map.mimg">
                                     <fmt:message key="comp.mapLayer.label"/>
                                 </object>
                             </a>
                         </c:otherwise>
                     </c:choose>
                 </div>
-                
-        
             </div>
         </c:if>
     </c:otherwise>
