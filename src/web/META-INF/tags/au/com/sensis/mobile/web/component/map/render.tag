@@ -66,7 +66,7 @@
 	       		<%--
 	              - Href allows server to be notified of state changes.
 	              --%>
-	            <c:url value="${stateChangeUrl}" value="stateChangeURL" />
+	            <c:url value="${stateChangeUrl}" var="stateChangeURL" />
 	            
 	            <a id="photoButton" href="${stateChangeUrl}">
 	                <object src="/comp/map/images/photo.mimg">
@@ -122,51 +122,51 @@
                 </object>
 			</div>
            
-            <div class="mapControls">
+            <div id="mapControls">
 	            <div id="zoomControls">
 	                <c:choose>
 	                   <c:when test="${map.atMinimumZoom}">
-	                        <object src="/comp/map/images/furniture/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
+	                        <object src="/comp/map/images/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
 	                   </c:when>
 	                   <c:otherwise>
 	                        <a id="zoomInButton" href="${zoomInUrl}" class="mapControl">
-	                            <object src="/comp/map/images/furniture/zoomIn.mimg" id="mapZoomInImage">+</object>
+	                            <object src="/comp/map/images/zoomIn.mimg" id="mapZoomInImage">+</object>
 	                        </a>
 	                   </c:otherwise>
 	                </c:choose>
 	                
 	                <c:choose>
 	                   <c:when test="${map.atMaximumZoom}">
-	                        <object src="/comp/map/images/furniture/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
+	                        <object src="/comp/map/images/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
 	                   </c:when>
 	                   <c:otherwise>
 	                        <a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl">
-	                            <object src="/comp/map/images/furniture/zoomOut.mimg" id="mapZoomOutImage">-</object>
+	                            <object src="/comp/map/images/zoomOut.mimg" id="mapZoomOutImage">-</object>
 	                        </a>
 	                   </c:otherwise>
 	                </c:choose>
 	            </div>
                     
         
-                <div class="directionControls">
+                <div id="directionControls">
 	               	<c:url value="${panNorthUrl}" var="panNorthURL" />
 	                   <a id="panNorthButton" href="${panNorthURL}" class="mapControl">
-	                       <object src="/comp/map/images/furniture/panNorth.mimg" id="mapPanNorthImage"> /\ </object>
+	                       <object src="/comp/map/images/north.mimg" id="mapPanNorthImage"> /\ </object>
 	                   </a>
 	   				
 	   				<c:url value="${panSouthUrl}" var="panSouthURL" />
 	                   <a id="panSouthButton" href="${panSouthURL}" class="mapControl">
-	                       <object src="/comp/map/images/furniture/panSouth.mimg" id="mapPanSouthImage"> \/ </object>
+	                       <object src="/comp/map/images/south.mimg" id="mapPanSouthImage"> \/ </object>
 	                   </a>
 	   	
 	   				<c:url value="${panWestUrl}" var="panWestURL" />
 	                   <a id="panWestButton" href="${panWestURL}" class="mapControl">
-	                       <object src="/comp/map/images/furniture/panWest.mimg" id="mapPanWestImage"> &#60; </object>
+	                       <object src="/comp/map/images/west.mimg" id="mapPanWestImage"> &#60; </object>
 	                   </a>
 	   
 	   				<c:url value="${panEastUrl}" var="panEastURL" />
 	                   <a id="panEastButton" href="${panEastURL}" class="mapControl">
-	                       <object src="/comp/map/images/furniture/panEast.mimg" id="mapPanEastImage"> &#62; </object>
+	                       <object src="/comp/map/images/east.mimg" id="mapPanEastImage"> &#62; </object>
 	                   </a>
                 </div>
                 
