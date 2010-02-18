@@ -26,7 +26,6 @@ var MobEMS = new Class({
 			if(this.injectMapDiv(mapWrapper)) {
 				this.Map = new EMS.Services.Map('map-div', {controls: []});				
 				this.Geocoder = new EMS.Services.Geocoder();
-				this.Itin = new EMS.Services.Itin();
 				this.RouteManager = new EMS.Services.RouteManager(this.Map);
 				
 				/*
@@ -57,15 +56,15 @@ var MobEMS = new Class({
 					this.addPois(poiOptions);
 				}
 				
-				/* parse the directionOptiosn for initial display */
+				/* parse the directionOptions for initial display */
 				if($defined(directionOptions)) {
+					var wayPointsLength = directionOptions.wayPoints.length;
 					
+					for(var i = 0; i < wayPointsLength; i++)
+						this.routeHistory.push(this.routeAddress(directionOptions.wayPoints[i]));
+						
+					this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
 				}
-				
-				/* ideally this is done in css for quicker display */
-				$$('#map-div_OpenLayers_Container div').each(function(item){
-						item.setStyle('background', "url('bg.jpg') repeat top left");
-					});
 			}
 			return true;
 		}.bind(this));
@@ -231,69 +230,28 @@ var MobEMS = new Class({
 	
 	/** Route Utils **/
 	
-	/**
-	 * USE THIS TO BUILD YOUR ADDRESS OBJECT TO AVOID ANY ERROR
-	 */
-	buildAddress: function(streetNumber, streetName, suburb, state, unstructured) {
-		var address = {};
-
-		if($defined(unstructured)) address.unstructured = unstructured;
-		if($defined(streetNumber)) address.streetNumber = streetNumber;
-		if($defined(streetName)) address.street = streetName;
-		if($defined(state)) address.state = state;
-		if($defined(suburb)) address.suburb = suburb;
-
-		return address;
-	},
-	
-	/* 
-	 * Addr is in format of {streetNumber: value, streetName: value, suburb: value, state: value, unstructured: value}
-	 * will build address as object (not json object) and add it to routeHistory[].
-	 */
-	addToRoute: function(Addr, doClear) {
-		/* clear previous points if indicated so */
-		if($defined(doClear) && doClear === true) 
-			this.routeHistory.empty();
-
-		var query = {};
-		query.address = this.buildAddress(Addr.streetNumber, Addr.streetName, Addr.suburb, Addr.state, Addr.unstructured);
-
-		this.Geocoder.findGeocodedAddress(query, function(geoAddress) {
-			var gAddr = geoAddress.results[0].address;
-			this.routeHistory.push(gAddr);
-			/* try to run the getRoute whenever any 2 points are already in array */
-			this.getRoute();
-		}.bind(this));
-	},
-	
-	/**
-	 * TODO: need to parse variables so that the RouteManager.route can be
-	 * more flexible
+	/* build address to conform to RouteManager 
 	 * 
-	 * Call this by itself to generate route. Make sure routeHistory[] is not
-	 * empty. Otherwise this will return nothing.
+	 * use this one to chunk the json object returned from the webapp
 	 */
-	getRoute: function() {
-		if(this.routeHistory.length >= 2){
-			var rhLength = this.routeHistory.length;
-			
-			/** 
-			 * do check: no consecutive points are meant to be the same
-			 **/
-			for(var i = 1; i < rhLength; i++){
-				var current = this.routeHistory[i];
-				var prev = this.routeHistory[i-1];
-				if(this.isLatLonEqual(current.streetCoordinates, prev.streetCoordinates)) {
-					return; // if true don't do any routing
-					break;
-				}
-            }
-			/** 
-			 * do routing only if the script reaches this point
-			 */
-			this.Map.setCenter(this.formatLatLon(this.routeHistory[0].streetCoordinates));
-			this.RouteManager.route(this.routeHistory, true, true, "ALL_VEHICLES", this.Map.vlayer, {});
-		}
+	routeAddress: function(wayPointObj) {
+		var newWayPoint = {};
+		newWayPoint.coordinates = this.formatLatLon(wayPointObj.coordinates);
+		newWayPoint.street = {name: wayPointObj.streetName};
+		return newWayPoint;
+	},
+	
+	/* do the routing based on the points on routeHistory[].
+	 * 
+	 * all args (fastest, tolls, and transportType) should come from the 
+	 * server.
+	 * 
+	 * Do nothing on display route, as the map height and zoom level has been taken 
+	 * care of on init()
+	 */
+	route: function(fastest, tolls, transportType) {
+		if(this.routeHistory.length >= 2)
+			this.RouteManager.route(this.routeHistory, fastest, tolls, transportType, this.Map.vlayer, {});
 	},
 	
 	clearRoutes: function() {
@@ -319,11 +277,4 @@ var MobEMS = new Class({
 			this.Map.setBaseLayer(this.Map.whereis_photo_wms);
 		else this.Map.setBaseLayer(this.Map.whereis_street_wms);
 	},
-	
-	/** test section **/
-	doMyRoute: function(fromState, toState, newRoute) {
-		this.addToRoute({'unstructured': fromState}, newRoute);
-		this.addToRoute({'unstructured': toState});
-	},
-
 });

@@ -53,7 +53,8 @@
                     'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
                     'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
                     'zoom': <c:out value="${map.emsZoom}"/>
-                }, icons,
+                }, icons, 
+                /* TODO: replace this parameter with directions options */ null,
                 {
                     layer: '<c:out value="${map.jsMapLayer}"/>',
                     photoLayerAnchorId: 'photoLayerButton',

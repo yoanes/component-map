@@ -1,3 +1,12 @@
+==== Version 1.0.30 (tag: map_v1_0_30) ====
+
+Upgraded to Yoanes' latest MobileEMS.js (1.11) and mobControl_iPhone.js (1.11) from the
+devhome project.
+
+Now depends on wl-build-scripts 1.0.9 and wl-core-component 1.0.17 which collectively
+fix hotswapping of JavaScript to a showcase that has been deployed using
+the showcase*jar-expanded targets.
+
 ==== Version 1.0.29 (tag: map_v1_0_29) ====
 
 Fix for "CUI-93 Map Component - add support for AJAX map/photo toggle, including support for retaining server side state".
