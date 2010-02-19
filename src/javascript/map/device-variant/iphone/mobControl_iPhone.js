@@ -128,11 +128,19 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 				
 				this.cX = centerTouch2.x;
 				this.cY = centerTouch2.y;
+				
+				/* accumulate the diff */
+				this.dX += diffX;
+				this.dY += diffY;
 			}
-
-			/* accumulate the diff */
-			this.dX += diffX;
-			this.dY += diffY;
+			
+			else if(e.touches.length == 1) { 
+				/* if touches only equals to 1 then the movement is actually effected by the scale 
+				 * and remember the scale is always the reverse for panning and zooming
+				 * */
+				this.dX += diffX / this.scale;
+				this.dY += diffY / this.scale;
+			}
 			
 			/* simulate the panning while zooming */
 			$(this.map.viewPortDiv).setStyle('margin-left', $(this.map.viewPortDiv).getStyle('margin-left').toInt() - diffX + "px");
@@ -158,7 +166,7 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 				/* find the distance between the center pinch and the center map in px */
 				var distance = new OpenLayers.Pixel(CXY.x - centerMap.x, CXY.y - centerMap.y);
 
-				/* calculcate the location of the original center pinch */
+				/* calculate the location of the original center pinch */
 				var shadowCXY = new OpenLayers.Pixel(this.cX + this.dX, this.cY + this.dY);
 				/* get the coord from the original center pinch */
 				var shadowCXYCoord = this.map.getLonLatFromPixel(shadowCXY);
