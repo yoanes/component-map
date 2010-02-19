@@ -1,3 +1,14 @@
+==== Version 1.1.3 (tag: map_v1_1_3) ====
+
+Fixes for:
+- CUI-93 Map Component - add support for AJAX map/photo toggle, including support for retaining server side state 
+- CUI-97 Map Component - Style 
+
+Remaining TODOs (which will become new Jiras):
+- Styling of map height is incorrect for low end devices.
+- Styling of fullscreen toggle button alignment is incorrect.
+- Server side state retention of Photo/Map toggle is not implemented yet.
+
 ==== Version 1.0.30 (tag: map_v1_0_30) ====
 
 Upgraded to Yoanes' latest MobileEMS.js (1.11) and mobControl_iPhone.js (1.11) from the

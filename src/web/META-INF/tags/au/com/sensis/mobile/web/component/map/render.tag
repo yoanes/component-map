@@ -105,7 +105,7 @@
 	       	<%-- full screen toggle  --%>
 	       	<div id="modeControls">
 	       		<a id="modeButton" href="#" class="mapControl">
-	                <object src="/comp/map/images/mode.mimg" id="mapZoomInImage">X</object>
+	                <object src="/comp/map/images/mode.mimg" id="mapZoomInImage"></object>
 	            </a>
 	       	</div>
 	       	

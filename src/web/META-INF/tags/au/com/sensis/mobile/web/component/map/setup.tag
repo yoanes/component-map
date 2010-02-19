@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
+<%@ taglib prefix="util" uri="/au/com/sensis/mobile/web/component/util/util.tld"%>
 
 <%@ attribute name="map" required="true"
     type="au.com.sensis.mobile.web.component.map.model.Map"  
@@ -15,6 +16,7 @@
 
 <%-- Setup components that we depend on. --%>
 <core:setup />
+<util:setup />
 <logging:setup />
 
 <%-- Themes for current component. --%>
@@ -53,16 +55,16 @@
                     'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
                     'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
                     'zoom': <c:out value="${map.emsZoom}"/>
-                }, icons, 
-                /* TODO: replace this parameter with directions options */ null,
+                }, 
                 {
                     layer: '<c:out value="${map.jsMapLayer}"/>',
-                    photoLayerAnchorId: 'photoLayerButton',
-                    mapLayerAnchorId: 'mapLayerButton',
-                    zoomInAnchorId: 'mapZoomInButton',
-                    zoomOutAnchorId: 'mapZoomOutButton'
-                }
-                
+                    photoLayerAnchorId: 'photoButton',
+                    mapLayerAnchorId: 'mapButton',
+                    zoomInAnchorId: 'zoomInButton',
+                    zoomOutAnchorId: 'zoomOutButton'
+                },                
+                icons, 
+                /* TODO: replace this parameter with directions options */ null
             );
         }
     </core:script>

@@ -26,6 +26,9 @@
                                     <property name="position">
                                         <keyword>relative</keyword>
                                     </property>
+                                     <property name="height">
+                                        <length units="px">300</length>
+                                    </property>
                                 </properties>
                             </rule>
                             <rule>

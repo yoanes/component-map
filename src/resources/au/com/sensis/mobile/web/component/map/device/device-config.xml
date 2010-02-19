@@ -4,13 +4,32 @@
     xmlns:map="http://mobile.sensis.com.au/web/component/map/device"
     xsi:schemaLocation="http://mobile.sensis.com.au/web/component/map/device au.com.sensis.mobile.web.component.map.device.xsd
         http://mobile.sensis.com.au/web/component/core/device au.com.sensis.mobile.web.component.core.device.xsd">
+        
+    <!-- 
+      - Component specific device related configuration.
+      -->
 
+<!--
+  - TODO: Won't work because Volantis device name inheritance is not yet supported. 
+  - See http://jira.sensis.com.au/browse/CUI-94 For now, you need the exact name of the device (ie. leaf
+  - nodes in the Volantis Device hierarchy). 
+  -->
+<!--
     <deviceConfig xsi:type="map:DeviceConfigType">
         <deviceId>Apple</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
     </deviceConfig>    
+-->    
     <deviceConfig xsi:type="map:DeviceConfigType">
         <deviceId>Apple-iPhone</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>    
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>PC-Win32-Firefox-3</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>    
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>PC-Win32-Firefox-2</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
     </deviceConfig>    
 </core:deviceConfigs>
