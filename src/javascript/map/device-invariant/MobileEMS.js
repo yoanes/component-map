@@ -16,15 +16,16 @@ var MobEMS = new Class({
 	 */
 	routeHistory: new Array(),
 	
+	fullScreenMode: false,
 	/**
 	 * mapCenterOptions should be in JSON format
 	 * i.e. {'latitude': 'latValue', 'longitude': 'lonValue', 'zoom': 'zoomLevel' } 
 	 * all of the above attributes will be used for setCenter() on load.
 	 */
-	initialize: function(mapWrapper, mapOptions, poiOptions, directionOptions) {
+	initialize: function(mapWrapper, mapOptions, viewOptions, poiOptions, directionOptions) {
 		window.addEvent('load', function() {
 			if(this.injectMapDiv(mapWrapper)) {
-				this.Map = new EMS.Services.Map('map-div', {controls: []});				
+				this.Map = new EMS.Services.Map('map-div', {controls: []});			
 				this.Geocoder = new EMS.Services.Geocoder();
 				this.RouteManager = new EMS.Services.RouteManager(this.Map);
 				
@@ -32,7 +33,7 @@ var MobEMS = new Class({
 				 * Add the controller. EMS.Control.MobileDefaults() should be 
 				 * defined somewhere above.
 				*/ 
-				this.Control = new EMS.Control.MobileDefaults();
+				this.Control = new EMS.Control.MobileDefaults(); 
 				this.Map.addControl(this.Control);
 				
 				/* parse the mapOption for initial display */
@@ -51,12 +52,21 @@ var MobEMS = new Class({
 					}
 				}
 				
+				/* consider the view options before anything else */
+				if($defined(viewOptions)) {
+					if($defined(viewOptions.layer))
+						this.switchView(viewOptions.layer);
+					
+					else viewOptions.layer = "map";
+					
+				}
+				
 				/* parse the poiOption for initial display */
 				if($defined(poiOptions)) {
 					this.addPois(poiOptions);
 				}
 				
-				/* parse the directionOptions for initial display */
+				/* parse the directionOptions for initial display 
 				if($defined(directionOptions)) {
 					var wayPointsLength = directionOptions.wayPoints.length;
 					
@@ -65,6 +75,9 @@ var MobEMS = new Class({
 						
 					this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
 				}
+				*/
+				
+				this.renderToolbar();
 			}
 			return true;
 		}.bind(this));
@@ -272,9 +285,93 @@ var MobEMS = new Class({
 	 * Switch the map view between photo and street. Presumably 
 	 * the hybrid is excluded. 
 	 */
-	switchView: function() {
-		if(this.Map.baseLayer.name == "Whereis Street")
+	switchView: function(v) {
+		if((v == "photo") || (!$defined(v) && this.Map.baseLayer.name == "Whereis Street"))
 			this.Map.setBaseLayer(this.Map.whereis_photo_wms);
-		else this.Map.setBaseLayer(this.Map.whereis_street_wms);
+		else this.Map.setBaseLayer(this.Map.whereis_street_wms);	
 	},
+	
+	/* this method will overwrite the link on the #mapControls
+	 * Ties in closely with the element id. So make sure you update this method when 
+	 * you change the ids in render.tag
+	 *  */
+	renderToolbar: function() {
+		/* grab all the buttons */
+		var photoBtn = $('photoButton');
+		var mapBtn = $('mapButton');
+		
+		var zoomInBtn = $('zoomInButton');
+		var zoomOutBtn = $('zoomOutButton');
+		
+		var modeBtn = $('modeButton');
+		
+		/* handle the view toggling buttons. Hide the button that represents the current view */
+		if(this.Map.baseLayer.name == "Whereis Street")
+			mapBtn.setStyle('display', 'none');
+		else photoBtn.setStyle('display', 'none');
+		
+		photoBtn.addEvent('click', function(e) {
+			/* halt the event */
+			e.stop();
+			/* do the switch*/
+			this.switchView('photo');
+			
+			/* fire off reporting */
+			Reporting.to(photoBtn.href, {'lyr': 'p'});
+			
+			/* toggle the buttons */
+			photoBtn.setStyle('display', 'none');
+			mapBtn.setStyle('display', 'inline');
+			
+			return false;
+		}.bind(this));
+			
+		mapBtn.addEvent('click', function(e) {
+			/* halt the event */
+			e.stop();
+			/* do the switch*/
+			this.switchView();
+			
+			/* fire off reporting */
+			Reporting.to(mapBtn.href, {'lyr': 'm'});
+			
+			/* toggle the buttons */
+			mapBtn.setStyle('display', 'none');
+			photoBtn.setStyle('display', 'inline');
+			
+			return false;
+		}.bind(this));
+		
+		/* handle the zoom buttons */
+		zoomInBtn.addEvent('click', function(e){
+			EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), this.Map.getCenter(), this.Map.getZoom() + 1);
+			return false;
+		}.bind(this));
+		
+		zoomOutBtn.addEvent('click', function(e){
+			EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), this.Map.getCenter(), this.Map.getZoom() - 1);
+			return false;
+		}.bind(this));
+		
+		/* handle the full screen mode */
+		modeBtn.addEvent('click', function(e){
+			if(!this.fullScreenMode) {
+				$(this.Map.div).parentNode.setStyle('height', (screen.height - 40) + 'px');
+				$(this.Map.div).parentNode.setStyle('width', screen.width + 'px');
+				this.fullScreenMode = true;
+			}
+			
+			else {
+				$(this.Map.div).parentNode.setStyle('height', '300px');
+				$(this.Map.div).parentNode.setStyle('width', '100%');
+				
+				this.fullScreenMode = false;
+			}
+			
+			this.Map.updateSize();
+			
+			window.scroll(0,$(this.Map.div).parentNode.offsetTop); 
+			return false;
+		}.bind(this));
+	}
 });
