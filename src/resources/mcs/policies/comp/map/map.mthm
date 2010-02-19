@@ -86,11 +86,11 @@
                         <rules>
                             <rule>
                                 <selector-sequence>
-                                    <id>map</id>
+                                    <id>mapWindow</id>
                                 </selector-sequence>
                                 <properties>
-                                    <property name="background-color">
-                                        <colorRGB>#88aaaa</colorRGB>
+                                    <property name="height">
+                                        <length units="px">300</length>
                                     </property>
                                 </properties>
                             </rule>
