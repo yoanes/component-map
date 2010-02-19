@@ -105,7 +105,7 @@
 	       	<%-- full screen toggle  --%>
 	       	<div id="modeControls">
 	       		<a id="modeButton" href="#" class="mapControl">
-	                <object src="/comp/map/images/mode.mimg" id="mapZoomInImage">+</object>
+	                <object src="/comp/map/images/mode.mimg" id="mapZoomInImage">X</object>
 	            </a>
 	       	</div>
 	       	
@@ -149,32 +149,27 @@
                     
         
                 <div id="directionControls">
-	               	<c:url value="${panNorthUrl}" var="panNorthURL" />
-	                   <a id="panNorthButton" href="${panNorthURL}" class="mapControl">
-	                       <object src="/comp/map/images/north.mimg" id="mapPanNorthImage"> /\ </object>
-	                   </a>
-	   				
-	   				<c:url value="${panSouthUrl}" var="panSouthURL" />
-	                   <a id="panSouthButton" href="${panSouthURL}" class="mapControl">
-	                       <object src="/comp/map/images/south.mimg" id="mapPanSouthImage"> \/ </object>
-	                   </a>
-	   	
-	   				<c:url value="${panWestUrl}" var="panWestURL" />
-	                   <a id="panWestButton" href="${panWestURL}" class="mapControl">
-	                       <object src="/comp/map/images/west.mimg" id="mapPanWestImage"> &#60; </object>
-	                   </a>
-	   
-	   				<c:url value="${panEastUrl}" var="panEastURL" />
-	                   <a id="panEastButton" href="${panEastURL}" class="mapControl">
-	                       <object src="/comp/map/images/east.mimg" id="mapPanEastImage"> &#62; </object>
-	                   </a>
+	                <a id="panNorthButton" href="${panNorthUrl}" class="mapControl">
+	                    <object src="/comp/map/images/north.mimg" id="mapPanNorthImage"> /\ </object>
+	                </a>
+					
+	                <a id="panSouthButton" href="${panSouthUrl}" class="mapControl">
+	                    <object src="/comp/map/images/south.mimg" id="mapPanSouthImage"> \/ </object>
+	                </a>
+		
+	                <a id="panWestButton" href="${panWestUrl}" class="mapControl">
+	                    <object src="/comp/map/images/west.mimg" id="mapPanWestImage"> &#60; </object>
+	                </a>
+	
+	                <a id="panEastButton" href="${panEastUrl}" class="mapControl">
+	                    <object src="/comp/map/images/east.mimg" id="mapPanEastImage"> &#62; </object>
+	                </a>
                 </div>
                 
                 <div id="viewControls">
                     <c:choose>
                         <c:when test="${map.mapLayer}">
-                        	<c:url value="${photoLayerUrl}" var="photoURL" />
-                            <a href="${photoURL}">
+                            <a href="${photoLayerUrl}">
                                 <object src="/comp/map/images/photo.mimg">
                                     <fmt:message key="comp.photoLayer.label"/>
                                 </object>
@@ -182,8 +177,7 @@
                         </c:when>
                         
                         <c:when test="${map.photoLayer}">
-                        	<c:url value="${mapLayerUrl}" var="mapURL" />
-                            <a href="${mapUrl}">
+                            <a href="${mapLayerUrl}">
                                 <object src="/comp/map/images/map.mimg">
                                     <fmt:message key="comp.mapLayer.label"/>
                                 </object>
@@ -195,8 +189,7 @@
                               - In the event that the mapLayer is anything else (such as "PhotoWithStreets"),
                               - display the Map view link.   
                               --%>
-                        	<c:url value="${mapLayerUrl}" var="mapURL" />
-                            <a href="${mapURL}">
+                            <a href="${mapLayerUrl}">
                                 <object src="/comp/map/images/map.mimg">
                                     <fmt:message key="comp.mapLayer.label"/>
                                 </object>
