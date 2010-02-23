@@ -30,6 +30,20 @@
         <action name="poiMapStateChange" class="clientSideGeneratedMapStateChangeAction" >
             <result name="success" type="tiles">map.component.pois</result>
         </action>
+        
+        <action name="getRoute" class="getRouteAction" >
+            <result name="success" type="tiles">map.component.route</result>
+        </action>
+        
+        <action name="manRouteMap" class="manRouteMapAction" >
+            <result name="success" type="tiles">map.component.route</result>
+        </action>
+
+        <action name="routeMapStateChange" class="clientSideGeneratedMapStateChangeAction" >
+            <result name="success" type="tiles">map.component.route</result>
+        </action>
+        
+        
 
     </package>
 

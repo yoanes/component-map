@@ -37,6 +37,18 @@
         <property name="mapDelegate" ref="map.comp.mapDelegate"/>
     </bean>
     
+    <bean id="getRouteAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetRouteAction"
+            scope="prototype">
+        <property name="locationDelegate" ref="locationDelegate"/>
+        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+    </bean>
+    
+    <bean id="manRouteMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ManipulateRouteMapAction"
+            scope="prototype">
+        <property name="locationDelegate" ref="locationDelegate"/>
+        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+    </bean>
+    
     <bean id="clientSideGeneratedMapStateChangeAction" 
         class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ClientSideGeneratedMapStateChangeAction"
             scope="prototype">

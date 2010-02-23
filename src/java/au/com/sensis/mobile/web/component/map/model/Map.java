@@ -53,15 +53,25 @@ public interface Map {
      * essential that clients preserve this state when panning or zooming the
      * map via the
      * {@link au.com.sensis.mobile.web.component.map.business.MapDelegate},
-     * otherwise the original reference point will be lost.
+     * otherwise the original reference point will be lost. Note that the
+     * reference point isn't strictly required for the panning and zooming,
+     * though. It is only used to render a marker at the original reference
+     * point.
      *
      * @return the centre of the map when it was originally/initially retrieved.
      *         It is essential that clients preserve this state when panning or
      *         zooming the map via the
      *         {@link au.com.sensis.mobile.web.component.map.business.MapDelegate}
-     *         , otherwise the original reference point will be lost.
+     *         , otherwise the original reference point will be lost. Note that
+     *         the reference point isn't strictly required for the panning and
+     *         zooming, though. It is only used to render a marker at the
+     *         original reference point.
+     * @throws IllegalStateException
+     *             thrown if {@link #isRouteMap()} is true, since route maps
+     *             don't have a caller specific original map centre point. The
+     *             centre point is generated based on the route.
      */
-    WGS84Point getOriginalMapCentre();
+    WGS84Point getOriginalMapCentre() throws IllegalStateException;
 
     /**
      * Returns true if the map was/is to be rendered using a
@@ -151,4 +161,22 @@ public interface Map {
      *         be null.
      */
     List<ResolvedIcon> getResolvedIcons();
+
+    /**
+     * Return details of the route. Must only be called if {@link #isRouteMap()} is true.
+     *
+     * @return details of the route.
+     * @throws IllegalStateException thrown if {@link #isRouteMap()} is false.
+     */
+    RouteDetails getRouteDetails() throws IllegalStateException;
+
+    /**
+     * Returns true if the map is of a route. Note that the route may be fully
+     * visible, only partially visible or not visible at all, depending on the
+     * {@link #getMapUrl()}.
+     *
+     * @return true if the map is of a route.
+     */
+    boolean isRouteMap();
+
 }

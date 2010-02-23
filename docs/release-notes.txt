@@ -1,3 +1,21 @@
+==== (PENDING) ***************** Version 1.1.3-001 (tag: map_v1_1_3-001) ====
+
+Fixes for CUI-85 Map Component - Render Routes - Delegate.
+
+MapDelegate updated with new methods:
+- getInitialRouteMap
+- manipulateRouteMap
+- getInitialRouteLegStepMap
+- manipulateRouteLegStepMap 
+
+MapDelegateImpl implements getInitialRouteMap (except for path that needs to cater 
+to client generated maps) and manipulateRouteMap. Showcase updated to demonstrate
+rendering and manipulating a Classic map. 
+
+TODO:
+- MapDelegateImpl.getInitialRouteMap needs to cater to client generated maps.
+- getInitialRouteLegStepMap and manipulateRouteLegStepMap need to be implemented.
+
 ==== Version 1.1.3 (tag: map_v1_1_3) ====
 
 Fixes for:

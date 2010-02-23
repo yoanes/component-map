@@ -5,6 +5,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.model.MapLayerTransformer;
+import au.com.sensis.wireless.manager.directions.RouteHandle;
+import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
@@ -29,6 +31,14 @@ public class ManipulateMapForm {
     private Integer zoomLevel;
 
     private String mapLayer;
+
+    private String routeHandle;
+    private String routingOption;
+    private Double routeStartLatitude;
+    private Double routeStartLongitude;
+    private Double routeEndLatitude;
+    private Double routeEndLongitude;
+
 
     /**
      * Parameter that indicates the action being performed, where the valid values correspond to
@@ -307,11 +317,7 @@ public class ManipulateMapForm {
     }
 
     /**
-     * Packs this {@link ManipulateMapForm} into a new {@link MapUrl},
-     * discarding data that cannot be converted, such as {@link #getAction()}.
-     *
-     * @return this {@link ManipulateMapForm} packed into a new {@link MapUrl},
-     * discarding data that cannot be converted, such as {@link #getAction()}.
+     * @return original map centre.
      */
     public WGS84Point getOrignalMapCentre() {
         return new WGS84Point(getOriginalCentreLongitude(),
@@ -431,7 +437,182 @@ public class ManipulateMapForm {
     }
 
 
+    /**
+     * @return the routeHandle
+     */
+    public RouteHandle getRouteHandle() {
+        return new RouteHandle(routeHandle);
+    }
 
 
+    /**
+     * @param routeHandle the routeHandle to set
+     */
+    public void setRouteHandleAsString(final String routeHandle) {
+        this.routeHandle = routeHandle;
+    }
 
+    /**
+     * Shorthand for {@link #setRouteHandleAsString(String)} so that it can be more easily
+     * set from request params.
+     *
+     * @param routeHandle the routeHandle to set
+     */
+    public void setRh(final String routeHandle) {
+        setRouteHandleAsString(routeHandle);
+    }
+
+
+    /**
+     * @return the routingOption
+     */
+    public RoutingOption getRoutingOption() {
+        return RoutingOption.fromShortNameString(getRoutingOptionAsString());
+    }
+
+
+    /**
+     * @param routingOption the routingOption to set
+     */
+    public void setRoutingOptionAsString(final String routingOption) {
+        this.routingOption = routingOption;
+    }
+
+    /**
+     * @return routingOption the routingOption
+     */
+    public String getRoutingOptionAsString() {
+        return routingOption;
+    }
+
+    /**
+     * Shorthand for {@link #setRoutingOption(String)} so that it can be more
+     * easily set from request params.
+     *
+     * @param routingOption
+     *            the routingOption to set
+     */
+    public void setRo(final String routingOption) {
+        setRoutingOptionAsString(routingOption);
+    }
+
+    /**
+     * @return start coordinates for a route.
+     */
+    public WGS84Point getRouteStart() {
+        return new WGS84Point(getRouteStartLongitude(),
+                    getRouteStartLatitude());
+    }
+
+    /**
+     * @return the routeStartLatitude
+     */
+    public Double getRouteStartLatitude() {
+        return routeStartLatitude;
+    }
+
+
+    /**
+     * @param routeStartLatitude the routeStartLatitude to set
+     */
+    public void setRouteStartLatitude(final Double routeStartLatitude) {
+        this.routeStartLatitude = routeStartLatitude;
+    }
+
+    /**
+     * Shorthand for {@link #setRouteStartLatitude(Double)} so that it can be more easily
+     * set from request params.
+     *
+     * @param routeStartLatitude the routeStartLatitude to set
+     */
+    public void setRslat(final Double routeStartLatitude) {
+        setRouteStartLatitude(routeStartLatitude);
+    }
+
+
+    /**
+     * @return the routeStartLongitude
+     */
+    public Double getRouteStartLongitude() {
+        return routeStartLongitude;
+    }
+
+
+    /**
+     * @param routeStartLongitude the routeStartLongitude to set
+     */
+    public void setRouteStartLongitude(final Double routeStartLongitude) {
+        this.routeStartLongitude = routeStartLongitude;
+    }
+
+    /**
+     * Shorthand for {@link #setRouteStartLongitude(Double)} so that it can be
+     * more easily set from request params.
+     *
+     * @param routeStartLongitude
+     *            the routeStartLongitude to set
+     */
+    public void setRslon(final Double routeStartLongitude) {
+        setRouteStartLongitude(routeStartLongitude);
+    }
+
+    /**
+     * @return end coordinates for a route.
+     */
+    public WGS84Point getRouteEnd() {
+        return new WGS84Point(getRouteEndLongitude(), getRouteEndLatitude());
+    }
+
+
+    /**
+     * @return the routeEndLatitude
+     */
+    public Double getRouteEndLatitude() {
+        return routeEndLatitude;
+    }
+
+
+    /**
+     * @param routeEndLatitude the routeEndLatitude to set
+     */
+    public void setRouteEndLatitude(final Double routeEndLatitude) {
+        this.routeEndLatitude = routeEndLatitude;
+    }
+
+    /**
+     * Shorthand for {@link #setRouteEndLatitude(Double)} so that it can be more
+     * easily set from request params.
+     *
+     * @param routeEndLatitude
+     *            the routeEndLatitude to set
+     */
+    public void setRelat(final Double routeEndLatitude) {
+        setRouteEndLatitude(routeEndLatitude);
+    }
+
+
+    /**
+     * @return the routeEndLongitude
+     */
+    public Double getRouteEndLongitude() {
+        return routeEndLongitude;
+    }
+
+
+    /**
+     * @param routeEndLongitude the routeEndLongitude to set
+     */
+    public void setRouteEndLongitude(final Double routeEndLongitude) {
+        this.routeEndLongitude = routeEndLongitude;
+    }
+
+    /**
+     * Shorthand for {@link #setRouteEndLongitude(Double)} so that it can be more easily
+     * set from request params.
+     *
+     * @param routeEndLongitude the routeEndLongitude to set
+     */
+    public void setRelon(final Double routeEndLongitude) {
+        setRouteEndLongitude(routeEndLongitude);
+    }
 }

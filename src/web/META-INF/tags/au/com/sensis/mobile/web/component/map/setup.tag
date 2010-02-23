@@ -50,12 +50,43 @@
                      }
                 </c:forEach>
             ];
+            
+            <c:choose>
+                <c:when test="${map.routeMap}">
+                    var directions = {
+                        wayPoints: [
+                            { 
+                                coordinates: { 
+                                    latitude: <c:out value="${map.routeDetails.waypoints.start.latitude}" />,
+                                    longitude: <c:out value="${map.routeDetails.waypoints.start.longitude}" />
+                                }, 
+                                <%--TODO --%>
+                                streetName: ''<%--'<c:out value="${map.routeDetails.waypoints.start.street.name}" />' --%> 
+                            },
+                            { 
+                                coordinates: { 
+                                    latitude: <c:out value="${map.routeDetails.waypoints.end.latitude}" />,
+                                    longitude: <c:out value="${map.routeDetails.waypoints.end.longitude}" />
+                                }, 
+                                <%--TODO --%>
+                                streetName: ''<%--'<c:out value="${map.addressWaypoints.end.street.name}" />'--%> 
+                            }
+                        ],
+                        fastest: <c:out value="${map.routeDetails.routingOption.fastest}" />,
+                        tolls: <c:out value="${map.routeDetails.routingOption.tolls}" />,
+                        transportType: <c:out value="${map.routeDetails.emsJsTransportType}" />
+                    };
+                </c:when>
+                <c:otherwise>
+                    var directions = { };
+                </c:otherwise>
+            </c:choose>
         
             var MEMS = new MobEMS('mapWindow', {
                     'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
                     'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
                     'zoom': <c:out value="${map.emsZoom}"/>
-                }, 
+                },
                 {
                     layer: '<c:out value="${map.jsMapLayer}"/>',
                     photoLayerAnchorId: 'photoButton',
@@ -64,7 +95,7 @@
                     zoomOutAnchorId: 'zoomOutButton'
                 },                
                 icons, 
-                /* TODO: replace this parameter with directions options */ null
+                directions
             );
         }
     </core:script>

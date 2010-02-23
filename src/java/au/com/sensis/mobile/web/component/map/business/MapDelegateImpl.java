@@ -12,6 +12,10 @@ import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.model.MapImpl;
 import au.com.sensis.sal.common.UserContext;
+import au.com.sensis.wireless.manager.directions.JourneyDescriptor;
+import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
+import au.com.sensis.wireless.manager.directions.RouteHandle;
+import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
@@ -459,5 +463,109 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         this.poiMapRadiusMultiplier = poiMapRadiusMultiplier;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public Map getInitialRouteMap(final JourneyWaypoints waypoints,
+            final RoutingOption routingOption, final MapLayer mapLayer,
+            final MobileContext mobileContext) {
+
+        if (deviceNeedsServerSideMapGenerated(mobileContext)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will retrieve route map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+            final JourneyDescriptor journeyDescriptor =
+                    getEmsManager().getJourneyDescriptor(
+                            getScreenDimensionsStrategy()
+                                    .createScreenDimensions(mobileContext),
+                            waypoints, routingOption, mapLayer,
+                            mobileContext.asUserContext());
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("route map url is "
+                        + journeyDescriptor.getMap().getImageUrl());
+            }
+
+            final int zoom = journeyDescriptor.getMap().getZoom();
+            return MapImpl.createRouteMapRetrievedInstance(waypoints,
+                    routingOption, journeyDescriptor,
+                    mapLayer, getEmsManager().getEmsZoomLevel(zoom),
+                    isZoomLevelMin(zoom), isZoomLevelMax(zoom));
+
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will NOT retrieve map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+// TODO
+//            final int zoomLevel = getEmsManager().getPoiMapZoom(screenDimensions, mapCentre,
+//                    poiIcons, getPoiMapRadiusMultiplier(), mobilesZoomThreshold);
+//            final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
+//
+//            return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
+//                    routingOption, journeyDescriptor,
+//                    mapLayer, getEmsManager().getEmsZoomLevel(zoom),
+//                    isZoomLevelMin(zoom), isZoomLevelMax(zoom));
+
+            return null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Map manipulateRouteMap(final RouteHandle routeHandle,
+            final JourneyWaypoints waypoints,
+            final RoutingOption routingOption, final MapUrl existingMapUrl,
+            final MapLayer existingMapLayer,
+            final Action mapManipulationAction,
+            final MobileContext mobileContext) {
+        final PanZoomDetail panZoomDetail =
+                createMapManipulationPanZoomDetail(existingMapUrl,
+                        mapManipulationAction);
+
+        final MapLayer newMapLayer =
+                createMapLayerAfterAction(existingMapLayer,
+                        mapManipulationAction);
+
+        final JourneyDescriptor journeyDescriptor =
+                getEmsManager().updateJourneyDescriptorMapFromRouteHandle(
+                        routeHandle,
+                        waypoints,
+                        routingOption,
+                        createMapLayerAfterAction(existingMapLayer,
+                                mapManipulationAction),
+                        getScreenDimensionsStrategy().createScreenDimensions(
+                                mobileContext), panZoomDetail,
+                        mobileContext.asUserContext());
+        final int emsZoomLevel =
+                getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
+
+        return MapImpl.createRouteMapRetrievedInstance(waypoints,
+                routingOption, journeyDescriptor, newMapLayer, emsZoomLevel,
+                isZoomLevelMin(journeyDescriptor.getMap().getZoom()),
+                isZoomLevelMax(journeyDescriptor.getMap().getZoom()));
+
+    }
+
+    public Map getInitialRouteLegStepMap(final RouteHandle routeHandle,
+            final JourneyWaypoints waypoints, final RoutingOption routingOption,
+            final int legIndex, final int legStepIndex, final MapLayer mapLayer,
+            final MobileContext mobileContext) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public Map manipulateRouteLegStepMap(final RouteHandle routeHandle,
+            final JourneyWaypoints waypoints, final RoutingOption routingOption,
+            final MapUrl existingMapUrl, final MapLayer mapLayer,
+            final Action mapManipulationAction, final MobileContext mobileContext) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -8,17 +8,12 @@
 </c:set>
 
 <div id="map">
-    <s:url id="browseMapUrl" namespace="/map" action="%{#attr.mapControlsActionName}" includeParams="all"
+    <s:url id="baseMapUrl" namespace="/map" action="%{#attr.mapControlsActionName}" includeParams="all"
             includeContext="true" escapeAmp="false">
     
-        <%-- Reset action param so that we no longer think we are executing an action. --%>
-        <s:param name="act"></s:param>
-        
         <%--
           - Current state of the map so that further manipulations will be relative to this. 
           --%>
-        <s:param name="moclat"><s:property value="#attr.map.originalMapCentre.latitude"/></s:param>
-        <s:param name="moclon"><s:property value="#attr.map.originalMapCentre.longitude"/></s:param>
         <s:param name="mclat"><s:property value="#attr.map.mapUrl.mapCentre.latitude"/></s:param>
         <s:param name="mclon"><s:property value="#attr.map.mapUrl.mapCentre.longitude"/></s:param>
         <s:param name="tllat"><s:property value="#attr.map.mapUrl.boundingBox.topLeft.latitude"/></s:param>
@@ -29,6 +24,25 @@
         <s:param name="lyr" value="#attr.map.mapLayerShortCode" />
     </s:url>
 
+    <c:choose>
+        <c:when test="${map.routeMap}">
+            <s:url id="browseMapUrl" value="%{baseMapUrl}" includeContext="false" escapeAmp="false">
+                <s:param name="rh"><s:property value="#attr.map.routeDetails.emsRouteHandle.identifier"/></s:param>
+                <s:param name="ro"><s:property value="#attr.map.routeDetails.routingOption.shortName"/></s:param>
+                <s:param name="rslat"><s:property value="#attr.map.routeDetails.waypoints.start.latitude"/></s:param>
+                <s:param name="rslon"><s:property value="#attr.map.routeDetails.waypoints.start.longitude"/></s:param>
+                <s:param name="relat"><s:property value="#attr.map.routeDetails.waypoints.end.latitude"/></s:param>
+                <s:param name="relon"><s:property value="#attr.map.routeDetails.waypoints.end.longitude"/></s:param>
+            </s:url>        
+        </c:when>
+        <c:otherwise>
+            <s:url id="browseMapUrl" value="%{baseMapUrl}" includeContext="false" escapeAmp="false">
+                <s:param name="moclat"><s:property value="#attr.map.originalMapCentre.latitude"/></s:param>
+                <s:param name="moclon"><s:property value="#attr.map.originalMapCentre.longitude"/></s:param>
+            </s:url>
+        </c:otherwise>
+    </c:choose>
+    
     <s:url id="zoomInUrl" value="%{browseMapUrl}" includeContext="false">
         <s:param name="act" value="%{'mzi'}" />
     </s:url>

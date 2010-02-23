@@ -4,16 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.WGS84PointTestDataFactory;
+import au.com.sensis.wireless.manager.directions.JourneyDescriptor;
+import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
+import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
+
+import com.whereis.ems.SoapRouteHandle;
 
 /**
  * Unit test {@link MapImpl}.
@@ -24,9 +30,13 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
 
     private static final int EMS_ZOOM_LEVEL = 16;
     private static final int ZOOM_LEVEL = 5;
+    private static final String ROUTE_IDENTIFIER = "myFunkyRoute";
     private WGS84PointTestDataFactory wgs84PointTestDataFactory;
     private WGS84Point wgs84Point1;
+    private WGS84Point wgs84Point2;
     private MapUrl mockMapUrl;
+    private JourneyDescriptor mockJourneyDescriptor;
+    private SoapRouteHandle mockSoapRouteHandle;
 
     /**
      * Setup test data.
@@ -37,6 +47,7 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
     public void setUp() throws Exception {
         setWgs84PointTestDataFactory(new WGS84PointTestDataFactory());
         setWgs84Point1(getWgs84PointTestDataFactory().createValidWGS84Point());
+        setWgs84Point2(getWgs84PointTestDataFactory().createValidWGS84Point2());
     }
 
     @Test
@@ -123,6 +134,175 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
+    public void testCreateRouteMapRetrievedInstance() throws Throwable {
+
+        final double startLat = -45.45;
+        final double startLong = 145.145;
+        final double endLat = -45.46;
+        final double endLong = 146.146;
+
+        final JourneyWaypoints journeyWaypoints =
+                createJourneyWaypoints(startLat, startLong, endLat, endLong);
+
+        EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
+                getMockMapUrl());
+
+        EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
+                .andReturn(getMockSoapRouteHandle());
+        EasyMock.expect(getMockSoapRouteHandle().getIdentifier()).andReturn(
+                ROUTE_IDENTIFIER);
+
+        replay();
+
+        final Map map =
+                MapImpl.createRouteMapRetrievedInstance(journeyWaypoints,
+                        RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                        getMockJourneyDescriptor(),
+                        MapLayer.Photo, EMS_ZOOM_LEVEL, true, false);
+
+        Assert.assertTrue("isMapImageRetrieved() should be true", map
+                .isMapImageRetrieved());
+        Assert.assertFalse(
+                "isMapImageRetrievalDeferredToClient() should be false", map
+                        .isMapImageRetrievalDeferredToClient());
+        Assert.assertEquals("mapUrl is wrong", getMockMapUrl(), map
+                        .getMapUrl());
+
+        try {
+            map.getOriginalMapCentre();
+            Assert.fail("IllegalStateException expected");
+        } catch (final IllegalStateException e) {
+            Assert.assertEquals("IllegalStateException has wrong message",
+                    "It is illegal to call getOriginalMapCentre() "
+                            + "when isRouteMap() is true", e.getMessage());
+        }
+
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", map
+                .isPhotoWithStreetsLayer());
+
+        Assert.assertEquals("getResolvedIcons() is wrong",
+                new ArrayList<ResolvedIcon>(), map.getResolvedIcons());
+
+        Assert.assertEquals("EMS zoom is wrong", EMS_ZOOM_LEVEL, map
+                .getEmsZoom());
+
+        Assert.assertTrue("isAtMinimumZoom should be true", map
+                .isAtMinimumZoom());
+        Assert.assertFalse("isAtMaximumZoom should be false", map
+                .isAtMaximumZoom());
+
+        Assert.assertTrue("isRouteMap is wrong", map.isRouteMap());
+        Assert.assertNotNull("getRouteDetails should not be null", map
+                .getRouteDetails());
+        Assert.assertEquals("RouteDetails contains wrong waypoints",
+                journeyWaypoints, map.getRouteDetails().getWaypoints());
+        Assert.assertEquals("RouteDetails contains wrong RoutingOption",
+                RoutingOption.FASTEST_BY_ROAD_NO_TOLLS, map.getRouteDetails()
+                        .getRoutingOption());
+        Assert.assertEquals("RouteDetails contains wrong RoutingHandle",
+                ROUTE_IDENTIFIER, map.getRouteDetails().getEmsRouteHandle()
+                        .getIdentifier());
+
+    }
+
+    @Test
+    public void testCreateRouteMapRetrievalDeferredInstance() throws Throwable {
+        // TODO
+
+
+//        final double startLat = -45.45;
+//        final double startLong = 145.145;
+//        final double endLat = -45.46;
+//        final double endLong = 146.146;
+//
+//        final JourneyWaypoints journeyWaypoints
+//            = createJourneyWaypoints(startLat, startLong, endLat, endLong);
+//
+////        EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(getMockMapUrl());
+////
+////        EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
+////        .andReturn(getMockSoapRouteHandle());
+////        EasyMock.expect(getMockSoapRouteHandle().getIdentifier()).andReturn(ROUTE_IDENTIFIER);
+//
+//        replay();
+//
+//        final Map map =
+//            MapImpl.createRouteMapRetrievalDeferredInstance(journeyWaypoints,
+//                    RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+//                    getWgs84Point2(),
+//                    MapLayer.Photo, EMS_ZOOM_LEVEL, true, false);
+//
+//
+//        Assert.assertFalse("isMapImageRetrieved() should be false", map
+//                .isMapImageRetrieved());
+//        Assert.assertTrue(
+//                "isMapImageRetrievalDeferredToClient() should be true",
+//                map.isMapImageRetrievalDeferredToClient());
+//
+//        Assert.assertNotNull("mapUrl should not be null", map
+//                .getMapUrl());
+//        Assert.assertEquals("mapCentre is wrong", getWgs84Point1(),
+//                map.getMapUrl().getMapCentre());
+//        Assert.assertEquals("zoom is wrong", ZOOM_LEVEL,
+//                map.getMapUrl().getZoom());
+//        Assert.assertEquals("imageUrl is wrong", StringUtils.EMPTY,
+//                map.getMapUrl().getImageUrl());
+//        Assert.assertNull("boundingBox is wrong",
+//                map.getMapUrl().getBoundingBox());
+//
+//        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+//                map.getResolvedIcons());
+//
+//
+//
+//        Assert.assertEquals("mapUrl is wrong", getMockMapUrl(), map
+//                .getMapUrl());
+//        Assert.assertEquals("originalMapCentre is wrong", getWgs84Point2(),
+//                map.getOriginalMapCentre());
+//        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+//        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
+//        Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
+//                map.isPhotoWithStreetsLayer());
+//
+//        Assert.assertEquals("getResolvedIcons() is wrong", new ArrayList<ResolvedIcon>(),
+//                map.getResolvedIcons());
+//
+//        Assert.assertEquals("EMS zoom is wrong", EMS_ZOOM_LEVEL,
+//                map.getEmsZoom());
+//
+//        Assert.assertTrue("isAtMinimumZoom should be true",
+//                map.isAtMinimumZoom());
+//        Assert.assertFalse("isAtMaximumZoom should be false",
+//                map.isAtMaximumZoom());
+//
+//        Assert.assertTrue("isRouteMap is wrong", map.isRouteMap());
+//        Assert.assertNotNull("getRouteDetails should not be null", map.getRouteDetails());
+//        Assert.assertEquals("RouteDetails contains wrong waypoints",
+//                journeyWaypoints, map.getRouteDetails().getWaypoints());
+//        Assert.assertEquals("RouteDetails contains wrong RoutingOption",
+//                RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+//                map.getRouteDetails().getRoutingOption());
+//        Assert.assertEquals("RouteDetails contains wrong RoutingHandle",
+//                ROUTE_IDENTIFIER,
+//                map.getRouteDetails().getEmsRouteHandle().getIdentifier());
+//
+    }
+
+    private JourneyDescriptor createJourneyDescriptor() {
+        return null;
+    }
+
+    private JourneyWaypoints createJourneyWaypoints(final double startLat, final double startLong,
+            final double endLat, final double endLong) {
+        final WGS84Point startWGS84Pt = new WGS84Point(startLong, startLat);
+        final WGS84Point endWGS84Pt = new WGS84Point(endLong, endLat);
+        final JourneyWaypoints journeyWayPoints = new JourneyWaypoints(startWGS84Pt, endWGS84Pt);
+        return journeyWayPoints;
+    }
+
+    @Test
     public void testGetMapLayerShortCode() throws Throwable {
         final MapLayer[] testValues =
                 { MapLayer.Map, MapLayer.Photo, MapLayer.PhotoWithStreets };
@@ -201,4 +381,45 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
         this.wgs84PointTestDataFactory = wgs84PointTestDataFactory;
     }
 
+    /**
+     * @return the mockJourneyDescriptor
+     */
+    public JourneyDescriptor getMockJourneyDescriptor() {
+        return mockJourneyDescriptor;
+    }
+
+    /**
+     * @param mockJourneyDescriptor the mockJourneyDescriptor to set
+     */
+    public void setMockJourneyDescriptor(final JourneyDescriptor mockJourneyDescriptor) {
+        this.mockJourneyDescriptor = mockJourneyDescriptor;
+    }
+
+    /**
+     * @return the mockSoapRouteHandle
+     */
+    public SoapRouteHandle getMockSoapRouteHandle() {
+        return mockSoapRouteHandle;
+    }
+
+    /**
+     * @param mockSoapRouteHandle the mockSoapRouteHandle to set
+     */
+    public void setMockSoapRouteHandle(final SoapRouteHandle mockSoapRouteHandle) {
+        this.mockSoapRouteHandle = mockSoapRouteHandle;
+    }
+
+    /**
+     * @return the wgs84Point2
+     */
+    public WGS84Point getWgs84Point2() {
+        return wgs84Point2;
+    }
+
+    /**
+     * @param wgs84Point2 the wgs84Point2 to set
+     */
+    public void setWgs84Point2(final WGS84Point wgs84Point2) {
+        this.wgs84Point2 = wgs84Point2;
+    }
 }

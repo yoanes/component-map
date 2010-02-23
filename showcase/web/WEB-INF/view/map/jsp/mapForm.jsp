@@ -33,3 +33,17 @@
         </xf:submit>
     </xf:group>
 </div>
+
+<div id="routeForm">
+    <h4>Render route between Melb and Camberwell</h4>
+    <xf:group class="mapInput" model="routeFormModel">
+
+        <xf:submit submission="routeFormSubmission" model="routeFormModel"
+                class="mapButton"
+                title="Render Route/>">
+            <xf:label class="mapButtonLabel">
+                <s:text name="Render Route"/>
+            </xf:label>
+        </xf:submit>
+    </xf:group>
+</div>
