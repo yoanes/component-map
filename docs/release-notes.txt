@@ -27,6 +27,9 @@ Remaining TODOs (which will become new Jiras):
 - Styling of fullscreen toggle button alignment is incorrect.
 - Server side state retention of Photo/Map toggle is not implemented yet.
 
+Upgrade notes:
+- When upgrading, you must also upgrade your common-imageserver to map_v1_1_3).
+
 ==== Version 1.0.30 (tag: map_v1_0_30) ====
 
 Upgraded to Yoanes' latest MobileEMS.js (1.11) and mobControl_iPhone.js (1.11) from the
