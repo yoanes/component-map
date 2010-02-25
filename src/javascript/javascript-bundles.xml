@@ -4,19 +4,32 @@
     xsi:schemaLocation="http://mobile.sensis.com.au/build-scripts au.com.sensis.mobile.bundles.xsd">
     
     <bundles basename="map-component" subpackage="map">
+    	<!-- device independent script. So far none -->
         <bundle name="common" abstract="true">
-            <fileset dir="${src.javascript.dir}/map/device-invariant">
+       <!-- <fileset dir="${src.javascript.dir}/map/device-invariant">
+            </fileset> -->
+        </bundle>
+        
+        <!-- set the higher level categories dependencies -->
+        <bundle name="advance" parent="common">
+        	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
             </fileset>
         </bundle>
-        <bundle name="default" parent="common">
+         <bundle name="intermediate" parent="common">
+        	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
+            </fileset>
+        </bundle>
+        
+        <!-- more specific config per devices -->
+        <bundle name="default" parent="advance">
             <fileset dir="${src.javascript.dir}/map/device-variant/default">
             </fileset>
         </bundle>
-        <bundle name="iphone" parent="common">
+        <bundle name="iphone" parent="advance">
             <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
             </fileset>
         </bundle>
-        <bundle name="android" parent="common">
+        <bundle name="android" parent="advance">
             <fileset dir="${src.javascript.dir}/map/device-variant/android">
             </fileset>
         </bundle>
