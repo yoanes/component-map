@@ -29,6 +29,17 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	
 	/* flag whether we are zooming or not */
 	scale: null,
+
+	/* var to hold the last scale to calculate the zoom fraction.
+	 * ties in closely with the zooming flag
+	 *  */
+	lastScale: null,
+	
+	/* flag to indicate that a gestureEnd has fired but the map zoom()
+	 * hasn't been executed. This will trigger a separate logic for 
+	 * panning/zooming
+	 */
+	zooming: false,
 	
 	initialize: function() { 
 		this.active = true;
@@ -67,13 +78,17 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 			this.id1 = node1.identifier;
 			
 			var pointCenterTouch = this.getCenterTouch(node, node1);
-			var percentCenterTouch = this.getCenterTouch(node, node1, 'percent');
-			
 			this.cX = pointCenterTouch.x;
 			this.cY = pointCenterTouch.y;
 			
-			this.zX = percentCenterTouch.x;
-			this.zY = percentCenterTouch.y;
+			/* grab the center touch on initial gesture start 
+			 * this is so that the locked view doesn't jump and confuse user
+			 * */
+			if(!this.zooming) { 
+				var percentCenterTouch = this.getCenterTouch(node, node1, 'percent');
+				this.zX = percentCenterTouch.x;
+				this.zY = percentCenterTouch.y;
+			}
 		}
 	},
 	
@@ -113,12 +128,18 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		}
 		
 		else {
-			if(e.touches.length == 2){ 
+			/* handles the dx dy for 1st level of zoom and overide the calculated dx dy with
+			 * the difference between the center touch. Gives a more accurate view.
+			 */
+			if(e.touches.length == 2 && !this.zooming){ 
 				var node1 = e.touches[1];
 				
 				/* please do update the X1 and Y1 so the map won't jump if the 1st node is removed */
 				this.X1 = node1.pageX;
 				this.Y1 = node1.pageY;
+				
+				this.X0 = node.pageX;
+				this.Y0 = node.pageY;
 				
 				/* calculate the pan based on the center pinch movement */
 				var centerTouch2 = this.getCenterTouch(node, node1);
@@ -134,9 +155,12 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 				this.dY += diffY;
 			}
 			
-			else if(e.touches.length == 1) { 
+			else { 
 				/* if touches only equals to 1 then the movement is actually effected by the scale 
 				 * and remember the scale is always the reverse for panning and zooming
+				 * 
+				 * this case should handle the case where (this.zooming && e.touches.length == 2). 
+				 * this case the panning factor is based on the first node changes. Not the center touch.
 				 * */
 				this.dX += diffX / this.scale;
 				this.dY += diffY / this.scale;
@@ -198,6 +222,14 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 				this.map.viewPortDiv.style['-webkit-transform'] = 'scale(1)';
 				
 				this.scale = null;
+				
+				this.zooming = false;
+				this.lastScale = null;
+			}
+			 
+			 /* set the zooming flag to true */
+			else if (e.touches.length == 1) {
+				this.zooming = true;
 			}
 		}
 	},             
@@ -205,13 +237,20 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	/* update the scale flag */
 	execGestureStart: function(e) { 
 		e.preventDefault();
-		this.scale = e.scale;
+		if(!this.zooming)
+			this.scale = e.scale;
+		else this.lastScale = e.scale;
 	},
 	
 	/* do animation and nothing else */
 	execGestureChange: function(e){
-		e.preventDefault(); 		
-		this.scale = e.scale;
+		e.preventDefault(); 
+		if(this.zooming) {
+			var scaleDiff = this.lastScale - e.scale;
+			this.scale *= (1 - scaleDiff);
+			this.lastScale = e.scale;
+		}
+		else this.scale = e.scale;
 		
 		this.map.viewPortDiv.style['-webkit-transform'] = 'scale(' + this.scale + ')';	
 		this.map.viewPortDiv.style['-webkit-transform-origin-x'] = this.zX + '%';	
@@ -223,8 +262,11 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	 * the screen at the same time.
 	 *  */
 	execGestureEnd: function(e) {
-		e.preventDefault();
-		this.scale = e.scale;
+		 e.preventDefault();
+		 /* finalise the scale only for initial zoom */
+		 if(!this.zooming) {
+			 this.scale = e.scale;
+		 }
 	},
 	
 	/**
@@ -243,6 +285,8 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.map.events.register('zoomend', this, function() { 
 			this.map.viewPortDiv.style['-webkit-transform'] = 'scale(1)'; 
 		});
+		
+		$(this.map.div).parentNode.style['-webkit-touch-callout'] = 'none';
 	},
 	
 	/**	
