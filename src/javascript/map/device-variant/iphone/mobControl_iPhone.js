@@ -76,15 +76,15 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 			this.X1 = node1.pageX;
 			this.Y1 = node1.pageY;
 			this.id1 = node1.identifier;
-			
-			var pointCenterTouch = this.getCenterTouch(node, node1);
-			this.cX = pointCenterTouch.x;
-			this.cY = pointCenterTouch.y;
-			
+				
 			/* grab the center touch on initial gesture start 
 			 * this is so that the locked view doesn't jump and confuse user
 			 * */
-			if(!this.zooming) { 
+			if(!this.zooming) {
+				var pointCenterTouch = this.getCenterTouch(node, node1);
+				this.cX = pointCenterTouch.x;
+				this.cY = pointCenterTouch.y;
+				
 				var percentCenterTouch = this.getCenterTouch(node, node1, 'percent');
 				this.zX = percentCenterTouch.x;
 				this.zY = percentCenterTouch.y;
