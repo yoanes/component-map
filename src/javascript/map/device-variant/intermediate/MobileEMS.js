@@ -8,7 +8,7 @@ var MobEMS = new Class({
 	 * on init/window load try to grab the map and assign functions to the onclick event
 	 * each buttons in the map toolbar
 	 */
-	initialize: function(mapWrapper, viewOptions, mapOptions, poiOptions, directionOptions) {
+	initialize: function(mapWrapper, viewOptions) {
 		window.addEvent('load', function() {
 			/* get the map div */
 			this.Map = $(mapWrapper);
@@ -36,7 +36,7 @@ var MobEMS = new Class({
 			/* on completion of url retrieval, update the map img */
 			onComplete: function(newMapUrl) {
 				this.updateMap(newMapUrl);
-			}.bind(this);
+			}.bind(this)
 		});
 		
 		MapRequest.send();
@@ -67,28 +67,34 @@ var MobEMS = new Class({
 		var photoBtn = $('photoButton');
 		var mapBtn = $('mapButton');
 		
-		/* handle the zoom buttons */
-		zoomInBtn.addEvent('click', function(e){
-			/* halt the event */
-			e.stop();
-			/* grab the url */
-			var url2hit= zoomInBtn.href;
-			
-			this.getNewMap(url2hit);
-			
-			return false;
-		}.bind(this));
+		/* handle the zoom buttons. */
+		/* Don't try to attach the event if we are at max zoom in/out. The zoomInBtn and zoomOutBtn will not
+		 * be present */
+		if($defined(zommInBtn)) {
+			zoomInBtn.addEvent('click', function(e){
+				/* halt the event */
+				e.stop();
+				/* grab the url */
+				var url2hit= zoomInBtn.href;
+				
+				this.getNewMap(url2hit);
+				
+				return false;
+			}.bind(this));
+		}
 		
-		zoomOutBtn.addEvent('click', function(e){
-			/* halt the event */
-			e.stop();
-			/* grab the url */
-			var url2hit= zoomOutBtn.href;
-			
-			this.getNewMap(url2hit);
-			
-			return false;
-		}.bind(this));
+		if($defined(zoomOutBtn)) {
+			zoomOutBtn.addEvent('click', function(e){
+				/* halt the event */
+				e.stop();
+				/* grab the url */
+				var url2hit= zoomOutBtn.href;
+				
+				this.getNewMap(url2hit);
+				
+				return false;
+			}.bind(this));
+		}
 		
 		/* handle the pan buttons */
 		panNorthBtn.addEvent('click', function(e){
