@@ -1,6 +1,5 @@
-EMS.Control.MobileDefaults = new Class({
-	Extends: OpenLayers.Control,
-	
+EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, { 
+		
 	Device: "Android-OS",
 	CLASS_NAME: "EMS.Control.MobileDefaults",
 	
@@ -12,7 +11,7 @@ EMS.Control.MobileDefaults = new Class({
 	dX: null,
 	dY: null,
 	
-	subControl:{},
+	// subControl:{},
 	
 	initialize: function() {
 		this.active = true;
@@ -23,7 +22,8 @@ EMS.Control.MobileDefaults = new Class({
 		var node = e.touches[0];
 
 		/* catch if double tap */
-		this.subControl.DoubleTap.detect(node);
+	// TODO: disable DoubleTap for now because we were getting a mootools recursion error (in Firefox, anyway).
+	//	this.subControl.DoubleTap.detect(node);
 		
 		this.X = node.pageX;
 		this.Y = node.pageY;
@@ -51,7 +51,8 @@ EMS.Control.MobileDefaults = new Class({
 		this.dY += diffY;
 		
 		/* reset double tap detection when user move fingers */
-		this.subControl.DoubleTap.reset();
+    // TODO: disable DoubleTap for now because we were getting a mootools recursion error (in Firefox, anyway).		
+	//	this.subControl.DoubleTap.reset();
 	},            
 	
 	execTouchEnd: function(e) {
@@ -67,7 +68,8 @@ EMS.Control.MobileDefaults = new Class({
 		this.map.div.ontouchmove = this.execTouchMove.bind(this);
 		this.map.div.ontouchend = this.execTouchEnd.bind(this); 
 		
-		this.subControl.DoubleTap = new EMS.Control.DoubleTap(this.map);
+    // TODO: disable DoubleTap for now because we were getting a mootools recursion error (in Firefox, anyway).		
+	//	this.subControl.DoubleTap = new EMS.Control.DoubleTap(this.map);
 	},
 	
 	/**	

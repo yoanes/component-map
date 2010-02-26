@@ -66,7 +66,7 @@ var MobEMS = new Class({
 					this.addPois(poiOptions);
 				}
 				
-				/* parse the directionOptions for initial display 
+				/* parse the directionOptions for initial display */ 
 				if($defined(directionOptions)) {
 					var wayPointsLength = directionOptions.wayPoints.length;
 					
@@ -75,7 +75,6 @@ var MobEMS = new Class({
 						
 					this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
 				}
-				*/
 				
 				this.renderToolbar();
 			}
@@ -249,7 +248,7 @@ var MobEMS = new Class({
 	 */
 	routeAddress: function(wayPointObj) {
 		var newWayPoint = {};
-		newWayPoint.coordinates = this.formatLatLon(wayPointObj.coordinates);
+		newWayPoint.coordinates = wayPointObj.coordinates;
 		newWayPoint.street = {name: wayPointObj.streetName};
 		return newWayPoint;
 	},

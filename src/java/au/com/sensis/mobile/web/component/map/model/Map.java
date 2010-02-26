@@ -105,16 +105,6 @@ public interface Map {
     boolean isPhotoWithStreetsLayer();
 
     /**
-     * @return true if the requested zoom level is the minimum allowed.
-     */
-    boolean isAtMinimumZoom();
-
-    /**
-     * @return true if the requested zoom level is the maximum allowed.
-     */
-    boolean isAtMaximumZoom();
-
-    /**
      * Returns the {@link MapLayer} that the map was/is to be rendered using.
      *
      * @return Returns the {@link MapLayer} that the map was/is to be rendered
@@ -137,18 +127,6 @@ public interface Map {
      *         passed to the (Mobiles) JavaScript maps interface.
      */
     String getJsMapLayer();
-
-    /**
-     * Returns the EMS zoom that the map was/is to be rendered using. Required
-     * by AJAX maps that talk to EMS directly.
-     *
-     * @return the EMS zoom that the map was/is to be rendered using. Required
-     *         by AJAX maps that talk to EMS directly.
-     *
-     *         TODO: This method should possibly be moved into the
-     *         {@link MapUrl}.
-     */
-    int getEmsZoom();
 
     /**
      * List of {@link ResolvedIcon}s that the client should render on the map.
@@ -178,5 +156,21 @@ public interface Map {
      * @return true if the map is of a route.
      */
     boolean isRouteMap();
+
+    /**
+     * @return true if {@link #getMapUrl()} has a defined bounding box.
+     */
+    boolean isBoundingBoxDefined();
+
+    /**
+     * @return The {@link ZoomDetails} of the map.
+     * @throws IllegalStateException thrown if {@link #isZoomDetailsDefined()} is false.
+     */
+    ZoomDetails getZoomDetails() throws IllegalStateException;
+
+    /**
+     * @return true if this Map has zoom details ({@link #getZoomDetails()}).
+     */
+    boolean isZoomDetailsDefined();
 
 }

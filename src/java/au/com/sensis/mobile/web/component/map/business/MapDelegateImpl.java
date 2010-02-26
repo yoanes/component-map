@@ -20,6 +20,7 @@ import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
+import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
@@ -91,7 +92,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MobileContext mobileContext) {
 
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
-        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
                 new ArrayList<IconDescriptor>(),
                 getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
@@ -178,7 +179,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
-        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(
                 originalMapCentrePoint,
                 new ArrayList<IconDescriptor>(),
                 getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
@@ -272,7 +273,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         final ScreenDimensions screenDimensions =
             getScreenDimensionsStrategy().createScreenDimensions(
                     mobileContext);
-        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(mapCentre,
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
                 poiIcons, screenDimensions);
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
@@ -337,7 +338,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 mobileContext.asUserContext());
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
-        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolveIcons(
+        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(
                 originalMapCentrePoint, poiIcons, screenDimensions);
 
         return MapImpl.createMapRetrievedInstance(
@@ -470,6 +471,10 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final RoutingOption routingOption, final MapLayer mapLayer,
             final MobileContext mobileContext) {
 
+        final List<ResolvedIcon> resolvedIcons = getEmsManager()
+            .resolveRouteWaypointIcons(waypoints, getScreenDimensionsStrategy()
+                .createScreenDimensions(mobileContext));
+
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve route map for device: "
@@ -491,26 +496,23 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final int zoom = journeyDescriptor.getMap().getZoom();
             return MapImpl.createRouteMapRetrievedInstance(waypoints,
                     routingOption, journeyDescriptor,
-                    mapLayer, getEmsManager().getEmsZoomLevel(zoom),
+                    mapLayer, resolvedIcons, getEmsManager().getEmsZoomLevel(zoom),
                     isZoomLevelMin(zoom), isZoomLevelMax(zoom));
 
         } else {
             if (logger.isDebugEnabled()) {
-                logger.debug("Will NOT retrieve map for device: "
+                logger.debug("Will NOT retrieve route map for device: "
                         + mobileContext.getDevice().getName());
             }
 
-// TODO
-//            final int zoomLevel = getEmsManager().getPoiMapZoom(screenDimensions, mapCentre,
-//                    poiIcons, getPoiMapRadiusMultiplier(), mobilesZoomThreshold);
-//            final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
-//
-//            return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
-//                    routingOption, journeyDescriptor,
-//                    mapLayer, getEmsManager().getEmsZoomLevel(zoom),
-//                    isZoomLevelMin(zoom), isZoomLevelMax(zoom));
 
-            return null;
+            final MobilesBoundingBox mobilesBoundingBox
+                = getEmsManager().getJourneyDescriptorBoundingBox(
+                    getScreenDimensionsStrategy().createScreenDimensions(mobileContext), waypoints,
+                    routingOption, mapLayer, mobileContext.asUserContext());
+            return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
+                    routingOption,
+                    mapLayer, resolvedIcons, mobilesBoundingBox);
         }
     }
 
@@ -523,6 +525,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MapLayer existingMapLayer,
             final Action mapManipulationAction,
             final MobileContext mobileContext) {
+
+        final List<ResolvedIcon> resolvedIcons = getEmsManager()
+            .resolveRouteWaypointIcons(waypoints, getScreenDimensionsStrategy()
+                    .createScreenDimensions(mobileContext));
+
         final PanZoomDetail panZoomDetail =
                 createMapManipulationPanZoomDetail(existingMapUrl,
                         mapManipulationAction);
@@ -545,7 +552,8 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
 
         return MapImpl.createRouteMapRetrievedInstance(waypoints,
-                routingOption, journeyDescriptor, newMapLayer, emsZoomLevel,
+                routingOption, journeyDescriptor, newMapLayer, resolvedIcons,
+                emsZoomLevel,
                 isZoomLevelMin(journeyDescriptor.getMap().getZoom()),
                 isZoomLevelMax(journeyDescriptor.getMap().getZoom()));
 

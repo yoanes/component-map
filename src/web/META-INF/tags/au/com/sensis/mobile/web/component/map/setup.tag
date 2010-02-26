@@ -55,38 +55,68 @@
                 <c:when test="${map.routeMap}">
                     var directions = {
                         wayPoints: [
-                            { 
+                            {
                                 coordinates: { 
                                     latitude: <c:out value="${map.routeDetails.waypoints.start.latitude}" />,
                                     longitude: <c:out value="${map.routeDetails.waypoints.start.longitude}" />
                                 }, 
-                                <%--TODO --%>
-                                streetName: ''<%--'<c:out value="${map.routeDetails.waypoints.start.street.name}" />' --%> 
+                                
+                                <%-- 
+                                  - The EMS JavaScript interface requires the streetname corresponding to the coordinates.
+                                  - However, it doesn't actually need the value to be real (!) and it is never displayed
+                                  - in our mobiles apps. Therefore, we just pass in a dummy value.  
+                                  --%>
+                                streetName: 'UNKNOWN' 
                             },
                             { 
                                 coordinates: { 
                                     latitude: <c:out value="${map.routeDetails.waypoints.end.latitude}" />,
                                     longitude: <c:out value="${map.routeDetails.waypoints.end.longitude}" />
                                 }, 
-                                <%--TODO --%>
-                                streetName: ''<%--'<c:out value="${map.addressWaypoints.end.street.name}" />'--%> 
+                                
+                                <%-- 
+                                  - The EMS JavaScript interface requires the streetname corresponding to the coordinates.
+                                  - However, it doesn't actually need the value to be real (!) and it is never displayed
+                                  - in our mobiles apps. Therefore, we just pass in a dummy value.  
+                                  --%>
+                                streetName: 'UNKNOWN'
                             }
                         ],
                         fastest: <c:out value="${map.routeDetails.routingOption.fastest}" />,
                         tolls: <c:out value="${map.routeDetails.routingOption.tolls}" />,
-                        transportType: <c:out value="${map.routeDetails.emsJsTransportType}" />
+                        transportType: '<c:out value="${map.routeDetails.emsJsTransportType}" />'
                     };
                 </c:when>
                 <c:otherwise>
-                    var directions = { };
+                    var directions = null;
                 </c:otherwise>
             </c:choose>
+            
+            <c:choose>
+                <c:when test="${map.boundingBoxDefined}">
+                    var mapOptions = {
+                        'boundingBox': {
+                            'topLeft': {
+                                'latitude': <c:out value="${map.mapUrl.boundingBox.topLeft.latitude}"/>, 
+                                'longitude': <c:out value="${map.mapUrl.boundingBox.topLeft.longitude}"/>
+                            },
+                            'bottomRight': {
+                                'latitude': <c:out value="${map.mapUrl.boundingBox.bottomRight.latitude}"/>, 
+                                'longitude': <c:out value="${map.mapUrl.boundingBox.bottomRight.longitude}"/>
+                            }    
+                        } 
+                    };
+                </c:when>
+                <c:otherwise>
+                    var mapOptions = {                
+                        'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
+                        'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
+                        'zoom': <c:out value="${map.zoomDetails.emsZoom}"/>
+                    };
+                </c:otherwise>
+            </c:choose> 
         
-            var MEMS = new MobEMS('mapWindow', {
-                    'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
-                    'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
-                    'zoom': <c:out value="${map.emsZoom}"/>
-                },
+            var MEMS = new MobEMS('mapWindow', 
                 {
                     layer: '<c:out value="${map.jsMapLayer}"/>',
                     photoLayerAnchorId: 'photoButton',
@@ -94,6 +124,7 @@
                     zoomInAnchorId: 'zoomInButton',
                     zoomOutAnchorId: 'zoomOutButton'
                 },                
+                mapOptions,
                 icons, 
                 directions
             );

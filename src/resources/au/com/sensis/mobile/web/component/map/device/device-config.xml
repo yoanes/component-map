@@ -32,4 +32,16 @@
         <deviceId>PC-Win32-Firefox-2</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
     </deviceConfig>    
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>HTC-Hero</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>    
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>HTC-Dream</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>    
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>Samsung-GT-I7500</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>    
 </core:deviceConfigs>
