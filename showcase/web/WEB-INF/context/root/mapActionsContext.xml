@@ -54,5 +54,15 @@
             scope="prototype">
     </bean>
     
-
+    <bean id="getRouteLegStepMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetRouteLegStepMapAction"
+            scope="prototype">
+        <property name="locationDelegate" ref="locationDelegate"/>
+        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+    </bean>
+    
+    <bean id="manRouteLegStepMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ManipulateRouteLegStepMapAction"
+            scope="prototype">
+        <property name="locationDelegate" ref="locationDelegate"/>
+        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+    </bean>
 </beans>

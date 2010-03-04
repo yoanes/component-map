@@ -20,7 +20,6 @@ import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
-import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
@@ -495,7 +494,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
             final int zoom = journeyDescriptor.getMap().getZoom();
             return MapImpl.createRouteMapRetrievedInstance(waypoints,
-                    routingOption, journeyDescriptor,
+                    journeyDescriptor,
                     mapLayer, resolvedIcons, getEmsManager().getEmsZoomLevel(zoom),
                     isZoomLevelMin(zoom), isZoomLevelMax(zoom));
 
@@ -505,14 +504,13 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                         + mobileContext.getDevice().getName());
             }
 
-
-            final MobilesBoundingBox mobilesBoundingBox
-                = getEmsManager().getJourneyDescriptorBoundingBox(
+            final JourneyDescriptor journeyDescriptor
+                = getEmsManager().getJourneyDescriptorWithoutMapImageUrl(
                     getScreenDimensionsStrategy().createScreenDimensions(mobileContext), waypoints,
                     routingOption, mapLayer, mobileContext.asUserContext());
+
             return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
-                    routingOption,
-                    mapLayer, resolvedIcons, mobilesBoundingBox);
+                    journeyDescriptor, mapLayer, resolvedIcons);
         }
     }
 
@@ -552,28 +550,86 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
 
         return MapImpl.createRouteMapRetrievedInstance(waypoints,
-                routingOption, journeyDescriptor, newMapLayer, resolvedIcons,
+                journeyDescriptor, newMapLayer, resolvedIcons,
                 emsZoomLevel,
                 isZoomLevelMin(journeyDescriptor.getMap().getZoom()),
                 isZoomLevelMax(journeyDescriptor.getMap().getZoom()));
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Map getInitialRouteLegStepMap(final RouteHandle routeHandle,
             final JourneyWaypoints waypoints, final RoutingOption routingOption,
-            final int legIndex, final int legStepIndex, final MapLayer mapLayer,
-            final MobileContext mobileContext) {
-        // TODO Auto-generated method stub
-        return null;
+            final WGS84Point legCentre, final int zoomLevel,
+            final MapLayer mapLayer, final MobileContext mobileContext) {
+
+        final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
+        final List<ResolvedIcon> resolvedIcons = getEmsManager()
+            .resolveRouteWaypointIcons(waypoints, getScreenDimensionsStrategy()
+                    .createScreenDimensions(mobileContext));
+
+        // Construct PanZoomDetail with a null bounding box since this is
+        // the initial map retrieval.
+        final PanZoomDetail panZoomDetail =
+            new PanZoomDetail(null, legCentre,
+                    UserMapInteraction.NO_ACTION, zoomLevel);
+
+        if (deviceNeedsServerSideMapGenerated(mobileContext)) {
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will retrieve route leg step map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+
+            final JourneyDescriptor journeyDescriptor = getEmsManager()
+                .updateJourneyDescriptorMapFromRouteHandle(
+                    routeHandle, waypoints, routingOption, mapLayer,
+                    getScreenDimensionsStrategy().createScreenDimensions(mobileContext),
+                    panZoomDetail, mobileContext.asUserContext());
+
+            return MapImpl.createRouteMapRetrievedInstance(waypoints,
+                    journeyDescriptor,
+                    mapLayer, resolvedIcons, emsZoomLevel,
+                    isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will NOT retrieve route leg step map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+            final JourneyDescriptor journeyDescriptor
+                = getEmsManager().updateJourneyDescriptorMapFromRouteHandleWithoutMapImageUrl(
+                        routeHandle, waypoints, routingOption, mapLayer,
+                        getScreenDimensionsStrategy().createScreenDimensions(mobileContext),
+                        panZoomDetail, mobileContext.asUserContext());
+
+            return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
+                    journeyDescriptor, mapLayer, resolvedIcons,
+                    emsZoomLevel,
+                    isZoomLevelMin(zoomLevel),
+                    isZoomLevelMax(zoomLevel));
+
+        }
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     public Map manipulateRouteLegStepMap(final RouteHandle routeHandle,
-            final JourneyWaypoints waypoints, final RoutingOption routingOption,
-            final MapUrl existingMapUrl, final MapLayer mapLayer,
-            final Action mapManipulationAction, final MobileContext mobileContext) {
-        // TODO Auto-generated method stub
-        return null;
+            final JourneyWaypoints waypoints,
+            final RoutingOption routingOption,
+            final MapUrl existingMapUrl,
+            final MapLayer existingMapLayer, final Action mapManipulationAction,
+            final MobileContext mobileContext) {
+
+        // Manipulating a route leg step map is just a special case of manipulating
+        // a route map, since a leg step map is just a specific PanZoomDetail view
+        // on a route map.
+        return manipulateRouteMap(routeHandle, waypoints, routingOption, existingMapUrl,
+                existingMapLayer, mapManipulationAction, mobileContext);
     }
 
 }

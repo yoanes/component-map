@@ -85,5 +85,25 @@
         <put-attribute name="mapControlsActionName" value="manRouteMap"/>
         <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="routeMapStateChange"/>
     </definition>
+    
+    <!-- ======================================================================================= -->
+    <!-- Route leg step.                                                                         -->
+    <!-- ======================================================================================= -->
+    
+    <definition name="map.component.route.leg" extends="map.component.base">
+        <put-attribute name="componentSetup" value="/WEB-INF/view/common/jsp/componentSetup.jsp"/>
+        <put-attribute name="xform" value="/WEB-INF/view/map/jsp/mapXform.jsp"/>
+        <put-attribute name="body" value="map.component.routeLegStepAndForm"/>
+    </definition>
+    
+    <definition name="map.component.routeLegStepAndForm" template="/WEB-INF/view/map/layout/mapAndFormLayout.jsp">
+        <put-attribute name="mapForm" value="/WEB-INF/view/map/jsp/mapForm.jsp"/>
+        <put-attribute name="map" value="map.component.routeLegStepAndControls"/>
+    </definition>
+
+    <definition name="map.component.routeLegStepAndControls" template="/WEB-INF/view/map/layout/mapAndControlsLayout.jsp">
+        <put-attribute name="mapControlsActionName" value="manRouteLegStepMap"/>
+        <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="routeMapStateChange"/>
+    </definition>
 
 </tiles-definitions>

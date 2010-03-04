@@ -31,7 +31,6 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
 
     private static final int EMS_ZOOM_LEVEL = 16;
     private static final int ZOOM_LEVEL = 5;
-    private static final int UNSET_ZOOM_LEVEL = 0;
     private static final String ROUTE_IDENTIFIER = "myFunkyRoute";
     private WGS84PointTestDataFactory wgs84PointTestDataFactory;
     private WGS84Point wgs84Point1;
@@ -146,9 +145,11 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
                 getMockMapUrl());
 
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-                .andReturn(getMockSoapRouteHandle());
+                .andReturn(getMockSoapRouteHandle()).atLeastOnce();
         EasyMock.expect(getMockSoapRouteHandle().getIdentifier()).andReturn(
                 ROUTE_IDENTIFIER);
+        EasyMock.expect(getMockJourneyDescriptor().getRoutingOption())
+            .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS).atLeastOnce();
 
         replay();
 
@@ -164,7 +165,6 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
 
         final Map map =
                 MapImpl.createRouteMapRetrievedInstance(journeyWaypoints,
-                        RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
                         getMockJourneyDescriptor(),
                         MapLayer.Photo, resolvedIcons,
                         EMS_ZOOM_LEVEL, true, false);
@@ -218,7 +218,16 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testCreateRouteMapRetrievalDeferredInstance() throws Throwable {
+    public void testCreateRouteMapRetrievalDeferredInstanceWithNoZoomDetails() throws Throwable {
+
+        EasyMock.expect(getMockJourneyDescriptor().getMap())
+            .andReturn(getMockMapUrl());
+        EasyMock.expect(getMockMapUrl().getBoundingBox())
+            .andReturn(getMockMobilesBoundingBox()).atLeastOnce();
+        EasyMock.expect(getMockJourneyDescriptor().getRoutingOption())
+            .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS);
+        EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
+            .andReturn(null);
 
         replay();
 
@@ -232,8 +241,8 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
         final List<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         final Map map =
             MapImpl.createRouteMapRetrievalDeferredInstance(journeyWaypoints,
-                    RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
-                    MapLayer.Photo, resolvedIcons, getMockMobilesBoundingBox());
+                    getMockJourneyDescriptor(),
+                    MapLayer.Photo, resolvedIcons);
 
 
         Assert.assertFalse("isMapImageRetrieved() should be false", map
@@ -242,15 +251,8 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
                 "isMapImageRetrievalDeferredToClient() should be true",
                 map.isMapImageRetrievalDeferredToClient());
 
-        Assert.assertNotNull("mapUrl should not be null", map
+        Assert.assertSame("mapUrl is wrong", getMockMapUrl(), map
                 .getMapUrl());
-        Assert.assertNull("mapCentre is wrong", map.getMapUrl().getMapCentre());
-        Assert.assertEquals("zoom is wrong", UNSET_ZOOM_LEVEL,
-                map.getMapUrl().getZoom());
-        Assert.assertEquals("imageUrl is wrong", StringUtils.EMPTY,
-                map.getMapUrl().getImageUrl());
-        Assert.assertSame("boundingBox is wrong", getMockMobilesBoundingBox(),
-                map.getMapUrl().getBoundingBox());
 
         try {
             map.getOriginalMapCentre();
@@ -282,6 +284,90 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
                 map.getRouteDetails().getRoutingOption());
         Assert.assertNull("RouteDetails should have a null RoutingHandle",
                 map.getRouteDetails().getEmsRouteHandle());
+
+    }
+
+    @Test
+    public void testCreateRouteMapRetrievalDeferredInstanceWithZoomDetails()
+            throws Throwable {
+
+        EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
+                getMockMapUrl());
+        EasyMock.expect(getMockMapUrl().getBoundingBox()).andReturn(
+                getMockMobilesBoundingBox()).atLeastOnce();
+        EasyMock.expect(getMockJourneyDescriptor().getRoutingOption())
+                .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS);
+        EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
+                .andReturn(null);
+
+        replay();
+
+        final double startLat = -45.45;
+        final double startLong = 145.145;
+        final double endLat = -45.46;
+        final double endLong = 146.146;
+
+        final JourneyWaypoints journeyWaypoints =
+                createJourneyWaypoints(startLat, startLong, endLat, endLong);
+        final List<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        final int emsZoom = 14;
+        final boolean atMinimumZoom = true;
+        final boolean atMaximumZoom = false;
+        final Map map =
+                MapImpl.createRouteMapRetrievalDeferredInstance(
+                        journeyWaypoints, getMockJourneyDescriptor(),
+                        MapLayer.Photo, resolvedIcons, emsZoom, atMinimumZoom,
+                        atMaximumZoom);
+
+        Assert.assertFalse("isMapImageRetrieved() should be false", map
+                .isMapImageRetrieved());
+        Assert.assertTrue(
+                "isMapImageRetrievalDeferredToClient() should be true", map
+                        .isMapImageRetrievalDeferredToClient());
+
+        Assert.assertSame("mapUrl is wrong", getMockMapUrl(), map
+                .getMapUrl());
+
+        try {
+            map.getOriginalMapCentre();
+            Assert.fail("IllegalStateException expected");
+        } catch (final IllegalStateException e) {
+            Assert.assertEquals("IllegalStateException has wrong message",
+                    "It is illegal to call getOriginalMapCentre() "
+                            + "when isRouteMap() is true", e.getMessage());
+        }
+        Assert.assertFalse("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertTrue("isPhotoLayer is wrong", map.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong", map
+                .isPhotoWithStreetsLayer());
+
+        Assert.assertSame("getResolvedIcons() is wrong", resolvedIcons, map
+                .getResolvedIcons());
+
+        Assert.assertTrue("isZoomDetailsDefined() should be true", map
+                .isZoomDetailsDefined());
+        Assert.assertEquals("emsZoom is wrong", emsZoom, map.getZoomDetails()
+                .getEmsZoom());
+        Assert.assertEquals("atMinimumZoom is wrong", atMinimumZoom, map
+                .getZoomDetails().isAtMinimumZoom());
+        Assert.assertEquals("atMaximumZoom is wrong", atMaximumZoom, map
+                .getZoomDetails().isAtMaximumZoom());
+
+        Assert.assertTrue("isBoundingBoxDefined() should be true", map
+                .isBoundingBoxDefined());
+        Assert.assertSame("geMobilesBoundingBox() is wrong",
+                getMockMobilesBoundingBox(), map.getMapUrl().getBoundingBox());
+
+        Assert.assertTrue("isRouteMap is wrong", map.isRouteMap());
+        Assert.assertNotNull("getRouteDetails should not be null", map
+                .getRouteDetails());
+        Assert.assertEquals("RouteDetails contains wrong waypoints",
+                journeyWaypoints, map.getRouteDetails().getWaypoints());
+        Assert.assertEquals("RouteDetails contains wrong RoutingOption",
+                RoutingOption.FASTEST_BY_ROAD_NO_TOLLS, map.getRouteDetails()
+                        .getRoutingOption());
+        Assert.assertNull("RouteDetails should have a null RoutingHandle", map
+                .getRouteDetails().getEmsRouteHandle());
 
     }
 

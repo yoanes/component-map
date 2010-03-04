@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.model.Map;
-import au.com.sensis.mobile.web.component.map.model.RouteDetails;
 import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
 import au.com.sensis.wireless.manager.directions.RouteHandle;
 import au.com.sensis.wireless.manager.directions.RoutingOption;
@@ -313,7 +312,8 @@ public interface MapDelegate {
      *
      * @param routeHandle
      *            Handle of the route to be manipulated. Contained in the
-     *            {@link RouteDetails} of the {@link Map} returned by a previous
+     *            {@link au.com.sensis.mobile.web.component.map.model.RouteDetails}
+     *            of the {@link Map} returned by a previous
      *            call to
      *            {@link #getInitialRouteMap(JourneyWaypoints, RoutingOption, MapLayer,
      *            MobileContext)}
@@ -356,17 +356,108 @@ public interface MapDelegate {
             MapLayer existingMapLayer, final Action mapManipulationAction,
             final MobileContext mobileContext);
 
-    // TODO
-    Map getInitialRouteLegStepMap(RouteHandle routeHandle,
-            JourneyWaypoints waypoints, RoutingOption routingOption,
-            int legIndex, int legStepIndex, MapLayer mapLayer,
+    /**
+     * Retrieve an initial map containing a "leg step" of a route through the
+     * given waypoints (as opposed to manipulating an existing leg step map -
+     * see
+     * {@link #manipulateRouteLegStepMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     * MapUrl, MapLayer, Action, MobileContext)}
+     * .
+     *
+     * @param routeHandle
+     *            Handle of the route to get the leg step for. Contained in the
+     *            {@link au.com.sensis.mobile.web.component.map.model.RouteDetails}
+     *            of the {@link Map} returned by a previous
+     *            call to
+     *            {@link #getInitialRouteMap(JourneyWaypoints, RoutingOption, MapLayer,
+     *            MobileContext)}
+     *            or
+     *            {@link #manipulateRouteMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     *            MapUrl, MapLayer, Action, MobileContext)}
+     *            .
+     * @param waypoints
+     *            Waypoints that the route should pass through.
+     * @param routingOption
+     *            {@link RoutingOption} to generate the route with.
+     * @param legCentre
+     *            Centre of the leg step. Note that no validation is performed
+     *            to check that the given centre corresponds to a leg of the
+     *            route. So in general, you can actually use this method to
+     *            render a view port anywhere on a route map.
+     * @param zoomLevel
+     *            Zoom level of the map. TODO: at the moment the range of
+     *            allowed values is actually governed by the injection of the
+     *            mobileToEmsZoomConversionMap into the underlying
+     *            MobilesEMSManager. This is bad from the MapDelegate caller's
+     *            perspective as it isn't clear what values can be passed in.
+     * @param mapLayer
+     *            The {@link MapLayer} that should be rendered to produce the
+     *            map image.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link Map}. May not be null. Bounding box will be such that the
+     *         entire route is visible.
+     */
+    Map getInitialRouteLegStepMap(final RouteHandle routeHandle,
+            final JourneyWaypoints waypoints,
+            final RoutingOption routingOption, final WGS84Point legCentre,
+            final int zoomLevel, final MapLayer mapLayer,
             final MobileContext mobileContext);
 
-    // TODO
+    /**
+     * Manipulate an existing route leg step map, such as panning or zooming it or
+     * changing the type of view. The manipulation to be performed is given by
+     * the mapManipulationAction parameter.
+     *
+     * @param routeHandle
+     *            Handle of the route to be manipulated. Contained in the
+     *            {@link au.com.sensis.mobile.web.component.map.model.RouteDetails}
+     *            of the {@link Map} returned by a previous
+     *            call to
+     *            {@link #getInitialRouteLegStepMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     *            WGS84Point, int, MapLayer, MobileContext)}
+     *            or this
+     *            {@link #manipulateRouteLegStepMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     *            MapUrl, MapLayer, Action, MobileContext)}
+     *            .
+     * @param waypoints
+     *            Waypoints that the route should pass through.
+     * @param routingOption
+     *            {@link RoutingOption} to generate the route with.
+     * @param existingMapUrl
+     *            The existing {@link MapUrl} to be manipulated. Contained in the
+     *            {@link au.com.sensis.mobile.web.component.map.model.RouteDetails}
+     *            of the {@link Map} returned by a previous
+     *            call to
+     *            {@link #getInitialRouteLegStepMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     *            WGS84Point, int, MapLayer, MobileContext)}
+     *            or this
+     *            {@link #manipulateRouteLegStepMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     *            MapUrl, MapLayer, Action, MobileContext)}
+     *            .
+     * @param existingMapLayer
+     *            The existing {@link MapLayer} that the existingMapUrl was
+     *            rendered with. Contained in the
+     *            {@link au.com.sensis.mobile.web.component.map.model.RouteDetails}
+     *            of the {@link Map} returned by a previous
+     *            call to
+     *            {@link #getInitialRouteLegStepMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     *            WGS84Point, int, MapLayer, MobileContext)}
+     *            or this
+     *            {@link #manipulateRouteLegStepMap(RouteHandle, JourneyWaypoints, RoutingOption,
+     *            MapUrl, MapLayer, Action, MobileContext)}
+     *            .
+     * @param mapManipulationAction
+     *            {@link Action} describing the type of manipulation to be
+     *            performed.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link Map}. May not be null.
+     */
     Map manipulateRouteLegStepMap(RouteHandle routeHandle,
             JourneyWaypoints waypoints, RoutingOption routingOption,
             final MapUrl existingMapUrl,
-            MapLayer mapLayer, final Action mapManipulationAction,
+            MapLayer existingMapLayer, final Action mapManipulationAction,
             final MobileContext mobileContext);
 
 }

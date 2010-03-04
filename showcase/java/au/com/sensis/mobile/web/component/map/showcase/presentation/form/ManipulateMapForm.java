@@ -39,6 +39,9 @@ public class ManipulateMapForm {
     private Double routeEndLatitude;
     private Double routeEndLongitude;
 
+    private Double routeLegStepCentreLatitude;
+    private Double routeLegStepCentreLongitude;
+
 
     /**
      * Parameter that indicates the action being performed, where the valid values correspond to
@@ -614,5 +617,60 @@ public class ManipulateMapForm {
      */
     public void setRelon(final Double routeEndLongitude) {
         setRouteEndLongitude(routeEndLongitude);
+    }
+
+
+    /**
+     * @return the routeLegStepCentreLatitude
+     */
+    public Double getRouteLegStepCentreLatitude() {
+        return routeLegStepCentreLatitude;
+    }
+
+
+    /**
+     * @param routeLegStepCentreLatitude the routeLegStepCentreLatitude to set
+     */
+    public void setRouteLegStepCentreLatitude(final Double routeLegStepCentreLatitude) {
+        this.routeLegStepCentreLatitude = routeLegStepCentreLatitude;
+    }
+
+    /**
+     * @param routeLegStepCentreLatitude the routeLegStepCentreLatitude to set
+     */
+    public void setRlsclat(final Double routeLegStepCentreLatitude) {
+        setRouteLegStepCentreLatitude(routeLegStepCentreLatitude);
+    }
+
+
+    /**
+     * @return the routeLegStepCentreLongitude
+     */
+    public Double getRouteLegStepCentreLongitude() {
+        return routeLegStepCentreLongitude;
+    }
+
+
+    /**
+     * @param routeLegStepCentreLongitude the routeLegStepCentreLongitude to set
+     */
+    public void setRouteLegStepCentreLongitude(final Double routeLegStepCentreLongitude) {
+        this.routeLegStepCentreLongitude = routeLegStepCentreLongitude;
+    }
+
+    /**
+     * @param routeLegStepCentreLongitude the routeLegStepCentreLongitude to set
+     */
+    public void setRlsclon(final Double routeLegStepCentreLongitude) {
+        setRouteLegStepCentreLongitude(routeLegStepCentreLongitude);
+    }
+
+    /**
+     * @return Center of the route leg step map to be manipulated.
+     */
+    public WGS84Point getRouteLegStepCentre() {
+        return new WGS84Point(getRouteLegStepCentreLongitude(),
+                getRouteLegStepCentreLatitude());
+
     }
 }

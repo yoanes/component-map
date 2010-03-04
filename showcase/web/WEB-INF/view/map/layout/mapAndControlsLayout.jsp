@@ -84,3 +84,30 @@
         photoLayerUrl="${photoLayerUrl}" mapLayerUrl="${mapLayerUrl}"
         clientSideGeneratedMapStateChangeUrl="${stateChangeUrl}" />
 </div>
+
+<div>
+    <c:if test="${map.routeMap}">
+        <c:forEach var="legStepDetail" items="${map.routeDetails.allLegStepDetails}" varStatus="loopStatus">
+            <s:url id="legStepUrl" namespace="/map" action="getRouteLegStepMap" includeContext="true" escapeAmp="true">
+                <s:param name="lyr" value="#attr.map.mapLayerShortCode" />
+        
+                <s:param name="rh"><s:property value="#attr.map.routeDetails.emsRouteHandle.identifier"/></s:param>
+                <s:param name="ro"><s:property value="#attr.map.routeDetails.routingOption.shortName"/></s:param>
+                <s:param name="rslat"><s:property value="#attr.map.routeDetails.waypoints.start.latitude"/></s:param>
+                <s:param name="rslon"><s:property value="#attr.map.routeDetails.waypoints.start.longitude"/></s:param>
+                <s:param name="relat"><s:property value="#attr.map.routeDetails.waypoints.end.latitude"/></s:param>
+                <s:param name="relon"><s:property value="#attr.map.routeDetails.waypoints.end.longitude"/></s:param>
+            
+                <s:param name="rlsclon" value="#attr.legStepDetail.centre.longitude"/>
+                <s:param name="rlsclat" value="#attr.legStepDetail.centre.latitude"/>
+            </s:url>
+        
+            <div>
+                <c:out value="${loopStatus.count}"/>.
+                <a href="${legStepUrl}">
+                    <c:out value="${legStepDetail.instruction}"/> [<c:out value="${legStepDetail.distanceMetres}"/>m]
+                </a>
+            </div>
+        </c:forEach> 
+    </c:if>
+</div>

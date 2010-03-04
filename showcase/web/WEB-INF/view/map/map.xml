@@ -43,6 +43,13 @@
             <result name="success" type="tiles">map.component.route</result>
         </action>
         
+        <action name="getRouteLegStepMap" class="getRouteLegStepMapAction" >
+            <result name="success" type="tiles">map.component.route.leg</result>
+        </action>
+        
+        <action name="manRouteLegStepMap" class="manRouteLegStepMapAction" >
+            <result name="success" type="tiles">map.component.route.leg</result>
+        </action>
         
 
     </package>

@@ -49,7 +49,7 @@ public class GetRouteAction extends BusinessAction implements
 
         final Map map =
                 getMapDelegate().getInitialRouteMap(journeyWaypoints,
-                        RoutingOption.FASTEST_BY_ROAD_NO_TOLLS, MapLayer.Map,
+                        RoutingOption.FASTEST_BY_ROAD_WITH_TOLLS, MapLayer.Map,
                         getContext());
 
         setMap(map);

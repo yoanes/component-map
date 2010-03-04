@@ -6,12 +6,9 @@ import java.util.List;
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.wireless.manager.directions.JourneyDescriptor;
 import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
-import au.com.sensis.wireless.manager.directions.RouteHandle;
-import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
-import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 
 /**
@@ -102,8 +99,6 @@ public final class MapImpl implements Map {
      *
      * @param journeyWaypoints
      *            {@link JourneyWaypoints} use to generate the route.
-     * @param routingOption
-     *            {@link RoutingOption} used to generate the route.
      * @param journeyDescriptor
      *            {@link JourneyDescriptor} describing the generated route.
      * @param mapLayer
@@ -124,45 +119,32 @@ public final class MapImpl implements Map {
      *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
      */
     private MapImpl(final JourneyWaypoints journeyWaypoints,
-            final RoutingOption routingOption,
             final JourneyDescriptor journeyDescriptor,
             final MapLayer mapLayer,
             final List<ResolvedIcon> resolvedIcons,
             final MapImageStatus mapImageStatus, final int emsZoom,
             final boolean atMinimumZoom, final boolean atMaximumZoom) {
 
+        this(journeyWaypoints, journeyDescriptor, mapLayer, resolvedIcons, mapImageStatus);
+
+        setZoomDetails(
+                new ZoomDetailsImpl(emsZoom, atMinimumZoom, atMaximumZoom));
+
+    }
+
+    private MapImpl(final JourneyWaypoints journeyWaypoints,
+            final JourneyDescriptor journeyDescriptor,
+            final MapLayer mapLayer,
+            final List<ResolvedIcon> resolvedIcons,
+            final MapImageStatus mapImageStatus) {
+
         setMapLayer(mapLayer);
         setStatus(mapImageStatus);
         setMapUrl(journeyDescriptor.getMap());
         setResolvedIcons(resolvedIcons);
 
-        setZoomDetails(
-                new ZoomDetailsImpl(emsZoom, atMinimumZoom, atMaximumZoom));
-
         final RouteDetailsImpl routeDetailsImpl = new RouteDetailsImpl(
-                new RouteHandle(journeyDescriptor.getEmsRouteHandle()),
-                routingOption, journeyWaypoints);
-        setRouteDetails(routeDetailsImpl);
-    }
-
-    private MapImpl(final JourneyWaypoints journeyWaypoints,
-            final RoutingOption routingOption,
-            final MapLayer mapLayer,
-            final List<ResolvedIcon> resolvedIcons,
-            final MapImageStatus mapImageStatus, final MobilesBoundingBox mobilesBoundingBox) {
-
-        setMapLayer(mapLayer);
-        setStatus(mapImageStatus);
-
-        final LocationMapUrl locationMapUrl = new LocationMapUrl();
-        locationMapUrl.setBoundingBox(mobilesBoundingBox);
-        setMapUrl(locationMapUrl);
-
-        setResolvedIcons(resolvedIcons);
-
-        final RouteDetailsImpl routeDetailsImpl = new RouteDetailsImpl(
-                null,
-                routingOption, journeyWaypoints);
+                journeyWaypoints, journeyDescriptor);
         setRouteDetails(routeDetailsImpl);
     }
 
@@ -211,8 +193,6 @@ public final class MapImpl implements Map {
      *
      * @param journeyWaypoints
      *            {@link JourneyWaypoints} use to generate the route.
-     * @param routingOption
-     *            {@link RoutingOption} used to generate the route.
      * @param journeyDescriptor
      *            {@link JourneyDescriptor} describing the generated route.
      * @param mapLayer
@@ -237,12 +217,11 @@ public final class MapImpl implements Map {
      */
     public static MapImpl createRouteMapRetrievedInstance(
             final JourneyWaypoints journeyWaypoints,
-            final RoutingOption routingOption,
             final JourneyDescriptor journeyDescriptor,
             final MapLayer mapLayer,  final List<ResolvedIcon> resolvedIcons,
             final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
-        return new MapImpl(journeyWaypoints, routingOption, journeyDescriptor,
+        return new MapImpl(journeyWaypoints, journeyDescriptor,
                 mapLayer, resolvedIcons,
                 MapImageStatus.MAP_IMAGE_RETRIEVED, emsZoom, atMinimumZoom,
                 atMaximumZoom);
@@ -295,8 +274,8 @@ public final class MapImpl implements Map {
      *
      * @param journeyWaypoints
      *            {@link JourneyWaypoints} use to generate the route.
-     * @param routingOption
-     *            {@link RoutingOption} used to generate the route.
+     * @param journeyDescriptor
+     *            {@link JourneyDescriptor} generated for the route.
      * @param mapLayer
      *            {@link MapLayer} requested.
      * @param resolvedIcons
@@ -306,21 +285,60 @@ public final class MapImpl implements Map {
      *            the case when the map <b>was</b> retrieved. This is a safeguard
      *            in case we actually generated a map
      *            that will be replaced with a client generated map.
-     * @param mobilesBoundingBox {@link MobilesBoundingBox} describing the
-     *      bounding box of the route map.
+     * @param emsZoom
+     *            the EMS zoom that the map was/is to be rendered using.
+     *            Required by AJAX maps that talk to EMS directly.
+     * @param atMinimumZoom
+     *            True if the {@link MapUrl#getZoom()} is the minimum allowed.
+     * @param atMaximumZoom
+     *            True if the {@link MapUrl#getZoom()} is the maximum allowed.
      * @return an instance of this {@link MapImpl} for which
      *         {@link #isMapImageRetrieved()} is true and {@link #isRouteMap()}
      *         is true.
      */
     public static MapImpl createRouteMapRetrievalDeferredInstance(
             final JourneyWaypoints journeyWaypoints,
-            final RoutingOption routingOption,
+            final JourneyDescriptor journeyDescriptor,
             final MapLayer mapLayer, final List<ResolvedIcon> resolvedIcons,
-            final MobilesBoundingBox mobilesBoundingBox) {
+            final int emsZoom, final boolean atMinimumZoom, final boolean atMaximumZoom) {
 
-        return new MapImpl(journeyWaypoints, routingOption,
+        return new MapImpl(journeyWaypoints, journeyDescriptor,
                 mapLayer, resolvedIcons,
-                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT, mobilesBoundingBox);
+                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT,
+                emsZoom, atMinimumZoom, atMaximumZoom);
+    }
+
+    /**
+     * Creates an instance of this {@link MapImpl} for which
+     * {@link #isMapImageRetrieved()} is true and {@link #isRouteMap()} is true.
+     * Call this when the map image has been retrieved and is thus contained in
+     * the passed in mapUrl.
+     *
+     * @param journeyWaypoints
+     *            {@link JourneyWaypoints} use to generate the route.
+     * @param journeyDescriptor
+     *            {@link JourneyDescriptor} describing the generated route.
+     * @param mapLayer
+     *            {@link MapLayer} requested.
+     * @param resolvedIcons
+     *            List of {@link ResolvedIcon}s to be used for
+     *            client generated maps. Note that we require
+     *            this even though this method explicitly covers
+     *            the case when the map <b>was</b> retrieved. This is a safeguard
+     *            in case we actually generated a map
+     *            that will be replaced with a client generated map.
+     * @return an instance of this {@link MapImpl} for which
+     *         {@link #isMapImageRetrieved()} is true and {@link #isRouteMap()}
+     *         is true.
+     */
+    public static MapImpl createRouteMapRetrievalDeferredInstance(
+            final JourneyWaypoints journeyWaypoints,
+            final JourneyDescriptor journeyDescriptor,
+            final MapLayer mapLayer, final List<ResolvedIcon> resolvedIcons) {
+
+        return new MapImpl(journeyWaypoints, journeyDescriptor,
+                mapLayer, resolvedIcons,
+                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT);
     }
 
     /**

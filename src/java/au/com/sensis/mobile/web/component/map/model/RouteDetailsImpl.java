@@ -1,8 +1,13 @@
 package au.com.sensis.mobile.web.component.map.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import au.com.sensis.wireless.manager.directions.JourneyDescriptor;
 import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
+import au.com.sensis.wireless.manager.directions.Leg;
+import au.com.sensis.wireless.manager.directions.LegStepDetail;
 import au.com.sensis.wireless.manager.directions.RouteHandle;
 import au.com.sensis.wireless.manager.directions.RoutingOption;
 
@@ -15,11 +20,10 @@ public class RouteDetailsImpl implements RouteDetails {
 
     private static final String EMS_JS_TRANSPORT_TYPE_ALL_VEHICLES = "ALL_VEHICLES";
     private static final String EMS_JS_TRANSPORT_TYPE_PEDESTRIAN = "PEDESTRIAN";
-    private final RouteHandle routeHandle;
-    private final RoutingOption routingOption;
     private final JourneyWaypoints journeyWaypoints;
     private static java.util.Map<RoutingOption, String>
         routingOptionToEmsJsTransportTypeMap;
+    private final JourneyDescriptor journeyDescriptor;
 
     static {
         setRoutingOptionToEmsJsTransportTypeMap(new HashMap<RoutingOption, String>());
@@ -44,15 +48,13 @@ public class RouteDetailsImpl implements RouteDetails {
     /**
      * Default constructor.
      *
-     * @param routeHandle See {@link #getEmsRouteHandle()}.
-     * @param routingOption See {@link #getRoutingOption()}.
      * @param journeyWaypoints See {@link #getWaypoints()}.
+     * @param journeyDescriptor {@link JourneyDescriptor} generated for the route.
      */
-    public RouteDetailsImpl(final RouteHandle routeHandle,
-            final RoutingOption routingOption, final JourneyWaypoints journeyWaypoints) {
-        this.routeHandle = routeHandle;
-        this.routingOption = routingOption;
+    public RouteDetailsImpl(final JourneyWaypoints journeyWaypoints,
+            final JourneyDescriptor journeyDescriptor) {
         this.journeyWaypoints = journeyWaypoints;
+        this.journeyDescriptor = journeyDescriptor;
     }
 
     /**
@@ -68,14 +70,18 @@ public class RouteDetailsImpl implements RouteDetails {
      * {@inheritDoc}
      */
     public RouteHandle getEmsRouteHandle() {
-        return routeHandle;
+        if (getJourneyDescriptor().getEmsRouteHandle() != null) {
+            return new RouteHandle(getJourneyDescriptor().getEmsRouteHandle());
+        } else {
+            return null;
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     public RoutingOption getRoutingOption() {
-        return routingOption;
+        return getJourneyDescriptor().getRoutingOption();
     }
 
     /**
@@ -83,6 +89,17 @@ public class RouteDetailsImpl implements RouteDetails {
      */
     public JourneyWaypoints getWaypoints() {
         return journeyWaypoints;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<Leg> getLegs() {
+        if (getJourneyDescriptor().getLegs() != null) {
+            return getJourneyDescriptor().getLegs();
+        } else {
+            return new ArrayList<Leg>();
+        }
     }
 
     /**
@@ -100,5 +117,34 @@ public class RouteDetailsImpl implements RouteDetails {
     private static java.util.Map<RoutingOption, String> getRoutingOptionToEmsJsTransportTypeMap() {
         return routingOptionToEmsJsTransportTypeMap;
     }
+
+    /**
+     * @return the journeyDescriptor
+     */
+    private JourneyDescriptor getJourneyDescriptor() {
+        return journeyDescriptor;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<LegStepDetail> getAllLegStepDetails() {
+        return getJourneyDescriptor().getAllLegStepDetails();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public double getTotalDistanceMetres() {
+        return getJourneyDescriptor().getTotalDistanceMetres();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getTotalLegSteps() {
+        return getJourneyDescriptor().getTotalLegSteps();
+    }
+
 
 }

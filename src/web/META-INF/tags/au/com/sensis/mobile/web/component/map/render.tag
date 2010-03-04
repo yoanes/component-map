@@ -125,7 +125,7 @@
             <div id="mapControls">
 	            <div id="zoomControls">
 	                <c:choose>
-	                   <c:when test="${map.atMinimumZoom}">
+	                   <c:when test="${map.zoomDetails.atMinimumZoom}">
 	                        <object src="/comp/map/images/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
 	                   </c:when>
 	                   <c:otherwise>
@@ -136,7 +136,7 @@
 	                </c:choose>
 	                
 	                <c:choose>
-	                   <c:when test="${map.atMaximumZoom}">
+	                   <c:when test="${map.zoomDetails.atMaximumZoom}">
 	                        <object src="/comp/map/images/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
 	                   </c:when>
 	                   <c:otherwise>

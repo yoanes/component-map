@@ -1,6 +1,10 @@
 package au.com.sensis.mobile.web.component.map.model;
 
+import java.util.List;
+
 import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
+import au.com.sensis.wireless.manager.directions.Leg;
+import au.com.sensis.wireless.manager.directions.LegStepDetail;
 import au.com.sensis.wireless.manager.directions.RouteHandle;
 import au.com.sensis.wireless.manager.directions.RoutingOption;
 
@@ -14,6 +18,7 @@ public interface RouteDetails {
     /**
      * @return Handle to the generated route.
      */
+
     RouteHandle getEmsRouteHandle();
 
     /**
@@ -37,5 +42,25 @@ public interface RouteDetails {
      *         {@link #isRouteMap()} is false.
      */
     String getEmsJsTransportType();
+
+    /**
+     * @return Legs contained by the route. May not be null.
+     */
+    List<Leg> getLegs();
+
+    /**
+     * @return Total distance of the route in metres.
+     */
+    double getTotalDistanceMetres();
+
+    /**
+     * @return Total number of legsteps.
+     */
+    int getTotalLegSteps();
+
+    /**
+     * @return Details for all leg steps in all legs.
+     */
+    List<LegStepDetail> getAllLegStepDetails();
 
 }
