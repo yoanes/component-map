@@ -2,7 +2,7 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 
 import org.apache.log4j.Logger;
 
-import au.com.sensis.address.WGS84Point;
+import au.com.sensis.address.GeocodedAddress;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
@@ -23,11 +23,6 @@ import com.opensymphony.xwork2.ModelDriven;
 public class GetRouteAction extends BusinessAction implements
         ModelDriven<MapForm> {
 
-    private static final WGS84Point MELBOURCE_VIC_COORDINATES
-        = new WGS84Point(144.9628322, -37.8133895);
-    private static final WGS84Point CAMBERWELL_VIC_COORDINATES
-        = new WGS84Point(145.0730816, -37.8388769);
-
     private static Logger logger = Logger.getLogger(GetRouteAction.class);
 
     private MapForm mapForm;
@@ -43,9 +38,20 @@ public class GetRouteAction extends BusinessAction implements
      * @return result name.
      */
     public String execute() {
+
+        resetRouteLegStepMapZoom();
+
+        final GeocodedAddress startAddress =
+                getLocationDelegate().resolveToSingleLocation(
+                        getModel().getRouteStartAddress());
+
+        final GeocodedAddress endAddress =
+                getLocationDelegate().resolveToSingleLocation(
+                        getModel().getRouteEndAddress());
+
         final JourneyWaypoints journeyWaypoints =
-                new JourneyWaypoints(MELBOURCE_VIC_COORDINATES,
-                        CAMBERWELL_VIC_COORDINATES);
+                new JourneyWaypoints(startAddress.getCoordinates(), endAddress
+                        .getCoordinates());
 
         final Map map =
                 getMapDelegate().getInitialRouteMap(journeyWaypoints,
@@ -60,6 +66,15 @@ public class GetRouteAction extends BusinessAction implements
 
         return ResultName.SUCCESS;
 
+    }
+
+    /**
+     *
+     */
+    private void resetRouteLegStepMapZoom() {
+        getContext().getRawSessionData().put(
+                GetRouteLegStepMapAction.ROUTE_LEG_STEP_MAP_ZOOM_SESSION_KEY,
+                GetRouteLegStepMapAction.DEFAULT_ROUTE_LEG_STEP_ZOOM);
     }
 
     /**

@@ -1,3 +1,13 @@
+==== Version 1.1.3-004 (tag: map_v1_1_3-004) ====
+
+LocationManager and LocationManagerImpl now moved to showcase specific packages, 
+since they are not part of the component proper.
+
+Showcase now accepts start and end address to be entered for route maps.
+Showcase also now demonstrates how the state of the route leg step map zoom
+can be retained when clicking between steps but reset when a new route summary
+map is obtained. 
+
 ==== Version 1.1.3-003 (tag: map_v1_1_3-003) ====
 
 Fixes for CUI-86 Map Component - Route Leg Step Maps.

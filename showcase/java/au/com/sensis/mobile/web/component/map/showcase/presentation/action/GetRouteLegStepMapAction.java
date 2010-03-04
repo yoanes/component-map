@@ -19,7 +19,8 @@ import com.opensymphony.xwork2.ModelDriven;
 public class GetRouteLegStepMapAction extends BusinessAction implements
         ModelDriven<ManipulateMapForm> {
 
-    private static final int DEFAULT_ROUTE_LEG_STEP_ZOOM = 4;
+    public static final String ROUTE_LEG_STEP_MAP_ZOOM_SESSION_KEY = "routeLegStepMapZoom";
+    public static final Integer DEFAULT_ROUTE_LEG_STEP_ZOOM = new Integer(4);
 
     private ManipulateMapForm manipulateMapForm;
 
@@ -34,6 +35,9 @@ public class GetRouteLegStepMapAction extends BusinessAction implements
      * @return result name.
      */
     public String execute() {
+
+        final Integer zoom = getPreviousLegStepMapZoom();
+
         final Map map =
                 getMapDelegate().getInitialRouteLegStepMap(
                         getModel().getRouteHandle(),
@@ -41,12 +45,21 @@ public class GetRouteLegStepMapAction extends BusinessAction implements
                                 getModel().getRouteEnd()),
                         getModel().getRoutingOption(),
                         getModel().getRouteLegStepCentre(),
-                        DEFAULT_ROUTE_LEG_STEP_ZOOM,
+                        zoom,
                         getModel().getMapLayer(),
                         getContext());
         setMap(map);
 
         return ResultName.SUCCESS;
+    }
+
+    /**
+     * @return
+     */
+    private Integer getPreviousLegStepMapZoom() {
+        final Integer zoom = (Integer) getContext().getRawSessionData().get(
+                GetRouteLegStepMapAction.ROUTE_LEG_STEP_MAP_ZOOM_SESSION_KEY);
+        return zoom;
     }
 
     /**

@@ -42,7 +42,18 @@ public class ManipulateRouteLegStepMapAction extends BusinessAction implements
                         getContext());
         setMap(map);
 
+        rememberCurrentLegStepMapZoom(map);
+
         return ResultName.SUCCESS;
+    }
+
+    /**
+     * @param map
+     */
+    private void rememberCurrentLegStepMapZoom(final Map map) {
+        getContext().getRawSessionData().put(
+                GetRouteLegStepMapAction.ROUTE_LEG_STEP_MAP_ZOOM_SESSION_KEY,
+                map.getMapUrl().getZoom());
     }
 
     /**

@@ -1,4 +1,4 @@
-package au.com.sensis.mobile.web.component.map.service;
+package au.com.sensis.mobile.web.component.map.showcase.business.logic;
 
 import java.util.List;
 

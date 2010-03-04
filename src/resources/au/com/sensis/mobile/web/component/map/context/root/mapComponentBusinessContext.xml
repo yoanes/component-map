@@ -9,7 +9,7 @@
                 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
                 
     <bean id="map.comp.locationManager"
-            class="au.com.sensis.mobile.web.component.map.service.LocationManagerImpl"
+            class="au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationManagerImpl"
             init-method="validateState">
 
         <!-- TODO: parameterise emsManager bean name, defaulting to emsManager. -->

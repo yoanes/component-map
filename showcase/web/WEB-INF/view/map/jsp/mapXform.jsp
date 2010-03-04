@@ -34,6 +34,13 @@
 
     <xf:instance>
         <si:instance>
+            <si:item name="rsa">
+                <s:property value="routeStartAddress" />
+            </si:item>
+
+            <si:item name="rea">
+                <s:property value="routeEndAddress" />
+            </si:item>
 
         </si:instance>
     </xf:instance>

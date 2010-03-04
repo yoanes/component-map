@@ -11,6 +11,9 @@ public class MapForm {
 
     private String location;
 
+    private String routeStartAddress;
+    private String routeEndAddress;
+
     /**
      * @return the location
      */
@@ -39,4 +42,49 @@ public class MapForm {
         setLocation(location);
     }
 
+    /**
+     * @return the routeStartAddress
+     */
+    public String getRouteStartAddress() {
+        return routeStartAddress;
+    }
+
+    /**
+     * @param routeStartAddress the routeStartAddress to set
+     */
+    public void setRouteStartAddress(final String routeStartAddress) {
+        this.routeStartAddress = routeStartAddress;
+    }
+
+    /**
+     * Shorthand for {@link #setRouteStartAddress(String)}.
+     *
+     * @param routeStartAddress the routeStartAddress to set
+     */
+    public void setRsa(final String routeStartAddress) {
+        setRouteStartAddress(routeStartAddress);
+    }
+
+    /**
+     * @return the routeEndAddress
+     */
+    public String getRouteEndAddress() {
+        return routeEndAddress;
+    }
+
+    /**
+     * @param routeEndAddress the routeEndAddress to set
+     */
+    public void setRouteEndAddress(final String routeEndAddress) {
+        this.routeEndAddress = routeEndAddress;
+    }
+
+    /**
+     * Shorthand for {@link #setRouteEndAddress(String)}.
+     *
+     * @param routeEndAddress the routeEndAddress to set
+     */
+    public void setRea(final String routeEndAddress) {
+        setRouteEndAddress(routeEndAddress);
+    }
 }

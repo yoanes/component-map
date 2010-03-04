@@ -9,7 +9,6 @@ import au.com.sensis.address.AustralianState;
 import au.com.sensis.address.GeocodedAddress;
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.simple.GeocodedAddressImpl;
-import au.com.sensis.mobile.web.component.map.service.LocationManager;
 import au.com.sensis.mobile.web.component.map.showcase.business.exception.LocationDelegateException;
 import au.com.sensis.wireless.manager.ems.MobilesEMSManagerException;
 import au.com.sensis.wireless.web.common.exception.ApplicationRuntimeException;
@@ -24,8 +23,20 @@ public class LocationDelegate
     /** Not final so that we can inject a mock for unit testing. */
     private static Logger logger = Logger.getLogger(LocationDelegate.class);
 
+    private static final WGS84Point MELBOURCE_VIC_COORDINATES
+        = new WGS84Point(144.9628322, -37.8133895);
+
     private LocationManager locationManager;
 
+    /**
+     * Resolves the given location string to a single address. If multiple
+     * matches are found, the first is returned. If no matches are found, a
+     * default address of Melbourne is returned.
+     *
+     * @param location
+     *            Location to be resolved.
+     * @return Resolves the given location string to a single address.
+     */
     public GeocodedAddress resolveToSingleLocation(final String location) {
         final List<GeocodedAddress> resolvedLocations =
                 resolveLocation(location);
@@ -34,10 +45,8 @@ public class LocationDelegate
             addressToMap = new GeocodedAddressImpl();
             ((GeocodedAddressImpl) addressToMap).setSuburb("Melbourne");
             ((GeocodedAddressImpl) addressToMap).setState(AustralianState.VIC);
-            final double camberwellVicLongitude = 145.0730816;
-            final double camberwellVicLatitude = -37.8388769;
-            ((GeocodedAddressImpl) addressToMap).setCoordinates(new WGS84Point(
-                    camberwellVicLongitude, camberwellVicLatitude));
+            ((GeocodedAddressImpl) addressToMap)
+                    .setCoordinates(MELBOURCE_VIC_COORDINATES);
         } else if (resolvedLocations.size() > 1) {
             addressToMap = resolvedLocations.get(0);
         } else {

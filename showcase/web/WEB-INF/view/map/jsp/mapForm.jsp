@@ -37,6 +37,16 @@
 <div id="routeForm">
     <h4>Render route between Melb and Camberwell</h4>
     <xf:group class="mapInput" model="routeFormModel">
+    
+        <xf:input ref="rsa" model="routeFormModel" class="mapLocationInput"
+                id="routeStartAddress">
+            <xf:label class="locationMessage">Start</xf:label>
+        </xf:input>
+        
+        <xf:input ref="rea" model="routeFormModel" class="mapLocationInput"
+                id="routeEndAddress">
+            <xf:label class="locationMessage">End</xf:label>
+        </xf:input>
 
         <xf:submit submission="routeFormSubmission" model="routeFormModel"
                 class="mapButton"
