@@ -1,0 +1,1 @@
+_MapControls_ = new Array();
