@@ -7,7 +7,7 @@ MapDelegateImpl now implements:
 - manipulateRouteLegStepMap 
 - getInitialRouteMap (client side generated map support added).
 
-Now depends on sdpCommon-manager 1.0-065.
+Now depends on sdpCommon-manager 1.0-066.
 
 Showcase updated to display basic route leg step links when a route summary 
 map is displayed. All route and leg step maps now work for both hi end
