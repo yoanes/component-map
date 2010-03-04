@@ -1,7 +1,7 @@
 EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, { 
 	
 	Device: "Advance",
-	CLASS_NAME: "EMS.Control.FullScreen",
+	CLASS_NAME: "EMS.Control.ViewMode",
 	
 	viewButtonSize: null,
 	viewButtonPadding: 5,
