@@ -13,6 +13,11 @@
         <!-- set the higher level categories dependencies -->
         <bundle name="advance" parent="common">
         	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
+        		<include name="mapControl.js" />
+            </fileset>
+            <fileset dir="${src.javascript.dir}/map/device-variant/advance">
+                <include name="**/*" />
+                <exclude name="mapControl.js" />
             </fileset>
         </bundle>
          <bundle name="intermediate" parent="common">
