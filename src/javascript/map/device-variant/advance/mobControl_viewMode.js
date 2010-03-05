@@ -18,12 +18,12 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 		
 		this.photoImage = new Image();
-		this.photoImage.src = 'http://dsb.sensis.com.au/imageserver/wm/images/mapProto/photo.png';
+		this.photoImage.src = _MapImgPath_ + 'photo.png';
 		this.photoImage.style.display = 'block';
 		this.photoImage.id = 'grow';
 		
 		this.mapImage = new Image();
-		this.mapImage.src = 'http://dsb.sensis.com.au/imageserver/wm/images/mapProto/map.png';
+		this.mapImage.src = _MapImgPath_ + 'map.png';
 		this.mapImage.style.display = 'none';
 		this.mapImage.id = 'shrink';
 	},

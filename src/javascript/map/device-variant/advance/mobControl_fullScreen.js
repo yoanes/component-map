@@ -21,12 +21,12 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 		
 		this.growImage = new Image();
-		this.growImage.src = 'http://dsb.sensis.com.au/imageserver/wm/images/mapProto/maxi.png';
+		this.growImage.src = _MapImgPath_ + 'maxi.png';
 		this.growImage.style.display = 'block';
 		this.growImage.id = 'grow';
 		
 		this.shrinkImage = new Image();
-		this.shrinkImage.src = 'http://dsb.sensis.com.au/imageserver/wm/images/mapProto/mini.png';
+		this.shrinkImage.src = _MapImgPath_ + 'mini.png';
 		this.shrinkImage.style.display = 'none';
 		this.shrinkImage.id = 'shrink';
 	},

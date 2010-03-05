@@ -16,11 +16,11 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 		
 		this.zoomInImage = new Image();
-		this.zoomInImage.src = 'http://dsb.sensis.com.au/imageserver/wm/images/mapProto/in.png';
+		this.zoomInImage.src = _MapImgPath_ + 'in.png';
 		this.zoomInImage.id = 'in';
 		
 		this.zoomOutImage = new Image();
-		this.zoomOutImage.src = 'http://dsb.sensis.com.au/imageserver/wm/images/mapProto/out.png';
+		this.zoomOutImage.src = _MapImgPath_ + 'out.png';
 		this.zoomOutImage.id = 'out';
 	},
 	
