@@ -12,16 +12,15 @@
         
         <!-- set the higher level categories dependencies -->
         <bundle name="advance" parent="common">
-        	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
-        		<include name="mapControl.js" />
-            </fileset>
             <fileset dir="${src.javascript.dir}/map/device-variant/advance">
-                <include name="**/*" />
-                <exclude name="mapControl.js" />
             </fileset>
         </bundle>
          <bundle name="intermediate" parent="common">
         	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
+            </fileset>
+        </bundle>
+        <bundle name="advance-nonGesturalTouch" parent="common">
+        	 <fileset dir="${src.javascript.dir}/map/device-variant/advance-nonGesturalTouch">
             </fileset>
         </bundle>
         
@@ -36,6 +35,10 @@
         </bundle>
         <bundle name="android" parent="advance">
             <fileset dir="${src.javascript.dir}/map/device-variant/android">
+            </fileset>
+        </bundle>
+        <bundle name="thub" parent="advance-nonGesturalTouch">
+            <fileset dir="${src.javascript.dir}/map/device-variant/thub">
             </fileset>
         </bundle>
     </bundles>
