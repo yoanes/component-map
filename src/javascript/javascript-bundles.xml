@@ -15,12 +15,15 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/advance">
             </fileset>
         </bundle>
-         <bundle name="intermediate" parent="common">
+        <bundle name="intermediate" parent="common">
         	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
             </fileset>
         </bundle>
         <bundle name="advance-nonGesturalTouch" parent="common">
-        	 <fileset dir="${src.javascript.dir}/map/device-variant/advance-nonGesturalTouch">
+        	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
+        		<include name="MobileEMS.js" />
+            </fileset>
+        	<fileset dir="${src.javascript.dir}/map/device-variant/advance-nonGesturalTouch">
             </fileset>
         </bundle>
         
