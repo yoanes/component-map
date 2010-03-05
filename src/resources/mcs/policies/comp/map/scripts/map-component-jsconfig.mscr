@@ -17,9 +17,31 @@
             <selection>
                 <targeted>
                     <devices>
-                        <device>PC-Win32</device>
-                        <device>Apple</device>
                         <device>Android-OS</device>
+                        <device>Apple</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <meta-data>
+                <script>
+                    <encoding>javascript</encoding>
+                    <character-set>utf-8</character-set>
+                </script>
+            </meta-data>
+            <content>
+                <embedded>
+                    <data>_MapControls_ = new Array();
+_MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@images/component/map/onmapcontrols/L/';
+</data>
+                </embedded>
+            </content>
+        </variant>
+        <variant>
+            <type>script</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>PC-Win32</device>
                         <device>SAGEM-HomeManager</device>
                     </devices>
                 </targeted>
@@ -31,20 +53,10 @@
                 </script>
             </meta-data>
             <content>
-                <url>
-                    <!-- 
-                      - By default, applications must use Ant token replacement to specify the
-                      - URL of the EMS JavaScript endpoint. If your build scripts call
-                      - the standard sensis:extract-all-component-policies Ant macrodef,
-                      - you can do this by specifying a "filtersetelements" nested element.
-                      -
-                      - Note that the token names currently use the "env.ems" prefix. In future,
-                      - it would be nice to use a map.comp prefix. However, doing so now would
-                      - cause duplication with the properties already used in the EMS Manager
-                      -  config. 
-                      -->
-                    <relative>@env.ems.service.js@@env.ems.token@</relative>
-                </url>
+                <embedded>
+                    <data>_MapControls_ = new Array();
+_MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@images/component/map/onmapcontrols/HD/';</data>
+                </embedded>
             </content>
         </variant>
     </variants>

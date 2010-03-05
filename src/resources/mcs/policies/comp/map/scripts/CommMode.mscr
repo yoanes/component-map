@@ -17,9 +17,10 @@
             <selection>
                 <targeted>
                     <devices>
-                        <device>PC-Win32</device>
-                        <device>Apple</device>
                         <device>Android-OS</device>
+                        <device>Apple</device>
+                        <device>PC-Win32</device>
+                        <device>SAGEM-HomeManager</device>
                     </devices>
                 </targeted>
             </selection>
