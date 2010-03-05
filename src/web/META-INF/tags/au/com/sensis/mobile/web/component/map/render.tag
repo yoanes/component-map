@@ -57,59 +57,7 @@
         <div id="mapWindow">
             &#160;    
 		</div>
-		
-		<%-- Provide some hidden map controls that the client will dress up/reposition as necessary. --%>
-        <div id="mapControls">
-        
-        	<%-- Provide some hidden view controls that the client will dress up/reposition as necessary. --%>
-        	<div id="viewControls">
-	       		<%--
-	              - Href allows server to be notified of state changes.
-	              --%>
-	            <c:url value="${stateChangeUrl}" var="stateChangeURL" />
-	            
-	            <a id="photoButton" href="${stateChangeUrl}">
-	                <object src="/comp/map/images/photo.mimg">
-	                    <fmt:message key="comp.photoLayer.label"/>
-	                </object>
-	            </a>
-	            
-	            <%--
-	              - Href allows server to be notified of state changes.
-	              --%>
-	            <a id="mapButton" href="${stateChangeUrl}">
-	                <object src="/comp/map/images/map.mimg">
-	                    <fmt:message key="comp.mapLayer.label"/>
-	                </object>
-	            </a>
-	       	</div>
-	       	
-	       	<%-- zoom controls  --%>
-	       	<div id="zoomControls">
-	        	<%--
-              	  - No href needed for zoom in: no state change reported at the moment.
-              	  --%>
-	            <a id="zoomInButton" href="#" class="mapControl">
-	                <object src="/comp/map/images/zoomIn.mimg" id="mapZoomInImage">+</object>
-	            </a>
-	            
-	            
-	            <%--
-	              - No href needed for zoom out: no state change reported at the moment.
-	              --%>
-	            <a id="zoomOutButton" href="#" class="mapControl">
-	                <object src="/comp/map/images/zoomOutRound.mimg" id="mapZoomOutImage">-</object>
-	            </a>
-	       	</div>
-	       	
-	       	<%-- full screen toggle  --%>
-	       	<div id="modeControls">
-	       		<a id="modeButton" href="#" class="mapControl">
-	                <object src="/comp/map/images/mode.mimg" id="mapZoomInImage"></object>
-	            </a>
-	       	</div>
-	       	
-        </div>
+
     </c:when>
     
     <c:otherwise>
