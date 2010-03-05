@@ -28,6 +28,7 @@
 <core:script src="${compMcsBasePath}/map/scripts/OpenLayers.mscr"></core:script>
 <core:script src="${compMcsBasePath}/map/scripts/EMS.mscr"></core:script>
 <core:script src="${compMcsBasePath}/map/scripts/CommMode.mscr"></core:script>
+<core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
 <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
 
 <c:if test="${not empty map}">
