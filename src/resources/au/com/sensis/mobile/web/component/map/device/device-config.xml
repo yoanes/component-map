@@ -31,7 +31,11 @@
     <deviceConfig xsi:type="map:DeviceConfigType">
         <deviceId>PC-Win32-Firefox-2</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>    
+    </deviceConfig> 
+    <deviceConfig xsi:type="map:DeviceConfigType">
+        <deviceId>SAGEM-HomeManager</deviceId>
+        <generateServerSideMap>false</generateServerSideMap>
+    </deviceConfig>   
     <deviceConfig xsi:type="map:DeviceConfigType">
         <deviceId>HTC-Hero</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
