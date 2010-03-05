@@ -38,9 +38,6 @@
                                 <selector-sequence>
                                     <id>viewControls</id>
                                 </selector-sequence>
-                                <selector-sequence>
-                                    <id>modeControls</id>
-                                </selector-sequence>
                                 <properties>
                                     <property name="display">
                                         <keyword>inline</keyword>
@@ -62,6 +59,16 @@
                                     </property>
                                     <property name="text-align">
                                         <keyword>center</keyword>
+                                    </property>
+                                </properties>
+                            </rule>
+                            <rule>
+                                <selector-sequence>
+                                    <id>viewControls</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="margin-left">
+                                        <length units="px">5</length>
                                     </property>
                                 </properties>
                             </rule>
@@ -105,6 +112,35 @@
                 <targeted>
                     <devices>
                         <device>PC</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <content>
+                <theme>
+                    <import-parent>true</import-parent>
+                    <style-sheet>
+                        <rules>
+                            <rule>
+                                <selector-sequence>
+                                    <id>mapWindow</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="height">
+                                        <length units="px">300</length>
+                                    </property>
+                                </properties>
+                            </rule>
+                        </rules>
+                    </style-sheet>
+                </theme>
+            </content>
+        </variant>
+        <variant>
+            <type>theme</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>SAGEM-HomeManager</device>
                     </devices>
                 </targeted>
             </selection>
