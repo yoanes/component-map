@@ -17,7 +17,7 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 	growImage: null,
 	shrinkImage: null,
 	
-	initialize: function(map) {
+	initialize: function() {
 		this.active = true;
 		
 		this.growImage = new Image();

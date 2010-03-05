@@ -14,7 +14,7 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 	photoImage: null,
 	mapImage: null,
 	
-	initialize: function(map) {
+	initialize: function() {
 		this.active = true;
 		
 		this.photoImage = new Image();
@@ -35,7 +35,7 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		
 		var mapSize = this.map.getSize();
 		var viewControlExactPosition = new OpenLayers.Pixel(
-				0 + this.viewButtonPadding,
+				this.viewButtonPadding,
 				this.map.size.h - this.viewButtonSize.h - this.viewButtonPadding
 		);
 		
