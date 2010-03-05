@@ -304,3 +304,5 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.handler = null;	
 	}
 });
+
+_MapControls_.push(new EMS.Control.MobileDefaults);

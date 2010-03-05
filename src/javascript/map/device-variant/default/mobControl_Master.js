@@ -390,3 +390,5 @@ EMS.Control.MobileDefaults = OpenLayers.Class( OpenLayers.Control, {
     
     Device: "Master"
 });
+
+_MapControls_.push(new EMS.Control.MobileDefaults);
