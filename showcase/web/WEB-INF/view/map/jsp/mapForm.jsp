@@ -12,7 +12,7 @@
 
         <xf:submit submission="mapFormSubmission" model="mapFormModel"
                 class="mapButton"
-                title="Get Map/>">
+                title="Get Map">
             <xf:label class="mapButtonLabel">
                 <s:text name="Get Map"/>
             </xf:label>
@@ -23,19 +23,31 @@
 <div id="poisForm">
     <h4>Render (hard coded) POIs</h4>
     <xf:group class="mapInput" model="poisFormModel">
-
+    
+        <xf:select1 model="poisFormModel" ref="search" >
+            <xf:label></xf:label>
+            <xf:item>
+              <xf:label>WM cars near Melbourne VIC</xf:label>
+              <xf:value>carsNearMelbourneVic</xf:value>
+            </xf:item>
+            <xf:item>
+              <xf:label>WM bars near Toorak VIC</xf:label>
+              <xf:value>barsNearToorakVic</xf:value>
+            </xf:item>
+        </xf:select1>
+    
         <xf:submit submission="poisFormSubmission" model="poisFormModel"
                 class="mapButton"
-                title="Render POIs/>">
+                title="Get POIs">
             <xf:label class="mapButtonLabel">
-                <s:text name="Render POIs"/>
+                <s:text name="Get POIs"/>
             </xf:label>
         </xf:submit>
     </xf:group>
 </div>
 
 <div id="routeForm">
-    <h4>Render route between Melb and Camberwell</h4>
+    <h4>Get route</h4>
     <xf:group class="mapInput" model="routeFormModel">
     
         <xf:input ref="rsa" model="routeFormModel" class="mapLocationInput"
@@ -52,7 +64,7 @@
                 class="mapButton"
                 title="Render Route/>">
             <xf:label class="mapButtonLabel">
-                <s:text name="Render Route"/>
+                <s:text name="Get Route"/>
             </xf:label>
         </xf:submit>
     </xf:group>

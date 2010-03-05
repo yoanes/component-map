@@ -22,6 +22,12 @@
         <s:param name="brlon"><s:property value="#attr.map.mapUrl.boundingBox.bottomRight.longitude"/></s:param>
         <s:param name="mz"><s:property value="#attr.map.mapUrl.zoom"/></s:param>                
         <s:param name="lyr" value="#attr.map.mapLayerShortCode" />
+        
+        <%--
+          - Hack: for POI searches only, make sure that the search key is carried around. 
+          - For other maps, this has no effect.
+          --%>
+        <s:param name="search" value="%{model.search}" />
     </s:url>
 
     <c:choose>

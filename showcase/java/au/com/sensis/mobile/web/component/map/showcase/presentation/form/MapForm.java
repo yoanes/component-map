@@ -14,6 +14,8 @@ public class MapForm {
     private String routeStartAddress;
     private String routeEndAddress;
 
+    private String search;
+
     /**
      * @return the location
      */
@@ -86,5 +88,19 @@ public class MapForm {
      */
     public void setRea(final String routeEndAddress) {
         setRouteEndAddress(routeEndAddress);
+    }
+
+    /**
+     * @return the search
+     */
+    public String getSearch() {
+        return search;
+    }
+
+    /**
+     * @param search the search to set
+     */
+    public void setSearch(final String search) {
+        this.search = search;
     }
 }

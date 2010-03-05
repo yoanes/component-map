@@ -1,3 +1,18 @@
+==== Version 1.1.3-005 (tag: map_v1_1_3-005) ====
+
+Fixed CUI-121  Map Component - POI map starting zoom level is wrong.
+
+Now depends on sdpCommon-manager 1.0-067 containing the logic fix.
+
+Showcase now provides two POI searches: 
+- cars nearby Melbourne Vic
+- bars nearby Toorak Vic
+
+The latter search demonstrates the CUI-121 bug.
+
+mobileToEmsZoomConversionMap and emsToMobileZoomConversionMap beans
+now map zoom levels one-to-one as agreed by Alex Johnston. 
+
 ==== Version 1.1.3-004 (tag: map_v1_1_3-004) ====
 
 LocationManager and LocationManagerImpl now moved to showcase specific packages, 

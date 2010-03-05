@@ -497,8 +497,8 @@
     </bean>
     
     <!--
-      - Conversion map that maps Mobile zoomlevels from 1 (max out) to 10 (max in) to EMS zoom
-      - levels 1 (max in) to 16 (max out).
+      - Conversion map that maps Mobile zoomlevels from 1 (max in) to 16 (max out) to EMS zoom
+      - levels 1 (max out) to 16 (max in).
       -->
     <bean id="mobileToEmsZoomConversionMap" class="java.util.TreeMap">
         <constructor-arg>
@@ -526,13 +526,31 @@
                     <key><value>7</value></key><value>10</value>
                 </entry>
                 <entry>
-                    <key><value>8</value></key><value>8</value>
+                    <key><value>8</value></key><value>9</value>
                 </entry>
                 <entry>
-                    <key><value>9</value></key><value>5</value>
+                    <key><value>9</value></key><value>8</value>
                 </entry>
                 <entry>
-                    <key><value>10</value></key><value>3</value>
+                    <key><value>10</value></key><value>7</value>
+                </entry>
+                <entry>
+                    <key><value>11</value></key><value>6</value>
+                </entry>
+                <entry>
+                    <key><value>12</value></key><value>5</value>
+                </entry>
+                <entry>
+                    <key><value>13</value></key><value>4</value>
+                </entry>
+                <entry>
+                    <key><value>14</value></key><value>3</value>
+                </entry>
+                <entry>
+                    <key><value>15</value></key><value>2</value>
+                </entry>
+                <entry>
+                    <key><value>16</value></key><value>1</value>
                 </entry>
             </map>
         </constructor-arg>
@@ -540,38 +558,38 @@
     
     <!--
       - Conversion map that maps EMS zoomlevels from 1 (max out) to 16 (max in) to Mobile zoom
-      - levels 1 (max in) to 10 (max out).
+      - levels 1 (max in) to 16 (max out).
       -->
     <bean id="emsToMobileZoomConversionMap" class="java.util.TreeMap">
         <constructor-arg>
             <map>
                 <!--     ems value          mobile value  -->
                 <entry>
-                    <key><value>1</value></key><value>10</value>
+                    <key><value>1</value></key><value>16</value>
                 </entry>
                 <entry>
-                    <key><value>2</value></key><value>10</value>
+                    <key><value>2</value></key><value>15</value>
                 </entry>
                 <entry>
-                    <key><value>3</value></key><value>10</value>
+                    <key><value>3</value></key><value>14</value>
                 </entry>
                 <entry>
-                    <key><value>4</value></key><value>9</value>
+                    <key><value>4</value></key><value>13</value>
                 </entry>
                 <entry>
-                    <key><value>5</value></key><value>9</value>
+                    <key><value>5</value></key><value>12</value>
                 </entry>
                 <entry>
-                    <key><value>6</value></key><value>8</value>
+                    <key><value>6</value></key><value>11</value>
                 </entry>
                 <entry>
-                    <key><value>7</value></key><value>8</value>
+                    <key><value>7</value></key><value>10</value>
                 </entry>
                 <entry>
-                    <key><value>8</value></key><value>8</value>
+                    <key><value>8</value></key><value>9</value>
                 </entry>
                 <entry>
-                    <key><value>9</value></key><value>7</value>
+                    <key><value>9</value></key><value>8</value>
                 </entry>
                 <entry>
                     <key><value>10</value></key><value>7</value>

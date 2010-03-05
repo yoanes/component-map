@@ -62,6 +62,51 @@ public final class PoiResult {
     }
 
     /**
+     * @return array of PoiResults matching a "bars" near "toora vic" search
+     *         in the WhereisMobile SSO dev environment (as of 05 Mar 2010).
+     */
+    public static PoiResult[] createWhereisMobileBarsNearbyToorakVicResults() {
+        final List<PoiResult> results = new ArrayList<PoiResult>();
+
+        final double oxfordLoungeLat = -37.84059;
+        final double oxfordLoungeLon = 144.99512;
+        results.add(new PoiResult("Oxford Lounge",
+                "yellowCoreCombinedDataSource",
+                "10 Oxford St, South Yarra, VIC", oxfordLoungeLat,
+                oxfordLoungeLon));
+
+        final double trystLoungeBarLat = -37.84362;
+        final double trystLoungeBarLon = 144.99563;
+        results.add(new PoiResult("Tryst Lounge Bar",
+                "yellowCoreCombinedDataSource",
+                "3 Wilson St, South Yarra, VIC",
+                trystLoungeBarLat, trystLoungeBarLon));
+
+        final double cristalLat = -37.84522;
+        final double cristalLon = 144.99484;
+        results.add(new PoiResult("Cristal",
+                "yellowCoreCombinedDataSource",
+                "Lvl 1/Ste 8 402 Chapel St, South Yarra, VIC",
+                cristalLat, cristalLon));
+
+        final double oneSixOneLat = -37.85175;
+        final double oneSixOneLon = 144.99363;
+        results.add(new PoiResult("One Six One",
+                "yellowCoreCombinedDataSource",
+                "161 High St, Prahran, VIC", oneSixOneLat,
+                oneSixOneLon));
+
+        final double donMateosLat = -37.81955;
+        final double donMateosLon = 145.00495;
+        results.add(new PoiResult("Don Mateos",
+                "yellowCoreCombinedDataSource",
+                "406 Bridge Rd, Richmond, VIC",
+                donMateosLat, donMateosLon));
+
+        return results.toArray(new PoiResult[] {});
+    }
+
+    /**
      * @return array of IconDescriptor corresponding to
      *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
      */
@@ -72,6 +117,22 @@ public final class PoiResult {
 
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileCarsNearbyMelbourneResults()) {
+            iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
+                    poiResult.getLon()));
+        }
+        return iconDescriptors;
+    }
+
+    /**
+     * @return array of IconDescriptor corresponding to
+     *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
+     */
+    public static List<IconDescriptor> createWhereisMobileBarsNearbyToorakVicIconDescriptors() {
+        final List<IconDescriptor> iconDescriptors =
+                new ArrayList<IconDescriptor>();
+
+        for (final PoiResult poiResult : PoiResult
+                .createWhereisMobileBarsNearbyToorakVicResults()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
                     poiResult.getLon()));
         }

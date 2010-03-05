@@ -23,6 +23,11 @@ public class GetPoisAction extends BusinessAction implements
 
     private static final WGS84Point MELBOURCE_VIC_COORDINATES
         = new WGS84Point(144.9628322, -37.8133895);
+    private static final WGS84Point TOORAK_VIC_COORDINATES
+        = new WGS84Point(145.0155578, -37.841882);
+
+    private static final String CARS_NEAR_MELBOURNE_VIC_SEARCH_KEY = "carsNearMelbourneVic";
+    private static final String BARS_NEAR_TOORAK_VIC_SEARCH_KEY = "barsNearToorakVic";
 
     private static Logger logger = Logger.getLogger(GetPoisAction.class);
 
@@ -41,11 +46,22 @@ public class GetPoisAction extends BusinessAction implements
      * @return result name.
      */
     public String execute() {
-        final Map map =
-                getMapDelegate().getInitialPoiMap(
-                        MELBOURCE_VIC_COORDINATES, MapLayer.Map,
-                        PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
-                        defaultZoom, getContext());
+        Map map = null;
+
+        if (CARS_NEAR_MELBOURNE_VIC_SEARCH_KEY.equals(getModel().getSearch())) {
+            map = getMapDelegate().getInitialPoiMap(
+                    MELBOURCE_VIC_COORDINATES, MapLayer.Map,
+                    PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
+                    defaultZoom, getContext());
+        } else if (BARS_NEAR_TOORAK_VIC_SEARCH_KEY.equals(getModel().getSearch())) {
+            map = getMapDelegate().getInitialPoiMap(
+                    TOORAK_VIC_COORDINATES, MapLayer.Map,
+                    PoiResult.createWhereisMobileBarsNearbyToorakVicIconDescriptors(),
+                    defaultZoom, getContext());
+        } else {
+            throw new UnsupportedOperationException("Unsupported search key: '"
+                    + getModel().getSearch() + "'");
+        }
 
         setMap(map);
 

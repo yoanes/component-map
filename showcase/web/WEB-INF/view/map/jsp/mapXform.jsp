@@ -21,13 +21,12 @@
 
     <xf:instance>
         <si:instance>
-
+            <si:item name="search"></si:item>
         </si:instance>
     </xf:instance>
 
     <xf:submission id="poisFormSubmission"
-            action="<s:url namespace='/map' action='getPois' />"/>
-
+            action="<s:url namespace='/map' action='getPois'/>"/>
 </xf:model>
 
 <xf:model id="routeFormModel">

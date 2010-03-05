@@ -42,6 +42,11 @@ public class ManipulateMapForm {
     private Double routeLegStepCentreLatitude;
     private Double routeLegStepCentreLongitude;
 
+    /**
+     * POI search key.
+     */
+    private String search;
+
 
     /**
      * Parameter that indicates the action being performed, where the valid values correspond to
@@ -672,5 +677,21 @@ public class ManipulateMapForm {
         return new WGS84Point(getRouteLegStepCentreLongitude(),
                 getRouteLegStepCentreLatitude());
 
+    }
+
+
+    /**
+     * @return the search
+     */
+    public String getSearch() {
+        return search;
+    }
+
+
+    /**
+     * @param search the search to set
+     */
+    public void setSearch(final String search) {
+        this.search = search;
     }
 }
