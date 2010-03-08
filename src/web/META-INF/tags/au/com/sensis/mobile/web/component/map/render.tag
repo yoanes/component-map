@@ -53,7 +53,8 @@
           - EMS directly for JavaScript enhanced maps)
           --%>
         
-        <%--TODO: inline style should be a class. --%>
+        <%-- Hi end map. Just dish out the href with empty innerHTML and the map --%>
+    	<a id="stateChangeUrl" href="${stateChangeUrl}"></a>
         <div id="mapWindow">
             &#160;    
 		</div>

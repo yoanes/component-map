@@ -14,6 +14,8 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 	photoImage: null,
 	mapImage: null,
 	
+	updateServerURL: null,
+	
 	initialize: function() {
 		this.active = true;
 		
@@ -32,6 +34,9 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		/* initialize the button size on draw */
 		if(this.viewButtonSize == null)
 			this.viewButtonSize = new OpenLayers.Size(this.photoImage.width, this.photoImage.height);
+		
+		if(this.updateServerURL == null)
+			this.updateServerURL = $('stateChangeUrl').href;
 		
 		var mapSize = this.map.getSize();
 		var viewControlExactPosition = new OpenLayers.Pixel(
@@ -63,15 +68,21 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 	},
 	
 	doViewChange: function() {
-		if(this.inPhotoMode) {
+		if(this.inPhotoMode) { 
+			/* switch to map view */
 			this.map.setBaseLayer(this.map.whereis_street_wms);
 			this.toggle();
 			this.inPhotoMode = false;
+			
+			Reporting.to(this.updateServerURL, {lyr: 'm'});
 		}
 		else {
+			/* switch to photo view */
 			this.map.setBaseLayer(this.map.whereis_photo_wms);
 			this.toggle();
 			this.inPhotoMode = true;
+			
+			Reporting.to(this.updateServerURL, {lyr: 'p'});
 		}
 	},
 	
