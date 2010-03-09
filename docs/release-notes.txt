@@ -1,3 +1,10 @@
+==== Version 1.1.4-001 (tag: map_v1_1_4-001) ====
+
+Fixed CUI-128 Map Component - wl-map-component -1.1.4.jar depends on showcase code.
+
+Refactored Spring contexts so that mapComponentBusinessContext.xml no longer references
+any showcase code.
+
 ==== Version 1.1.4 (tag: map_v1_1_4) ====
 
 Marks the end of iteration 1.1.4 for the Rockit Common UI project.

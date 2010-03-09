@@ -13,7 +13,7 @@
     <bean id="getMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetMapAction"
             scope="prototype">
         <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="locationManager" ref="map.comp.locationManager"/>
+        <property name="locationManager" ref="locationManager"/>
         <property name="mapDelegate" ref="map.comp.mapDelegate"/>
         <property name="defaultZoom" value="${app.service.location.defaultZoomLevel}" />
     </bean>

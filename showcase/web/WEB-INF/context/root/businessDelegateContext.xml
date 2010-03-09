@@ -9,8 +9,17 @@
             class="au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate"
             init-method="validateState"  scope="prototype">
 
-        <property name="locationManager" ref="map.comp.locationManager" />
+        <property name="locationManager" ref="locationManager" />
     </bean>
+    
+    <bean id="locationManager"
+            class="au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationManagerImpl"
+            init-method="validateState">
+
+        <!-- TODO: parameterise emsManager bean name, defaulting to emsManager. -->
+        <property name="emsManager" ref="emsManager" />
+    </bean>
+    
     
     <!-- ======================================================================================= -->
     <!-- Beans for transforming map URLs for telstra 2G customers.  -->
