@@ -107,6 +107,25 @@ public final class PoiResult {
     }
 
     /**
+     * @return array of PoiResults matching a "bars" near "toora vic" search
+     *         in the WhereisMobile SSO dev environment (as of 05 Mar 2010).
+     */
+    public static PoiResult[]
+        createWhereisMobileBassettSmithValuersNearbyBrightonVicResults() {
+
+        final List<PoiResult> results = new ArrayList<PoiResult>();
+
+        final double oxfordLoungeLat = -37.91627;
+        final double oxfordLoungeLon = 144.99653;
+        results.add(new PoiResult("Bassett-Smith Valuers",
+                "yellowCoreCombinedDataSource",
+                "142 Church St, Brighton, VIC", oxfordLoungeLat,
+                oxfordLoungeLon));
+
+        return results.toArray(new PoiResult[] {});
+    }
+
+    /**
      * @return array of IconDescriptor corresponding to
      *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
      */
@@ -133,6 +152,24 @@ public final class PoiResult {
 
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileBarsNearbyToorakVicResults()) {
+            iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
+                    poiResult.getLon()));
+        }
+        return iconDescriptors;
+    }
+
+    /**
+     * @return array of IconDescriptor corresponding to
+     *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
+     */
+    public static List<IconDescriptor>
+        createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors() {
+
+        final List<IconDescriptor> iconDescriptors =
+            new ArrayList<IconDescriptor>();
+
+        for (final PoiResult poiResult : PoiResult
+                .createWhereisMobileBassettSmithValuersNearbyBrightonVicResults()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
                     poiResult.getLon()));
         }

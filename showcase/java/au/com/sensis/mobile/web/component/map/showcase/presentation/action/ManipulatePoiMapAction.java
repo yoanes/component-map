@@ -1,6 +1,5 @@
 package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 
-import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
@@ -19,15 +18,12 @@ import com.opensymphony.xwork2.ModelDriven;
 public class ManipulatePoiMapAction extends BusinessAction implements
         ModelDriven<ManipulateMapForm> {
 
-    private static final WGS84Point MELBOURCE_VIC_COORDINATES =
-            new WGS84Point(144.9628322, -37.8133895);
-    private static final WGS84Point TOORAK_VIC_COORDINATES =
-            new WGS84Point(145.0155578, -37.841882);
-
     private static final String CARS_NEAR_MELBOURNE_VIC_SEARCH_KEY =
             "carsNearMelbourneVic";
     private static final String BARS_NEAR_TOORAK_VIC_SEARCH_KEY =
             "barsNearToorakVic";
+    private static final String BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
+        = "bassettSmithValuersNear140ChurchStBrightonVic";
 
     private ManipulateMapForm manipulateMapForm;
 
@@ -64,6 +60,15 @@ public class ManipulatePoiMapAction extends BusinessAction implements
                             PoiResult
                                     .createWhereisMobileBarsNearbyToorakVicIconDescriptors(),
                             getModel().getAction(), getContext());
+        } else if (BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
+                .equals(getModel().getSearch())) {
+            map = getMapDelegate().manipulatePoiMap(
+                getModel().getOrignalMapCentre(),
+                getModel().getMapUrl(),
+                getModel().getMapLayer(),
+                PoiResult
+                        .createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors(),
+                getModel().getAction(), getContext());
         } else {
             throw new UnsupportedOperationException("Unsupported search key: '"
                     + getModel().getSearch() + "'");

@@ -31,7 +31,7 @@
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = 'http://dsb.sensis.com.au/dev/map-component-imageserver/images/component/map/onmapcontrols/L/';
+_MapImgPath_ = '/dev/map-component-imageserver/images/component/map/onmapcontrols/L/';
 </data>
                 </embedded>
             </content>
@@ -55,7 +55,7 @@ _MapImgPath_ = 'http://dsb.sensis.com.au/dev/map-component-imageserver/images/co
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = 'http://dsb.sensis.com.au/dev/map-component-imageserver/images/component/map/onmapcontrols/HD/';</data>
+_MapImgPath_ = '/dev/map-component-imageserver/images/component/map/onmapcontrols/HD/';</data>
                 </embedded>            
         	</content>
         </variant>

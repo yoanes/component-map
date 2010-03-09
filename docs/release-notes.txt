@@ -1,3 +1,27 @@
+==== Version 1.1.4 (tag: map_v1_1_4) ====
+
+Marks the end of iteration 1.1.4 for the Rockit Common UI project.
+
+FIxed CUI-122 Map Component - hi end POI maps are receiving POI icons with incorrect paths,
+although this requires work from the app to be really "fixed". See upgrade notes below. 
+
+Showcase also updated with new POI search "WM bassett-smith valuers near 140 Church St Brighton VIC"
+to demonstrate the POI zoom threshold logic.
+
+Hi end map experience updated to match latest design:
+- iphone and android should have controls on the map: photo/map button, zoom in/out, fullscreen 
+- thub should have controls on the map: photo/map button, zoom in/out, fullscreen, plus pan controls,
+  one button on each side of the map. NOTE: Firefox is now treated as the thub experience.  
+
+Upgrade notes:
+- When you define the environment property "env.ems.client.map.icons.img.src.prefix",
+  make sure that it does not end in "/". Make sure that the clientImgSrcPath property 
+  of the au.com.sensis.wireless.manager.mapping.MobilesIcon beans in your context
+  include a "/" after the property. eg:
+  
+    <property name="clientImgSrcPath" 
+        value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/icon_emscell_28x28.png" />
+
 ==== Version 1.1.3-005 (tag: map_v1_1_3-005) ====
 
 Fixed CUI-121  Map Component - POI map starting zoom level is wrong.
