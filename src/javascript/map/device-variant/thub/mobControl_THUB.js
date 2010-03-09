@@ -95,8 +95,8 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.eDiv.appendChild(this.eastImage);
 
 		/* do pan on click of these buttons */
-		this.nDiv.addEventListener('click', function(e) {this.map.pan(0, this.distanceY);}.bind(this), false);
-		this.sDiv.addEventListener('click', function(e) {this.map.pan(0, -(this.distanceY));}.bind(this), false);
+		this.nDiv.addEventListener('click', function(e) {this.map.pan(0, -(this.distanceY));}.bind(this), false);
+		this.sDiv.addEventListener('click', function(e) {this.map.pan(0, this.distanceY);}.bind(this), false);
 		this.wDiv.addEventListener('click', function(e) {this.map.pan(-(this.distanceX), 0);}.bind(this), false);
 		this.eDiv.addEventListener('click', function(e) {this.map.pan(this.distanceX, 0);}.bind(this), false);
 		
