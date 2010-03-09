@@ -28,7 +28,7 @@
         </bundle>
         
         <!-- more specific config per devices -->
-        <bundle name="default" parent="advance">
+        <bundle name="default" parent="advance-nonGesturalTouch">
             <fileset dir="${src.javascript.dir}/map/device-variant/default">
             </fileset>
         </bundle>
