@@ -1,3 +1,17 @@
+==== Version 1.1.4-003 (tag: map_v1_1_4-003) ====
+
+- Now depends on wl-core-component 1.0.18. EMS related mscr files are now sourced from 
+  wl-core-component.
+- setup.tag now invokes <ems:setup /> and no longer includes EMS, OpenLayers and CommMode mscr
+  files directly.
+- Entry and exit logging in tag files now occurs at debug level instead of info level.
+
+- Upgrade notes:
+    - For non-showcase webapps, the upgrade should be transparent.
+    - For showcases that use the JAR from this component, note that the EMS.mscr.* properties
+      that you placed in showcase/resources/mcs/policies/comp/map/scripts in your project
+      should now be placed under showcase/resources/mcs/policies/comp/ems/scripts.
+
 ==== Version 1.1.4-002 (tag: map_v1_1_4-002) ====
 
 Fixed:

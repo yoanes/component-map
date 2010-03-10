@@ -2,20 +2,22 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
-<%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
+<%@ taglib prefix="ems" uri="/au/com/sensis/mobile/web/component/ems/ems.tld"%>
 <%@ taglib prefix="util" uri="/au/com/sensis/mobile/web/component/util/util.tld"%>
+<%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
 <%@ attribute name="map" required="true"
     type="au.com.sensis.mobile.web.component.map.model.Map"  
     description="Map returned by the MapDelegate." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
-<logging:info logger="${logger}" message="Entering setup.tag" />
+<logging:debug logger="${logger}" message="Entering setup.tag" />
 
 <core:compMcsBasePath var="compMcsBasePath" />
 
 <%-- Setup components that we depend on. --%>
 <core:setup />
+<ems:setup />
 <util:setup />
 <logging:setup />
 
@@ -24,10 +26,6 @@
 <core:link rel="mcs:theme"  href="${compMcsBasePath}/map/imageSizeCategory.mthm"/>
 
 <%-- Scripts for current component. --%>
-<%-- TODO: Openlayers not needed in stage since env differs to prod. Would be better if env is the same. --%>
-<core:script src="${compMcsBasePath}/map/scripts/OpenLayers.mscr"></core:script>
-<core:script src="${compMcsBasePath}/map/scripts/EMS.mscr"></core:script>
-<core:script src="${compMcsBasePath}/map/scripts/CommMode.mscr"></core:script>
 <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
 <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
 
@@ -133,4 +131,4 @@
     </core:script>
 </c:if>
 
-<logging:info logger="${logger}" message="Exiting setup.tag" />
+<logging:debug logger="${logger}" message="Exiting setup.tag" />
