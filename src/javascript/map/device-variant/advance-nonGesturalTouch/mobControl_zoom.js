@@ -24,16 +24,18 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.zoomOutImage.id = 'out';
 	},
 	
+	calcPosition: function() {
+		return new OpenLayers.Pixel(
+			this.map.size.w - (this.zoomButtonSize.w * 2) - this.zoomButtonPadding,
+			this.map.size.h - this.zoomButtonSize.h - this.zoomButtonPadding
+		);
+	},
+	
 	draw: function() {
 		/* initialize the button size on draw */
-		if(this.zoomButtonSize == null)
-			this.zoomButtonSize = new OpenLayers.Size(this.zoomInImage.width, this.zoomInImage.height);
+		this.zoomButtonSize = new OpenLayers.Size(this.zoomInImage.width, this.zoomInImage.height);
 		
-		var mapSize = this.map.getSize();
-		var zoomControlExactPosition = new OpenLayers.Pixel(
-				this.map.size.w - (this.zoomButtonSize.w * 2) - this.zoomButtonPadding,
-				this.map.size.h - this.zoomButtonSize.h - this.zoomButtonPadding
-		);
+		var zoomControlExactPosition = this.calcPosition();
 		
 		/* width of the whole div is twice the zoomButtonSize. */
 		this.div = OpenLayers.Util.createDiv('Zoom_Contoller',
@@ -41,18 +43,18 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 				'', 'absolute','0px none', '', '1');	
 		
 		/* set this right otherwise the image can't be seen */
-		this.div.setStyle('z-index', '750');
+		this.div.style.zIndex = '750';
 		
 		/* create a div for zoom In */
 		var ziDiv = new Element('div');
 		ziDiv.appendChild(this.zoomInImage);
-		ziDiv.setStyle('display', 'inline');
+		ziDiv.style.display = 'inline';
 		ziDiv.addEventListener('click', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() + 1);}.bind(this), false);
 
 		/* and another one for zoom Out */
 		var zoDiv = new Element('div');
 		zoDiv.appendChild(this.zoomOutImage);
-		zoDiv.setStyle('display', 'inline');
+		zoDiv.style.display = 'inline';
 		zoDiv.addEventListener('click', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() - 1);}.bind(this), false);
 		
 		/* append these zoom divs */
@@ -60,15 +62,18 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.div.appendChild(zoDiv);
 		
 		/* reposition when the map is resized */
-		this.div.addEventListener('resize', function(e) {this.redraw();}.bind(this), false);
+		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
 	},
 	
-	redraw: function() {
-		$(this.div).dispose();
+	rePosition: function() {
 		this.map.updateSize();
-		this.draw();
+		
+		var newPosition = this.calcPosition();
+		
+		this.div.style.top = newPosition.y + 'px';
+		this.div.style.left = newPosition.x + 'px';
 	},
 	
 	destroy: function() {

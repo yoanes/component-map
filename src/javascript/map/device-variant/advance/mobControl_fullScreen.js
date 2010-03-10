@@ -31,27 +31,27 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		this.shrinkImage.id = 'shrink';
 	},
 	
+	calcPosition: function() {
+		return new OpenLayers.Pixel(
+			this.map.size.w - this.resizeButtonSize.w - this.resizeButtonPadding,
+			this.map.size.h - this.resizeButtonSize.h - this.resizeButtonPadding
+		);	
+	},
+	
 	draw: function() {
 		/* initialize the height width and button size on draw */
-		if(this.defaultHeight == null)
-			this.defaultHeight =  $(this.map.div.parentNode).getStyle('height').toInt();
-		if(this.defaultWidth == null)
-			this.defaultWidth =  $(this.map.div.parentNode).getStyle('width').toInt();
-		if(this.resizeButtonSize == null)
-			this.resizeButtonSize = new OpenLayers.Size(this.growImage.width, this.growImage.height);
+		this.defaultHeight =  $(this.map.div.parentNode).getStyle('height').toInt();
+		this.defaultWidth =  $(this.map.div.parentNode).getStyle('width').toInt();
+		this.resizeButtonSize = new OpenLayers.Size(this.growImage.width, this.growImage.height);
 		
-		var mapSize = this.map.getSize();
-		var resizeControlExactPosition = new OpenLayers.Pixel(
-				this.map.size.w - this.resizeButtonSize.w - this.resizeButtonPadding,
-				this.map.size.h - this.resizeButtonSize.h - this.resizeButtonPadding
-		);
+		var resizeControlExactPosition = this.calcPosition();
 		
 		this.div = OpenLayers.Util.createDiv('FullScreen_Contoller',
 				resizeControlExactPosition, this.resizeButtonSize, 
 				'', 'absolute','0px none', '', '1');	
 		
 		/* set this right otherwise the image can't be seen */
-		this.div.setStyle('z-index', '750');
+		this.div.style.zIndex = '750';
 		
 		/* append the images */
 		this.div.appendChild(this.growImage);
@@ -61,7 +61,7 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		this.div.addEventListener('touchend', function(e) {this.doMapResize();}.bind(this), false);
 		
 		/* do resize when the device is tilted */
-		this.div.addEventListener('orientationchange', function(e) {this.redraw();}.bind(this), false);
+		this.div.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
 	},
@@ -69,28 +69,31 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 	/* on map resize make sure we carter the height and width of the map */
 	doMapResize: function() {
 		if(this.inFullscreenMode) {
-			$(this.map.div.parentNode).setStyle('height', this.defaultHeight + 'px');
-			$(this.map.div.parentNode).setStyle('width', this.defaultWidth + 'px');
+			$(this.map.div.parentNode).style.height = this.defaultHeight + 'px';
+			$(this.map.div.parentNode).style.width = this.defaultWidth + 'px';
 			this.inFullscreenMode = false;
 		}
 		
 		/* on full screen mode event, add extra 20 px for the map height and do window.scroll) */
 		else {
-			$(this.map.div.parentNode).setStyle('height', (screen.height + 20) + 'px');
-			$(this.map.div.parentNode).setStyle('width', screen.width + 'px');
+			$(this.map.div.parentNode).style.height = (screen.height + 20) + 'px';
+			$(this.map.div.parentNode).style.width = screen.width + 'px';
 			this.inFullscreenMode = true;
 			
 			window.scroll(0, this.map.div.parentNode.offsetTop);
 		}
 		
-		this.redraw();
+		this.rePosition();
 		this.toggle();
 	},
 	
-	redraw: function() {
-		$(this.div).dispose();
+	rePosition: function() {
 		this.map.updateSize();
-		this.draw();
+		
+		var newPosition = this.calcPosition();
+		
+		this.div.style.top = newPosition.y + 'px';
+		this.div.style.left = newPosition.x + 'px';
 	},
 	
 	toggle: function() {

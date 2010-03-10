@@ -30,26 +30,26 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		this.mapImage.id = 'shrink';
 	},
 	
+	calcPosition: function() {
+		return new OpenLayers.Pixel(
+			this.viewButtonPadding,
+			this.map.size.h - this.viewButtonSize.h - this.viewButtonPadding
+		);
+	},
+	
 	draw: function() {
 		/* initialize the button size on draw */
-		if(this.viewButtonSize == null)
-			this.viewButtonSize = new OpenLayers.Size(this.photoImage.width, this.photoImage.height);
+		this.viewButtonSize = new OpenLayers.Size(this.photoImage.width, this.photoImage.height);
+		this.updateServerURL = $('stateChangeUrl').href;
 		
-		if(this.updateServerURL == null)
-			this.updateServerURL = $('stateChangeUrl').href;
-		
-		var mapSize = this.map.getSize();
-		var viewControlExactPosition = new OpenLayers.Pixel(
-				this.viewButtonPadding,
-				this.map.size.h - this.viewButtonSize.h - this.viewButtonPadding
-		);
+		var viewControlExactPosition = this.calcPosition();
 		
 		this.div = OpenLayers.Util.createDiv('ViewMode_Contoller',
 				viewControlExactPosition, this.viewButtonSize, 
 				'', 'absolute','0px none', '', '1');	
 		
 		/* set this right otherwise the image can't be seen */
-		this.div.setStyle('z-index', '750');
+		this.div.style.zIndex = '750';
 		
 		/* append the images */
 		this.div.appendChild(this.photoImage);
@@ -59,10 +59,10 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		this.div.addEventListener('touchend', function(e) {this.doViewChange();}.bind(this), false);
 		
 		/* do resize when the device is tilted */
-		this.div.addEventListener('orientationchange', function(e) {this.redraw();}.bind(this), false);
+		this.div.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
 		
 		/* do resize when the map is resized */
-		this.div.addEventListener('resize', function(e) {this.redraw();}.bind(this), false);
+		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
 	},
@@ -86,10 +86,13 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		}
 	},
 	
-	redraw: function() {
-		$(this.div).dispose();
+	rePosition: function() {
 		this.map.updateSize();
-		this.draw();
+		
+		var newPosition = this.calcPosition();
+		
+		this.div.style.top = newPosition.y + 'px';
+		this.div.style.left = newPosition.x + 'px';
 	},
 	
 	toggle: function() {
