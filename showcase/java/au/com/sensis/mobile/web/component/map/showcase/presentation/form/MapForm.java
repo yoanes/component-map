@@ -2,6 +2,8 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.form;
 
 import org.apache.commons.lang.StringUtils;
 
+import au.com.sensis.wireless.manager.mapping.MobilesIconType;
+
 /**
  * Struts2 form object for maps.
  *
@@ -14,7 +16,15 @@ public class MapForm {
     private String routeStartAddress;
     private String routeEndAddress;
 
+    /**
+     * POI search key.
+     */
     private String search;
+
+    /**
+     * Map of a location cursor type.
+     */
+    private String cursorType;
 
     /**
      * @return the location
@@ -102,5 +112,42 @@ public class MapForm {
      */
     public void setSearch(final String search) {
         this.search = search;
+    }
+
+    /**
+     * @return the cursorType
+     */
+    public String getCursorTypeAsString() {
+        return cursorType;
+    }
+
+    /**
+     * @param cursorType the cursorType to set
+     */
+    public void setCursorTypeAsString(final String cursorType) {
+        this.cursorType = cursorType;
+    }
+
+    /**
+     * Shorthand for {@link #setCursorTypeAsString(String)}.
+     *
+     * @param cursorType the cursorType to set
+     */
+    public void setCt(final String cursorType) {
+        setCursorTypeAsString(cursorType);
+    }
+
+    /**
+     * @return Map of a location cursor type.
+     */
+    public MobilesIconType getCursorType() {
+        for (final MobilesIconType mobilesIconType : MobilesIconType.values()) {
+            if (mobilesIconType.name().equals(getCursorTypeAsString())) {
+                return mobilesIconType;
+            }
+        }
+
+        throw new IllegalStateException("Cannot match cursorType '"
+                + getCursorTypeAsString() + "' to any MobilesIconType");
     }
 }

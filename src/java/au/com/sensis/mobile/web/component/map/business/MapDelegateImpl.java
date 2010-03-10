@@ -92,6 +92,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
+                centreIconType,
                 new ArrayList<IconDescriptor>(),
                 getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
@@ -179,7 +180,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(
-                originalMapCentrePoint,
+                originalMapCentrePoint, originalCentreIconType,
                 new ArrayList<IconDescriptor>(),
                 getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
 
@@ -273,7 +274,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             getScreenDimensionsStrategy().createScreenDimensions(
                     mobileContext);
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
-                poiIcons, screenDimensions);
+                MobilesIconType.CROSS_HAIR, poiIcons, screenDimensions);
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve map for device: "
@@ -338,7 +339,8 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
                 panZoomDetail.getZoom());
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(
-                originalMapCentrePoint, poiIcons, screenDimensions);
+                originalMapCentrePoint, MobilesIconType.CROSS_HAIR,
+                poiIcons, screenDimensions);
 
         return MapImpl.createMapRetrievedInstance(
                 originalMapCentrePoint, newMapLayer, mapUrl, resolvedIcons,

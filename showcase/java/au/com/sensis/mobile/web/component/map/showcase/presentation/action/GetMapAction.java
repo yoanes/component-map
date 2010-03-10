@@ -11,7 +11,6 @@ import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm
 import au.com.sensis.mobile.web.testbed.ResultName;
 import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
-import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -47,7 +46,7 @@ public class GetMapAction extends BusinessAction implements
         final Map map =
                 getMapDelegate().getInitialMap(addressToMap.getCoordinates(),
                         getDefaultZoom(), MapLayer.Map,
-                        MobilesIconType.CROSS_HAIR, getContext());
+                        getModel().getCursorType(), getContext());
         setMap(map);
 
         if (logger.isDebugEnabled()) {

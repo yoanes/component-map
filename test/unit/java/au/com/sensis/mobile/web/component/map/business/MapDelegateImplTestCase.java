@@ -160,6 +160,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
+                MobilesIconType.CROSS_HAIR,
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -229,6 +230,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
+                MobilesIconType.CROSS_HAIR,
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -373,6 +375,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
+                MobilesIconType.CROSS_HAIR,
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -455,6 +458,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
+                MobilesIconType.CROSS_HAIR,
                 iconDescriptors, getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -507,8 +511,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
+                MobilesIconType.CROSS_HAIR,
                 iconDescriptors, getMockScreenDimensions()))
-                .andReturn(resolvedIcons);
+                    .andReturn(resolvedIcons);
 
         replay();
 
@@ -655,8 +660,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
+                MobilesIconType.CROSS_HAIR,
                 iconDescriptors, getMockScreenDimensions()))
-                .andReturn(resolvedIcons);
+                    .andReturn(resolvedIcons);
 
         replay();
 

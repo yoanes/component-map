@@ -24,10 +24,16 @@
         <s:param name="lyr" value="#attr.map.mapLayerShortCode" />
         
         <%--
-          - Hack: for POI searches only, make sure that the search key is carried around. 
-          - For other maps, this has no effect.
+          - Hack (but hey, this is just a showcase): for POI searches only, make sure that the search key 
+          - is carried around. For other maps, this has no effect.
           --%>
         <s:param name="search" value="%{model.search}" />
+        
+        <%--
+          - Hack (but hey, this is just a showcase): for location searches only, make sure that the cursor 
+          - type is carried around. For other maps, this has no effect.
+          --%>
+        <s:param name="ct" value="%{model.cursorType}" />
     </s:url>
 
     <c:choose>

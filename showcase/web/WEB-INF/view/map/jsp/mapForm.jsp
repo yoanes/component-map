@@ -3,11 +3,22 @@
 <div id="mapLocationForm">
     <h4>Map a &lt;suburb state&gt;. eg. melbourne vic</h4>
     <xf:group class="mapInput" model="mapFormModel">
+    
+        <xf:select1 model="mapFormModel" ref="ct" >
+            <xf:label class="locationMessage">Cursor Type</xf:label>
+            <xf:item>
+              <xf:label>Cross Hair</xf:label>
+              <xf:value>CROSS_HAIR</xf:value>
+            </xf:item>
+            <xf:item>
+              <xf:label>Blank POI</xf:label>
+              <xf:value>POI_BLANK</xf:value>
+            </xf:item>
+        </xf:select1>
 
         <xf:input ref="ml" model="mapFormModel" class="mapLocationInput"
                 id="location">
-            <xf:label class="locationMessage">
-            </xf:label>
+            <xf:label class="locationMessage">Location</xf:label>
         </xf:input>
 
         <xf:submit submission="mapFormSubmission" model="mapFormModel"

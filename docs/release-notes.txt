@@ -1,3 +1,13 @@
+==== Version 1.1.4-002 (tag: map_v1_1_4-002) ====
+
+Fixed:
+- CUI-126 Map Component - High end maps icon incorrect for user selected maps
+
+Now depends on sdpCommon-manager 1.0-068.
+
+Showcase updated with new "Cursor Type" combo box to choose which cursor will
+be displayed for the map of a location.
+
 ==== Version 1.1.4-001 (tag: map_v1_1_4-001) ====
 
 Fixed CUI-128 Map Component - wl-map-component -1.1.4.jar depends on showcase code.

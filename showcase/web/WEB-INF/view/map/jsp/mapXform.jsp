@@ -8,6 +8,9 @@
             <si:item name="ml">
                 <s:property value="location" />
             </si:item>
+            <si:item name="ct">
+                <s:property value="cursorTypeAsString" />
+            </si:item>
 
         </si:instance>
     </xf:instance>
@@ -21,7 +24,9 @@
 
     <xf:instance>
         <si:instance>
-            <si:item name="search"></si:item>
+            <si:item name="search">
+                <s:property value="search" />
+            </si:item>
         </si:instance>
     </xf:instance>
 

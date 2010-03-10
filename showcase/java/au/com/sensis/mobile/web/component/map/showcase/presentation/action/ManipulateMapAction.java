@@ -6,7 +6,6 @@ import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDe
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.ManipulateMapForm;
 import au.com.sensis.mobile.web.testbed.ResultName;
 import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
-import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -34,7 +33,7 @@ public class ManipulateMapAction extends BusinessAction implements
         final Map map =
                 getMapDelegate().manipulateMap(getModel().getOrignalMapCentre(),
                         getModel().getMapUrl(), getModel().getMapLayer(),
-                        MobilesIconType.CROSS_HAIR,
+                        getModel().getCursorType(),
                         getModel().getAction(), getContext());
         setMap(map);
 
