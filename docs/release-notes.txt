@@ -5,6 +5,7 @@
 - setup.tag now invokes <ems:setup /> and no longer includes EMS, OpenLayers and CommMode mscr
   files directly.
 - Entry and exit logging in tag files now occurs at debug level instead of info level.
+- mootools dependency largely refactored out of the JavaScript.
 
 - Upgrade notes:
     - For non-showcase webapps, the upgrade should be transparent.
