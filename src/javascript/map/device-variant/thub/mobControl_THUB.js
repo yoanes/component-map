@@ -100,11 +100,6 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.wDiv.addEventListener('click', function(e) {this.map.pan(-(this.distanceX), 0);}.bind(this), false);
 		this.eDiv.addEventListener('click', function(e) {this.map.pan(this.distanceX, 0);}.bind(this), false);
 		
-		/* do resize when the device is tilted. Only attached to nDiv under the assumption that
-		 * these controllers can't live on the page without each other
-		 *  */
-		this.nDiv.addEventListener('orientationchange', function(e) {this.redraw();}.bind(this), false);
-		
 		/* do resize when the map is resized. Only attached to nDiv under the assumption that
 		 * these controllers can't live on the page without each other
 		 *  */
