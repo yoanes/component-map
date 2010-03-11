@@ -31,7 +31,7 @@
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@images/component/map/onmapcontrols/L/';
+_MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@/images/component/map/onmapcontrols/L/';
 </data>
                 </embedded>
             </content>
@@ -55,7 +55,7 @@ _MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@images/component/map/on
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@images/component/map/onmapcontrols/HD/';</data>
+_MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@/images/component/map/onmapcontrols/HD/';</data>
                 </embedded>
             </content>
         </variant>
