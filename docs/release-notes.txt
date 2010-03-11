@@ -1,3 +1,9 @@
+==== Version 1.1.4-004 (tag: map_v1_1_4-004) ====
+
+Fix for CUI-143 Whereis Mobile - map components with out the images.
+- map-component-jsconfig.mscr config corrected to have a "/" after the 
+  @env.ems.client.map.icons.img.src.prefix@ token.
+
 ==== Version 1.1.4-003 (tag: map_v1_1_4-003) ====
 
 - Now depends on wl-core-component 1.0.18. EMS related mscr files are now sourced from 
