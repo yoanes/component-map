@@ -14,10 +14,12 @@ Fix for CUI-143 Whereis Mobile - map components with out the images.
 - mootools dependency largely refactored out of the JavaScript.
 
 - Upgrade notes:
-    - For non-showcase webapps, the upgrade should be transparent.
+    - For non-showcase webapps, the upgrade should be transparent except that you must
+      redeploy your MCS policies.
     - For showcases that use the JAR from this component, note that the EMS.mscr.* properties
       that you placed in showcase/resources/mcs/policies/comp/map/scripts in your project
       should now be placed under showcase/resources/mcs/policies/comp/ems/scripts.
+      You must also redeploy your MCS policies.
 
 ==== Version 1.1.4-002 (tag: map_v1_1_4-002) ====
 
