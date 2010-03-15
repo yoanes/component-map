@@ -8,44 +8,20 @@
     <!-- 
       - Component specific device related configuration.
       -->
-
-<!--
-  - TODO: Won't work because Volantis device name inheritance is not yet supported. 
-  - See http://jira.sensis.com.au/browse/CUI-94 For now, you need the exact name of the device (ie. leaf
-  - nodes in the Volantis Device hierarchy). 
-  -->
-<!--
     <deviceConfig xsi:type="map:DeviceConfigType">
         <deviceId>Apple</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
     </deviceConfig>    
--->    
     <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>Apple-iPhone</deviceId>
+        <deviceId>PC-Win32</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
     </deviceConfig>    
-    <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>PC-Win32-Firefox-3</deviceId>
-        <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>    
-    <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>PC-Win32-Firefox-2</deviceId>
-        <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig> 
     <deviceConfig xsi:type="map:DeviceConfigType">
         <deviceId>SAGEM-HomeManager</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
     </deviceConfig>   
     <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>HTC-Hero</deviceId>
-        <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>    
-    <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>HTC-Dream</deviceId>
-        <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>    
-    <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>Samsung-GT-I7500</deviceId>
+        <deviceId>Android-OS</deviceId>
         <generateServerSideMap>false</generateServerSideMap>
     </deviceConfig>    
 </core:deviceConfigs>

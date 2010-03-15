@@ -32,7 +32,7 @@
     Request params indicate what state has changed. If ommitted, state changes will not be reported." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
-<logging:info logger="${logger}" message="Entering render.tag" />
+<logging:debug logger="${logger}" message="Entering render.tag" />
 
 <%-- Set the default resource bundle for the current tag file. --%>    
 <fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
@@ -151,4 +151,4 @@
     </c:otherwise>
 </c:choose>
 
-<logging:info logger="${logger}" message="Exiting render.tag" />
+<logging:debug logger="${logger}" message="Exiting render.tag" />

@@ -1,3 +1,11 @@
+==== Version 1.1.4-005 (tag: map_v1_1_4-005) ====
+
+Now depends on wl-core-component 1.0.19.
+
+device-config.xml now specifies device families as device ids, such as Apple and Android-OS.
+
+MCS theme file updated for Android-OS devices.   
+
 ==== Version 1.1.4-004 (tag: map_v1_1_4-004) ====
 
 Fix for CUI-143 Whereis Mobile - map components with out the images.
