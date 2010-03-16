@@ -32,8 +32,7 @@
             <content>
                 <url>
                     <!-- Desk token. -->
-<!--                    <relative>http://ems.whereis.com/v1/web/js/ems/lib/EMS.js?token=4316381136292159452</relative>-->
-                    <relative>http://ems-int.stag2.drs.sensis.com.au:24121/v1/web/js/ems/EMS.js?token=1386742213227490342&amp;profile=mobi</relative>                    
+                    <relative>http://ems.whereis.com/v1/web/js/ems/EMS.js?token=4316381136292159452&amp;profile=mobi</relative>
                 </url>
             </content>
         </variant>
