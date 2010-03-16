@@ -1,3 +1,6 @@
+MAP = {};
+MAP.instances = new Array();
+
 var MobEMS = new Class({
 	
 	Map: null,
@@ -16,7 +19,7 @@ var MobEMS = new Class({
 	 */
 	routeHistory: new Array(),
 	
-	fullScreenMode: false,
+	nth: null,
 	/**
 	 * mapCenterOptions should be in JSON format
 	 * i.e. {'latitude': 'latValue', 'longitude': 'lonValue', 'zoom': 'zoomLevel' } 
@@ -71,6 +74,8 @@ var MobEMS = new Class({
 			}
 			return true;
 		}.bind(this));
+		
+		this.nth = MAP.instances.push(this) - 1;
 	},
 	
 	/**

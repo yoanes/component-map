@@ -1,8 +1,13 @@
+MAP = {};
+MAP.instances = new Array();
+
 var MobEMS = new Class({
 	
 	Map: null,
 
 	Extends: Utilities,
+	
+	nth: null,
 	
 	/**
 	 * on init/window load try to grab the map and assign functions to the onclick event
@@ -16,6 +21,8 @@ var MobEMS = new Class({
 			this.renderToolbar();
 			return true;
 		}.bind(this));
+		
+		this.nth = MAP.instances.push(this) - 1;
 	},
 	
 	/**
