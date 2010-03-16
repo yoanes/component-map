@@ -129,7 +129,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             }
 
             return MapImpl.createMapRetrievalDeferrendInstance(mapCentre,
-                    mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
+                    mapCentre, mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         }
 
@@ -164,30 +164,50 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MobilesIconType originalCentreIconType,
             final Action mapManipulationAction, final MobileContext mobileContext) {
 
-        final PanZoomDetail panZoomDetail =
-                createMapManipulationPanZoomDetail(existingMapUrl,
-                        mapManipulationAction);
-
-        final MapLayer newMapLayer = createMapLayerAfterAction(
-                existingMapLayer, mapManipulationAction);
-
-        final MapUrl mapUrl = getEmsManager().getMap(
-                getScreenDimensionsStrategy()
-                        .createScreenDimensions(mobileContext),
-                        originalMapCentrePoint, originalCentreIconType,
-                newMapLayer, panZoomDetail,
-                mobileContext.asUserContext());
-        final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
-                panZoomDetail.getZoom());
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(
                 originalMapCentrePoint, originalCentreIconType,
                 new ArrayList<IconDescriptor>(),
                 getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
 
-        return MapImpl.createMapRetrievedInstance(
-                originalMapCentrePoint, newMapLayer, mapUrl, resolvedIcons,
-                emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
-                isZoomLevelMax(mapUrl.getZoom()));
+        final PanZoomDetail panZoomDetail =
+            createMapManipulationPanZoomDetail(existingMapUrl,
+                    mapManipulationAction);
+        final MapLayer newMapLayer = createMapLayerAfterAction(
+                existingMapLayer, mapManipulationAction);
+        final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
+                panZoomDetail.getZoom());
+
+        if (deviceNeedsServerSideMapGenerated(mobileContext)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will retrieve manipulated map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+            final MapUrl mapUrl = getEmsManager().getMap(
+                    getScreenDimensionsStrategy()
+                            .createScreenDimensions(mobileContext),
+                            originalMapCentrePoint, originalCentreIconType,
+                    newMapLayer, panZoomDetail,
+                    mobileContext.asUserContext());
+
+            return MapImpl.createMapRetrievedInstance(
+                    originalMapCentrePoint, newMapLayer, mapUrl, resolvedIcons,
+                    emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
+                    isZoomLevelMax(mapUrl.getZoom()));
+        } else {
+            // This method can be safely called for non-server side
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will NOT retrieve manipulated map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+            return MapImpl.createMapRetrievalDeferrendInstance(originalMapCentrePoint,
+                    panZoomDetail.calculateNewCentre(), newMapLayer, resolvedIcons,
+                    panZoomDetail.getZoom(), emsZoomLevel,
+                    isZoomLevelMin(panZoomDetail.getZoom()),
+                    isZoomLevelMax(panZoomDetail.getZoom()));
+
+        }
     }
 
     private MapLayer createMapLayerAfterAction(final MapLayer existingMapLayer,
@@ -306,7 +326,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final int zoomLevel = getEmsManager().getPoiMapZoom(screenDimensions, mapCentre,
                     poiIcons, getPoiMapRadiusMultiplier(), mobilesZoomThreshold);
             final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
-            return MapImpl.createMapRetrievalDeferrendInstance(mapCentre,
+            return MapImpl.createMapRetrievalDeferrendInstance(mapCentre, mapCentre,
                     mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
                     isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
         }
@@ -322,31 +342,48 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final Action mapManipulationAction,
             final MobileContext mobileContext) {
 
+        final ScreenDimensions screenDimensions =
+            getScreenDimensionsStrategy().createScreenDimensions(
+                    mobileContext);
+        final List<ResolvedIcon> resolvedIcons =
+            getEmsManager().resolvePoiIcons(originalMapCentrePoint,
+                    MobilesIconType.CROSS_HAIR, poiIcons, screenDimensions);
+
         final PanZoomDetail panZoomDetail =
                 createMapManipulationPanZoomDetail(existingMapUrl,
                         mapManipulationAction);
-        final MapLayer newMapLayer = createMapLayerAfterAction(
-                existingMapLayer, mapManipulationAction);
+        final MapLayer newMapLayer =
+                createMapLayerAfterAction(existingMapLayer,
+                        mapManipulationAction);
+        final int emsZoomLevel =
+                getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
 
+        if (deviceNeedsServerSideMapGenerated(mobileContext)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will retrieve manipulated POI map for device: "
+                        + mobileContext.getDevice().getName());
+            }
 
-        final ScreenDimensions screenDimensions = getScreenDimensionsStrategy()
-                .createScreenDimensions(mobileContext);
-        final MapUrl mapUrl = getEmsManager().manipulatePoiMap(
-                screenDimensions,
-                        originalMapCentrePoint, poiIcons,
-                newMapLayer, panZoomDetail,
-                mobileContext.asUserContext());
-        final int emsZoomLevel = getEmsManager().getEmsZoomLevel(
-                panZoomDetail.getZoom());
-        final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(
-                originalMapCentrePoint, MobilesIconType.CROSS_HAIR,
-                poiIcons, screenDimensions);
+            final MapUrl mapUrl =
+                    getEmsManager().manipulatePoiMap(screenDimensions,
+                            originalMapCentrePoint, poiIcons, newMapLayer,
+                            panZoomDetail, mobileContext.asUserContext());
 
-        return MapImpl.createMapRetrievedInstance(
-                originalMapCentrePoint, newMapLayer, mapUrl, resolvedIcons,
-                emsZoomLevel, isZoomLevelMin(mapUrl.getZoom()),
-                isZoomLevelMax(mapUrl.getZoom()));
-
+            return MapImpl.createMapRetrievedInstance(originalMapCentrePoint,
+                    newMapLayer, mapUrl, resolvedIcons, emsZoomLevel,
+                    isZoomLevelMin(mapUrl.getZoom()), isZoomLevelMax(mapUrl
+                            .getZoom()));
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will NOT retrieve manipulated POI map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+            return MapImpl.createMapRetrievalDeferrendInstance(
+                    originalMapCentrePoint, panZoomDetail.calculateNewCentre(),
+                    newMapLayer, resolvedIcons, panZoomDetail.getZoom(),
+                    emsZoomLevel, isZoomLevelMin(panZoomDetail.getZoom()),
+                    isZoomLevelMax(panZoomDetail.getZoom()));
+        }
     }
 
     /**
@@ -526,9 +563,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final Action mapManipulationAction,
             final MobileContext mobileContext) {
 
-        final List<ResolvedIcon> resolvedIcons = getEmsManager()
-            .resolveRouteWaypointIcons(waypoints, getScreenDimensionsStrategy()
-                    .createScreenDimensions(mobileContext));
+        final List<ResolvedIcon> resolvedIcons =
+                getEmsManager().resolveRouteWaypointIcons(
+                        waypoints,
+                        getScreenDimensionsStrategy().createScreenDimensions(
+                                mobileContext));
 
         final PanZoomDetail panZoomDetail =
                 createMapManipulationPanZoomDetail(existingMapUrl,
@@ -538,24 +577,53 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 createMapLayerAfterAction(existingMapLayer,
                         mapManipulationAction);
 
-        final JourneyDescriptor journeyDescriptor =
-                getEmsManager().updateJourneyDescriptorMapFromRouteHandle(
-                        routeHandle,
-                        waypoints,
-                        routingOption,
-                        createMapLayerAfterAction(existingMapLayer,
-                                mapManipulationAction),
-                        getScreenDimensionsStrategy().createScreenDimensions(
-                                mobileContext), panZoomDetail,
-                        mobileContext.asUserContext());
-        final int emsZoomLevel =
-                getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
+        if (deviceNeedsServerSideMapGenerated(mobileContext)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will retrieve manipulated route map for device: "
+                        + mobileContext.getDevice().getName());
+            }
 
-        return MapImpl.createRouteMapRetrievedInstance(waypoints,
-                journeyDescriptor, newMapLayer, resolvedIcons,
-                emsZoomLevel,
-                isZoomLevelMin(journeyDescriptor.getMap().getZoom()),
-                isZoomLevelMax(journeyDescriptor.getMap().getZoom()));
+            final JourneyDescriptor journeyDescriptor =
+                    getEmsManager().updateJourneyDescriptorMapFromRouteHandle(
+                            routeHandle,
+                            waypoints,
+                            routingOption,
+                            createMapLayerAfterAction(existingMapLayer,
+                                    mapManipulationAction),
+                            getScreenDimensionsStrategy()
+                                    .createScreenDimensions(mobileContext),
+                            panZoomDetail, mobileContext.asUserContext());
+            final int emsZoomLevel =
+                    getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
+
+            return MapImpl.createRouteMapRetrievedInstance(waypoints,
+                    journeyDescriptor, newMapLayer, resolvedIcons,
+                    emsZoomLevel, isZoomLevelMin(journeyDescriptor.getMap()
+                            .getZoom()), isZoomLevelMax(journeyDescriptor
+                            .getMap().getZoom()));
+
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Will NOT retrieve manipulated route map for device: "
+                        + mobileContext.getDevice().getName());
+            }
+
+            final JourneyDescriptor journeyDescriptor =
+                    getEmsManager()
+                            .updateJourneyDescriptorMapFromRouteHandleWithoutMapImageUrl(
+                                    routeHandle,
+                                    waypoints,
+                                    routingOption,
+                                    newMapLayer,
+                                    getScreenDimensionsStrategy()
+                                            .createScreenDimensions(
+                                                    mobileContext),
+                                    panZoomDetail,
+                                    mobileContext.asUserContext());
+
+            return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
+                    journeyDescriptor, newMapLayer, resolvedIcons);
+        }
 
     }
 

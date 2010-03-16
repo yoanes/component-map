@@ -56,6 +56,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     private WGS84Point point1;
     private WGS84Point point2;
     private WGS84Point point3;
+    private WGS84Point point4;
+    private WGS84Point point5;
 
     private static final int ZOOM_LEVEL = 5;
     private static final int EMS_ZOOM_LEVEL = 16;
@@ -86,6 +88,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         setPoint1(getWgs84PointTestDataFactory().createValidWGS84Point());
         setPoint2(getWgs84PointTestDataFactory().createValidWGS84Point2());
         setPoint3(getWgs84PointTestDataFactory().createValidWGS84Point3());
+        setPoint4(getWgs84PointTestDataFactory().createValidWGS84Point4());
+        setPoint5(getWgs84PointTestDataFactory().createValidWGS84Point5());
 
         setDeviceConfigType(new DeviceConfigType());
 
@@ -263,82 +267,108 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulateMapPanEast() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_EAST, UserMapInteraction.EAST,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedPanEast() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_EAST, UserMapInteraction.EAST,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateMapPanWest() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_WEST, UserMapInteraction.WEST,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedPanWest() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_WEST, UserMapInteraction.WEST,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateMapPanNorth() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH, UserMapInteraction.NORTH,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedPanNorth() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_NORTH, UserMapInteraction.NORTH,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateMapPanSouth() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedPanSouth() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
                 ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateMapZoomIn() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedZoomIn() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL - 1);
     }
 
     @Test
-    public void testManipulateMapZoomInWhenAlreadyAtMinZoom() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 MIN_ZOOM, MIN_ZOOM);
     }
 
     @Test
-    public void testManipulateMapZoomOut() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedZoomOut() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL + 1);
     }
 
     @Test
-    public void testManipulateMapZoomInWhenAlreadyAtMaxZoom() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 MAX_ZOOM, MAX_ZOOM);
     }
 
     @Test
-    public void testManipulateMapNoOp() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Map, Action.NO_OP,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.NO_OP, UserMapInteraction.NO_ACTION,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedChangeToMapView()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Photo,
+                MapLayer.Map, Action.MAP_VIEW, UserMapInteraction.NO_ACTION,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedChangeToPhotoView()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Photo, Action.PHOTO_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateMapChangeToMapView() throws Throwable {
-        doTestManipulateMap(MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+    public void testManipulateMapWhenServerSideMapShouldBeGeneratedChangeToHybridView()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
-    @Test
-    public void testManipulateMapChangeToPhotoView() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
-                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
-    }
-
-    @Test
-    public void testManipulateMapChangeToHybridView() throws Throwable {
-        doTestManipulateMap(MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
-                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
-    }
-
-    private void doTestManipulateMap(final MapLayer existingMapLayer,
+    private void doTestManipulateMapWhenServerSideMapShouldBeGenerated(
+            final MapLayer existingMapLayer,
             final MapLayer expectedMapLayerAfterAction,
             final Action mapDelegateAction,
             final UserMapInteraction userMapInteraction, final int oldZoomLevel,
             final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(true);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
@@ -390,6 +420,177 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 .isMapImageRetrieved());
         Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
                 map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre", getPoint2(),
+                map.getOriginalMapCentre());
+
+        assertMapLayers(map, MapLayer.Map.equals(expectedMapLayerAfterAction),
+                MapLayer.Photo.equals(expectedMapLayerAfterAction),
+                MapLayer.PhotoWithStreets.equals(expectedMapLayerAfterAction));
+
+        assertZoomDetails(map, EMS_ZOOM_LEVEL, newZoomLevel == MIN_ZOOM,
+                newZoomLevel == MAX_ZOOM);
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+
+
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedPanEast() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_EAST, UserMapInteraction.EAST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedPanWest() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_WEST, UserMapInteraction.WEST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedPanNorth() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_NORTH, UserMapInteraction.NORTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedPanSouth() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedZoomIn() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
+                ZOOM_LEVEL, ZOOM_LEVEL - 1);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
+                MIN_ZOOM, MIN_ZOOM);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedZoomOut() throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+                ZOOM_LEVEL, ZOOM_LEVEL + 1);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+                MAX_ZOOM, MAX_ZOOM);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.NO_OP, UserMapInteraction.NO_ACTION,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedChangeToMapView()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Photo,
+                MapLayer.Map, Action.MAP_VIEW, UserMapInteraction.NO_ACTION,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedChangeToPhotoView()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Photo, Action.PHOTO_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedChangeToHybridView()
+        throws Throwable {
+        doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+
+    private void doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(
+            final MapLayer existingMapLayer,
+            final MapLayer expectedMapLayerAfterAction,
+            final Action mapDelegateAction,
+            final UserMapInteraction userMapInteraction, final int oldZoomLevel,
+            final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(false);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                                getMockScreenDimensions()).atLeastOnce();
+
+        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
+                getMockMobilesBoundingBox());
+
+        EasyMock.expect(getMockExistingMapUrl().getZoom())
+            .andReturn(oldZoomLevel);
+        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
+                getPoint1()).atLeastOnce();
+
+        final PanZoomDetail panZoomDetail =
+            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                    userMapInteraction, newZoomLevel);
+
+        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
+            .andReturn(EMS_ZOOM_LEVEL);
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
+                MobilesIconType.CROSS_HAIR,
+                new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
+
+        // anyTimes expectations on MockMobilesBoundingBox methods to cater
+        // to multiple possible paths through PanZoomDetail.calculateNewCentre.
+        EasyMock.expect(getMockMobilesBoundingBox().getBottomRight())
+            .andReturn(getPoint4()).anyTimes();
+        EasyMock.expect(getMockMobilesBoundingBox().getTopLeft())
+            .andReturn(getPoint5()).anyTimes();
+
+        replay();
+
+        final Map map =
+            getObjectUnderTest().manipulateMap(getPoint2(), getMockExistingMapUrl(),
+                    existingMapLayer, MobilesIconType.CROSS_HAIR,
+                    mapDelegateAction, getMockMobileContext());
+
+        Assert.assertFalse("isMapImageRetrieved() should be false", map
+                .isMapImageRetrieved());
+
+        Assert.assertNotNull("map should have non-null mapUrl",
+                map.getMapUrl());
+        Assert.assertEquals("mapUrl has wrong mapCentre",
+                panZoomDetail.calculateNewCentre(),
+                map.getMapUrl().getMapCentre());
+        Assert.assertEquals("mapUrl has wrong zoom", newZoomLevel,
+                map.getMapUrl().getZoom());
+
         Assert.assertSame("map has wrong originalMapCentre", getPoint2(),
                 map.getOriginalMapCentre());
 
@@ -543,84 +744,113 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulatePoiMapPanEast() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
-                UserMapInteraction.EAST, ZOOM_LEVEL, ZOOM_LEVEL);
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedPanEast()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_EAST, UserMapInteraction.EAST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulatePoiMapPanWest() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
-                UserMapInteraction.WEST, ZOOM_LEVEL, ZOOM_LEVEL);
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedPanWest()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_WEST, UserMapInteraction.WEST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulatePoiMapPanNorth() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
-                UserMapInteraction.NORTH, ZOOM_LEVEL, ZOOM_LEVEL);
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedPanNorth()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_NORTH, UserMapInteraction.NORTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulatePoiMapPanSouth() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
-                UserMapInteraction.SOUTH, ZOOM_LEVEL, ZOOM_LEVEL);
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedPanSouth()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulatePoiMapZoomIn() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedZoomIn()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL - 1);
     }
 
     @Test
-    public void testManipulatePoiMapZoomInWhenAlreadyAtMinZoom() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 MIN_ZOOM, MIN_ZOOM);
     }
 
     @Test
-    public void testManipulatePoiMapZoomOut() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedZoomOut()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 ZOOM_LEVEL, ZOOM_LEVEL + 1);
     }
 
     @Test
-    public void testManipulatePoiMapZoomInWhenAlreadyAtMaxZoom() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 MAX_ZOOM, MAX_ZOOM);
     }
 
     @Test
-    public void testManipulatePoiMapNoOp() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Map, Action.NO_OP,
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.NO_OP, UserMapInteraction.NO_ACTION,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedChangeToMapView()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulatePoiMapChangeToMapView() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedChangeToPhotoView()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.Photo, Action.PHOTO_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulatePoiMapChangeToPhotoView() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
+    public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedChangeToHybridView()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
+                MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
-    @Test
-    public void testManipulatePoiMapChangeToHybridView() throws Throwable {
-        doTestManipulatePoiMap(MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
-                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
-    }
-
-
-
-    private void doTestManipulatePoiMap(final MapLayer existingMapLayer,
+    private void doTestManipulatePoiMapWhenServerSideMapShouldBeGenerated(
+            final MapLayer existingMapLayer,
             final MapLayer expectedMapLayerAfterAction,
             final Action mapDelegateAction,
             final UserMapInteraction userMapInteraction, final int oldZoomLevel,
             final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(true);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
 
         final List<IconDescriptor> iconDescriptors = createIconDescriptors();
 
@@ -677,6 +907,184 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 .isMapImageRetrieved());
         Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
                 map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre",
+                getPoint2(), map.getOriginalMapCentre());
+
+        assertMapLayers(map, MapLayer.Map.equals(expectedMapLayerAfterAction),
+                MapLayer.Photo.equals(expectedMapLayerAfterAction),
+                MapLayer.PhotoWithStreets.equals(expectedMapLayerAfterAction));
+
+        assertZoomDetails(map, EMS_ZOOM_LEVEL, newZoomLevel == MIN_ZOOM,
+                newZoomLevel == MAX_ZOOM);
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedPanEast()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_EAST, UserMapInteraction.EAST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedPanWest()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_WEST, UserMapInteraction.WEST,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedPanNorth()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_NORTH, UserMapInteraction.NORTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedPanSouth()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.MOVE_SOUTH, UserMapInteraction.SOUTH,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomIn()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
+                ZOOM_LEVEL, ZOOM_LEVEL - 1);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, MIN_ZOOM, MIN_ZOOM);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomOut()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
+                ZOOM_LEVEL, ZOOM_LEVEL + 1);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, MAX_ZOOM, MAX_ZOOM);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Map, Action.NO_OP, UserMapInteraction.NO_ACTION,
+                ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedChangeToMapView()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedChangeToPhotoView()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.Photo, Action.PHOTO_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedChangeToHybridView()
+            throws Throwable {
+        doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
+                MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    private void doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
+            final MapLayer existingMapLayer,
+            final MapLayer expectedMapLayerAfterAction,
+            final Action mapDelegateAction,
+            final UserMapInteraction userMapInteraction, final int oldZoomLevel,
+            final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(false);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                                getMockScreenDimensions());
+
+        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
+                getMockMobilesBoundingBox());
+
+        EasyMock.expect(getMockExistingMapUrl().getZoom()).andReturn(
+                oldZoomLevel);
+        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
+                getPoint1()).atLeastOnce();
+
+        final PanZoomDetail panZoomDetail =
+            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                    userMapInteraction, newZoomLevel);
+
+        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
+            .andReturn(EMS_ZOOM_LEVEL);
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
+                MobilesIconType.CROSS_HAIR,
+                iconDescriptors, getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
+
+        // anyTimes expectations on MockMobilesBoundingBox methods to cater
+        // to multiple possible paths through PanZoomDetail.calculateNewCentre.
+        EasyMock.expect(getMockMobilesBoundingBox().getBottomRight())
+            .andReturn(getPoint4()).anyTimes();
+        EasyMock.expect(getMockMobilesBoundingBox().getTopLeft())
+            .andReturn(getPoint5()).anyTimes();
+
+        replay();
+
+        final Map map =
+            getObjectUnderTest().manipulatePoiMap(getPoint2(),
+                    getMockExistingMapUrl(), existingMapLayer,
+                    iconDescriptors,
+                    mapDelegateAction,
+                    getMockMobileContext());
+
+        Assert.assertFalse("isMapImageRetrieved() should be false", map
+                .isMapImageRetrieved());
+
+        Assert.assertNotNull("map should have non-null mapUrl",
+                map.getMapUrl());
+        Assert.assertEquals("mapUrl has wrong mapCentre",
+                panZoomDetail.calculateNewCentre(),
+                map.getMapUrl().getMapCentre());
+        Assert.assertEquals("mapUrl has wrong zoom", newZoomLevel,
+                map.getMapUrl().getZoom());
+
         Assert.assertSame("map has wrong originalMapCentre",
                 getPoint2(), map.getOriginalMapCentre());
 
@@ -865,87 +1273,113 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulateRouteMapPanEast() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedPanEast()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
                 UserMapInteraction.EAST, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteMapPanWest() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedPanWest()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
                 UserMapInteraction.WEST, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteMapPanNorth() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedPanNorth()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
                 UserMapInteraction.NORTH, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteMapPanSouth() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
-                UserMapInteraction.SOUTH,
-                ZOOM_LEVEL, ZOOM_LEVEL);
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedPanSouth()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
+                UserMapInteraction.SOUTH, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteMapZoomIn() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
-                UserMapInteraction.ZOOM,
-                ZOOM_LEVEL, ZOOM_LEVEL - 1);
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedZoomIn()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL - 1);
     }
 
     @Test
-    public void testManipulateRouteMapZoomInWhenAlreadyAtMinZoom() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
-                UserMapInteraction.ZOOM,
-                MIN_ZOOM, MIN_ZOOM);
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, MIN_ZOOM, MIN_ZOOM);
     }
 
     @Test
-    public void testManipulateRouteMapZoomOut() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
-                UserMapInteraction.ZOOM,
-                ZOOM_LEVEL, ZOOM_LEVEL + 1);
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedZoomOut()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL + 1);
     }
 
     @Test
-    public void testManipulateRouteMapZoomInWhenAlreadyAtMaxZoom() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
-                UserMapInteraction.ZOOM,
-                MAX_ZOOM, MAX_ZOOM);
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, MAX_ZOOM, MAX_ZOOM);
     }
 
     @Test
-    public void testManipulateRouteMapNoOp() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Map, Action.NO_OP,
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.NO_OP,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteMapChangeToMapView() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedChangeToMapView()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteMapChangeToPhotoView() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedChangeToPhotoView()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteMapChangeToHybridView() throws Throwable {
-        doTestManipulateRouteMap(MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
+    public void testManipulateRouteMapWhenServerSideMapShouldBeGeneratedChangeToHybridView()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
-    private void doTestManipulateRouteMap(final MapLayer existingMapLayer,
+    private void doTestManipulateRouteMapWhenServerSideMapShouldBeGenerated(
+            final MapLayer existingMapLayer,
             final MapLayer expectedMapLayerAfterAction,
             final Action mapDelegateAction,
             final UserMapInteraction userMapInteraction,
-        final int oldZoomLevel, final int newZoomLevel) {
+            final int oldZoomLevel, final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(true);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
@@ -1032,6 +1466,211 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         assertZoomDetails(map, EMS_ZOOM_LEVEL, newZoomLevel == MIN_ZOOM,
                 newZoomLevel == MAX_ZOOM);
+
+        Assert.assertTrue("isRouteMap() should be true", map.isRouteMap());
+        Assert.assertNotNull("getRouteDetails() should not be null", map
+                .getRouteDetails());
+
+        assertRouteDetails(map, journeyWaypoints, RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                new RouteHandle(soapRouteHandle));
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedPanEast()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
+                UserMapInteraction.EAST, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedPanWest()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
+                UserMapInteraction.WEST, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedPanNorth()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
+                UserMapInteraction.NORTH, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedPanSouth()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
+                UserMapInteraction.SOUTH, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomIn()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL - 1);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, MIN_ZOOM, MIN_ZOOM);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomOut()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL + 1);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, MAX_ZOOM, MAX_ZOOM);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.NO_OP,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedChangeToMapView()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedChangeToPhotoView()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedChangeToHybridView()
+            throws Throwable {
+        doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    private void doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
+            final MapLayer existingMapLayer,
+            final MapLayer expectedMapLayerAfterAction,
+            final Action mapDelegateAction,
+            final UserMapInteraction userMapInteraction,
+            final int oldZoomLevel, final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(false);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        final double startLat = -45.45;
+        final double startLong = 145.145;
+        final double endLat = -45.46;
+        final double endLong = 146.146;
+        final JourneyWaypoints journeyWaypoints =
+            createJourneyWaypoints(startLat, startLong, endLat, endLong);
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                                getMockScreenDimensions()).atLeastOnce();
+
+        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
+                getMockMobilesBoundingBox());
+        EasyMock.expect(getMockExistingMapUrl().getZoom()).andReturn(
+                oldZoomLevel);
+        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
+                getPoint1()).atLeastOnce();
+        final PanZoomDetail panZoomDetail =
+            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                    userMapInteraction, newZoomLevel);
+
+        EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
+                getMockUserContext());
+
+        EasyMock.expect(
+                mockEmsManager.updateJourneyDescriptorMapFromRouteHandleWithoutMapImageUrl(
+                        createRouteHandle(), journeyWaypoints,
+                        RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                        getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
+                                mapDelegateAction),
+                                getMockScreenDimensions(), panZoomDetail,
+                                getMockUserContext()))
+                                .andReturn(getMockJourneyDescriptor());
+
+
+        EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
+                getMockMapUrl()).atLeastOnce();
+        EasyMock.expect(getMockJourneyDescriptor().getRoutingOption()).andReturn(
+                RoutingOption.FASTEST_BY_ROAD_NO_TOLLS).atLeastOnce();
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockMapUrl().getImageUrl()).andReturn("dummy url")
+            .anyTimes();
+
+        EasyMock.expect(getMockMapUrl().getBoundingBox()).andReturn(
+                getMockUpdatedMobilesBoundingBox()).atLeastOnce();
+
+        final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
+        EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
+        .andReturn(soapRouteHandle).atLeastOnce();
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
+                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
+                .andReturn(resolvedIcons);
+
+        replay();
+
+        final Map map =
+            getObjectUnderTest().manipulateRouteMap(createRouteHandle(),
+                    journeyWaypoints,
+                    RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                    getMockExistingMapUrl(), existingMapLayer, mapDelegateAction,
+                    getMockMobileContext());
+
+        Assert.assertFalse("isMapRetrieved() should be false", map
+                .isMapImageRetrieved());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(), map
+                .getMapUrl());
+
+        assertGetOriginalMapCentreIllegal(map);
+
+        assertMapLayers(map, MapLayer.Map.equals(expectedMapLayerAfterAction),
+                MapLayer.Photo.equals(expectedMapLayerAfterAction),
+                MapLayer.PhotoWithStreets.equals(expectedMapLayerAfterAction));
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+
+        Assert.assertFalse("isZoomDetailsDefined() should be false", map
+                .isZoomDetailsDefined());
+        Assert.assertTrue("isBoundingBoxDefined() should be true",
+                map.isBoundingBoxDefined());
+        Assert.assertSame("geMobilesBoundingBox() is wrong",
+                getMockUpdatedMobilesBoundingBox(),
+                map.getMapUrl().getBoundingBox());
 
         Assert.assertTrue("isRouteMap() should be true", map.isRouteMap());
         Assert.assertNotNull("getRouteDetails() should not be null", map
@@ -1223,88 +1862,113 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulateRouteLegStepMapPanEast() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedPanEast()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
                 UserMapInteraction.EAST, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapPanWest() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedPanWest()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
                 UserMapInteraction.WEST, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapPanNorth() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedPanNorth()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
                 UserMapInteraction.NORTH, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapPanSouth() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
-                UserMapInteraction.SOUTH,
-                ZOOM_LEVEL, ZOOM_LEVEL);
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedPanSouth()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
+                UserMapInteraction.SOUTH, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapZoomIn() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
-                UserMapInteraction.ZOOM,
-                ZOOM_LEVEL, ZOOM_LEVEL - 1);
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomIn()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL - 1);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapZoomInWhenAlreadyAtMinZoom() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
-                UserMapInteraction.ZOOM,
-                MIN_ZOOM, MIN_ZOOM);
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, MIN_ZOOM, MIN_ZOOM);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapZoomOut() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
-                UserMapInteraction.ZOOM,
-                ZOOM_LEVEL, ZOOM_LEVEL + 1);
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomOut()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL + 1);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapZoomInWhenAlreadyAtMaxZoom() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
-                UserMapInteraction.ZOOM,
-                MAX_ZOOM, MAX_ZOOM);
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, MAX_ZOOM, MAX_ZOOM);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapNoOp() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Map, Action.NO_OP,
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.NO_OP,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapChangeToMapView() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedChangeToMapView()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapChangeToPhotoView() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedChangeToPhotoView()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapChangeToHybridView() throws Throwable {
-        doTestManipulateRouteLegStepMap(MapLayer.Map, MapLayer.PhotoWithStreets,
-                Action.HYBRID_VIEW,
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedChangeToHybridView()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+                MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
     }
 
-    private void doTestManipulateRouteLegStepMap(final MapLayer existingMapLayer,
+    private void doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
+            final MapLayer existingMapLayer,
             final MapLayer expectedMapLayerAfterAction,
             final Action mapDelegateAction,
             final UserMapInteraction userMapInteraction,
-        final int oldZoomLevel, final int newZoomLevel) {
+            final int oldZoomLevel, final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(true);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
@@ -1391,6 +2055,211 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         assertZoomDetails(map, EMS_ZOOM_LEVEL, newZoomLevel == MIN_ZOOM,
                 newZoomLevel == MAX_ZOOM);
+
+        Assert.assertTrue("isRouteMap() should be true", map.isRouteMap());
+        Assert.assertNotNull("getRouteDetails() should not be null", map
+                .getRouteDetails());
+
+        assertRouteDetails(map, journeyWaypoints, RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                new RouteHandle(soapRouteHandle));
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedPanEast()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_EAST,
+                UserMapInteraction.EAST, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedPanWest()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_WEST,
+                UserMapInteraction.WEST, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedPanNorth()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_NORTH,
+                UserMapInteraction.NORTH, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedPanSouth()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.MOVE_SOUTH,
+                UserMapInteraction.SOUTH, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomIn()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL - 1);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
+                UserMapInteraction.ZOOM, MIN_ZOOM, MIN_ZOOM);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomOut()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL + 1);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
+                UserMapInteraction.ZOOM, MAX_ZOOM, MAX_ZOOM);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedNoOp()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Map, Action.NO_OP,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedChangeToMapView()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Photo, MapLayer.Map, Action.MAP_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedChangeToPhotoView()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.Photo, Action.PHOTO_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    @Test
+    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedChangeToHybridView()
+            throws Throwable {
+        doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+                MapLayer.Map, MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
+                UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
+    }
+
+    private void doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
+            final MapLayer existingMapLayer,
+            final MapLayer expectedMapLayerAfterAction,
+            final Action mapDelegateAction,
+            final UserMapInteraction userMapInteraction,
+            final int oldZoomLevel, final int newZoomLevel) {
+
+        recordShouldGenerateServerSideMap(false);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        final double startLat = -45.45;
+        final double startLong = 145.145;
+        final double endLat = -45.46;
+        final double endLong = 146.146;
+        final JourneyWaypoints journeyWaypoints =
+            createJourneyWaypoints(startLat, startLong, endLat, endLong);
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                                getMockScreenDimensions()).atLeastOnce();
+
+        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
+                getMockMobilesBoundingBox());
+        EasyMock.expect(getMockExistingMapUrl().getZoom()).andReturn(
+                oldZoomLevel);
+        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
+                getPoint1()).atLeastOnce();
+        final PanZoomDetail panZoomDetail =
+            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                    userMapInteraction, newZoomLevel);
+
+        EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
+                getMockUserContext());
+
+        EasyMock.expect(
+                mockEmsManager.updateJourneyDescriptorMapFromRouteHandleWithoutMapImageUrl(
+                        createRouteHandle(), journeyWaypoints,
+                        RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                        getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
+                                mapDelegateAction),
+                                getMockScreenDimensions(), panZoomDetail,
+                                getMockUserContext()))
+                                .andReturn(getMockJourneyDescriptor());
+
+
+        EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
+                getMockMapUrl()).atLeastOnce();
+        EasyMock.expect(getMockJourneyDescriptor().getRoutingOption()).andReturn(
+                RoutingOption.FASTEST_BY_ROAD_NO_TOLLS).atLeastOnce();
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockMapUrl().getImageUrl()).andReturn("dummy url")
+            .anyTimes();
+
+        EasyMock.expect(getMockMapUrl().getBoundingBox()).andReturn(
+                getMockUpdatedMobilesBoundingBox()).atLeastOnce();
+
+        final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
+        EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
+        .andReturn(soapRouteHandle).atLeastOnce();
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
+                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
+                .andReturn(resolvedIcons);
+
+        replay();
+
+        final Map map =
+            getObjectUnderTest().manipulateRouteLegStepMap(createRouteHandle(),
+                    journeyWaypoints,
+                    RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                    getMockExistingMapUrl(), existingMapLayer, mapDelegateAction,
+                    getMockMobileContext());
+
+        Assert.assertFalse("isMapRetrieved() should be false", map
+                .isMapImageRetrieved());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(), map
+                .getMapUrl());
+
+        assertGetOriginalMapCentreIllegal(map);
+
+        assertMapLayers(map, MapLayer.Map.equals(expectedMapLayerAfterAction),
+                MapLayer.Photo.equals(expectedMapLayerAfterAction),
+                MapLayer.PhotoWithStreets.equals(expectedMapLayerAfterAction));
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+
+        Assert.assertFalse("isZoomDetailsDefined() should be false", map
+                .isZoomDetailsDefined());
+        Assert.assertTrue("isBoundingBoxDefined() should be true",
+                map.isBoundingBoxDefined());
+        Assert.assertSame("geMobilesBoundingBox() is wrong",
+                getMockUpdatedMobilesBoundingBox(),
+                map.getMapUrl().getBoundingBox());
 
         Assert.assertTrue("isRouteMap() should be true", map.isRouteMap());
         Assert.assertNotNull("getRouteDetails() should not be null", map
@@ -1717,5 +2586,33 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     public void setMockUpdatedMobilesBoundingBox(
             final MobilesBoundingBox mockUpdatedMobilesBoundingBox) {
         this.mockUpdatedMobilesBoundingBox = mockUpdatedMobilesBoundingBox;
+    }
+
+    /**
+     * @return the point4
+     */
+    private WGS84Point getPoint4() {
+        return point4;
+    }
+
+    /**
+     * @param point4 the point4 to set
+     */
+    private void setPoint4(final WGS84Point point4) {
+        this.point4 = point4;
+    }
+
+    /**
+     * @return the point5
+     */
+    private WGS84Point getPoint5() {
+        return point5;
+    }
+
+    /**
+     * @param point5 the point5 to set
+     */
+    private void setPoint5(final WGS84Point point5) {
+        this.point5 = point5;
     }
 }

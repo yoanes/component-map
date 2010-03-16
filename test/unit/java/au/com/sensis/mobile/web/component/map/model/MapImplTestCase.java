@@ -93,11 +93,11 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testCreateMapRetrievalDeferrendInstance() throws Throwable {
+    public void testCreateMapRetrievalDeferredInstance() throws Throwable {
         final List<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         final Map map =
                 MapImpl.createMapRetrievalDeferrendInstance(
-                        getWgs84Point1(), MapLayer.Map, resolvedIcons,
+                        getWgs84Point1(), getWgs84Point2(), MapLayer.Map, resolvedIcons,
                         ZOOM_LEVEL, EMS_ZOOM_LEVEL, false, true);
 
         Assert.assertFalse("isMapImageRetrieved() should be false",
@@ -108,7 +108,7 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
 
         Assert.assertNotNull("mapUrl should not be null", map
                 .getMapUrl());
-        Assert.assertEquals("mapCentre is wrong", getWgs84Point1(),
+        Assert.assertEquals("mapCentre is wrong", getWgs84Point2(),
                 map.getMapUrl().getMapCentre());
         Assert.assertEquals("zoom is wrong", ZOOM_LEVEL,
                 map.getMapUrl().getZoom());

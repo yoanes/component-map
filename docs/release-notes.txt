@@ -1,3 +1,8 @@
+==== Version 1.1.4-006 (tag: map_v1_1_4-006) ====
+
+Fixed CUI-145: Whereis Mobile - Navigate between the tabs- Home page with out Map
+- MapDelegate.manipulate* methods can now be safely called for devices that receive hi end maps. 
+
 ==== Version 1.1.4-005 (tag: map_v1_1_4-005) ====
 
 Now depends on wl-core-component 1.0.19.

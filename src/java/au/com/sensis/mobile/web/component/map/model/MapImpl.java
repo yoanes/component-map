@@ -235,6 +235,8 @@ public final class MapImpl implements Map {
      *
      * @param originalMapCentre
      *            Original centre of the map.
+     * @param currentMapCentre
+     *            Current centre of the map.
      * @param mapLayer
      *            {@link MapLayer} requested.
      * @param resolvedIcons
@@ -253,12 +255,13 @@ public final class MapImpl implements Map {
      *         {@link #isMapImageRetrievalDeferredToClient()} is true.
      */
     public static MapImpl createMapRetrievalDeferrendInstance(
-            final WGS84Point originalMapCentre, final MapLayer mapLayer,
+            final WGS84Point originalMapCentre, final WGS84Point currentMapCentre,
+            final MapLayer mapLayer,
             final List<ResolvedIcon> resolvedIcons, final int zoomLevel,
             final int emsZoom, final boolean atMinimumZoom,
             final boolean atMaximumZoom) {
         final LocationMapUrl locationMapUrl = new LocationMapUrl();
-        locationMapUrl.setMapCentre(originalMapCentre);
+        locationMapUrl.setMapCentre(currentMapCentre);
         locationMapUrl.setZoom(zoomLevel);
         return new MapImpl(originalMapCentre, mapLayer,
                 locationMapUrl,

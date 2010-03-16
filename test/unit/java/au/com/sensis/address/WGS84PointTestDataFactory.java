@@ -34,4 +34,18 @@ public class WGS84PointTestDataFactory {
     public WGS84Point createValidWGS84Point3() {
         return new WGS84Point(QV_LONGITUDE - 1, QV_LATITUDE - 1);
     }
+
+    /**
+     * @return a new, valid {@link WGS84Point}.
+     */
+    public WGS84Point createValidWGS84Point4() {
+        return new WGS84Point(QV_LONGITUDE - 2, QV_LATITUDE - 2);
+    }
+
+    /**
+     * @return a new, valid {@link WGS84Point}.
+     */
+    public WGS84Point createValidWGS84Point5() {
+        return new WGS84Point(QV_LONGITUDE - 5, QV_LATITUDE - 5);
+    }
 }
