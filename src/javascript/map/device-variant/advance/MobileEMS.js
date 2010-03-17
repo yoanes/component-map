@@ -97,6 +97,9 @@ var MobEMS = new Class({
 			mapDiv.style.width = '100%';
 			mapDiv.style.overflow = 'hidden';
 			
+			mapDiv.style['-webkit-user-select'] = 'none';
+			mapDiv.style['-webkit-touch-callout'] = 'none';
+			
 			$(mapWrapper).appendChild(mapDiv);
 			return true;
 		}
