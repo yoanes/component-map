@@ -5,6 +5,10 @@ Fixed CUI-130: Map Component - remove OpenLayers.mscr and change to use prod EMS
 
 Now depends on wl-core-component 1.0.20.
 
+Upgrade notes:
+- Your app can now define the environment variable env.ems.service.js to point
+  to the production EMS server. All hi end maps should work with this.
+
 ==== Version 1.1.4-006 (tag: map_v1_1_4-006) ====
 
 Fixed CUI-145: Whereis Mobile - Navigate between the tabs- Home page with out Map
