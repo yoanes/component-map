@@ -181,6 +181,16 @@
                     <style-sheet>
                         <rules>
                             <rule>
+                                <selector-sequence>
+                                    <id>viewControls</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="display">
+                                        <keyword>none</keyword>
+                                    </property>
+                                </properties>
+                            </rule>
+                            <rule>
                                 <combined-selector>
                                     <context>
                                         <selector-sequence>
@@ -208,9 +218,6 @@
                                     </subject>
                                 </combined-selector>
                                 <properties>
-                                    <property name="font-weight">
-                                        <keyword>bold</keyword>
-                                    </property>
                                     <property name="margin-left">
                                         <length units="px">2</length>
                                     </property>
@@ -256,11 +263,20 @@
                             </rule>
                             <rule>
                                 <selector-sequence>
-                                    <id>viewControls</id>
+                                    <id>mapControls</id>
                                 </selector-sequence>
                                 <properties>
-                                    <property name="display">
-                                        <keyword>none</keyword>
+                                    <property name="font-family">
+                                        <list unique="true">
+                                            <identifier>Arial</identifier>
+                                            <keyword>sans-serif</keyword>
+                                        </list>
+                                    </property>
+                                    <property name="font-size">
+                                        <percentage>105</percentage>
+                                    </property>
+                                    <property name="font-weight">
+                                        <keyword>bold</keyword>
                                     </property>
                                 </properties>
                             </rule>
