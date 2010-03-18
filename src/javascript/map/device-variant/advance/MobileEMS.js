@@ -248,7 +248,10 @@ var MobEMS = new Class({
 	routeAddress: function(wayPointObj) {
 		var newWayPoint = {};
 		newWayPoint.coordinates = wayPointObj.coordinates;
-		newWayPoint.street = {name: wayPointObj.streetName};
+		// The EMS interface requires the street name to be set but it's
+		// okay to set it to an empty string. Passing in a real street
+		// would affect the "snap-to" street behaviour. 
+		newWayPoint.street = {name: ''};
 		return newWayPoint;
 	},
 	

@@ -1,3 +1,9 @@
+==== Version 1.1.4-008 (tag: map_v1_1_4-008) ====
+
+Fixed CUI-141: Map testpage -> Incorrect route is displayed (not connecting start & End points) for a particular direction
+
+Upgrade notes: the upgrade should be transparent.
+
 ==== Version 1.1.4-007 (tag: map_v1_1_4-007) ====
 
 Fixed CUI-130: Map Component - remove OpenLayers.mscr and change to use prod EMS when EMS prod drop occurs on 12 Mar 2010

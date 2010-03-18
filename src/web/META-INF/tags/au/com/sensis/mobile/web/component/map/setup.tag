@@ -58,27 +58,13 @@
                                 coordinates: { 
                                     latitude: <c:out value="${map.routeDetails.waypoints.start.latitude}" />,
                                     longitude: <c:out value="${map.routeDetails.waypoints.start.longitude}" />
-                                }, 
-                                
-                                <%-- 
-                                  - The EMS JavaScript interface requires the streetname corresponding to the coordinates.
-                                  - However, it doesn't actually need the value to be real (!) and it is never displayed
-                                  - in our mobiles apps. Therefore, we just pass in a dummy value.  
-                                  --%>
-                                streetName: 'UNKNOWN' 
+                                }
                             },
                             { 
                                 coordinates: { 
                                     latitude: <c:out value="${map.routeDetails.waypoints.end.latitude}" />,
                                     longitude: <c:out value="${map.routeDetails.waypoints.end.longitude}" />
-                                }, 
-                                
-                                <%-- 
-                                  - The EMS JavaScript interface requires the streetname corresponding to the coordinates.
-                                  - However, it doesn't actually need the value to be real (!) and it is never displayed
-                                  - in our mobiles apps. Therefore, we just pass in a dummy value.  
-                                  --%>
-                                streetName: 'UNKNOWN'
+                                }
                             }
                         ],
                         fastest: <c:out value="${map.routeDetails.routingOption.fastest}" />,
