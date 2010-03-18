@@ -131,7 +131,7 @@
         <!--
           - Dependencies on other components.
           -->
-        <dependency org="com.sensis" name="wl-core-component" rev="1.0.20" conf="default,test"/>
+        <dependency org="com.sensis" name="wl-core-component" rev="1.0.21" conf="default,test"/>
         
         <!-- Testing -->
         <dependency org="junit" name="junit" rev="4.4" conf="test->default"/>
@@ -143,6 +143,6 @@
         <dependency org="com.thoughtworks" name="selenium-server" rev="1.0-beta-1" conf="test->default"/>
         <dependency org="com.vladium" name="emma" rev="2.0" conf="test->default"/>
 
-        <dependency org="com.sensis" name="wl-webapp-testbed" rev="1.0.6" conf="showcase->default"/>        
+        <dependency org="com.sensis" name="wl-webapp-testbed" rev="1.0.7" conf="showcase->default"/>        
     </dependencies>
 </ivy-module>
