@@ -3049,6 +3049,7 @@
                 <targeted>
                     <devices>
                         <device>Apple</device>
+                        <device>Android-OS</device>
                     </devices>
                 </targeted>
             </selection>
