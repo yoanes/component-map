@@ -111,15 +111,28 @@ public class RouteDetailsImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testGetTotalDistanceMetres() throws Throwable {
-        final Double expectedDistance = new Double(100);
+        final double expectedDistance = 100;
         EasyMock.expect(getMockJourneyDescriptor().getTotalDistanceMetres())
                 .andReturn(expectedDistance);
 
         replay();
 
         Assert.assertEquals("distance is wrong",
-                expectedDistance.doubleValue(), getObjectUnderTest()
+                expectedDistance, getObjectUnderTest()
                         .getTotalDistanceMetres(), DOUBLE_COMPARISON_DELTA);
+
+    }
+
+    @Test
+    public void testGetTotalDurationSeconds() throws Throwable {
+        final int expectedDuration = 151;
+        EasyMock.expect(getMockJourneyDescriptor().getTotalDurationSeconds())
+                .andReturn(expectedDuration);
+
+        replay();
+
+        Assert.assertEquals("duration is wrong", expectedDuration,
+                getObjectUnderTest().getTotalDurationSeconds());
 
     }
 

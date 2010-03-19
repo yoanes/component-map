@@ -146,5 +146,12 @@ public class RouteDetailsImpl implements RouteDetails {
         return getJourneyDescriptor().getTotalLegSteps();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public int getTotalDurationSeconds() {
+        return getJourneyDescriptor().getTotalDurationSeconds();
+    }
+
 
 }

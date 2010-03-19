@@ -54,6 +54,11 @@ public interface RouteDetails {
     double getTotalDistanceMetres();
 
     /**
+     * @return Total duration of the route in seconds.
+     */
+    int getTotalDurationSeconds();
+
+    /**
      * @return Total number of legsteps.
      */
     int getTotalLegSteps();
