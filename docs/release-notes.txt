@@ -1,3 +1,10 @@
+==== Version 1.1.4-009 (tag: map_v1_1_4-009) ====
+
+Fixed CUI-166: Map component - remove JavaScript logger in non-dev environments
+
+Ungrade notes:
+- Now depends on wl-core-component 1.0.22.
+
 ==== Version 1.1.4-008 (tag: map_v1_1_4-008) ====
 
 Fixed CUI-141: Map testpage -> Incorrect route is displayed (not connecting start & End points) for a particular direction
