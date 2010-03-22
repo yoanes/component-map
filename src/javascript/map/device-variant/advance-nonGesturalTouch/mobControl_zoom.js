@@ -16,11 +16,11 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 		
 		this.zoomInImage = new Image();
-		this.zoomInImage.src = _MapImgPath_ + 'in.png';
+		this.zoomInImage.src = _MapImgPath_ + 'in.gif';
 		this.zoomInImage.id = 'in';
 		
 		this.zoomOutImage = new Image();
-		this.zoomOutImage.src = _MapImgPath_ + 'out.png';
+		this.zoomOutImage.src = _MapImgPath_ + 'out.gif';
 		this.zoomOutImage.id = 'out';
 	},
 	
