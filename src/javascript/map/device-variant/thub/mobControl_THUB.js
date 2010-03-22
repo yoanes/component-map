@@ -25,19 +25,19 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 		
 		this.northImage = new Image();
-		this.northImage.src = _MapImgPath_ + 'north.png';
+		this.northImage.src = _MapImgPath_ + 'north.gif';
 		this.northImage.id = 'north';
 		
 		this.southImage = new Image();
-		this.southImage.src = _MapImgPath_ + 'south.png';
+		this.southImage.src = _MapImgPath_ + 'south.gif';
 		this.southImage.id = 'south';
 		
 		this.westImage = new Image();
-		this.westImage.src = _MapImgPath_ + 'west.png';
+		this.westImage.src = _MapImgPath_ + 'west.gif';
 		this.westImage.id = 'west';
 		
 		this.eastImage = new Image();
-		this.eastImage.src = _MapImgPath_ + 'east.png';
+		this.eastImage.src = _MapImgPath_ + 'east.gif';
 		this.eastImage.id = 'east';
 	},
 	

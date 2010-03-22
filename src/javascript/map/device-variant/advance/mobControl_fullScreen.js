@@ -21,12 +21,12 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 		
 		this.growImage = new Image();
-		this.growImage.src = _MapImgPath_ + 'maxi.png';
+		this.growImage.src = _MapImgPath_ + 'maxi.gif';
 		this.growImage.style.display = 'block';
 		this.growImage.id = 'grow';
 		
 		this.shrinkImage = new Image();
-		this.shrinkImage.src = _MapImgPath_ + 'mini.png';
+		this.shrinkImage.src = _MapImgPath_ + 'mini.gif';
 		this.shrinkImage.style.display = 'none';
 		this.shrinkImage.id = 'shrink';
 	},
