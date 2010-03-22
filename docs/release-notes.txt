@@ -1,3 +1,7 @@
+==== Version 1.1.5 (tag: map_v1_1_5) ====
+
+Marks the end of iteration 1.1.5 for the Rockit Common UI project.
+
 ==== Version 1.1.4-010 (tag: map_v1_1_4-010) ====
 
 Fixed CUI-162: Map Component - applications unable to obtain total duration of route.
