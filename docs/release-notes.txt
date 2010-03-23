@@ -1,3 +1,8 @@
+==== (PENDING) Version 1.1.5-001 (tag: map_v1_1_5-001) ====
+
+Fixed:
+- CUI-152: Map testpage -> Different Zoom level is observed for same map on high end & low end devices
+
 ==== Version 1.1.5 (tag: map_v1_1_5) ====
 
 Marks the end of iteration 1.1.5 for the Rockit Common UI project.
