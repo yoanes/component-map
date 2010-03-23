@@ -39,7 +39,7 @@ var MobEMS = new Class({
 						var bounds = new OpenLayers.Bounds();
 						bounds.extend(this.formatLatLon(mapOptions.boundingBox.topLeft));
 						bounds.extend(this.formatLatLon(mapOptions.boundingBox.bottomRight));
-						this.Map.zoomToExtent(bounds,true);
+						this.Map.setCenter(bounds.getCenterLonLat(), this.Map.getZoomForExtent(bounds));
 					}
 					/* if no boundingBox set the try the lat,lon and zoom */
 					else if($defined(mapOptions.latitude) && $defined(mapOptions.longitude)) {
