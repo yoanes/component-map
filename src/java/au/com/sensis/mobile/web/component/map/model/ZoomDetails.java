@@ -18,14 +18,24 @@ public interface ZoomDetails {
     boolean isAtMaximumZoom();
 
     /**
-     * Returns the EMS zoom that the map was/is to be rendered using. Required
-     * by AJAX maps that talk to EMS directly.
+     * Returns the EMS zoom that the map was/is to be rendered using.
      *
-     * @return the EMS zoom that the map was/is to be rendered using. Required
-     *         by AJAX maps that talk to EMS directly.
+     * @see #getEmsJavaScriptZoom()
+     * @return the EMS zoom that the map was/is to be rendered using.
      *
      *         TODO: This method should possibly be moved into the
      *         {@link au.com.sensis.wireless.manager.mapping.MapUrl}.
      */
     int getEmsZoom();
+
+    /**
+     * Returns the EMS JavaScript API zoom that the map was/is to be rendered
+     * using. Required by AJAX maps that talk to EMS directly. This is different
+     * to {@link #getEmsZoom()} because the EMS Soap and EMS JavaScript APIs use
+     * a slightly different zoom mapping.
+     *
+     * @return Returns the EMS JavaScript API zoom that the map was/is to be
+     *         rendered using. Required by AJAX maps that talk to EMS directly.
+     */
+    int getEmsJavaScriptZoom();
 }

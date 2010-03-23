@@ -96,7 +96,7 @@
                     var mapOptions = {                
                         'longitude': <c:out value="${map.mapUrl.mapCentre.longitude}"/>, 
                         'latitude': <c:out value="${map.mapUrl.mapCentre.latitude}"/>, 
-                        'zoom': <c:out value="${map.zoomDetails.emsZoom}"/>
+                        'zoom': <c:out value="${map.zoomDetails.emsJavaScriptZoom}"/>
                     };
                 </c:otherwise>
             </c:choose> 

@@ -54,4 +54,11 @@ public class ZoomDetailsImpl implements ZoomDetails {
         return atMinimumZoom;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public int getEmsJavaScriptZoom() {
+        return getEmsZoom() - 1;
+    }
+
 }
