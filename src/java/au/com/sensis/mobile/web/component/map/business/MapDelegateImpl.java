@@ -20,6 +20,7 @@ import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
+import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
@@ -300,6 +301,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 logger.debug("Will retrieve map for device: "
                         + mobileContext.getDevice().getName());
             }
+
             MapUrl mapUrl = null;
 
             final UserContext userContext = mobileContext.asUserContext();
@@ -323,12 +325,12 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                         + mobileContext.getDevice().getName());
             }
 
-            final int zoomLevel = getEmsManager().getPoiMapZoom(screenDimensions, mapCentre,
-                    poiIcons, getPoiMapRadiusMultiplier(), mobilesZoomThreshold);
-            final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
-            return MapImpl.createMapRetrievalDeferrendInstance(mapCentre, mapCentre,
-                    mapLayer, resolvedIcons, zoomLevel, emsZoomLevel,
-                    isZoomLevelMin(zoomLevel), isZoomLevelMax(zoomLevel));
+            final MobilesBoundingBox mobilesBoundingBox
+                = getEmsManager().getPoiMapBoundingBox(mapCentre, poiIcons,
+                        getPoiMapRadiusMultiplier());
+            return MapImpl.createBoundingBoxMapRetrievalDeferredInstance(mapCentre, mapCentre,
+                    mapLayer, resolvedIcons, mobilesBoundingBox,
+                    getEmsManager().getEmsZoomLevel(mobilesZoomThreshold));
         }
 
     }
@@ -338,7 +340,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      */
     public Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, final MapLayer existingMapLayer,
-            final List<IconDescriptor> poiIcons,
+            final List<IconDescriptor> poiIcons, final int mobilesZoomThreshold,
             final Action mapManipulationAction,
             final MobileContext mobileContext) {
 
@@ -349,20 +351,20 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             getEmsManager().resolvePoiIcons(originalMapCentrePoint,
                     MobilesIconType.CROSS_HAIR, poiIcons, screenDimensions);
 
-        final PanZoomDetail panZoomDetail =
-                createMapManipulationPanZoomDetail(existingMapUrl,
-                        mapManipulationAction);
         final MapLayer newMapLayer =
                 createMapLayerAfterAction(existingMapLayer,
                         mapManipulationAction);
-        final int emsZoomLevel =
-                getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
 
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve manipulated POI map for device: "
                         + mobileContext.getDevice().getName());
             }
+            final PanZoomDetail panZoomDetail =
+                createMapManipulationPanZoomDetail(existingMapUrl,
+                        mapManipulationAction);
+            final int emsZoomLevel =
+                getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
 
             final MapUrl mapUrl =
                     getEmsManager().manipulatePoiMap(screenDimensions,
@@ -378,11 +380,22 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                 logger.debug("Will NOT retrieve manipulated POI map for device: "
                         + mobileContext.getDevice().getName());
             }
-            return MapImpl.createMapRetrievalDeferrendInstance(
-                    originalMapCentrePoint, panZoomDetail.calculateNewCentre(),
-                    newMapLayer, resolvedIcons, panZoomDetail.getZoom(),
-                    emsZoomLevel, isZoomLevelMin(panZoomDetail.getZoom()),
-                    isZoomLevelMax(panZoomDetail.getZoom()));
+
+            // TODO: The implementation of getInitialPoiMap now only calculates a bounding box,
+            // not a zoom level. The client side JavaScript is responsible for calculating the zoom
+            // level based on the mobilesZoomThreshold. There is no way for the server side to
+            // calculate the zoom because it doesn't know the dimensions of the hi end map.
+            // Therefore, this manipulatePoiMap has no choice but to generate the map in the same
+            // way as getInitialPoiMap. Remember to change this in the event that we allow the
+            // webapp clients to be made aware of pan and zoom changes for hi end maps.
+            final MobilesBoundingBox mobilesBoundingBox
+                = getEmsManager().getPoiMapBoundingBox(originalMapCentrePoint, poiIcons,
+                    getPoiMapRadiusMultiplier());
+            return MapImpl.createBoundingBoxMapRetrievalDeferredInstance(originalMapCentrePoint,
+                    originalMapCentrePoint, newMapLayer, resolvedIcons, mobilesBoundingBox,
+                    getEmsManager().getEmsZoomLevel(mobilesZoomThreshold));
+
+
         }
     }
 

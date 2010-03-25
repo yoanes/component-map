@@ -163,6 +163,19 @@ public interface Map {
     boolean isBoundingBoxDefined();
 
     /**
+     * If {@link #isBoundingBoxDefined()} is true, then this method may return
+     * an EMS JavaScript zoom level that the JavaScript maps should not exceed
+     * (zoom in beyond). ie. If the bounding box of the {@link #getMapUrl()}
+     * would result in a zoom level exceeding this threshold, the map should be
+     * clamped to the threshold.
+     *
+     * @return If {@link #isBoundingBoxDefined()} is true, then this method may
+     *         return an EMS JavaScript zoom level that the JavaScript maps
+     *         should not exceed (zoom in beyond).
+     */
+    Integer getBoundingBoxEmsJavaScriptZoomInThreshold();
+
+    /**
      * @return The {@link ZoomDetails} of the map.
      * @throws IllegalStateException thrown if {@link #isZoomDetailsDefined()} is false.
      */

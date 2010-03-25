@@ -268,6 +268,9 @@ public interface MapDelegate {
      *            MobileContext)}.
      * @param poiIcons
      *            List of icons to render on the map.
+     * @param mobilesZoomThreshold
+     *            Same param as for getInitialPoiMap. TODO: only required as a hack for now.
+     *            See release notes for version 1.1.5-002 and the implementation comments.
      * @param mapManipulationAction
      *            {@link Action} describing the type of manipulation to be
      *            performed.
@@ -277,7 +280,7 @@ public interface MapDelegate {
      */
     Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, MapLayer existingMapLayer,
-            final List<IconDescriptor> poiIcons,
+            final List<IconDescriptor> poiIcons, final int mobilesZoomThreshold,
             final Action mapManipulationAction,
             final MobileContext mobileContext);
 

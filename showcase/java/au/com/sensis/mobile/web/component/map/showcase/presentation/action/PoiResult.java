@@ -126,6 +126,53 @@ public final class PoiResult {
     }
 
     /**
+     * @return array of PoiResults matching a "bars" near "toora vic" search
+     *         in the WhereisMobile SSO dev environment (as of 05 Mar 2010).
+     */
+    public static PoiResult[]
+                            createWhereisMobileCafeNearbyTullamarineVicResults() {
+
+        final List<PoiResult> results = new ArrayList<PoiResult>();
+
+        final double freightAwayDeliLat = -37.695815;
+        final double freightAwayDeliLon = 144.870019;
+        results.add(new PoiResult("Freight Away Deli",
+                "yellowCoreCombinedDataSource",
+                "International Drv, Tullamarine, VIC", freightAwayDeliLat,
+                freightAwayDeliLon));
+
+        final double jeannettesGourmetKitchenLat = -37.69518;
+        final double jeannettesGourmetKitchenLon = 144.87038;
+        results.add(new PoiResult("Jeneatte's Gourmet Kitchen",
+                "yellowCoreCombinedDataSource",
+                "Nippon Express, Tullamarine, VIC", jeannettesGourmetKitchenLat,
+                jeannettesGourmetKitchenLon));
+
+        final double costLessCurtainsPtyLtdLat = -37.70822;
+        final double costLessCurtainsPtyLtdLon = 144.87842;
+        results.add(new PoiResult("Cost Less Curtains Pty Ltd",
+                "yellowCoreCombinedDataSource",
+                "51 Sharps Rd, Tullamarine, VIC", costLessCurtainsPtyLtdLat,
+                costLessCurtainsPtyLtdLon));
+
+        final double melroseLoungeLat = -37.7047;
+        final double melroseLoungeLon = 144.88424;
+        results.add(new PoiResult("Melrose Lounge",
+                "yellowCoreCombinedDataSource",
+                "1 Melrose Crt, Tullamarine, VIC", melroseLoungeLat,
+                melroseLoungeLon));
+
+        final double cafeLilacLat = -37.70142;
+        final double cafeLilacLon = 144.88608;
+        results.add(new PoiResult("Cafe Lilac",
+                "yellowCoreCombinedDataSource",
+                "Fcty 2a/ 24 Carrick Drv, Tullamarine, VIC", cafeLilacLat,
+                cafeLilacLon));
+
+        return results.toArray(new PoiResult[] {});
+    }
+
+    /**
      * @return array of IconDescriptor corresponding to
      *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
      */
@@ -170,6 +217,24 @@ public final class PoiResult {
 
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileBassettSmithValuersNearbyBrightonVicResults()) {
+            iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
+                    poiResult.getLon()));
+        }
+        return iconDescriptors;
+    }
+
+    /**
+     * @return array of IconDescriptor corresponding to
+     *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
+     */
+    public static List<IconDescriptor>
+        createWhereisMobileCafeNearbyTullamarineVicIconDescriptors() {
+
+        final List<IconDescriptor> iconDescriptors =
+            new ArrayList<IconDescriptor>();
+
+        for (final PoiResult poiResult : PoiResult
+                .createWhereisMobileCafeNearbyTullamarineVicResults()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
                     poiResult.getLon()));
         }

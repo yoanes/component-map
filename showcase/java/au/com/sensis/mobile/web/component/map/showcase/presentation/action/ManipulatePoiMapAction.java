@@ -24,6 +24,7 @@ public class ManipulatePoiMapAction extends BusinessAction implements
             "barsNearToorakVic";
     private static final String BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
         = "bassettSmithValuersNear140ChurchStBrightonVic";
+    private static final String CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY = "cafeNearTullamarineVic";
 
     private ManipulateMapForm manipulateMapForm;
 
@@ -31,6 +32,8 @@ public class ManipulatePoiMapAction extends BusinessAction implements
     private MapDelegate mapDelegate;
 
     private Map map;
+
+    private int defaultZoom;
 
     /**
      * Executes this action and returns a result name.
@@ -49,6 +52,7 @@ public class ManipulatePoiMapAction extends BusinessAction implements
                             getModel().getMapLayer(),
                             PoiResult
                                     .createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
+                            getDefaultZoom(),
                             getModel().getAction(), getContext());
         } else if (BARS_NEAR_TOORAK_VIC_SEARCH_KEY.equals(getModel()
                 .getSearch())) {
@@ -59,6 +63,7 @@ public class ManipulatePoiMapAction extends BusinessAction implements
                             getModel().getMapLayer(),
                             PoiResult
                                     .createWhereisMobileBarsNearbyToorakVicIconDescriptors(),
+                            getDefaultZoom(),
                             getModel().getAction(), getContext());
         } else if (BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
                 .equals(getModel().getSearch())) {
@@ -68,7 +73,17 @@ public class ManipulatePoiMapAction extends BusinessAction implements
                 getModel().getMapLayer(),
                 PoiResult
                         .createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors(),
+                getDefaultZoom(),
                 getModel().getAction(), getContext());
+        } else if (CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY
+                .equals(getModel().getSearch())) {
+            map = getMapDelegate().manipulatePoiMap(
+                    getModel().getOrignalMapCentre(),
+                    getModel().getMapUrl(),
+                    getModel().getMapLayer(),
+                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),
+                    getDefaultZoom(),
+                    getModel().getAction(), getContext());
         } else {
             throw new UnsupportedOperationException("Unsupported search key: '"
                     + getModel().getSearch() + "'");
@@ -133,6 +148,20 @@ public class ManipulatePoiMapAction extends BusinessAction implements
      */
     public void setMap(final Map map) {
         this.map = map;
+    }
+
+    /**
+     * @return the defaultZoom
+     */
+    public int getDefaultZoom() {
+        return defaultZoom;
+    }
+
+    /**
+     * @param defaultZoom the defaultZoom to set
+     */
+    public void setDefaultZoom(final int defaultZoom) {
+        this.defaultZoom = defaultZoom;
     }
 
 }

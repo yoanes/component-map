@@ -9,6 +9,7 @@ import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
 import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
+import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
 
 /**
@@ -51,6 +52,8 @@ public final class MapImpl implements Map {
     private RouteDetails routeDetails;
     private ZoomDetails zoomDetails;
 
+    private Integer boundingBoxEmsZoomInThreshold;
+
     /**
      * Private constructor. Use one of the create* factory methods instead (see
      * Martin Fowler's "Refactoring" book). They have much more descriptive
@@ -90,6 +93,19 @@ public final class MapImpl implements Map {
 
         setZoomDetails(
                 new ZoomDetailsImpl(emsZoom, atMinimumZoom, atMaximumZoom));
+    }
+
+    private MapImpl(final WGS84Point originalMapCentre,
+            final MapLayer mapLayer, final MapUrl mapUrl,
+            final MapImageStatus mapImageStatus,
+            final List<ResolvedIcon> resolvedIcons,
+            final Integer emsZoomThreshold) {
+        setOriginalMapCentre(originalMapCentre);
+        setMapLayer(mapLayer);
+        setStatus(mapImageStatus);
+        setMapUrl(mapUrl);
+        setResolvedIcons(resolvedIcons);
+        setBoundingBoxEmsZoomInThreshold(emsZoomThreshold);
     }
 
     /**
@@ -267,6 +283,41 @@ public final class MapImpl implements Map {
                 locationMapUrl,
                 MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT,
                 resolvedIcons, emsZoom, atMinimumZoom, atMaximumZoom);
+    }
+
+    /**
+     * Creates an instance of this {@link MapImpl} for which
+     * {@link #isMapImageRetrievalDeferredToClient()} is true. Call this when
+     * the map image has <b>not</b> been retrieved.
+     *
+     * @param originalMapCentre
+     *            Original centre of the map.
+     * @param currentMapCentre
+     *            Current centre of the map.
+     * @param mapLayer
+     *            {@link MapLayer} requested.
+     * @param resolvedIcons
+     *            List of {@link ResolvedIcon}s to be used for
+     *            client generated maps.
+     * @param mobilesBoundingBox Bounding box of the map.
+     * @param emsZoomInThreshold EMS zoom threshold above which the JavaScript
+     *      map should not exceed.
+     * @return an instance of this {@link MapImpl} for which
+     *         {@link #isMapImageRetrievalDeferredToClient()} is true.
+     */
+    public static MapImpl createBoundingBoxMapRetrievalDeferredInstance(
+            final WGS84Point originalMapCentre, final WGS84Point currentMapCentre,
+            final MapLayer mapLayer,
+            final List<ResolvedIcon> resolvedIcons,
+            final MobilesBoundingBox mobilesBoundingBox,
+            final Integer emsZoomInThreshold) {
+        final LocationMapUrl locationMapUrl = new LocationMapUrl();
+        locationMapUrl.setMapCentre(currentMapCentre);
+        locationMapUrl.setBoundingBox(mobilesBoundingBox);
+        return new MapImpl(originalMapCentre, mapLayer,
+                locationMapUrl,
+                MapImageStatus.MAP_IMAGE_RETRIEVAL_DEFERRED_TO_CLIENT,
+                resolvedIcons, emsZoomInThreshold);
     }
 
     /**
@@ -534,6 +585,32 @@ public final class MapImpl implements Map {
      */
     private void setZoomDetails(final ZoomDetails zoomDetails) {
         this.zoomDetails = zoomDetails;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Integer getBoundingBoxEmsJavaScriptZoomInThreshold() {
+        if (getBoundingBoxEmsZoomInThreshold() != null) {
+            return getBoundingBoxEmsZoomInThreshold() - 1;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return the boundingBoxEmsZoomInThreshold
+     */
+    private Integer getBoundingBoxEmsZoomInThreshold() {
+        return boundingBoxEmsZoomInThreshold;
+    }
+
+    /**
+     * @param boundingBoxEmsZoomInThreshold the boundingBoxEmsZoomInThreshold to set
+     */
+    private void setBoundingBoxEmsZoomInThreshold(
+            final Integer boundingBoxEmsZoomInThreshold) {
+        this.boundingBoxEmsZoomInThreshold = boundingBoxEmsZoomInThreshold;
     }
 
 }

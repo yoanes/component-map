@@ -35,6 +35,7 @@
             scope="prototype">
         <property name="locationDelegate" ref="locationDelegate"/>
         <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+        <property name="defaultZoom" value="${app.service.location.defaultZoomLevel}" />            
     </bean>
     
     <bean id="getRouteAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetRouteAction"

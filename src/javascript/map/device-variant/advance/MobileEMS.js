@@ -39,7 +39,20 @@ var MobEMS = new Class({
 						var bounds = new OpenLayers.Bounds();
 						bounds.extend(this.formatLatLon(mapOptions.boundingBox.topLeft));
 						bounds.extend(this.formatLatLon(mapOptions.boundingBox.bottomRight));
-						this.Map.setCenter(bounds.getCenterLonLat(), this.Map.getZoomForExtent(bounds));
+						
+						/**
+	                     * Special case for POI maps. The bounding box is considered the minimum area
+	                     * to be viewed. Whereas the zoom might be more zoomed out to give the user more context
+	                     * for where the POIs are. 
+	                     */
+						var zoomForExtent = this.Map.getZoomForExtent(bounds);
+						if ($defined(mapOptions.zoomInThreshold)) {
+							var newZoom = zoomForExtent >= mapOptions.zoomInThreshold ? 
+									mapOptions.zoomInThreshold : zoomForExtent;
+						} else {
+							var newZoom = zoomForExtent;
+						}
+						this.Map.setCenter(bounds.getCenterLonLat(), newZoom);
 					}
 					/* if no boundingBox set the try the lat,lon and zoom */
 					else if($defined(mapOptions.latitude) && $defined(mapOptions.longitude)) {

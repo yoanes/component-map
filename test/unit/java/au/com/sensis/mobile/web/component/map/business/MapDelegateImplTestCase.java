@@ -700,15 +700,16 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                                getMockScreenDimensions()).atLeastOnce();
+                getMockScreenDimensions());
 
         final int mobilesZoomThreshold = 4;
-        EasyMock.expect(mockEmsManager.getPoiMapZoom(
-                EasyMock.same(getMockScreenDimensions()), EasyMock.eq(getPoint1()),
+        EasyMock.expect(mockEmsManager.getPoiMapBoundingBox(
+                EasyMock.eq(getPoint1()),
                 EasyMock.eq(iconDescriptors),
-                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),
-                EasyMock.eq(mobilesZoomThreshold))).andReturn(ZOOM_LEVEL);
-        EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
+                    .andReturn(getMockMobilesBoundingBox());
+        EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
+                EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
@@ -729,8 +730,13 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 map.getMapUrl());
         Assert.assertEquals("mapUrl has wrong mapCentre", getPoint1(),
                 map.getMapUrl().getMapCentre());
-        Assert.assertEquals("mapUrl has wrong zoom", ZOOM_LEVEL,
+        Assert.assertEquals("mapUrl has wrong zoom", 0,
                 map.getMapUrl().getZoom());
+
+        Assert.assertFalse("isZoomDetailsDefined() should be false", map.isZoomDetailsDefined());
+        Assert.assertTrue("isBoundingBoxDefined() should be true", map.isBoundingBoxDefined());
+        Assert.assertEquals("geMobilesBoundingBox() is wrong", getMockMobilesBoundingBox(),
+                map.getMapUrl().getBoundingBox());
 
         Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
                 map.getResolvedIcons());
@@ -738,9 +744,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertSame("map has wrong originalMapCentre", getPoint1(),
                 map.getOriginalMapCentre());
 
-        assertMapLayers(map, false, false, true);
+        Assert.assertEquals("getBoundingBoxEmsJavaScriptZoomInThreshold() is wrong",
+                new Integer(EMS_ZOOM_LEVEL - 1),
+                map.getBoundingBoxEmsJavaScriptZoomInThreshold());
 
-        assertZoomDetails(map, EMS_ZOOM_LEVEL, false, false);
+        assertMapLayers(map, false, false, true);
     }
 
     @Test
@@ -896,10 +904,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
+        final int mobilesZoomThreshold = 4;
         final Map map =
                 getObjectUnderTest().manipulatePoiMap(getPoint2(),
                         getMockExistingMapUrl(), existingMapLayer,
-                        iconDescriptors,
+                        iconDescriptors, mobilesZoomThreshold,
                         mapDelegateAction,
                         getMockMobileContext());
 
@@ -1037,40 +1046,27 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         getMockMobileContext())).andReturn(
                                 getMockScreenDimensions());
 
-        EasyMock.expect(getMockExistingMapUrl().getBoundingBox()).andReturn(
-                getMockMobilesBoundingBox());
-
-        EasyMock.expect(getMockExistingMapUrl().getZoom()).andReturn(
-                oldZoomLevel);
-        EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
-                getPoint1()).atLeastOnce();
-
-        final PanZoomDetail panZoomDetail =
-            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
-                    userMapInteraction, newZoomLevel);
-
-        EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
-            .andReturn(EMS_ZOOM_LEVEL);
+        final int mobilesZoomThreshold = 4;
+        EasyMock.expect(mockEmsManager.getPoiMapBoundingBox(
+                EasyMock.eq(getPoint1()),
+                EasyMock.eq(iconDescriptors),
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
+                    .andReturn(getMockMobilesBoundingBox());
+        EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
+                EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
+        EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
                 MobilesIconType.CROSS_HAIR,
                 iconDescriptors, getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
-        // anyTimes expectations on MockMobilesBoundingBox methods to cater
-        // to multiple possible paths through PanZoomDetail.calculateNewCentre.
-        EasyMock.expect(getMockMobilesBoundingBox().getBottomRight())
-            .andReturn(getPoint4()).anyTimes();
-        EasyMock.expect(getMockMobilesBoundingBox().getTopLeft())
-            .andReturn(getPoint5()).anyTimes();
-
         replay();
 
         final Map map =
-            getObjectUnderTest().manipulatePoiMap(getPoint2(),
+            getObjectUnderTest().manipulatePoiMap(getPoint1(),
                     getMockExistingMapUrl(), existingMapLayer,
-                    iconDescriptors,
+                    iconDescriptors, mobilesZoomThreshold,
                     mapDelegateAction,
                     getMockMobileContext());
 
@@ -1080,23 +1076,30 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         Assert.assertNotNull("map should have non-null mapUrl",
                 map.getMapUrl());
         Assert.assertEquals("mapUrl has wrong mapCentre",
-                panZoomDetail.calculateNewCentre(),
+                getPoint1(),
                 map.getMapUrl().getMapCentre());
-        Assert.assertEquals("mapUrl has wrong zoom", newZoomLevel,
+        Assert.assertEquals("mapUrl has wrong zoom", 0,
                 map.getMapUrl().getZoom());
 
+        Assert.assertFalse("isZoomDetailsDefined() should be false", map.isZoomDetailsDefined());
+        Assert.assertTrue("isBoundingBoxDefined() should be true", map.isBoundingBoxDefined());
+        Assert.assertEquals("geMobilesBoundingBox() is wrong", getMockMobilesBoundingBox(),
+                map.getMapUrl().getBoundingBox());
+
         Assert.assertSame("map has wrong originalMapCentre",
-                getPoint2(), map.getOriginalMapCentre());
+                getPoint1(), map.getOriginalMapCentre());
 
         assertMapLayers(map, MapLayer.Map.equals(expectedMapLayerAfterAction),
                 MapLayer.Photo.equals(expectedMapLayerAfterAction),
                 MapLayer.PhotoWithStreets.equals(expectedMapLayerAfterAction));
 
-        assertZoomDetails(map, EMS_ZOOM_LEVEL, newZoomLevel == MIN_ZOOM,
-                newZoomLevel == MAX_ZOOM);
-
         Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
                 map.getResolvedIcons());
+
+        Assert.assertEquals("getBoundingBoxEmsJavaScriptZoomInThreshold() is wrong",
+                new Integer(EMS_ZOOM_LEVEL - 1),
+                map.getBoundingBoxEmsJavaScriptZoomInThreshold());
+
     }
 
     @Test

@@ -27,11 +27,14 @@ public class GetPoisAction extends BusinessAction implements
         = new WGS84Point(145.0155578, -37.841882);
     private static final WGS84Point LOC_140_CHURCH_ST_BRIGHTON_VIC_COORDINATES
         = new WGS84Point(144.996491, -37.916238);
+    private static final WGS84Point TULLAMARINE_VIC_COORDINATES
+        = new WGS84Point(144.8747924, -37.701235);
 
     private static final String CARS_NEAR_MELBOURNE_VIC_SEARCH_KEY = "carsNearMelbourneVic";
     private static final String BARS_NEAR_TOORAK_VIC_SEARCH_KEY = "barsNearToorakVic";
     private static final String BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
         = "bassettSmithValuersNear140ChurchStBrightonVic";
+    private static final String CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY = "cafeNearTullamarineVic";
 
     private static Logger logger = Logger.getLogger(GetPoisAction.class);
 
@@ -68,6 +71,12 @@ public class GetPoisAction extends BusinessAction implements
                 LOC_140_CHURCH_ST_BRIGHTON_VIC_COORDINATES, MapLayer.Map,
                 PoiResult.createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors(),
                 defaultZoom, getContext());
+        } else if (CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY
+                .equals(getModel().getSearch())) {
+            map = getMapDelegate().getInitialPoiMap(
+                    TULLAMARINE_VIC_COORDINATES, MapLayer.Map,
+                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),
+                    defaultZoom, getContext());
         } else {
             throw new UnsupportedOperationException("Unsupported search key: '"
                     + getModel().getSearch() + "'");

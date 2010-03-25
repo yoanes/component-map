@@ -91,6 +91,14 @@
                             }    
                         } 
                     };
+                    <%--
+                      - Special case for POI maps. The bounding box is considered the minimum area
+                      - to be viewed. Whereas the zoom might be more zoomed out to give the user more context
+                      - for where the POIs are. 
+                      --%>
+                    <c:if test="${map.boundingBoxEmsJavaScriptZoomInThreshold != null}">
+                        mapOptions.zoomInThreshold = <c:out value="${map.boundingBoxEmsJavaScriptZoomInThreshold}"/>;
+                    </c:if>
                 </c:when>
                 <c:otherwise>
                     var mapOptions = {                

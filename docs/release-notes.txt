@@ -1,3 +1,30 @@
+==== Version 1.1.5-002 (tag: map_v1_1_5-002) ====
+
+Fixed:
+- CUI-146: Whereis Mobile - Naer by search Result- All POI's are not displayed in the initial displayed map
+    - MapDelegateImpl.getInitialPoiMap now only calculates a bounding box, not a zoom level. The client side 
+      JavaScript is responsible for calculating the zoom level based on the mobilesZoomThreshold. 
+      There is no way for the server side to calculate the zoom because it doesn't know the dimensions of the 
+      hi end map. 
+    - Map interface has new method:
+        Integer getBoundingBoxEmsJavaScriptZoomInThreshold();
+    - advance/MobileEMS.js constructor accepts optional mapOptions.zoomInThreshold that is applied
+      if a bounding box is specified. setup.tag updated to pass this in.
+    - Showcase contains new POI map test case that exhibits this issue: "WM cafe near Tullamarine VIC".
+    
+Upgrade notes:
+- Now depends on sdpCommon-manager 1.0-070.
+- MapDelegate.manipulatePoiMap now requires the same mobilesZoomThreshold parameter that you pass to
+  getInitialPoiMap. This is only required as a consequence of fixing CUI-146 above. Given that the 
+  webapp currently has no way of knowing whether the user has zoomed or panned a hi end map, there is 
+  no way for the delegate to know what zoom level to use when manipulatePoiMap is called. As such,
+  the implementation of manipulatePoiMap now simply displays the original POI map with possibly
+  only a different mapLayer. Therefore, the manipulatePoiMap now requires the same mobilesZoomThreshold
+  as getInitialPoiMap. This requirement can be changed in future if we communicate hi end map 
+  zoom and pan changes to webapps.
+- MapDelegate.getInitialPoiMap and MapDelegate.manipulatePoiMap will not return zoom details for
+  hi end maps. Like with routing, this will have implications for WhereisMobile reporting. 
+
 ==== Version 1.1.5-001 (tag: map_v1_1_5-001) ====
 
 Fixed:

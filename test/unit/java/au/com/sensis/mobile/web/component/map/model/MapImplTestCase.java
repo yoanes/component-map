@@ -31,6 +31,7 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
 
     private static final int EMS_ZOOM_LEVEL = 16;
     private static final int ZOOM_LEVEL = 5;
+    private static final int MOBILESZOOM_LEVEL = 5;
     private static final String ROUTE_IDENTIFIER = "myFunkyRoute";
     private WGS84PointTestDataFactory wgs84PointTestDataFactory;
     private WGS84Point wgs84Point1;
@@ -136,6 +137,54 @@ public class MapImplTestCase extends AbstractJUnit4TestCase {
                 map.getZoomDetails().isAtMinimumZoom());
         Assert.assertTrue("isAtMaximumZoom should be true",
                 map.getZoomDetails().isAtMaximumZoom());
+
+        Assert.assertFalse("isBoundingBoxDefined() should be false",
+                map.isBoundingBoxDefined());
+    }
+
+    @Test
+    public void testCreateBoundingBoxMapRetrievalDeferredInstance() throws Throwable {
+        final List<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        final Map map =
+                MapImpl.createBoundingBoxMapRetrievalDeferredInstance(
+                        getWgs84Point1(), getWgs84Point2(), MapLayer.Map, resolvedIcons,
+                        getMockMobilesBoundingBox(), EMS_ZOOM_LEVEL);
+
+        Assert.assertFalse("isMapImageRetrieved() should be false",
+                map.isMapImageRetrieved());
+        Assert.assertTrue(
+                "isMapImageRetrievalDeferredToClient() should be true",
+                map.isMapImageRetrievalDeferredToClient());
+
+        Assert.assertNotNull("mapUrl should not be null", map
+                .getMapUrl());
+        Assert.assertEquals("mapCentre is wrong", getWgs84Point2(),
+                map.getMapUrl().getMapCentre());
+        Assert.assertEquals("zoom is wrong", 0,
+                map.getMapUrl().getZoom());
+        Assert.assertEquals("imageUrl is wrong", StringUtils.EMPTY,
+                map.getMapUrl().getImageUrl());
+        Assert.assertEquals("boundingBox is wrong", getMockMobilesBoundingBox(),
+                map.getMapUrl().getBoundingBox());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+
+        Assert.assertEquals("originalMapCentre is wrong", getWgs84Point1(),
+                map.getOriginalMapCentre());
+        Assert.assertTrue("isMapLayer is wrong", map.isMapLayer());
+        Assert.assertFalse("isPhotoLayer is wrong", map.isPhotoLayer());
+        Assert.assertFalse("isPhotoWithStreetsLayer is wrong",
+                map.isPhotoWithStreetsLayer());
+
+        Assert.assertFalse("isZoomDetailsDefined() should be false",
+                map.isZoomDetailsDefined());
+        Assert.assertTrue("isBoundingBoxDefined() should be true",
+                map.isBoundingBoxDefined());
+
+        Assert.assertEquals("getBoundingBoxEmsJavaScriptZoomInThreshold() is wrong",
+                new Integer(EMS_ZOOM_LEVEL - 1),
+                map.getBoundingBoxEmsJavaScriptZoomInThreshold());
     }
 
     @Test
