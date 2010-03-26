@@ -12,7 +12,7 @@ Fixed:
       if a bounding box is specified. setup.tag updated to pass this in.
     - Showcase contains new POI map test case that exhibits this issue: "WM cafe near Tullamarine VIC".
     
-- map.mimg and photo.mimg updated slightly to different images. 
+- CUI-173  Map component - icons 
     
 Upgrade notes:
 - Now depends on sdpCommon-manager 1.0-070.
