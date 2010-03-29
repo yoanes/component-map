@@ -24,9 +24,6 @@
                                     <property name="background-color">
                                         <colorRGB>#efefef</colorRGB>
                                     </property>
-                                    <property name="position">
-                                        <keyword>relative</keyword>
-                                    </property>
                                 </properties>
                             </rule>
                             <rule>
@@ -101,6 +98,9 @@
                                     <property name="height">
                                         <length units="px">200</length>
                                     </property>
+                                    <property name="position">
+                                        <keyword>relative</keyword>
+                                    </property>
                                 </properties>
                             </rule>
                         </rules>
@@ -130,6 +130,9 @@
                                     <property name="height">
                                         <length units="px">300</length>
                                     </property>
+                                    <property name="position">
+                                        <keyword>relative</keyword>
+                                    </property>
                                 </properties>
                             </rule>
                         </rules>
@@ -158,6 +161,9 @@
                                 <properties>
                                     <property name="height">
                                         <length units="px">300</length>
+                                    </property>
+                                    <property name="position">
+                                        <keyword>relative</keyword>
                                     </property>
                                 </properties>
                             </rule>
