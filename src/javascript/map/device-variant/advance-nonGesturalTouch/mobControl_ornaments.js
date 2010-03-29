@@ -63,9 +63,7 @@ EMS.Control.Ornaments = OpenLayers.Class(OpenLayers.Control, {
 	},
 	
 	
-	rePosition: function() {
-		this.map.updateSize();
-		
+	rePosition: function() {		
 		this.calcPosition();
 		
 		this.northDiv.style.top = this.positions.north.y + 'px';

@@ -67,9 +67,7 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.map.div.appendChild(this.div);
 	},
 	
-	rePosition: function() {
-		this.map.updateSize();
-		
+	rePosition: function() {		
 		var newPosition = this.calcPosition();
 		
 		this.div.style.top = newPosition.y + 'px';

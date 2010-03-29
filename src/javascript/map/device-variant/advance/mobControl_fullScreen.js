@@ -60,6 +60,9 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		/* do resize on click of the resize button */
 		this.div.addEventListener('touchend', function(e) {this.doMapResize();}.bind(this), false);
 		
+		/* do resize on resize event */
+		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
+		
 		/* do resize when the device is tilted */
 		this.div.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
 		
@@ -83,13 +86,12 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 			window.scroll(0, this.map.div.parentNode.offsetTop);
 		}
 		
-		this.rePosition();
+		this.map.updateSize();
+		
 		this.toggle();
 	},
 	
-	rePosition: function() {
-		this.map.updateSize();
-		
+	rePosition: function() {	
 		var newPosition = this.calcPosition();
 		
 		this.div.style.top = newPosition.y + 'px';

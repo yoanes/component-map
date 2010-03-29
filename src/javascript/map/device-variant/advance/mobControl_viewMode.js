@@ -88,9 +88,7 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		}
 	},
 	
-	rePosition: function() {
-		this.map.updateSize();
-		
+	rePosition: function() {	
 		var newPosition = this.calcPosition();
 		
 		this.div.style.top = newPosition.y + 'px';
