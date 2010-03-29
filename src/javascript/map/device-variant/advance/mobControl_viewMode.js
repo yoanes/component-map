@@ -20,12 +20,12 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 		
 		this.photoImage = new Image();
-		this.photoImage.src = _MapImgPath_ + 'photo.gif';
+		this.photoImage.src = _MapControlsPath_ + 'photo.png';
 		this.photoImage.style.display = 'block';
 		this.photoImage.id = 'grow';
 		
 		this.mapImage = new Image();
-		this.mapImage.src = _MapImgPath_ + 'map.gif';
+		this.mapImage.src = _MapControlsPath_ + 'map.png';
 		this.mapImage.style.display = 'none';
 		this.mapImage.id = 'shrink';
 	},
@@ -70,7 +70,8 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 	doViewChange: function() {
 		if(this.inPhotoMode) { 
 			/* switch to map view */
-			this.map.setBaseLayer(this.map.whereis_street_wms);
+			this.map.whereis_street_wms.setVisibility(1);
+			this.map.whereis_photo_wms.setVisibility(0);
 			this.toggle();
 			this.inPhotoMode = false;
 			
@@ -78,7 +79,8 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		}
 		else {
 			/* switch to photo view */
-			this.map.setBaseLayer(this.map.whereis_photo_wms);
+			this.map.whereis_photo_wms.setVisibility(1);
+			this.map.whereis_street_wms.setVisibility(0);
 			this.toggle();
 			this.inPhotoMode = true;
 			

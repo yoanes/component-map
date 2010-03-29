@@ -22,6 +22,7 @@
         <bundle name="advance-nonGesturalTouch" parent="common">
         	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
         		<include name="MobileEMS.js" />
+        		<include name="patch.js" />
             </fileset>
         	<fileset dir="${src.javascript.dir}/map/device-variant/advance-nonGesturalTouch">
             </fileset>

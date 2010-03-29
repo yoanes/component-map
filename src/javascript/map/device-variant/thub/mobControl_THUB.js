@@ -21,65 +21,71 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	westImage: null,
 	eastImage: null,
 	
+	positions: {},
+	
 	initialize: function() {
 		this.active = true;
 		
 		this.northImage = new Image();
-		this.northImage.src = _MapImgPath_ + 'north.gif';
+		this.northImage.src = _MapControlsPath_ + 'north.png';
 		this.northImage.id = 'north';
 		
 		this.southImage = new Image();
-		this.southImage.src = _MapImgPath_ + 'south.gif';
+		this.southImage.src = _MapControlsPath_ + 'south.png';
 		this.southImage.id = 'south';
 		
 		this.westImage = new Image();
-		this.westImage.src = _MapImgPath_ + 'west.gif';
+		this.westImage.src = _MapControlsPath_ + 'west.png';
 		this.westImage.id = 'west';
 		
 		this.eastImage = new Image();
-		this.eastImage.src = _MapImgPath_ + 'east.gif';
+		this.eastImage.src = _MapControlsPath_ + 'east.png';
 		this.eastImage.id = 'east';
 	},
 	
+	calcPosition: function() {
+		this.positions.north = new OpenLayers.Pixel(
+			(this.map.size.w/2) - (this.controlButtonSize.w/2),
+			this.controlButtonPadding
+		);
+		
+		this.positions.south = new OpenLayers.Pixel(
+			(this.map.size.w/2) - (this.controlButtonSize.w/2),
+			this.map.size.h - this.controlButtonSize.h - this.controlButtonPadding
+		);
+		
+		this.positions.west = new OpenLayers.Pixel(
+			this.controlButtonPadding,
+			(this.map.size.h/2) - (this.controlButtonSize.h/2)
+		);
+		
+		this.positions.east = new OpenLayers.Pixel(
+			this.map.size.w - this.controlButtonSize.w - this.controlButtonPadding,
+			(this.map.size.h/2) - (this.controlButtonSize.h/2)
+		);
+		
+	},
+	
 	draw: function() {
-		/* initialize the button size on draw */
-		if(this.controlButtonSize == null)
-			this.controlButtonSize = new OpenLayers.Size(this.northImage.width, this.northImage.height); 
+		/* initialize the button size on draw. Presumably all the images are of the same size */
+		this.controlButtonSize = new OpenLayers.Size(this.northImage.width, this.northImage.height); 
 		
-		var northExactPosition = new OpenLayers.Pixel(
-				(this.map.size.w/2) - (this.controlButtonSize.w/2),
-				this.controlButtonPadding
-		);
-		
-		var southExactPosition = new OpenLayers.Pixel(
-				(this.map.size.w/2) - (this.controlButtonSize.w/2),
-				this.map.size.h - this.controlButtonSize.h - this.controlButtonPadding
-		);
-		
-		var westExactPosition = new OpenLayers.Pixel(
-				this.controlButtonPadding,
-				(this.map.size.h/2) - (this.controlButtonSize.h/2)
-		);
-		
-		var eastExactPosition = new OpenLayers.Pixel(
-				this.map.size.w - this.controlButtonSize.w - this.controlButtonPadding,
-				(this.map.size.h/2) - (this.controlButtonSize.h/2)
-		);
+		this.calcPosition();
 		
 		this.nDiv = OpenLayers.Util.createDiv('PanNorth_Contoller',
-				northExactPosition, this.controlButtonSize, 
+				this.positions.north, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
 		this.sDiv = OpenLayers.Util.createDiv('PanSouth_Contoller',
-				southExactPosition, this.controlButtonSize, 
+				this.positions.south, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
 		this.wDiv = OpenLayers.Util.createDiv('PanWest_Contoller',
-				westExactPosition, this.controlButtonSize, 
+				this.positions.west, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
 		this.eDiv = OpenLayers.Util.createDiv('PanEast_Contoller',
-				eastExactPosition, this.controlButtonSize, 
+				this.positions.east, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
 		/* set this right otherwise the image can't be seen */
@@ -103,7 +109,7 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		/* do resize when the map is resized. Only attached to nDiv under the assumption that
 		 * these controllers can't live on the page without each other
 		 *  */
-		this.nDiv.addEventListener('resize', function(e) {this.redraw();}.bind(this), false);
+		this.nDiv.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		this.map.div.appendChild(this.nDiv);
 		this.map.div.appendChild(this.sDiv);
@@ -111,15 +117,22 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.map.div.appendChild(this.eDiv);
 	},
 	
-	redraw: function() {
-		/* dispose all divs */
-		$(this.nDiv).dispose();
-		$(this.sDiv).dispose();
-		$(this.wDiv).dispose();
-		$(this.eDiv).dispose();
-		
+	rePosition: function() {
 		this.map.updateSize();
-		this.draw();
+		
+		this.calcPosition();
+		
+		this.nDiv.style.top = this.positions.north.y + 'px';
+		this.nDiv.style.left = this.positions.north.x + 'px';
+		
+		this.sDiv.style.top = this.positions.south.y + 'px';
+		this.sDiv.style.left = this.positions.south.x + 'px';
+		
+		this.wDiv.style.top = this.positions.west.y + 'px';
+		this.wDiv.style.left = this.positions.west.x + 'px';
+		
+		this.eDiv.style.top = this.positions.east.y + 'px';
+		this.eDiv.style.left = this.positions.east.x + 'px';
 	},
 	
 	destroy: function() {
