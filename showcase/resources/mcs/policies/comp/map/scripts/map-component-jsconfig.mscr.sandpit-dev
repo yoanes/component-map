@@ -31,7 +31,9 @@
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = '/dev/map-component-imageserver/images/component/map/onmapcontrols/L/';
+_MapImgPath_ = '/dev/map-component-imageserver/images/component/map/';
+_MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/L/';
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
 </data>
                 </embedded>
             </content>
@@ -55,7 +57,10 @@ _MapImgPath_ = '/dev/map-component-imageserver/images/component/map/onmapcontrol
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = '/dev/map-component-imageserver/images/component/map/onmapcontrols/HD/';</data>
+_MapImgPath_ = '/dev/map-component-imageserver/images/component/map/';
+_MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/HD/';
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
+</data>
                 </embedded>            
         	</content>
         </variant>
