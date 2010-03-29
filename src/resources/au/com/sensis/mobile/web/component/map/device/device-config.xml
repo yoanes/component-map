@@ -5,23 +5,43 @@
     xsi:schemaLocation="http://mobile.sensis.com.au/web/component/map/device au.com.sensis.mobile.web.component.map.device.xsd
         http://mobile.sensis.com.au/web/component/core/device au.com.sensis.mobile.web.component.core.device.xsd">
         
-    <!-- 
-      - Component specific device related configuration.
-      -->
-    <deviceConfig xsi:type="map:DeviceConfigType">
+    <identifiedDeviceConfig>
+        <deviceId>PC</deviceId>
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>false</generateServerSideMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+        
+    <identifiedDeviceConfig>
         <deviceId>Apple</deviceId>
-        <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>    
-    <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>PC-Win32</deviceId>
-        <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>    
-    <deviceConfig xsi:type="map:DeviceConfigType">
-        <deviceId>SAGEM-HomeManager</deviceId>
-        <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>   
-    <deviceConfig xsi:type="map:DeviceConfigType">
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>false</generateServerSideMap>
+        </deviceConfig>
+        
+        <userAgentDeviceConfig>
+            <useragentRegex>.*Version/[012]\..*</useragentRegex>
+            <deviceConfig xsi:type="map:DeviceConfig">
+                <generateServerSideMap>true</generateServerSideMap>
+            </deviceConfig>
+        </userAgentDeviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
         <deviceId>Android-OS</deviceId>
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>false</generateServerSideMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>SAGEM-HomeManager</deviceId>
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>false</generateServerSideMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <defaultDeviceConfig xsi:type="map:DeviceConfig">
         <generateServerSideMap>false</generateServerSideMap>
-    </deviceConfig>    
+    </defaultDeviceConfig>
 </core:deviceConfigs>

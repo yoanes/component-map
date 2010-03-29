@@ -1,3 +1,16 @@
+==== Version 1.1.5-003 (tag: map_v1_1_5-003) ====
+
+Fixed:
+-  CUI-100: Map Component - Configure mscr files and device-config.xml to target desired devices
+    - device-config.xml and supporting classes updated to conform to wl-core-component 1.0.24.
+    - au.com.sensis.mobile.web.component.core.device.xsd and au.com.sensis.mobile.web.component.core.device.xjb
+      copied from core component so that they can be made available to the build scripts.
+    - setup.tag now only calls the setup tag of dependencies if map.mapImageRetrievalDeferredToClient is true.  
+- Also a variety of JavaScript fixes for hi end maps.
+
+Upgrade Notes:
+- Now depends on wl-core-component 1.0.24.
+
 ==== Version 1.1.5-002 (tag: map_v1_1_5-002) ====
 
 Fixed:

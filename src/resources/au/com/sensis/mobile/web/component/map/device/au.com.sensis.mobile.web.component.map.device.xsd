@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns="http://mobile.sensis.com.au/web/component/map/device"
-    xmlns:dev="http://mobile.sensis.com.au/web/component/core/device"
+    xmlns:core="http://mobile.sensis.com.au/web/component/core/device"
     targetNamespace="http://mobile.sensis.com.au/web/component/map/device"
     elementFormDefault="unqualified" attributeFormDefault="unqualified"
     version="1.0">
@@ -18,7 +18,7 @@
 
     <!-- ================================================================== -->
     
-    <xs:complexType name="DeviceConfigType">
+    <xs:complexType name="DeviceConfig">
         <xs:annotation>
             <xs:documentation>
                 Defines a set of bundles.
@@ -26,7 +26,7 @@
         </xs:annotation>
         
         <xs:complexContent>
-            <xs:extension base="dev:DeviceConfigType">
+            <xs:extension base="core:AbstractDeviceConfig">
                 <xs:sequence>
                     <xs:element name="generateServerSideMap" type="xs:boolean" 
                         minOccurs="1" maxOccurs="1" default="true"/>

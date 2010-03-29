@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
-import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
+import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfig;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.model.MapImpl;
 import au.com.sensis.sal.common.UserContext;
@@ -45,7 +45,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
     private ScreenDimensionsStrategy screenDimensionsStrategy;
 
-    private DeviceConfigRegistry<DeviceConfigType> deviceConfigRegistry;
+    private DeviceConfigRegistry deviceConfigRegistry;
 
     private int minZoom;
     private int maxZoom;
@@ -143,10 +143,10 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      */
     private boolean deviceNeedsServerSideMapGenerated(
             final MobileContext mobileContext) {
-        final DeviceConfigType deviceConfigType =
+        final DeviceConfig deviceConfig = (DeviceConfig)
                 getDeviceConfigRegistry().getDeviceConfig(
                         mobileContext.getDevice());
-        return deviceConfigType.isGenerateServerSideMap();
+        return deviceConfig.isGenerateServerSideMap();
     }
 
     private boolean isZoomLevelMax(final int zoomLevel) {
@@ -489,7 +489,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * @return the deviceConfigRegistry
      */
-    public DeviceConfigRegistry<DeviceConfigType> getDeviceConfigRegistry() {
+    public DeviceConfigRegistry getDeviceConfigRegistry() {
         return deviceConfigRegistry;
     }
 
@@ -497,7 +497,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * @param deviceConfigRegistry the deviceConfigRegistry to set
      */
     public void setDeviceConfigRegistry(
-            final DeviceConfigRegistry<DeviceConfigType> deviceConfigRegistry) {
+            final DeviceConfigRegistry deviceConfigRegistry) {
         this.deviceConfigRegistry = deviceConfigRegistry;
     }
 

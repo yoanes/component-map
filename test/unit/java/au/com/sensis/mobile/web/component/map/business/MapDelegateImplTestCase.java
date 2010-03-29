@@ -13,7 +13,7 @@ import au.com.sensis.address.WGS84PointTestDataFactory;
 import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.ScreenDimensionsStrategy;
-import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType;
+import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfig;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.sal.common.UserContext;
 import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
@@ -72,9 +72,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     private ScreenDimensions mockScreenDimensions;
     private MobilesBoundingBox mockMobilesBoundingBox;
     private MobilesBoundingBox mockUpdatedMobilesBoundingBox;
-    private DeviceConfigRegistry<DeviceConfigType> mockDeviceConfigRegistry;
+    private DeviceConfigRegistry mockDeviceConfigRegistry;
     private Device mockDevice;
-    private DeviceConfigType deviceConfigType;
+    private DeviceConfig deviceConfig;
     private JourneyDescriptor mockJourneyDescriptor;
 
     /**
@@ -91,7 +91,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         setPoint4(getWgs84PointTestDataFactory().createValidWGS84Point4());
         setPoint5(getWgs84PointTestDataFactory().createValidWGS84Point5());
 
-        setDeviceConfigType(new DeviceConfigType());
+        setDeviceConfig(new DeviceConfig());
 
         setObjectUnderTest(new MapDelegateImpl());
         getObjectUnderTest().setScreenDimensionsStrategy(getMockScreenDimensionsStrategy());
@@ -192,12 +192,12 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     private void recordShouldGenerateServerSideMap(
             final boolean recordShouldGenerateServerSideMap) {
-        getDeviceConfigType().setGenerateServerSideMap(recordShouldGenerateServerSideMap);
+        getDeviceConfig().setGenerateServerSideMap(recordShouldGenerateServerSideMap);
 
         EasyMock.expect(getMockMobileContext().getDevice())
             .andReturn(getMockDevice()).atLeastOnce();
         EasyMock.expect(getMockDeviceConfigRegistry().getDeviceConfig(getMockDevice()))
-            .andReturn(getDeviceConfigType());
+            .andReturn(getDeviceConfig());
     }
 
     private void assertZoomDetails(final Map map, final int expectedEmsZoomLevel,
@@ -2522,7 +2522,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     /**
      * @return the mockDeviceConfigRegistry
      */
-    public DeviceConfigRegistry<DeviceConfigType> getMockDeviceConfigRegistry() {
+    public DeviceConfigRegistry getMockDeviceConfigRegistry() {
         return mockDeviceConfigRegistry;
     }
 
@@ -2530,7 +2530,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
      * @param mockDeviceConfigRegistry the mockDeviceConfigRegistry to set
      */
     public void setMockDeviceConfigRegistry(
-            final DeviceConfigRegistry<DeviceConfigType> mockDeviceConfigRegistry) {
+            final DeviceConfigRegistry mockDeviceConfigRegistry) {
         this.mockDeviceConfigRegistry = mockDeviceConfigRegistry;
     }
 
@@ -2549,17 +2549,17 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     /**
-     * @return the deviceConfigType
+     * @return the deviceConfig
      */
-    public DeviceConfigType getDeviceConfigType() {
-        return deviceConfigType;
+    public DeviceConfig getDeviceConfig() {
+        return deviceConfig;
     }
 
     /**
-     * @param deviceConfigType the deviceConfigType to set
+     * @param deviceConfig the deviceConfig to set
      */
-    public void setDeviceConfigType(final DeviceConfigType deviceConfigType) {
-        this.deviceConfigType = deviceConfigType;
+    public void setDeviceConfig(final DeviceConfig deviceConfig) {
+        this.deviceConfig = deviceConfig;
     }
 
     /**

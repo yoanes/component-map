@@ -38,12 +38,6 @@
                 <property name="validationEnabled" value="true"/>
             </bean>
         </constructor-arg>
-        <constructor-arg index="2">
-            <bean class="au.com.sensis.mobile.web.component.map.device.generated.DeviceConfigType">
-                <property name="deviceId" value="DefaultDevice"/>
-                <property name="generateServerSideMap" value="true"/>
-            </bean>
-        </constructor-arg>
     </bean>
     
     <bean id="map.comp.screenDimensionsStrategy" 

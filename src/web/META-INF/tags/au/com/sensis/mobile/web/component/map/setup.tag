@@ -15,21 +15,21 @@
 
 <core:compMcsBasePath var="compMcsBasePath" />
 
-<%-- Setup components that we depend on. --%>
-<core:setup />
-<ems:setup />
-<util:setup />
-<logging:setup />
-
-<%-- Themes for current component. --%>
-<core:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
-<core:link rel="mcs:theme"  href="${compMcsBasePath}/map/imageSizeCategory.mthm"/>
-
-<%-- Scripts for current component. --%>
-<core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
-<core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
-
-<c:if test="${not empty map}">
+<c:if test="${not empty map && map.mapImageRetrievalDeferredToClient}">
+    <%-- Setup components that we depend on. --%>
+    <core:setup />
+    <ems:setup />
+    <util:setup />
+    <logging:setup />
+    
+    <%-- Themes for current component. --%>
+    <core:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
+    <core:link rel="mcs:theme"  href="${compMcsBasePath}/map/imageSizeCategory.mthm"/>
+    
+    <%-- Scripts for current component. --%>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
+    
     <core:script name="create-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
         
@@ -123,6 +123,6 @@
             );
         }
     </core:script>
-</c:if>
+</c:if>    
 
 <logging:debug logger="${logger}" message="Exiting setup.tag" />
