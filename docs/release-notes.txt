@@ -6,7 +6,7 @@ Fixed:
     - au.com.sensis.mobile.web.component.core.device.xsd and au.com.sensis.mobile.web.component.core.device.xjb
       copied from core component so that they can be made available to the build scripts.
     - setup.tag now only calls the setup tag of dependencies if map.mapImageRetrievalDeferredToClient is true.  
-- Also a variety of JavaScript fixes for hi end maps.
+- Also JavaScript refactoring to distinguish between ornaments and onmapcontrols.
 
 Upgrade Notes:
 - Now depends on wl-core-component 1.0.24.
