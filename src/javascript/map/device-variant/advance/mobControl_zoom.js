@@ -49,13 +49,15 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		var ziDiv = new Element('div');
 		ziDiv.appendChild(this.zoomInImage);
 		ziDiv.style.display = 'inline';
-		ziDiv.addEventListener('touchend', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() + 1);}.bind(this), false);
-
+	/*	ziDiv.addEventListener('touchend', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() + 1);}.bind(this), false); */
+		ziDiv.addEventListener('touchend', function(e) {this.map.zoomIn();}.bind(this), false);
+		
 		/* and another one for zoom Out */
 		var zoDiv = new Element('div');
 		zoDiv.appendChild(this.zoomOutImage);
 		zoDiv.style.display = 'inline';
-		zoDiv.addEventListener('touchend', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() - 1);}.bind(this), false);
+	/*	zoDiv.addEventListener('touchend', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() - 1);}.bind(this), false); */
+		zoDiv.addEventListener('touchend', function(e) {this.map.zoomOut();}.bind(this), false);
 		
 		/* append these zoom divs */
 		this.div.appendChild(ziDiv);
