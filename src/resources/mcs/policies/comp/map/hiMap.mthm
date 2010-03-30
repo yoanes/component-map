@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<variable-policy xmlns="http://www.volantis.com/xmlns/2006/02/marlin-lpdm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpdm="http://www.volantis.com/xmlns/2006/02/marlin-rpdm" xmlns:struct="http://www.volantis.com/xmlns/2005/10/ThemeStruct" xsi:schemaLocation="http://www.volantis.com/xmlns/2006/02/marlin-lpdm http://www.volantis.com/schema/2006/02/marlin-lpdm.xsd">
+    <type>theme</type>
+    <categorization-scheme>custom.imageCategory</categorization-scheme>
+    <variants>
+        <variant>
+            <type>theme</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>Apple</device>
+                        <device>Android-OS</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <content>
+                <theme>
+                    <style-sheet>
+                        <rules>
+                            <rule>
+                                <selector-sequence>
+                                    <id>mapWindow</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="height">
+                                        <length units="px">200</length>
+                                    </property>
+                                    <property name="position">
+                                        <keyword>relative</keyword>
+                                    </property>
+                                </properties>
+                            </rule>
+                        </rules>
+                    </style-sheet>
+                </theme>
+            </content>
+        </variant>
+        <variant>
+            <type>theme</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>PC</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <content>
+                <theme>
+                    <style-sheet>
+                        <rules>
+                            <rule>
+                                <selector-sequence>
+                                    <id>mapWindow</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="height">
+                                        <length units="px">300</length>
+                                    </property>
+                                    <property name="position">
+                                        <keyword>relative</keyword>
+                                    </property>
+                                </properties>
+                            </rule>
+                        </rules>
+                    </style-sheet>
+                </theme>
+            </content>
+        </variant>
+        <variant>
+            <type>theme</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>SAGEM-HomeManager</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <content>
+                <theme>
+                    <style-sheet>
+                        <rules>
+                            <rule>
+                                <selector-sequence>
+                                    <id>mapWindow</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="height">
+                                        <length units="px">300</length>
+                                    </property>
+                                    <property name="position">
+                                        <keyword>relative</keyword>
+                                    </property>
+                                </properties>
+                            </rule>
+                        </rules>
+                    </style-sheet>
+                </theme>
+            </content>
+        </variant>
+    </variants>
+</variable-policy>
