@@ -10,6 +10,9 @@ Other changes:
     - remove map.updateSize from rePosition(). call updateSize() only at doMapResize() at fullScreen.js
 - map.mthm fixes:
     - assign position:relative only to those device with hi end map
+    
+Upgrade Notes:
+- You must redeploy your policies. Also make sure that you have the latest image server.    
 
 ==== Version 1.1.5-003 (tag: map_v1_1_5-003) ====
 
