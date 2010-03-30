@@ -25,6 +25,9 @@
     <util:setup />
     <logging:setup />
     
+    <%-- Themes for current component. --%>
+    <core:link rel="mcs:theme" href="${compMcsBasePath}/map/hiMap.mthm" />
+    
     <%-- Scripts for current component. --%>
     <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
     <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
