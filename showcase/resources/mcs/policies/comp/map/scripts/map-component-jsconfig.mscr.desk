@@ -31,7 +31,10 @@
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = 'http://localhost:8080/common-imageserver/images/component/map/onmapcontrols/L/';
+_MapImgPath_ = 'http://localhost:8080/common-imageserver/images/component/map/';
+_MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/L/';
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
+
 </data>
                 </embedded>
             </content>
@@ -41,7 +44,7 @@ _MapImgPath_ = 'http://localhost:8080/common-imageserver/images/component/map/on
             <selection>
                 <targeted>
                     <devices>
-                        <device>PC-Win32</device>
+                        <device>PC</device>
                         <device>SAGEM-HomeManager</device>
                     </devices>
                 </targeted>
@@ -55,7 +58,9 @@ _MapImgPath_ = 'http://localhost:8080/common-imageserver/images/component/map/on
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = 'http://localhost:8080/common-imageserver/images/component/map/onmapcontrols/HD/';</data>
+_MapImgPath_ = 'http://localhost:8080/common-imageserver/images/component/map/';
+_MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/HD/';
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';</data>
                 </embedded>
             </content>
         </variant>

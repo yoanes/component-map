@@ -42,6 +42,6 @@
     </identifiedDeviceConfig>    
     
     <defaultDeviceConfig xsi:type="map:DeviceConfig">
-        <generateServerSideMap>false</generateServerSideMap>
+        <generateServerSideMap>true</generateServerSideMap>
     </defaultDeviceConfig>
 </core:deviceConfigs>

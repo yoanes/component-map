@@ -31,7 +31,9 @@
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = '/test/map-component-imageserver/images/component/map/onmapcontrols/L/';
+_MapImgPath_ = '/test/map-component-imageserver/images/component/map/';
+_MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/L/';
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
 </data>
                 </embedded>
             </content>
@@ -41,7 +43,7 @@ _MapImgPath_ = '/test/map-component-imageserver/images/component/map/onmapcontro
             <selection>
                 <targeted>
                     <devices>
-                        <device>PC-Win32</device>
+                        <device>PC</device>
                         <device>SAGEM-HomeManager</device>
                     </devices>
                 </targeted>
@@ -55,7 +57,10 @@ _MapImgPath_ = '/test/map-component-imageserver/images/component/map/onmapcontro
             <content>
                 <embedded>
                     <data>_MapControls_ = new Array();
-_MapImgPath_ = '/test/map-component-imageserver/images/component/map/onmapcontrols/HD/';</data>
+_MapImgPath_ = '/test/map-component-imageserver/images/component/map/';
+_MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/HD/';
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
+</data>
                 </embedded>            
         	</content>
         </variant>

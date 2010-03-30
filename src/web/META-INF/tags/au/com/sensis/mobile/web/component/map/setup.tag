@@ -15,16 +15,15 @@
 
 <core:compMcsBasePath var="compMcsBasePath" />
 
+<%-- Themes for current component. --%>
+<core:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
+
 <c:if test="${not empty map && map.mapImageRetrievalDeferredToClient}">
     <%-- Setup components that we depend on. --%>
     <core:setup />
     <ems:setup />
     <util:setup />
     <logging:setup />
-    
-    <%-- Themes for current component. --%>
-    <core:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
-    <core:link rel="mcs:theme"  href="${compMcsBasePath}/map/imageSizeCategory.mthm"/>
     
     <%-- Scripts for current component. --%>
     <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>

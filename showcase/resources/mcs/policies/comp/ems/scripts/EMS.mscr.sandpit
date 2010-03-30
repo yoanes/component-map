@@ -3,23 +3,16 @@
     <type>script</type>
     <variants>
         <variant>
-            <type>null</type>
-            <selection>
-                <targeted>
-                    <devices>
-                        <device>Master</device>
-                    </devices>
-                </targeted>
-            </selection>
-        </variant>
-        <variant>
             <type>script</type>
             <selection>
                 <targeted>
                     <devices>
-                        <device>PC-Win32</device>
-                        <device>Apple</device>
-                        <device>Android-OS</device>
+                        <!--
+                          - We serve the JavaScript to _every_ device.
+                          - Components that depend on the core component should themselves determine whether
+                          - to serve this mscr file to the current device. 
+                          -->
+                        <device>Master</device>
                     </devices>
                 </targeted>
             </selection>

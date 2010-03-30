@@ -1,3 +1,16 @@
+==== Version 1.1.5-004 (tag: map_v1_1_5-004) ====
+
+Fixed:
+- (partial) CUI-100: Map Component - Configure mscr files and device-config.xml to target desired devices
+    - NOTE that we are still awaiting a fix from the Maps team to get the map to work on Android devices. 
+    
+Other changes:
+- Fixed map-component-jsconfig.mscr.sandpit-test to be consistent with latest configs.
+- JavaScript fixes:
+    - remove map.updateSize from rePosition(). call updateSize() only at doMapResize() at fullScreen.js
+- map.mthm fixes:
+    - assign position:relative only to those device with hi end map
+
 ==== Version 1.1.5-003 (tag: map_v1_1_5-003) ====
 
 Fixed:
