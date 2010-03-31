@@ -29,12 +29,17 @@ public class GetPoisAction extends BusinessAction implements
         = new WGS84Point(144.996491, -37.916238);
     private static final WGS84Point TULLAMARINE_VIC_COORDINATES
         = new WGS84Point(144.8747924, -37.701235);
+    private static final WGS84Point LOC_142_CHURCH_ST_BRIGHTON_VIC_COORDINATES
+        = new WGS84Point(144.99653, -37.91627);
 
     private static final String CARS_NEAR_MELBOURNE_VIC_SEARCH_KEY = "carsNearMelbourneVic";
     private static final String BARS_NEAR_TOORAK_VIC_SEARCH_KEY = "barsNearToorakVic";
     private static final String BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
         = "bassettSmithValuersNear140ChurchStBrightonVic";
     private static final String CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY = "cafeNearTullamarineVic";
+    private static final String BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
+        = "bassettSmithValuersNear142ChurchStBrightonVic";
+
 
     private static Logger logger = Logger.getLogger(GetPoisAction.class);
 
@@ -76,6 +81,14 @@ public class GetPoisAction extends BusinessAction implements
             map = getMapDelegate().getInitialPoiMap(
                     TULLAMARINE_VIC_COORDINATES, MapLayer.Map,
                     PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),
+                    defaultZoom, getContext());
+        } else if (BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
+                .equals(getModel().getSearch())) {
+            // This test case tests that the poi maps don't fall over if there is a single
+            // result at the same (lat, lon) as the search centre.
+            map = getMapDelegate().getInitialPoiMap(
+                    LOC_142_CHURCH_ST_BRIGHTON_VIC_COORDINATES, MapLayer.Map,
+                    PoiResult.createSingleResultAt142ChurchStBrightonVicIconDescriptors(),
                     defaultZoom, getContext());
         } else {
             throw new UnsupportedOperationException("Unsupported search key: '"

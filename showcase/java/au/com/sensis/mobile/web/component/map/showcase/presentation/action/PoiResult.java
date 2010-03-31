@@ -115,12 +115,30 @@ public final class PoiResult {
 
         final List<PoiResult> results = new ArrayList<PoiResult>();
 
-        final double oxfordLoungeLat = -37.91627;
-        final double oxfordLoungeLon = 144.99653;
+        final double bassetSmithValuersLat = -37.91627;
+        final double bassettSmithValuersLon = 144.99653;
         results.add(new PoiResult("Bassett-Smith Valuers",
                 "yellowCoreCombinedDataSource",
-                "142 Church St, Brighton, VIC", oxfordLoungeLat,
-                oxfordLoungeLon));
+                "142 Church St, Brighton, VIC", bassetSmithValuersLat,
+                bassettSmithValuersLon));
+
+        return results.toArray(new PoiResult[] {});
+    }
+
+    /**
+     * @return a single result located at 142 Church St, Brighton Vic
+     */
+    public static PoiResult[]
+                            createSingleResultAt142ChurchStBrightonVic() {
+
+        final List<PoiResult> results = new ArrayList<PoiResult>();
+
+        final double bassetSmithValuersLat = -37.91627;
+        final double bassettSmithValuersLon = 144.99653;
+        results.add(new PoiResult("Bassett-Smith Valuers",
+                "yellowCoreCombinedDataSource",
+                "142 Church St, Brighton, VIC", bassetSmithValuersLat,
+                bassettSmithValuersLon));
 
         return results.toArray(new PoiResult[] {});
     }
@@ -217,6 +235,24 @@ public final class PoiResult {
 
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileBassettSmithValuersNearbyBrightonVicResults()) {
+            iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
+                    poiResult.getLon()));
+        }
+        return iconDescriptors;
+    }
+
+    /**
+     * @return array of IconDescriptor corresponding to
+     *         {@link #createSingleResultAt142ChurchStBrightonVic()}.
+     */
+    public static List<IconDescriptor>
+        createSingleResultAt142ChurchStBrightonVicIconDescriptors() {
+
+        final List<IconDescriptor> iconDescriptors =
+            new ArrayList<IconDescriptor>();
+
+        for (final PoiResult poiResult : PoiResult
+                .createSingleResultAt142ChurchStBrightonVic()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
                     poiResult.getLon()));
         }

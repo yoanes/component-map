@@ -1,8 +1,18 @@
+==== Version 1.1.5-005 (tag: map_v1_1_5-005) ====
+
+Fixed:
+- CUI-193: getInitialPoiMap fails when centre of map is same as single poi location
+    - Showcase contains new POI map test case "WM bassett-smith valuers near 142 Church St Brighton VIC"
+      that demonstrates this bug.
+- CUI-181: Behaviour of the Map Zoom Buttons displays       
+
+Upgrade Notes:
+- Now depends on sdpCommon-manager 1.0-072.
+
 ==== Version 1.1.5-004 (tag: map_v1_1_5-004) ====
 
 Fixed:
-- (partial) CUI-100: Map Component - Configure mscr files and device-config.xml to target desired devices
-    - NOTE that we are still awaiting a fix from the Maps team to get the map to work on Android devices. 
+- CUI-100: Map Component - Configure mscr files and device-config.xml to target desired devices
     
 Other changes:
 - Fixed map-component-jsconfig.mscr.sandpit-test to be consistent with latest configs.
