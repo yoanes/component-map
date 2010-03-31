@@ -35,7 +35,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>map/js/map-component-default.js</relative>
+                    <relative>map/js/map-component-default-@project.version.complete@.js</relative>
                 </url>
             </content>
         </variant>
@@ -63,7 +63,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>map/js/map-component-iphone.js</relative>
+                    <relative>map/js/map-component-iphone-@project.version.complete@.js</relative>
                 </url>
             </content>
         </variant>
@@ -90,7 +90,7 @@
                             <type>base-url</type>
                         </policy-reference>
                     </base>
-                    <relative>map/js/map-component-thub.js</relative>
+                    <relative>map/js/map-component-thub-@project.version.complete@.js</relative>
                 </url>
             </content>
         </variant>
