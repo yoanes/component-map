@@ -1,3 +1,10 @@
+==== Version 1.1.5-006 (tag: map_v1_1_5-006) ====
+
+Fixed:
+- CUI-208: Map Component - update to sdpCommon-manager 1.0-071 to get large map icons for devices like thub
+    - emsManagerContext.xml synchronised with WhereisMobile so that the showcase is now configured
+      with the large icons.
+
 ==== Version 1.1.5-005 (tag: map_v1_1_5-005) ====
 
 Fixed:

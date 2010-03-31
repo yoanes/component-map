@@ -82,11 +82,216 @@
         class="au.com.sensis.wireless.common.utils.address.AddressTransformer">
     </bean>
 
-    <bean id="mobilesMapIcons" class="au.com.sensis.wireless.manager.mapping.MapIcons">
-
+    <bean id="mobilesMapIcons"
+            class="au.com.sensis.wireless.manager.mapping.MapIcons">
+        <property name="largeIcons" ref="largeMobileIcons" />
         <property name="standardIcons" ref="standardMobileIcons" />
         <property name="smallIcons" ref="smallMobileIcons" />
     </bean>
+    
+    <bean id="largeMobileIcons"
+            class="java.util.HashMap">
+        <constructor-arg>
+        <map>
+            <entry>
+                <key><value>CROSS_HAIR_LGE</value></key>
+                <ref bean="largeCrossHair" />
+            </entry>
+            <entry>
+                <key><value>START_LGE</value></key>
+                <ref bean="largeStart" />
+            </entry>
+            <entry>
+                <key><value>END_LGE</value></key>
+                <ref bean="largeEnd" />
+            </entry>
+            <entry>
+                <key><value>POI_BLANK_LGE</value></key>
+                <ref bean="largePoiBlank" />
+            </entry>
+            <entry>
+                <key><value>POI1_LGE</value></key>
+                <ref bean="largePoi1" />
+            </entry>
+            <entry>
+                <key><value>POI2_LGE</value></key>
+                <ref bean="largePoi2" />
+            </entry>
+            <entry>
+                <key><value>POI3_LGE</value></key>
+                <ref bean="largePoi3" />
+            </entry>
+            <entry>
+                <key><value>POI4_LGE</value></key>
+                <ref bean="largePoi4" />
+            </entry>
+            <entry>
+                <key><value>POI5_LGE</value></key>
+                <ref bean="largePoi5" />
+            </entry>
+            <entry>
+                <key><value>POI6_LGE</value></key>
+                <ref bean="largePoi6" />
+            </entry>
+            <entry>
+                <key><value>POI7_LGE</value></key>
+                <ref bean="largePoi7" />
+            </entry>
+            <entry>
+                <key><value>POI8_LGE</value></key>
+                <ref bean="largePoi8" />
+            </entry>
+            <entry>
+                <key><value>POI9_LGE</value></key>
+                <ref bean="largePoi9" />
+            </entry>
+            <entry>
+                <key><value>POI10_LGE</value></key>
+                <ref bean="largePoi10" />
+            </entry>
+        </map>
+    </constructor-arg>
+    </bean>
+
+    <bean id="largeCrossHair"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABLpJREFUeNq8Vt1PW2UcPj1tgRUq0A826IRCmTCBOWwVY5yRLejMiEuMxkz/AxPjhVcmJsaPeKM3xnu93IVmySLGOEWMyUyWreLGx4hzozbQ7qNAoeNQenpafw95DnnBysYuPMmTnr7n977P+/t63tfx3EffavfxVAsaBM2CsMDH8UVBQpAWZAXr91rIdY/vDoEu8Aj2Cg4KTgla+D0lOC0oCQqCIt/LuyW0idwkg2ePCB4H2dh7w1EYDX48onHMFFicZ/B/RWLXf5A5BXsE9YImQScXjlWwj5FMZ+hvC5YFaxwv70To4FitICBoFRwQwKMeerz9ge0R5rVRcE2QFGQEqwxzuRKh7Vkt8wWixwRH6z1VvpPRsP9Yb4u/1V/nsScgtMmFu8boZGrhbDzhWTYKERn+mWkA8S3BXdVTZ/jo6/Z8Jw0Rwi6G6vjzfftDn74x0PVkJNggxP/yEGP9YX/9S9G2YGYlr12/vYKCyrNiDf5ueulSvHMzZ630bOjlJ9pb3nqhB22gZXL5wunfrqdGp+az4olFMuexnlDDqacjLQFvTdW7Jw9H6mrczjMXZ4dYOAbJN4vI9hDeeQUhQZ9gGJ69c+JQBz7+OpNeePOr8zNXU9nlddNCz/2N4pD3goxZX1+4caejyVvTFvB6BjqbGtJLRkE8RU5vsoBW2TYbhKisOvZWt+AZ2Xknwuh26jrI3v8mfo1Nfl5wQTDJHKHplyAKv0ynDSHdA9JoR6D+u/FkTjZUpiCsqYQBhQzVGHvtqcg+5AxhhGckGxVcElylhym2QJYeNAvp+nB/axB5XStY5uXkQjXDaTKPls6mRskPEG5UI0KJnNEYRBOCacGsYI6Y5dgEbUzO0biGW1kXHM06tRFyNcg86nbpo0DYTwjdPD3Nc7dFvi/yG2wynKNxDZ1rDpIj7GLDbsqV+rAaseCKkviSYmJr6CptFmVOSO1T+50y6NO1//lx0YMUd7BlZ+gz2TEi8BAVqIpe2V7qHKuljQ9zFK/iChdyu6gz9jhixgQ5LAa52ki8NDU1NcweBXkNN+riu4/fYBPgHI1rlLjmGDkSOg/PKfYXYEIbMQkKwkqLURAeFbQL9hPtHOujjZtzNK5hKuuCI40+LLIx1ymy3kQm1whtRD9BQdDUbB8XRcLP3oVYH4JY4KT44JVo58FQo9coFK1Pzo4npPH/oFhMs5JzILSU5kQIHGLYASE+0r3PB+WAgqCp5VsbtfZhHsj9gl5sEmTPdjdv9O9nI1dmp+eXIGs/UZXmWMWmelqUCQh5EaqfWzMtaCNIoSBWqaylska1bCiII0wi0HjicGvww1djB+AZFvnih6nEyHgSZOcEl3k2LrNvNYdyiXIqd5du5mRIRHzv2y/2hj1VLudO5Y4wfv79ZOLcxBzOwB+pPDM8Ew2ma8t5qHGwyHwCOag+hBja6PdWu7efiajGMxcTN5EzhhGejVPc75BsUywc266J93PF0JVLVJyLmazC+G6uGHYei8q1IM/TYIkCMUBtVJ9Vlv3vgr92e4mySS3lumdfE0rM8+A2+0vKsZV+kGuiSmqHq0wyhLRLkcEUPfuT7ysPehGu5O0taueXFa76Wypxp+cfAQYAOlQXU7hnRs4AAAAASUVORK5CYII=" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/icon_emscell_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-17" />
+    </bean>
+
+    <bean id="largeStart"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/start_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largeEnd"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/end_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoiBlank"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/dot_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi1"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/1_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi2"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/2_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi3"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/3_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi4"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/4_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi5"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/5_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi6"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/6_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi7"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/7_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi8"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/8_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi9"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/9_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>
+
+    <bean id="largePoi10"
+            class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
+        <property name="encodedIcon" value="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" />
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large10_27x34.png" />
+        <property name="width" value="27" />
+        <property name="height" value="34" />
+        <property name="offsetX" value="-13" />
+        <property name="offsetY" value="-34" />
+    </bean>    
 
     <bean id="standardMobileIcons" class="java.util.HashMap">
 
@@ -168,7 +373,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/start_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -178,7 +383,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/end_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -188,7 +393,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/dot_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -198,7 +403,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/1_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -208,7 +413,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/2_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -218,7 +423,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/3_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -228,7 +433,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/4_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -238,7 +443,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/5_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -248,7 +453,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/6_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -258,7 +463,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/7_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -268,7 +473,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/8_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -278,7 +483,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/9_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -288,7 +493,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/10_23x27.png" />
         <property name="width" value="23" />
         <property name="height" value="27" />
-        <property name="offsetX" value="-8" />
+        <property name="offsetX" value="-11" />
         <property name="offsetY" value="-27" />
     </bean>
 
@@ -372,7 +577,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/start_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -382,7 +587,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/end_18x19.png" />        
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -392,7 +597,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/dot_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -402,7 +607,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/1_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -412,7 +617,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/2_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -422,7 +627,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/3_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -432,7 +637,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/4_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -442,7 +647,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/5_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -452,7 +657,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/6_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -462,7 +667,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/7_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -472,7 +677,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/8_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -482,7 +687,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/9_18x19.png" />
          <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
 
@@ -492,7 +697,7 @@
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/small/10_18x19.png" />
         <property name="width" value="18" />
         <property name="height" value="19" />
-        <property name="offsetX" value="-7" />
+        <property name="offsetX" value="-9" />
         <property name="offsetY" value="-19" />
     </bean>
     
