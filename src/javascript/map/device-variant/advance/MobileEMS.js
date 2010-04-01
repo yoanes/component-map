@@ -28,7 +28,26 @@ var MobEMS = new Class({
 	initialize: function(mapWrapper, viewOptions, mapOptions, poiOptions, directionOptions) {
 		window.addEvent('load', function() {
 			if(this.injectMapDiv(mapWrapper)) {
-				this.Map = new EMS.Services.Map('map-div', {controls: _MapControls_});			
+				this.Map = new EMS.Services.Map('map-div', {controls: _MapControls_, showMaxExtent: false, 
+					onInit: function(map) {
+						var mcl = map.controls.length;
+						/* loop the controls */
+						for(var i = 0; i<mcl; i++) {
+							/* to switch the view */
+							if(map.controls[i].CLASS_NAME == "EMS.Control.ViewMode") {
+								if($defined(viewOptions) && $defined(viewOptions.layer)) {
+										map.controls[i].switchTo(viewOptions.layer);
+								}
+							}
+							/* or activate the full screen controller. NOTE: only activate the controller here
+							 * if you really need it. Otherwise it should just be activated at instantiation.
+							 *  */
+							if(map.controls[i].CLASS_NAME == "EMS.Control.FullScreen") {
+								map.controls[i].active = true;
+							}
+						}
+					}
+				});			
 				this.Geocoder = new EMS.Services.Geocoder();
 				this.RouteManager = new EMS.Services.RouteManager(this.Map);
 				
@@ -59,15 +78,6 @@ var MobEMS = new Class({
 						var EMSLatLon = new EMS.LonLat(mapOptions.longitude, mapOptions.latitude);
 						this.Map.setCenter(EMSLatLon, mapOptions.zoom);
 					}
-				}
-				
-				/* consider the view options before anything else */
-				if($defined(viewOptions)) {
-					if($defined(viewOptions.layer))
-						this.switchView(viewOptions.layer);
-					
-					else viewOptions.layer = "map";
-					
 				}
 				
 				/* parse the poiOption for initial display */
@@ -293,15 +303,5 @@ var MobEMS = new Class({
 	clearMap: function() {
 		this.clearRoutes();
 		this.clearPois();
-	},
-	
-	/**
-	 * Switch the map view between photo and street. Presumably 
-	 * the hybrid is excluded. 
-	 */
-	switchView: function(v) {
-		if((v == "photo") || (!$defined(v) && this.Map.baseLayer.name == "Whereis Street"))
-			this.Map.setBaseLayer(this.Map.whereis_photo_wms);
-		else this.Map.setBaseLayer(this.Map.whereis_street_wms);	
 	}
 });
