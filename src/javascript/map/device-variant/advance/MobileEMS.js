@@ -37,6 +37,7 @@ var MobEMS = new Class({
 							if(map.controls[i].CLASS_NAME == "EMS.Control.ViewMode"){
 								if($defined(viewOptions) && $defined(viewOptions.layer))
 									map.controls[i].switchTo(viewOptions.layer);
+								break;
 							}
 						}
 					}
