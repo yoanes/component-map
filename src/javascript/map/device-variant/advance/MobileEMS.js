@@ -34,20 +34,14 @@ var MobEMS = new Class({
 						/* loop the controls */
 						for(var i = 0; i<mcl; i++) {
 							/* to switch the view */
-							if(map.controls[i].CLASS_NAME == "EMS.Control.ViewMode") {
-								if($defined(viewOptions) && $defined(viewOptions.layer)) {
-										map.controls[i].switchTo(viewOptions.layer);
-								}
-							}
-							/* or activate the full screen controller. NOTE: only activate the controller here
-							 * if you really need it. Otherwise it should just be activated at instantiation.
-							 *  */
-							if(map.controls[i].CLASS_NAME == "EMS.Control.FullScreen") {
-								map.controls[i].active = true;
+							if(map.controls[i].CLASS_NAME == "EMS.Control.ViewMode"){
+								if($defined(viewOptions) && $defined(viewOptions.layer))
+									map.controls[i].switchTo(viewOptions.layer);
 							}
 						}
 					}
-				});			
+				});		
+				
 				this.Geocoder = new EMS.Services.Geocoder();
 				this.RouteManager = new EMS.Services.RouteManager(this.Map);
 				
