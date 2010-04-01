@@ -70,21 +70,30 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 	doViewChange: function() {
 		if(this.inPhotoMode) { 
 			/* switch to map view */
-			this.map.whereis_street_wms.setVisibility(1);
-			this.map.whereis_photo_wms.setVisibility(0);
-			this.toggle();
-			this.inPhotoMode = false;
-			
+			this.switchTo("map");		
 			Reporting.to(this.updateServerURL, {lyr: 'm'});
 		}
 		else {
 			/* switch to photo view */
+			this.switchTo("photo");
+			Reporting.to(this.updateServerURL, {lyr: 'p'});
+		}
+	},
+	
+	switchTo: function(v) {
+		if(v == "photo") {
+			/* switch to photo view */
 			this.map.whereis_photo_wms.setVisibility(1);
 			this.map.whereis_street_wms.setVisibility(0);
-			this.toggle();
 			this.inPhotoMode = true;
-			
-			Reporting.to(this.updateServerURL, {lyr: 'p'});
+			this.toggle();
+		}
+		else if(v == "map") {
+			/* switch to map view */
+			this.map.whereis_street_wms.setVisibility(1);
+			this.map.whereis_photo_wms.setVisibility(0);
+			this.inPhotoMode = false;
+			this.toggle();
 		}
 	},
 	
@@ -97,13 +106,13 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 	
 	toggle: function() {
 		if(this.inPhotoMode) {
-			this.photoImage.style.display = 'block';
-			this.mapImage.style.display = 'none';
+			this.photoImage.style.display = 'none';
+			this.mapImage.style.display = 'block';
 		}
 		
 		else {
-			this.photoImage.style.display = 'none';
-			this.mapImage.style.display = 'block';
+			this.photoImage.style.display = 'block';
+			this.mapImage.style.display = 'none';
 		}
 	},
 	
