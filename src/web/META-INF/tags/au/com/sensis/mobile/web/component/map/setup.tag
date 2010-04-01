@@ -31,6 +31,7 @@
     <%-- Scripts for current component. --%>
     <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
     <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component-tilePath.mscr"></core:script>
     
     <core:script name="create-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
