@@ -23,7 +23,7 @@
                                 </selector-sequence>
                                 <properties>
                                     <property name="height">
-                                        <length units="px">200</length>
+                                        <length units="px">180</length>
                                     </property>
                                     <property name="position">
                                         <keyword>relative</keyword>
