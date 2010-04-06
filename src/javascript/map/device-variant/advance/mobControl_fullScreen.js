@@ -10,12 +10,16 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 	
 	inFullscreenMode: false,
 	
-	defaultHeight: null,
-	defaultWidth: null,
-	
 	div: null,
 	growImage: null,
 	shrinkImage: null,
+	
+	/* overwrite the following 4 for unique devices */
+	fullLandscapeWidth: '480px',
+	fullLandscapeHeight: '269px',
+	
+	fullPortraitWidth: '320px',
+	fullPortraitHeight: '416px',
 	
 	initialize: function() {
 		this.active = true;
@@ -39,9 +43,7 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 	},
 	
 	draw: function() {
-		/* initialize the height width and button size on draw */
-		this.defaultHeight =  $(this.map.div.parentNode).getStyle('height').toInt();
-		this.defaultWidth =  $(this.map.div.parentNode).getStyle('width').toInt();
+		/* initialize the button size on draw */
 		this.resizeButtonSize = new OpenLayers.Size(this.growImage.width, this.growImage.height);
 		
 		var resizeControlExactPosition = this.calcPosition();
@@ -64,31 +66,48 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		/* do resize when the device is tilted */
-		this.div.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
+		this.div.addEventListener('orientationchange', function(e) {
+			this.rePosition();
+			this.reOrientate(); 
+		}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
+	},
+	
+	adjustToFullScreen: function() {
+		if(window.orientation == 0) {
+			$(this.map.div.parentNode).style.height = this.fullPortraitHeight;
+			$(this.map.div.parentNode).style.width = this.fullPortraitWidth;
+		} 
+		else {
+			$(this.map.div.parentNode).style.height =  this.fullLandscapeHeight;
+			$(this.map.div.parentNode).style.width = this.fullLandscapeWidth;
+		}
+		window.scroll(0, this.map.div.parentNode.offsetTop);
 	},
 	
 	/* on map resize make sure we carter the height and width of the map */
 	doMapResize: function() {
 		if(this.inFullscreenMode) {
-			$(this.map.div.parentNode).style.height = this.defaultHeight + 'px';
-			$(this.map.div.parentNode).style.width = this.defaultWidth + 'px';
+			$(this.map.div.parentNode).setAttribute('style', '');
 			this.inFullscreenMode = false;
 		}
 		
 		/* on full screen mode event, add extra 20 px for the map height and do window.scroll) */
 		else {
-			$(this.map.div.parentNode).style.height = (screen.height + 20) + 'px';
-			$(this.map.div.parentNode).style.width = screen.width + 'px';
+			this.adjustToFullScreen();	
 			this.inFullscreenMode = true;
-			
-			window.scroll(0, this.map.div.parentNode.offsetTop);
 		}
 		
 		this.map.updateSize();
 		
 		this.toggle();
+	},
+	
+	reOrientate: function() {
+		if(this.inFullscreenMode) {
+			this.adjustToFullScreen();	
+		}
 	},
 	
 	rePosition: function() {	
