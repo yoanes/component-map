@@ -2,6 +2,9 @@
 
 Updating version to 1.1.6 to close off Common UI iteration 1.1.6.
 
+Fixes:
+- config for largeCrossHair in emsManagerContext.xml was incorrect.
+
 ==== Version 1.1.5-009 (tag: map_v1_1_5-009) ====
 
 Fixes:
