@@ -157,10 +157,10 @@
             class="au.com.sensis.wireless.manager.mapping.MobilesIcon">
         <property name="encodedIcon" value="iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABLpJREFUeNq8Vt1PW2UcPj1tgRUq0A826IRCmTCBOWwVY5yRLejMiEuMxkz/AxPjhVcmJsaPeKM3xnu93IVmySLGOEWMyUyWreLGx4hzozbQ7qNAoeNQenpafw95DnnBysYuPMmTnr7n977P+/t63tfx3EffavfxVAsaBM2CsMDH8UVBQpAWZAXr91rIdY/vDoEu8Aj2Cg4KTgla+D0lOC0oCQqCIt/LuyW0idwkg2ePCB4H2dh7w1EYDX48onHMFFicZ/B/RWLXf5A5BXsE9YImQScXjlWwj5FMZ+hvC5YFaxwv70To4FitICBoFRwQwKMeerz9ge0R5rVRcE2QFGQEqwxzuRKh7Vkt8wWixwRH6z1VvpPRsP9Yb4u/1V/nsScgtMmFu8boZGrhbDzhWTYKERn+mWkA8S3BXdVTZ/jo6/Z8Jw0Rwi6G6vjzfftDn74x0PVkJNggxP/yEGP9YX/9S9G2YGYlr12/vYKCyrNiDf5ueulSvHMzZ630bOjlJ9pb3nqhB22gZXL5wunfrqdGp+az4olFMuexnlDDqacjLQFvTdW7Jw9H6mrczjMXZ4dYOAbJN4vI9hDeeQUhQZ9gGJ69c+JQBz7+OpNeePOr8zNXU9nlddNCz/2N4pD3goxZX1+4caejyVvTFvB6BjqbGtJLRkE8RU5vsoBW2TYbhKisOvZWt+AZ2Xknwuh26jrI3v8mfo1Nfl5wQTDJHKHplyAKv0ynDSHdA9JoR6D+u/FkTjZUpiCsqYQBhQzVGHvtqcg+5AxhhGckGxVcElylhym2QJYeNAvp+nB/axB5XStY5uXkQjXDaTKPls6mRskPEG5UI0KJnNEYRBOCacGsYI6Y5dgEbUzO0biGW1kXHM06tRFyNcg86nbpo0DYTwjdPD3Nc7dFvi/yG2wynKNxDZ1rDpIj7GLDbsqV+rAaseCKkviSYmJr6CptFmVOSO1T+50y6NO1//lx0YMUd7BlZ+gz2TEi8BAVqIpe2V7qHKuljQ9zFK/iChdyu6gz9jhixgQ5LAa52ki8NDU1NcweBXkNN+riu4/fYBPgHI1rlLjmGDkSOg/PKfYXYEIbMQkKwkqLURAeFbQL9hPtHOujjZtzNK5hKuuCI40+LLIx1ymy3kQm1whtRD9BQdDUbB8XRcLP3oVYH4JY4KT44JVo58FQo9coFK1Pzo4npPH/oFhMs5JzILSU5kQIHGLYASE+0r3PB+WAgqCp5VsbtfZhHsj9gl5sEmTPdjdv9O9nI1dmp+eXIGs/UZXmWMWmelqUCQh5EaqfWzMtaCNIoSBWqaylska1bCiII0wi0HjicGvww1djB+AZFvnih6nEyHgSZOcEl3k2LrNvNYdyiXIqd5du5mRIRHzv2y/2hj1VLudO5Y4wfv79ZOLcxBzOwB+pPDM8Ew2ma8t5qHGwyHwCOag+hBja6PdWu7efiajGMxcTN5EzhhGejVPc75BsUywc266J93PF0JVLVJyLmazC+G6uGHYei8q1IM/TYIkCMUBtVJ9Vlv3vgr92e4mySS3lumdfE0rM8+A2+0vKsZV+kGuiSmqHq0wyhLRLkcEUPfuT7ysPehGu5O0taueXFa76Wypxp+cfAQYAOlQXU7hnRs4AAAAASUVORK5CYII=" />
         <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/large/icon_emscell_28x28.png" />
-        <property name="width" value="27" />
-        <property name="height" value="34" />
-        <property name="offsetX" value="-13" />
-        <property name="offsetY" value="-17" />
+        <property name="width" value="28" />
+        <property name="height" value="28" />
+        <property name="offsetX" value="-14" />
+        <property name="offsetY" value="-14" />
     </bean>
 
     <bean id="largeStart"
