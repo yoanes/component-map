@@ -32,6 +32,10 @@
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
         </deviceConfig>
+        <userAgentRegex>Mozilla/5\.0 (Linux; U; Android .*; SonyEricssonX10.*</userAgentRegex>
+        <deviceConfig xsi:type="map:DeviceConfig">
+        	<generateServerSideMap>true</generateServerSideMap>
+        </deviceConfig>
     </identifiedDeviceConfig>    
     
     <identifiedDeviceConfig>
