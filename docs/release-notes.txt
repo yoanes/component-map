@@ -12,9 +12,9 @@ Fixes:
 - CUI-132 Implement the background tile for the map
 
 Upgrade notes:
-- Apple and Android maps are now 180px high instead of 200px hi. If you don't like this,
-  you can override it in your application's MCS theme file, as long as your theme
-  file is declared after the map:setup tag is called.
+- Apple and Android maps are now 180px high instead of 200px hi. Make sure you re-deploy the policies. 
+  If you don't like the new height, you can override it in your application's MCS theme file, as long 
+  as your theme file is declared after the map:setup tag is called.
 
 ==== Version 1.1.5-008 (tag: map_v1_1_5-008) ====
 
