@@ -1,4 +1,8 @@
-==== Version 1.1.6 (tag: map_v1_1_6-001) ====
+==== Version 1.1.6-002 (tag: map_v1_1_6-002) ====
+
+Fixed bug in device-config.xml (invalid syntax).
+
+==== Version 1.1.6-001 (tag: map_v1_1_6-001) ====
 
 Mainly js bug fix.
 Core component updated to 1.0.27
