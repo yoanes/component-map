@@ -2,6 +2,8 @@
  * Patch file for checkerboard background in mobile profile 
  */
 
+
+
 EMS.BackgroundLayer = OpenLayers.Class( EMS.IndexedLayer, {
 
     DEFAULT_PARAMS: {service: "EMS", version: "1.1.1"},
@@ -27,6 +29,14 @@ EMS.BackgroundLayer = OpenLayers.Class( EMS.IndexedLayer, {
 
 EMS.BackgroundLayer.TILE = EMS.Util.getImagesLocation() + "tile_bg_200x200.gif";  
 EMS.BackgroundLayer.prototype.DEFAULT_PARAMS = {service: "MOB", version: "1.1.1"};
+
+OpenLayers.Renderer.SVG.prototype.supported = function() {
+        var svgFeature = "http://www.w3.org/TR/SVG11/feature#";
+        return (document.implementation && 
+           (document.implementation.hasFeature("org.w3c.svg", "1.0") || 
+            document.implementation.hasFeature(svgFeature + "SVG", "1.1") || 
+            document.implementation.hasFeature(svgFeature + "BasicStructure", "1.1") ));
+};
 
 EMS.Services.Map.prototype.initialize = function (div, options) {
 
@@ -85,19 +95,20 @@ EMS.Services.Map.prototype.initialize = function (div, options) {
                 tilePath, {layers: 'hybrid', format: "image/gif", TRANSPARENT: true, CACHE: "TRUE", VERSION: '1.0.3'}, {displayOutsideMaxExtent: true, transparent: true});
         this.whereis_hybrid_wms.setVisibility(false);
         this.whereis_hybrid_wms.transitionEffect = "resize";
-        if (OpenLayers.Renderer.SVG.prototype.supported() || OpenLayers.Renderer.VML.prototype.supported()) {
-            this.vlayer = new EMS.Layer.Vector( "Route" );
-        }
+
+        this.vlayer = new EMS.Layer.Vector("Route", {
+            renderers:["Canvas", "SVG", "VML"]
+        });
+
         this.markersLayer = new OpenLayers.Layer.Markers( "Markers" );
 
-        if (OpenLayers.Renderer.SVG.prototype.supported() || OpenLayers.Renderer.VML.prototype.supported()) {
+        if (this.vlayer!= null) {
             this.addLayers([this.bgLayer, this.whereis_street_wms, this.whereis_photo_wms, this.whereis_hybrid_wms,
                     this.vlayer, this.markersLayer]);
         } else {
             this.addLayers([this.bgLayer, this.whereis_street_wms, this.whereis_photo_wms, this.whereis_hybrid_wms,
                     this.markersLayer]);
         }
-        
         
     }
 
