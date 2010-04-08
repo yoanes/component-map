@@ -1,3 +1,12 @@
+==== Version 1.1.6-003 (tag: map_v1_1_6-003) ====
+
+Fixed:
+- CUI-200: Map testpage(high end)  -> Directions route does not connect start & End points completely 
+    - Now depends on sdpCommon-manager 1.0-073.
+    
+Upgrade notes:
+- Now depends on sdpCommon-manager 1.0-073.
+
 ==== Version 1.1.6-002 (tag: map_v1_1_6-002) ====
 
 Fixed bug in device-config.xml (invalid syntax).

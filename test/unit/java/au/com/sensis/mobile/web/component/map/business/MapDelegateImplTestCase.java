@@ -1151,9 +1151,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
-                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
-                    .andReturn(resolvedIcons);
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         replay();
 
@@ -1176,6 +1174,13 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         assertRouteDetails(map, journeyWaypoints, RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
                 new RouteHandle(soapRouteHandle));
+    }
+
+    private void recordResolveRouteWaypointIcons(final ArrayList<ResolvedIcon> resolvedIcons) {
+        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
+                getMockJourneyDescriptor(),
+                getMockScreenDimensions()))
+                    .andReturn(resolvedIcons);
     }
 
     private void assertRouteDetails(final Map map,
@@ -1228,9 +1233,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
             .andReturn(getMockMobilesBoundingBox()).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
-                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
-                    .andReturn(resolvedIcons);
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         replay();
 
@@ -1440,9 +1443,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
             .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
-                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
-                    .andReturn(resolvedIcons);
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         replay();
 
@@ -1640,9 +1641,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
-                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
-                .andReturn(resolvedIcons);
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         replay();
 
@@ -1697,13 +1696,6 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final JourneyWaypoints journeyWaypoints =
                 createJourneyWaypoints(startLat, startLong, endLat, endLong);
-        final ArrayList<ResolvedIcon> resolvedIcons =
-                new ArrayList<ResolvedIcon>();
-        EasyMock.expect(
-                getMockEmsManager().resolveRouteWaypointIcons(
-                        EasyMock.same(journeyWaypoints),
-                        EasyMock.eq(getMockScreenDimensions()))).andReturn(
-                resolvedIcons);
 
         recordShouldGenerateServerSideMap(true);
 
@@ -1733,6 +1725,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                                 .eq(panZoomDetail), EasyMock
                                 .same(getMockUserContext()))).andReturn(
                 getMockJourneyDescriptor());
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
                 getMockMapUrl()).atLeastOnce();
@@ -1784,13 +1779,6 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final JourneyWaypoints journeyWaypoints =
                 createJourneyWaypoints(startLat, startLong, endLat, endLong);
-        final ArrayList<ResolvedIcon> resolvedIcons =
-                new ArrayList<ResolvedIcon>();
-        EasyMock.expect(
-                getMockEmsManager().resolveRouteWaypointIcons(
-                        EasyMock.same(journeyWaypoints),
-                        EasyMock.eq(getMockScreenDimensions()))).andReturn(
-                resolvedIcons);
 
         recordShouldGenerateServerSideMap(false);
 
@@ -1824,6 +1812,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                                         EasyMock.eq(panZoomDetail), EasyMock
                                                 .same(getMockUserContext())))
                 .andReturn(getMockJourneyDescriptor());
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
                 getMockMapUrl()).atLeastOnce();
@@ -2029,9 +2020,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
             .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
-                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
-                    .andReturn(resolvedIcons);
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         replay();
 
@@ -2226,12 +2215,10 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-        .andReturn(soapRouteHandle).atLeastOnce();
+            .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
-        EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
-                EasyMock.same(journeyWaypoints), EasyMock.eq(getMockScreenDimensions())))
-                .andReturn(resolvedIcons);
+        recordResolveRouteWaypointIcons(resolvedIcons);
 
         replay();
 

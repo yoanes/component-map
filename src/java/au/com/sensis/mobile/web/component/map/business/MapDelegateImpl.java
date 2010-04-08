@@ -522,10 +522,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final RoutingOption routingOption, final MapLayer mapLayer,
             final MobileContext mobileContext) {
 
-        final List<ResolvedIcon> resolvedIcons = getEmsManager()
-            .resolveRouteWaypointIcons(waypoints, getScreenDimensionsStrategy()
-                .createScreenDimensions(mobileContext));
-
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve route map for device: "
@@ -545,6 +541,10 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             }
 
             final int zoom = journeyDescriptor.getMap().getZoom();
+
+            final List<ResolvedIcon> resolvedIcons =
+                    resolveRouteWaypointIcons(mobileContext, journeyDescriptor);
+
             return MapImpl.createRouteMapRetrievedInstance(waypoints,
                     journeyDescriptor,
                     mapLayer, resolvedIcons, getEmsManager().getEmsZoomLevel(zoom),
@@ -561,6 +561,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                     getScreenDimensionsStrategy().createScreenDimensions(mobileContext), waypoints,
                     routingOption, mapLayer, mobileContext.asUserContext());
 
+            final List<ResolvedIcon> resolvedIcons =
+                    resolveRouteWaypointIcons(mobileContext, journeyDescriptor);
+
             return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
                     journeyDescriptor, mapLayer, resolvedIcons);
         }
@@ -575,12 +578,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MapLayer existingMapLayer,
             final Action mapManipulationAction,
             final MobileContext mobileContext) {
-
-        final List<ResolvedIcon> resolvedIcons =
-                getEmsManager().resolveRouteWaypointIcons(
-                        waypoints,
-                        getScreenDimensionsStrategy().createScreenDimensions(
-                                mobileContext));
 
         final PanZoomDetail panZoomDetail =
                 createMapManipulationPanZoomDetail(existingMapUrl,
@@ -609,6 +606,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final int emsZoomLevel =
                     getEmsManager().getEmsZoomLevel(panZoomDetail.getZoom());
 
+            final List<ResolvedIcon> resolvedIcons =
+                    resolveRouteWaypointIcons(mobileContext, journeyDescriptor);
+
             return MapImpl.createRouteMapRetrievedInstance(waypoints,
                     journeyDescriptor, newMapLayer, resolvedIcons,
                     emsZoomLevel, isZoomLevelMin(journeyDescriptor.getMap()
@@ -634,6 +634,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                                     panZoomDetail,
                                     mobileContext.asUserContext());
 
+            final List<ResolvedIcon> resolvedIcons =
+                    resolveRouteWaypointIcons(mobileContext, journeyDescriptor);
+
             return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
                     journeyDescriptor, newMapLayer, resolvedIcons);
         }
@@ -649,9 +652,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MapLayer mapLayer, final MobileContext mobileContext) {
 
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
-        final List<ResolvedIcon> resolvedIcons = getEmsManager()
-            .resolveRouteWaypointIcons(waypoints, getScreenDimensionsStrategy()
-                    .createScreenDimensions(mobileContext));
 
         // Construct PanZoomDetail with a null bounding box since this is
         // the initial map retrieval.
@@ -673,6 +673,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                     getScreenDimensionsStrategy().createScreenDimensions(mobileContext),
                     panZoomDetail, mobileContext.asUserContext());
 
+            final List<ResolvedIcon> resolvedIcons =
+                    resolveRouteWaypointIcons(mobileContext, journeyDescriptor);
+
             return MapImpl.createRouteMapRetrievedInstance(waypoints,
                     journeyDescriptor,
                     mapLayer, resolvedIcons, emsZoomLevel,
@@ -689,6 +692,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                         getScreenDimensionsStrategy().createScreenDimensions(mobileContext),
                         panZoomDetail, mobileContext.asUserContext());
 
+            final List<ResolvedIcon> resolvedIcons =
+                    resolveRouteWaypointIcons(mobileContext, journeyDescriptor);
+
             return MapImpl.createRouteMapRetrievalDeferredInstance(waypoints,
                     journeyDescriptor, mapLayer, resolvedIcons,
                     emsZoomLevel,
@@ -696,6 +702,15 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                     isZoomLevelMax(zoomLevel));
 
         }
+    }
+
+    private List<ResolvedIcon> resolveRouteWaypointIcons(
+            final MobileContext mobileContext,
+            final JourneyDescriptor journeyDescriptor) {
+        final List<ResolvedIcon> resolvedIcons = getEmsManager()
+            .resolveRouteWaypointIcons(journeyDescriptor, getScreenDimensionsStrategy()
+                .createScreenDimensions(mobileContext));
+        return resolvedIcons;
     }
 
     /**
