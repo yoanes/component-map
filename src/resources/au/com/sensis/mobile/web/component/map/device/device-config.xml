@@ -20,7 +20,7 @@
         </deviceConfig>
         
         <userAgentDeviceConfig>
-            <useragentRegex>.*Version/[012]\..*</useragentRegex>
+            <useragentRegex>.*OS [012]_.*</useragentRegex>
             <deviceConfig xsi:type="map:DeviceConfig">
                 <generateServerSideMap>true</generateServerSideMap>
             </deviceConfig>
@@ -33,13 +33,6 @@
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
         </deviceConfig>
-        
-        <userAgentDeviceConfig>
-            <useragentRegex>Mozilla/5\.0 (Linux; U; Android .*; SonyEricssonX10.*</useragentRegex>
-            <deviceConfig xsi:type="map:DeviceConfig">
-                <generateServerSideMap>true</generateServerSideMap>
-            </deviceConfig>
-        </userAgentDeviceConfig>
     </identifiedDeviceConfig>    
     
     <identifiedDeviceConfig>

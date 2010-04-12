@@ -1,3 +1,13 @@
+==== Version 1.1.6-004 (tag: map_v1_1_6-004) ====
+
+Fixed:
+- CUI-210: Map Component (Android) - Route line does not render
+    - Canvas renderer is used if SVG is not supported.
+- CUI-211: Map Component (Android) - no map markers display (cross hair, POIs, route start and end)
+    - Canvas renderer is used if SVG is not supported.
+- (was reopened) CUI-100: Map Component - Configure mscr files and device-config.xml to target desired devices
+    - device-config.xml user agent pattern fixed for Apple OS versions prior to 3.
+
 ==== Version 1.1.6-003 (tag: map_v1_1_6-003) ====
 
 Fixed:
