@@ -285,8 +285,6 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.map.events.register('zoomend', this, function() { 
 			this.map.viewPortDiv.style['-webkit-transform'] = 'scale(1)'; 
 		});
-		
-		$(this.map.div).parentNode.style['-webkit-touch-callout'] = 'none';
 	},
 	
 	/**	
