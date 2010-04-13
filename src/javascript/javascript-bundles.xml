@@ -11,15 +11,21 @@
         </bundle>
         
         <!-- set the higher level categories dependencies -->
-        <bundle name="advance" parent="common">
+        <bundle name="advance" parent="common" abstract="true">
             <fileset dir="${src.javascript.dir}/map/device-variant/advance">
             </fileset>
         </bundle>
-        <bundle name="intermediate" parent="common">
-        	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
+        
+        <bundle name="advance-android" parent="common" abstract="true">
+        	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
+        		<include name="**/*" />
+        		<exclude name="mobControl_fullScreen.js" />
+            </fileset>
+            <fileset dir="${src.javascript.dir}/map/device-variant/android">
             </fileset>
         </bundle>
-        <bundle name="advance-nonGesturalTouch" parent="common">
+     
+        <bundle name="advance-nonGesturalTouch" parent="common" abstract="true">
         	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
         		<include name="MobileEMS.js" />
         		<include name="patch.js" />
@@ -27,8 +33,14 @@
         	<fileset dir="${src.javascript.dir}/map/device-variant/advance-nonGesturalTouch">
             </fileset>
         </bundle>
+     
+     	<bundle name="intermediate" parent="common" abstract="true">
+        	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
+            </fileset>
+        </bundle>
+           
+        <!-- more specific config per device families -->
         
-        <!-- more specific config per devices -->
         <bundle name="default" parent="advance-nonGesturalTouch">
             <fileset dir="${src.javascript.dir}/map/device-variant/default">
             </fileset>
@@ -37,12 +49,25 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
             </fileset>
         </bundle>
-        <bundle name="android" parent="advance">
-            <fileset dir="${src.javascript.dir}/map/device-variant/android">
+        <bundle name="android-os" parent="advance-android">
+            <fileset dir="${src.javascript.dir}/map/device-variant/android-os">
             </fileset>
         </bundle>
+        
+        <!-- device specific confirg -->
+        
         <bundle name="thub" parent="advance-nonGesturalTouch">
             <fileset dir="${src.javascript.dir}/map/device-variant/thub">
+            </fileset>
+        </bundle>
+        
+        <bundle name="sex10" parent="advance-android">
+            <fileset dir="${src.javascript.dir}/map/device-variant/sex10">
+            </fileset>
+        </bundle>
+        
+        <bundle name="htcDesire" parent="advance-android">
+            <fileset dir="${src.javascript.dir}/map/device-variant/htcDesire">
             </fileset>
         </bundle>
     </bundles>
