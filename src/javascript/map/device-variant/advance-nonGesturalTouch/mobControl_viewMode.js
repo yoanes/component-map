@@ -55,11 +55,15 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		this.div.appendChild(this.photoImage);
 		this.div.appendChild(this.mapImage);
 
-		/* do view change on click of the button */
-		this.div.addEventListener('click', function(e) {this.doViewChange();}.bind(this), false);
+		this.map.events.register("changelayer", this, function(e){
+			this.div.style.opacity = '1';
+		});
 		
-		/* do resize when the map is resized */
-		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
+		/* do view change on click of the button */
+		this.div.addEventListener('click', function(e) {
+			this.div.style.opacity = '0.3';
+			this.doViewChange();
+		}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
 	},
@@ -92,13 +96,6 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 			this.inPhotoMode = false;
 			this.toggle();
 		}
-	},
-	
-	rePosition: function() {
-		var newPosition = this.calcPosition();
-		
-		this.div.style.top = newPosition.y + 'px';
-		this.div.style.left = newPosition.x + 'px';
 	},
 	
 	toggle: function() {
