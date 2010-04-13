@@ -8,8 +8,8 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 
 	active: false,
 	
-	distanceX: 50,
-	distanceY: 50,
+	distanceX: 200,
+	distanceY: 200,
 	
 	nDiv: null,
 	sDiv: null,
@@ -22,6 +22,15 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	eastImage: null,
 	
 	positions: {},
+	
+	layer: {
+		whereis_street_wms: "Whereis Street",
+		whereis_photo_wms: "Whereis Photo",
+		current_key: 'whereis_street_wms',
+		intervalId: null
+	},
+	
+	controlEnabled: true,
 	
 	initialize: function() {
 		this.active = true;
@@ -100,11 +109,36 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.wDiv.appendChild(this.westImage);
 		this.eDiv.appendChild(this.eastImage);
 
+		this.map.events.register("changelayer", this, function(e){
+			if(this.layer.whereis_street_wms == e.layer.name) {
+				this.layer.current_key = 'whereis_street_wms';
+			}
+			else if(this.layer.whereis_photo_wms == e.layer.name) {
+				this.layer.current_key = 'whereis_photo_wms';
+			}
+		});
+		
 		/* do pan on click of these buttons */
-		this.nDiv.addEventListener('click', function(e) {this.map.pan(0, -(this.distanceY));}.bind(this), false);
-		this.sDiv.addEventListener('click', function(e) {this.map.pan(0, this.distanceY);}.bind(this), false);
-		this.wDiv.addEventListener('click', function(e) {this.map.pan(-(this.distanceX), 0);}.bind(this), false);
-		this.eDiv.addEventListener('click', function(e) {this.map.pan(this.distanceX, 0);}.bind(this), false);
+		this.nDiv.addEventListener('click', function(e) {
+			if(this.controlEnabled) {
+				this.doMapPan('n');
+			}
+		}.bind(this), false);
+		this.sDiv.addEventListener('click', function(e) {
+			if(this.controlEnabled) {
+				this.doMapPan('s');
+			}
+		}.bind(this), false);
+		this.wDiv.addEventListener('click', function(e) {
+			if(this.controlEnabled) {
+				this.doMapPan('w');
+			}
+		}.bind(this), false);
+		this.eDiv.addEventListener('click', function(e) {
+			if(this.controlEnabled) {
+				this.doMapPan('e');
+			}
+		}.bind(this), false);
 		
 		/* do resize when the map is resized. Only attached to nDiv under the assumption that
 		 * these controllers can't live on the page without each other
@@ -133,6 +167,54 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		
 		this.eDiv.style.top = this.positions.east.y + 'px';
 		this.eDiv.style.left = this.positions.east.x + 'px';
+	},
+	
+	detectTilesLoad: function() {
+		if(this.map[this.layer.current_key].numLoadingTiles != 0 &&
+		   this.layer.intervalId == null) {
+			this.layer.intervalId = setInterval(function() {
+				if(this.map[this.layer.current_key].numLoadingTiles == 0) {
+					this.enableControl();
+				}
+			}.bind(this), 10);
+		}
+		else {
+			this.enableControl();
+		}
+	},
+	
+	doMapPan: function(d) {
+		this.controlEnabled = false;
+		
+		if(d == 'n') {
+			this.nDiv.style.opacity = '0.3';
+			this.map.pan(0, -(this.distanceY), {animate: false});
+		}
+		else if(d == 's') {
+			this.sDiv.style.opacity = '0.3';
+			this.map.pan(0, this.distanceY, {animate: false});
+		}
+		else if(d == 'w') {
+			this.wDiv.style.opacity = '0.3';
+			this.map.pan(-(this.distanceX), 0, {animate: false});
+		}
+		else if(d == 'e') {
+			this.eDiv.style.opacity = '0.3';
+			this.map.pan(this.distanceX, 0, {animate: false});
+		}
+		
+		this.detectTilesLoad();
+	},
+	
+	revertButton: function() {
+		this.nDiv.style.opacity  = this.sDiv.style.opacity = this.wDiv.style.opacity = this.eDiv.style.opacity = '1';
+	},
+	
+	enableControl: function() {
+		this.controlEnabled = true;
+		clearInterval(this.layer.intervalId);
+		this.layer.intervalId = null;
+		this.revertButton();
 	},
 	
 	destroy: function() {
