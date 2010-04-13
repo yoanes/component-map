@@ -77,7 +77,7 @@ var MobEMS = new Class({
 		/* handle the zoom buttons. */
 		/* Don't try to attach the event if we are at max zoom in/out. The zoomInBtn and zoomOutBtn will not
 		 * be present */
-		if($defined(zommInBtn)) {
+		if($defined(zoomInBtn)) {
 			zoomInBtn.addEvent('click', function(e){
 				/* halt the event */
 				e.stop();
