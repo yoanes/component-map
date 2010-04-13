@@ -12,6 +12,11 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 	zoomInImage: null,
 	zoomOutImage: null,
 	
+	ziDiv: null,
+	zoDiv: null,
+	
+	controlEnabled: true,
+	
 	initialize: function() {
 		this.active = true;
 		
@@ -45,33 +50,40 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		/* set this right otherwise the image can't be seen */
 		this.div.style.zIndex = '750';
 		
+		this.map.events.register("zoomend", this, function() {
+			this.ziDiv.style.opacity = this.zoDiv.style.opacity = '1';
+			this.controlEnabled = true;
+		});
+		
 		/* create a div for zoom In */
-		var ziDiv = new Element('div');
-		ziDiv.appendChild(this.zoomInImage);
-		ziDiv.style.display = 'inline';
-		ziDiv.addEventListener('click', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() + 1);}.bind(this), false);
+		this.ziDiv = new Element('div');
+		this.ziDiv.appendChild(this.zoomInImage);
+		this.ziDiv.style.display = 'inline';
+		this.ziDiv.addEventListener('click', function(e) {
+			if(this.controlEnabled) {
+				this.controlEnabled = false;
+				this.ziDiv.style.opacity = '0.3';
+				this.map.zoomIn();
+			}
+		}.bind(this), false);
 
 		/* and another one for zoom Out */
-		var zoDiv = new Element('div');
-		zoDiv.appendChild(this.zoomOutImage);
-		zoDiv.style.display = 'inline';
-		zoDiv.addEventListener('click', function(e) {EMS.Util.smoothZoom(this.map, this.map.getCenter(), this.map.getCenter(), this.map.getZoom() - 1);}.bind(this), false);
+		this.zoDiv = new Element('div');
+		this.zoDiv.appendChild(this.zoomOutImage);
+		this.zoDiv.style.display = 'inline';
+		this.zoDiv.addEventListener('click', function(e) {
+			if(this.controlEnabled) {
+				this.controlEnabled = false;
+				this.zoDiv.style.opacity = '0.3';
+				this.map.zoomOut();
+			}
+		}.bind(this), false);
 		
 		/* append these zoom divs */
-		this.div.appendChild(ziDiv);
-		this.div.appendChild(zoDiv);
-		
-		/* reposition when the map is resized */
-		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
+		this.div.appendChild(this.ziDiv);
+		this.div.appendChild(this.zoDiv);
 		
 		this.map.div.appendChild(this.div);
-	},
-	
-	rePosition: function() {		
-		var newPosition = this.calcPosition();
-		
-		this.div.style.top = newPosition.y + 'px';
-		this.div.style.left = newPosition.x + 'px';
 	},
 	
 	destroy: function() {
