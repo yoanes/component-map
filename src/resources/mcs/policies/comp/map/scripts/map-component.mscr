@@ -45,7 +45,6 @@
                 <targeted>
                     <devices>
                         <device>Apple</device>
-                        <device>Android-OS</device>
                     </devices>
                 </targeted>
             </selection>
@@ -91,6 +90,88 @@
                         </policy-reference>
                     </base>
                     <relative>map/js/map-component-thub-@project.version.complete@.js</relative>
+                </url>
+            </content>
+        </variant>
+        <variant>
+            <type>script</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>Android-OS</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <meta-data>
+                <script>
+                    <encoding>javascript</encoding>
+                    <character-set>utf-8</character-set>
+                </script>
+            </meta-data>
+            <content>
+                <url>
+                    <base>
+                        <policy-reference>
+                            <name>/comp/map/map-scripts.mgrp</name>
+                            <type>base-url</type>
+                        </policy-reference>
+                    </base>
+                    <relative>map/js/map-component-android-os-@project.version.complete@.js</relative>
+                </url>
+            </content>
+        </variant>
+        <variant>
+            <type>script</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>SonyEricsson-X10</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <meta-data>
+                <script>
+                    <encoding>javascript</encoding>
+                    <character-set>utf-8</character-set>
+                </script>
+            </meta-data>
+            <content>
+                <url>
+                    <base>
+                        <policy-reference>
+                            <name>/comp/map/map-scripts.mgrp</name>
+                            <type>base-url</type>
+                        </policy-reference>
+                    </base>
+                    <relative>map/js/map-component-sex10-@project.version.complete@.js</relative>
+                </url>
+            </content>
+        </variant>
+        <variant>
+            <type>script</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>HTC-A8183</device>
+                        <device>HTC-Desire</device>
+                    </devices>
+                </targeted>
+            </selection>
+            <meta-data>
+                <script>
+                    <encoding>javascript</encoding>
+                    <character-set>utf-8</character-set>
+                </script>
+            </meta-data>
+            <content>
+                <url>
+                    <base>
+                        <policy-reference>
+                            <name>/comp/map/map-scripts.mgrp</name>
+                            <type>base-url</type>
+                        </policy-reference>
+                    </base>
+                    <relative>map/js/map-component-htcDesire-@project.version.complete@.js</relative>
                 </url>
             </content>
         </variant>
