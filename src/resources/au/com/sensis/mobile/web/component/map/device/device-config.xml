@@ -11,6 +11,20 @@
             <generateServerSideMap>false</generateServerSideMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>PC-Win32-IE</deviceId>
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>PC-MacOS-IE</deviceId>
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
         
     <identifiedDeviceConfig>
         <deviceId>Apple</deviceId>
