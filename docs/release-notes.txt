@@ -6,6 +6,9 @@ Fixed:
 
 Minor styling change at JavaScript level for hi end iphone maps.
 
+Upgrade notes:
+- Now depends on wl-core-component 1.0.28
+
 ==== Version 1.1.6-004 (tag: map_v1_1_6-004) ====
 
 Fixed:
