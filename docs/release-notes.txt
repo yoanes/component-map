@@ -1,6 +1,7 @@
 ==== Version 1.1.6-100 (tag: map_v1_1_6-100) ====
 
 Fixed:
+- CUI-142 Map testpage -> The Route (blue coloured line) is missing on the Directions map (Intermittent)
 - CUI-154 Map testpage -> Map controls appear distorted on Samsung A411 
 - CUI-219 Map Component - configure IE on PCs to receive classic maps
 
