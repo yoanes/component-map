@@ -189,6 +189,16 @@
                                     </property>
                                 </properties>
                             </rule>
+                            <rule>
+                                <selector-sequence>
+                                    <id>directionControls</id>
+                                </selector-sequence>
+                                <properties>
+                                    <property name="margin-left">
+                                        <length units="px">5</length>
+                                    </property>
+                                </properties>
+                            </rule>
                         </rules>
                     </style-sheet>
                 </theme>
