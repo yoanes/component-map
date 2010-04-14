@@ -4,7 +4,7 @@ MAP.instances = new Array();
 var MobEMS = new Class({
 	
 	Map: null,
-	Geocoder: null,
+	Geocoder: new EMS.Services.Geocoder(),
 	Itin: null,
 	RouteManager: null,
 	
@@ -40,55 +40,52 @@ var MobEMS = new Class({
 								break;
 							}
 						}
-					}
-				});		
-				
-				this.Geocoder = new EMS.Services.Geocoder();
-				this.RouteManager = new EMS.Services.RouteManager(this.Map);
-				
-				/* parse the mapOption for initial display */
-				if($defined(mapOptions)) {
-					/* consider the boundingBox first. */
-					if($defined(mapOptions.boundingBox)) {
-						var bounds = new OpenLayers.Bounds();
-						bounds.extend(this.formatLatLon(mapOptions.boundingBox.topLeft));
-						bounds.extend(this.formatLatLon(mapOptions.boundingBox.bottomRight));
 						
-						/**
-	                     * Special case for POI maps. The bounding box is considered the minimum area
-	                     * to be viewed. Whereas the zoom might be more zoomed out to give the user more context
-	                     * for where the POIs are. 
-	                     */
-						var zoomForExtent = this.Map.getZoomForExtent(bounds);
-						if ($defined(mapOptions.zoomInThreshold)) {
-							var newZoom = zoomForExtent >= mapOptions.zoomInThreshold ? 
-									mapOptions.zoomInThreshold : zoomForExtent;
-						} else {
-							var newZoom = zoomForExtent;
+						this.RouteManager = new EMS.Services.RouteManager(this.Map);
+						
+						/* parse the mapOption for initial display */
+						if($defined(mapOptions)) {
+							/* consider the boundingBox first. */
+							if($defined(mapOptions.boundingBox)) {
+								var bounds = new OpenLayers.Bounds();
+								bounds.extend(this.formatLatLon(mapOptions.boundingBox.topLeft));
+								bounds.extend(this.formatLatLon(mapOptions.boundingBox.bottomRight));
+								
+								/**
+			                     * Special case for POI maps. The bounding box is considered the minimum area
+			                     * to be viewed. Whereas the zoom might be more zoomed out to give the user more context
+			                     * for where the POIs are. 
+			                     */
+								var zoomForExtent = this.Map.getZoomForExtent(bounds);
+								if ($defined(mapOptions.zoomInThreshold)) {
+									var newZoom = zoomForExtent >= mapOptions.zoomInThreshold ? 
+											mapOptions.zoomInThreshold : zoomForExtent;
+								} else {
+									var newZoom = zoomForExtent;
+								}
+								this.Map.setCenter(bounds.getCenterLonLat(), newZoom);
+							}
+							/* if no boundingBox set the try the lat,lon and zoom */
+							else if($defined(mapOptions.latitude) && $defined(mapOptions.longitude)) {
+								var EMSLatLon = new EMS.LonLat(mapOptions.longitude, mapOptions.latitude);
+								this.Map.setCenter(EMSLatLon, mapOptions.zoom);
+							}
 						}
-						this.Map.setCenter(bounds.getCenterLonLat(), newZoom);
-					}
-					/* if no boundingBox set the try the lat,lon and zoom */
-					else if($defined(mapOptions.latitude) && $defined(mapOptions.longitude)) {
-						var EMSLatLon = new EMS.LonLat(mapOptions.longitude, mapOptions.latitude);
-						this.Map.setCenter(EMSLatLon, mapOptions.zoom);
-					}
-				}
-				
-				/* parse the poiOption for initial display */
-				if($defined(poiOptions)) {
-					this.addPois(poiOptions);
-				}
-				
-				/* parse the directionOptions for initial display */ 
-				if($defined(directionOptions)) {
-					var wayPointsLength = directionOptions.wayPoints.length;
-					
-					for(var i = 0; i < wayPointsLength; i++)
-						this.routeHistory.push(this.routeAddress(directionOptions.wayPoints[i]));
 						
-					this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
-				}
+						/* parse the poiOption for initial display */
+						if($defined(poiOptions)) {
+							this.addPois(poiOptions);
+						}
+						
+						/* parse the directionOptions for initial display */ 
+						if($defined(directionOptions)) {
+							var wayPointsLength = directionOptions.wayPoints.length;	
+							for(var i = 0; i < wayPointsLength; i++)
+								this.routeHistory.push(this.routeAddress(directionOptions.wayPoints[i]));
+							this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
+						}
+					}.bind(this)
+				});		
 			}
 			return true;
 		}.bind(this));
