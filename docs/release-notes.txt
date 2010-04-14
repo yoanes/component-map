@@ -1,3 +1,11 @@
+==== Version 1.1.6-100 (tag: map_v1_1_6-100) ====
+
+Fixed:
+- CUI-154 Map testpage -> Map controls appear distorted on Samsung A411 
+- CUI-219 Map Component - configure IE on PCs to receive classic maps
+
+Minor styling change at JavaScript level for hi end iphone maps.
+
 ==== Version 1.1.6-004 (tag: map_v1_1_6-004) ====
 
 Fixed:
