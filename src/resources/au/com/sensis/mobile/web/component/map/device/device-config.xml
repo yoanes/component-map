@@ -42,7 +42,23 @@
     </identifiedDeviceConfig>    
     
     <identifiedDeviceConfig>
-        <deviceId>Android-OS</deviceId>
+        <deviceId>SonyEricsson-X10</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>false</generateServerSideMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>HTC-Desire</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>false</generateServerSideMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>HTC-A8183</deviceId>
         
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>

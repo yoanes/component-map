@@ -1,3 +1,15 @@
+==== Version 1.1.7 (tag: map_v1_1_7) ====
+
+Fixed:
+- CUI-231 Map Component (Android) - only deliver hi end maps to Rachel and HTC Desire devices
+
+Upgrade notes:
+- The EMS mobi profile appears to have a bug in which it tries to source a CSS file
+  located at theme/default/style.css (note that this is a relative path). For an app like
+  WM, this can result in the home/error page being loaded as CSS, incorrectly parsed
+  as CSS and severely messing up the page. So as a bandaid fix, make sure you define
+  this style.css file at all possible relative paths in your app.   
+
 ==== Version 1.1.6-100 (tag: map_v1_1_6-100) ====
 
 Fixed:
