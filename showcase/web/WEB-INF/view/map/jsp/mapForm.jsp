@@ -73,6 +73,22 @@
     <h4>Get route</h4>
     <xf:group class="mapInput" model="routeFormModel">
     
+        <xf:select1 model="routeFormModel" ref="rop" class="mapLocationInput">
+            <xf:label class="locationMessage">Travel By</xf:label>
+            <xf:item>
+              <xf:label>Car (tolls)</xf:label>
+              <xf:value>roadTolls</xf:value>
+            </xf:item>
+            <xf:item>
+              <xf:label>Car (no tolls)</xf:label>
+              <xf:value>roadNoTolls</xf:value>
+            </xf:item>
+            <xf:item>
+              <xf:label>Walking</xf:label>
+              <xf:value>foot</xf:value>
+            </xf:item>
+        </xf:select1>
+    
         <xf:input ref="rsa" model="routeFormModel" class="mapLocationInput"
                 id="routeStartAddress">
             <xf:label class="locationMessage">Start</xf:label>
@@ -82,7 +98,7 @@
                 id="routeEndAddress">
             <xf:label class="locationMessage">End</xf:label>
         </xf:input>
-
+        
         <xf:submit submission="routeFormSubmission" model="routeFormModel"
                 class="mapButton"
                 title="Render Route/>">

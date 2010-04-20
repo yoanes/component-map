@@ -45,6 +45,10 @@
             <si:item name="rea">
                 <s:property value="routeEndAddress" />
             </si:item>
+            
+            <si:item name="rop">
+                <s:property value="routingOption.shortName" />
+            </si:item>
 
         </si:instance>
     </xf:instance>

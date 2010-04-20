@@ -2,6 +2,7 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.form;
 
 import org.apache.commons.lang.StringUtils;
 
+import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 
 /**
@@ -15,6 +16,7 @@ public class MapForm {
 
     private String routeStartAddress;
     private String routeEndAddress;
+    private String routingOptionAsString;
 
     /**
      * POI search key.
@@ -149,5 +151,42 @@ public class MapForm {
 
         throw new IllegalStateException("Cannot match cursorType '"
                 + getCursorTypeAsString() + "' to any MobilesIconType");
+    }
+
+    /**
+     * @param routingOptionAsString the routingOptionAsString to set
+     */
+    public void setRoutingOptionAsString(final String routingOptionAsString) {
+        this.routingOptionAsString = routingOptionAsString;
+    }
+
+    /**
+     * @return the routingOptionAsString
+     */
+    public String getRoutingOptionAsString() {
+        return routingOptionAsString;
+    }
+
+    /**
+     * Shorthand for {@link #setRoutingOptionAsString(String)}.
+     *
+     * @param routingOptionAsString the routingOptionAsString to set
+     */
+    public void setRop(final String routingOptionAsString) {
+        setRoutingOptionAsString(routingOptionAsString);
+    }
+
+    /**
+     * @return the routingOption
+     */
+    public RoutingOption getRoutingOption() {
+        return RoutingOption.fromShortNameString(getRoutingOptionAsString());
+    }
+
+    /**
+     * @param routingOption the routingOption to set
+     */
+    public void setRoutingOption(final RoutingOption routingOption) {
+        setRoutingOptionAsString(routingOption.getShortName());
     }
 }

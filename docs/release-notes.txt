@@ -1,3 +1,18 @@
+==== Version 1.1.7-001 (tag: map_v1_1_7-001) ====
+
+Fixed:
+- CUI-232: The routing option is not updated when the route cannot be obtained and the code has retried
+    - now depends on sdpCommon-manager 1.0-074.
+    - MapDelegate.getInitialRouteMap documentation updated to mention that the actual RoutingOption
+      used may change.
+    - Showcase now allows the user to select the "Travel By" method for routes.
+    
+Upgrade notes:
+- Now depends on sdpCommon-manager 1.0-074.
+- The RoutingOption contained in the Map.getRouteDetails() returned by MapDelegate.getInitialRouteMap
+  should be used for all subsequent requests to manipulateRouteMap, getInitialRouteLegStepMap and 
+  manipulateRouteLegStepMap. It should also be used to display the routing option used to the user.
+
 ==== Version 1.1.7 (tag: map_v1_1_7) ====
 
 Fixed:

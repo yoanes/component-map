@@ -296,6 +296,15 @@ public interface MapDelegate {
      *            Waypoints that the route should pass through.
      * @param routingOption
      *            {@link RoutingOption} to generate the route with.
+     *            <b>NOTE:</b> The actual routingOption used may be different
+     *            from the requested option due to some restrictions. eg.
+     *            if an attempt is made to walk too great a distance, the
+     *            option will be changed to car. The exact constraints are
+     *            governed by the underlying EMSManager. The returned
+     *            {@link Map#getRouteDetails()} will contain the actual
+     *            {@link RoutingOption} used. You should ensure that you use
+     *            this value for all subsequent requests to manipulateRouteMap,
+     *            getInitialRouteLegStepMap and manipulateRouteLegStepMap.
      * @param mapLayer
      *            The {@link MapLayer} that should be rendered to produce the
      *            map image.

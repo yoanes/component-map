@@ -40,7 +40,7 @@
         <c:when test="${map.routeMap}">
             <s:url id="browseMapUrl" value="%{baseMapUrl}" includeContext="false" escapeAmp="false">
                 <s:param name="rh"><s:property value="#attr.map.routeDetails.emsRouteHandle.identifier"/></s:param>
-                <s:param name="ro"><s:property value="#attr.map.routeDetails.routingOption.shortName"/></s:param>
+                <s:param name="rop"><s:property value="#attr.map.routeDetails.routingOption.shortName"/></s:param>
                 <s:param name="rslat"><s:property value="#attr.map.routeDetails.waypoints.start.latitude"/></s:param>
                 <s:param name="rslon"><s:property value="#attr.map.routeDetails.waypoints.start.longitude"/></s:param>
                 <s:param name="relat"><s:property value="#attr.map.routeDetails.waypoints.end.latitude"/></s:param>
@@ -104,7 +104,7 @@
                 <s:param name="lyr" value="#attr.map.mapLayerShortCode" />
         
                 <s:param name="rh"><s:property value="#attr.map.routeDetails.emsRouteHandle.identifier"/></s:param>
-                <s:param name="ro"><s:property value="#attr.map.routeDetails.routingOption.shortName"/></s:param>
+                <s:param name="rop"><s:property value="#attr.map.routeDetails.routingOption.shortName"/></s:param>
                 <s:param name="rslat"><s:property value="#attr.map.routeDetails.waypoints.start.latitude"/></s:param>
                 <s:param name="rslon"><s:property value="#attr.map.routeDetails.waypoints.start.longitude"/></s:param>
                 <s:param name="relat"><s:property value="#attr.map.routeDetails.waypoints.end.latitude"/></s:param>

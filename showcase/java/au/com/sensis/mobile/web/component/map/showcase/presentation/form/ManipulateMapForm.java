@@ -6,7 +6,6 @@ import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.model.MapLayerTransformer;
 import au.com.sensis.wireless.manager.directions.RouteHandle;
-import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.mapping.LocationMapUrl;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
@@ -33,7 +32,6 @@ public class ManipulateMapForm extends MapForm {
     private String mapLayer;
 
     private String routeHandle;
-    private String routingOption;
     private Double routeStartLatitude;
     private Double routeStartLongitude;
     private Double routeEndLatitude;
@@ -462,40 +460,6 @@ public class ManipulateMapForm extends MapForm {
      */
     public void setRh(final String routeHandle) {
         setRouteHandleAsString(routeHandle);
-    }
-
-
-    /**
-     * @return the routingOption
-     */
-    public RoutingOption getRoutingOption() {
-        return RoutingOption.fromShortNameString(getRoutingOptionAsString());
-    }
-
-
-    /**
-     * @param routingOption the routingOption to set
-     */
-    public void setRoutingOptionAsString(final String routingOption) {
-        this.routingOption = routingOption;
-    }
-
-    /**
-     * @return routingOption the routingOption
-     */
-    public String getRoutingOptionAsString() {
-        return routingOption;
-    }
-
-    /**
-     * Shorthand for {@link #setRoutingOption(String)} so that it can be more
-     * easily set from request params.
-     *
-     * @param routingOption
-     *            the routingOption to set
-     */
-    public void setRo(final String routingOption) {
-        setRoutingOptionAsString(routingOption);
     }
 
     /**

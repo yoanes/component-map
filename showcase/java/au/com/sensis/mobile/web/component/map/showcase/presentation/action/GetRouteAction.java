@@ -10,7 +10,6 @@ import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm
 import au.com.sensis.mobile.web.testbed.ResultName;
 import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
-import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 
 import com.opensymphony.xwork2.ModelDriven;
@@ -55,8 +54,12 @@ public class GetRouteAction extends BusinessAction implements
 
         final Map map =
                 getMapDelegate().getInitialRouteMap(journeyWaypoints,
-                        RoutingOption.FASTEST_BY_ROAD_WITH_TOLLS, MapLayer.Map,
+                        getModel().getRoutingOption(), MapLayer.Map,
                         getContext());
+        // Update the model with the actual routing option used, since the MapDelegate
+        // may change it if the original request was invalid. eg. attempting to walk
+        // a distance > 10km.
+        getModel().setRoutingOption(map.getRouteDetails().getRoutingOption());
 
         setMap(map);
 
