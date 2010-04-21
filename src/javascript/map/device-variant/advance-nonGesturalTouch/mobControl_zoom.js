@@ -60,11 +60,14 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.ziDiv.appendChild(this.zoomInImage);
 		this.ziDiv.style.display = 'inline';
 		this.ziDiv.addEventListener('click', function(e) {
-			if(this.controlEnabled) {
-				this.controlEnabled = false;
-				this.ziDiv.style.opacity = '0.3';
-				this.map.zoomIn();
-			}
+			if(this.map.isValidZoomLevel(this.map.getZoom() + 1)) {
+				if(this.controlEnabled) {
+					this.controlEnabled = false;
+					this.ziDiv.style.opacity = '0.3';
+					this.map.zoomIn();
+				}
+			} 
+			else this.ziDiv.style.opacity = '0.3';
 		}.bind(this), false);
 
 		/* and another one for zoom Out */
@@ -72,11 +75,14 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.zoDiv.appendChild(this.zoomOutImage);
 		this.zoDiv.style.display = 'inline';
 		this.zoDiv.addEventListener('click', function(e) {
-			if(this.controlEnabled) {
-				this.controlEnabled = false;
-				this.zoDiv.style.opacity = '0.3';
-				this.map.zoomOut();
+			if(this.map.isValidZoomLevel(this.map.getZoom() - 1)) {
+				if(this.controlEnabled) {
+					this.controlEnabled = false;
+					this.zoDiv.style.opacity = '0.3';
+					this.map.zoomOut();
+				}
 			}
+			else this.zoDiv.style.opacity = '0.3';
 		}.bind(this), false);
 		
 		/* append these zoom divs */
