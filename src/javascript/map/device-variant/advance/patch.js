@@ -156,3 +156,5 @@ EMS.Services.Map.prototype.initialize = function (div, options) {
     var domain = EMS.Util.getDomain();
     EMS.Ajax.json("/json/auth/init", callback, {parameters:{token: EMS.token, domain: domain}});
 };
+
+OpenLayers._scriptName = "EMS.js";
