@@ -102,6 +102,8 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		this.map.updateSize();
 		
 		this.toggle();
+		
+		this.broadcastPosition();
 	},
 	
 	reOrientate: function() {
@@ -115,6 +117,14 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		
 		this.div.style.top = newPosition.y + 'px';
 		this.div.style.left = newPosition.x + 'px';
+	},
+	
+	broadcastPosition: function() {
+		var mcl = _MapControls_.length;
+		for(var i = 0; i < mcl; i++) {
+			try{_MapControls_[i].rePosition();}
+			catch(e){}
+		}
 	},
 	
 	toggle: function() {
