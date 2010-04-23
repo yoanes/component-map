@@ -7,13 +7,8 @@
             <type>image</type>
             <selection>
                 <targeted>
-                    <devices>
-                        <device>Master</device>
-                    </devices>
                     <categories>
                         <category>M</category>
-                        <category>S</category>
-                        <category>XS</category>
                     </categories>
                 </targeted>
             </selection>
@@ -98,6 +93,40 @@
                         </policy-reference>
                     </base>
                     <relative>map/controls/mc_bg_HD800_5x50.gif</relative>
+                </url>
+            </content>
+        </variant>
+        <variant>
+            <type>image</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>Master</device>
+                    </devices>
+                    <categories>
+                        <category>S</category>
+                        <category>XS</category>
+                    </categories>
+                </targeted>
+            </selection>
+            <meta-data>
+                <image>
+                    <encoding>gif</encoding>
+                    <height>25</height>
+                    <pixel-depth>8</pixel-depth>
+                    <rendering>color</rendering>
+                    <width>2</width>
+                </image>
+            </meta-data>
+            <content>
+                <url>
+                    <base>
+                        <policy-reference>
+                            <name>/comp/map/map-images.mgrp</name>
+                            <type>base-url</type>
+                        </policy-reference>
+                    </base>
+                    <relative>map/controls/mc_bg_S_2x25.gif</relative>
                 </url>
             </content>
         </variant>

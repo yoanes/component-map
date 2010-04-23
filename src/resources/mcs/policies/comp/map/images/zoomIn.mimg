@@ -7,12 +7,8 @@
             <type>image</type>
             <selection>
                 <targeted>
-                    <devices>
-                        <device>Master</device>
-                    </devices>
                     <categories>
                         <category>M</category>
-                        <category>S</category>
                     </categories>
                 </targeted>
             </selection>
@@ -109,6 +105,39 @@
                     </categories>
                 </targeted>
             </selection>
+        </variant>
+        <variant>
+            <type>image</type>
+            <selection>
+                <targeted>
+                    <devices>
+                        <device>Master</device>
+                    </devices>
+                    <categories>
+                        <category>S</category>
+                    </categories>
+                </targeted>
+            </selection>
+            <meta-data>
+                <image>
+                    <encoding>gif</encoding>
+                    <height>25</height>
+                    <pixel-depth>8</pixel-depth>
+                    <rendering>color</rendering>
+                    <width>23</width>
+                </image>
+            </meta-data>
+            <content>
+                <url>
+                    <base>
+                        <policy-reference>
+                            <name>/comp/map/map-images.mgrp</name>
+                            <type>base-url</type>
+                        </policy-reference>
+                    </base>
+                    <relative>map/controls/mc_in_S_23x25.gif</relative>
+                </url>
+            </content>
         </variant>
     </variants>
 </variable-policy>
