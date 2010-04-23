@@ -24,6 +24,8 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		
 		this.dX = 0;
 		this.dY = 0;
+		
+		return false;
 	},
 	
 	execTouchMove: function(e) {
@@ -44,6 +46,8 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		
 		this.dX += diffX;
 		this.dY += diffY;
+		
+		return false;
 	},            
 	
 	execTouchEnd: function(e) {
@@ -52,6 +56,8 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		
 		$(this.map.viewPortDiv).setStyle('margin-left', "0px");
 		$(this.map.viewPortDiv).setStyle('margin-top',  "0px");
+		
+		return false;
 	},
 	
 	/**
