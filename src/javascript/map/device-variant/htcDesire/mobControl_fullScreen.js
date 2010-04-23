@@ -1,10 +1,10 @@
 EMS.Control.FullScreen = OpenLayers.Class(EMS.Control.FullScreenPrototype, { 
 	
-	fullLandscapeWidth: '800px',
-	fullLandscapeHeight: '450px',
+	fullLandscapeWidth: '530px',
+	fullLandscapeHeight: '320px',
 	
-	fullPortraitWidth: '500px',
-	fullPortraitHeight: '750px',
+	fullPortraitWidth: '320px',
+	fullPortraitHeight: '530px',
 	
 });
 
