@@ -1,3 +1,14 @@
+==== Version 1.1.8 (tag: map_v1_1_8) ====
+
+Fixed:
+- [CUI-191] - IPhone - Map Component- Zoom controls, photo control moved from expected position after a refresh and Full screen mode
+- [CUI-230] - Map testpage -> Performance issues -> Loading of map tiles is slow , and sometimes tiles freeze on HTC desire
+- [CUI-236] - Map component -> T-Hub -> Map controls freeze on T-hub map , when min /max zoom level is reached
+- [CUI-241] - Map Component (Android) - disable fullscreen mode for hi end maps on Android devices
+
+Upgrade notes:
+- Please ensure that you redeploy your policies and the latest imageserver.
+
 ==== Version 1.1.7-001 (tag: map_v1_1_7-001) ====
 
 Fixed:
