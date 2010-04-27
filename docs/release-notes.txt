@@ -6,6 +6,11 @@ Fixed:
 - [CUI-236] - Map component -> T-Hub -> Map controls freeze on T-hub map , when min /max zoom level is reached
 - [CUI-241] - Map Component (Android) - disable fullscreen mode for hi end maps on Android devices
 
+Other fixes:
+- Change made for 1.1.7 has been modified. Apps no longer need a bandaid fix to work around the theme/default/style.css
+  issue. Map component ensures that a valid style.css is always included from the EMS server (even though we don't
+  actually need this file).
+
 Upgrade notes:
 - Please ensure that you redeploy your policies and the latest imageserver.
 
