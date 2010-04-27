@@ -1,6 +1,6 @@
 EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, { 
 	
-	Device: "Advance",
+	Device: "Android-OS",
 	CLASS_NAME: "EMS.Control.Zoom",
 	
 	zoomButtonSize: null,

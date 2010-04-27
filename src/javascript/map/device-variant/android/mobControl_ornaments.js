@@ -1,6 +1,6 @@
 EMS.Control.Ornaments = OpenLayers.Class(OpenLayers.Control, { 
 	
-	Device: "Advance",
+	Device: "Android-OS",
 	CLASS_NAME: "EMS.Control.Ornaments",
 	
 	ornamentButtonPadding: 5,

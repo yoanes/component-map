@@ -1,6 +1,6 @@
 EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, { 
 	
-	Device: "Advance",
+	Device: "Android-OS",
 	CLASS_NAME: "EMS.Control.ViewMode",
 	
 	viewButtonSize: null,

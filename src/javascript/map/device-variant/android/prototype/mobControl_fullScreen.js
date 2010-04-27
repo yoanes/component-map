@@ -1,6 +1,6 @@
 EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, { 
 	
-	Device: "Android",
+	Device: "Android-OS",
 	CLASS_NAME: "EMS.Control.FullScreen",
 	
 	resizeButtonSize: null,
