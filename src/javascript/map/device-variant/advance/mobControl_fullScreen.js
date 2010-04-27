@@ -48,7 +48,7 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		
 		var resizeControlExactPosition = this.calcPosition();
 		
-		this.div = OpenLayers.Util.createDiv('FullScreen_Contoller',
+		this.div = OpenLayers.Util.createDiv('FullScreen_Controller',
 				resizeControlExactPosition, this.resizeButtonSize, 
 				'', 'absolute','0px none', '', '1');	
 		

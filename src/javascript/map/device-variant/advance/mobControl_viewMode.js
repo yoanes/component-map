@@ -44,7 +44,7 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		
 		var viewControlExactPosition = this.calcPosition();
 		
-		this.div = OpenLayers.Util.createDiv('ViewMode_Contoller',
+		this.div = OpenLayers.Util.createDiv('ViewMode_Controller',
 				viewControlExactPosition, this.viewButtonSize, 
 				'', 'absolute','0px none', '', '1');	
 		

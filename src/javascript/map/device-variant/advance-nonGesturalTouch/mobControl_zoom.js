@@ -31,20 +31,20 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 	
 	calcPosition: function() {
 		return new OpenLayers.Pixel(
-			this.map.size.w - (this.zoomButtonSize.w * 2) - this.zoomButtonPadding,
+			this.map.size.w - this.zoomButtonSize.w - this.zoomButtonPadding,
 			this.map.size.h - this.zoomButtonSize.h - this.zoomButtonPadding
 		);
 	},
 	
 	draw: function() {
 		/* initialize the button size on draw */
-		this.zoomButtonSize = new OpenLayers.Size(this.zoomInImage.width, this.zoomInImage.height);
+		this.zoomButtonSize = new OpenLayers.Size(this.zoomInImage.width + this.zoomOutImage.width, this.zoomInImage.height);
 		
 		var zoomControlExactPosition = this.calcPosition();
 		
 		/* width of the whole div is twice the zoomButtonSize. */
-		this.div = OpenLayers.Util.createDiv('Zoom_Contoller',
-				zoomControlExactPosition, this.zoomButtonSize * 2, 
+		this.div = OpenLayers.Util.createDiv('Zoom_Controller',
+				zoomControlExactPosition, this.zoomButtonSize, 
 				'', 'absolute','0px none', '', '1');	
 		
 		/* set this right otherwise the image can't be seen */

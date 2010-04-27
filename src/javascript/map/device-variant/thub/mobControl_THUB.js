@@ -81,19 +81,19 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		
 		this.calcPosition();
 		
-		this.nDiv = OpenLayers.Util.createDiv('PanNorth_Contoller',
+		this.nDiv = OpenLayers.Util.createDiv('PanNorth_Controller',
 				this.positions.north, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
-		this.sDiv = OpenLayers.Util.createDiv('PanSouth_Contoller',
+		this.sDiv = OpenLayers.Util.createDiv('PanSouth_Controller',
 				this.positions.south, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
-		this.wDiv = OpenLayers.Util.createDiv('PanWest_Contoller',
+		this.wDiv = OpenLayers.Util.createDiv('PanWest_Controller',
 				this.positions.west, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
-		this.eDiv = OpenLayers.Util.createDiv('PanEast_Contoller',
+		this.eDiv = OpenLayers.Util.createDiv('PanEast_Controller',
 				this.positions.east, this.controlButtonSize, 
 				'', 'absolute','0px none', '', '1');
 		
