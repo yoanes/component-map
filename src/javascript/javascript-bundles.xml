@@ -18,8 +18,8 @@
         
         <bundle name="advance-android" parent="common" abstract="true">
         	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
-        		<include name="**/*" />
-        		<exclude name="mobControl_fullScreen.js" />
+        		<include name="MobileEMS.js" />
+        		<include name="patch.js" />
             </fileset>
             <fileset dir="${src.javascript.dir}/map/device-variant/android">
             </fileset>
