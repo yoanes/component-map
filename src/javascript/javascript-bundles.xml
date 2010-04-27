@@ -16,7 +16,7 @@
             </fileset>
         </bundle>
         
-        <bundle name="advance-android" parent="common" abstract="true">
+        <bundle name="android" parent="common" abstract="true">
         	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
         		<include name="MobileEMS.js" />
         		<include name="patch.js" />
@@ -49,7 +49,7 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
             </fileset>
         </bundle>
-        <bundle name="android-os" parent="advance-android">
+        <bundle name="android-os" parent="android">
             <fileset dir="${src.javascript.dir}/map/device-variant/android-os">
             </fileset>
         </bundle>
@@ -61,12 +61,12 @@
             </fileset>
         </bundle>
         
-        <bundle name="sex10" parent="advance-android">
+        <bundle name="sex10" parent="android">
             <fileset dir="${src.javascript.dir}/map/device-variant/sex10">
             </fileset>
         </bundle>
         
-        <bundle name="htcDesire" parent="advance-android">
+        <bundle name="htcDesire" parent="android">
             <fileset dir="${src.javascript.dir}/map/device-variant/htcDesire">
             </fileset>
         </bundle>
