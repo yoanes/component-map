@@ -65,10 +65,6 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/sex10">
             </fileset>
         </bundle>
-        
-        <bundle name="htcDesire" parent="android">
-            <fileset dir="${src.javascript.dir}/map/device-variant/htcDesire">
-            </fileset>
-        </bundle>
+
     </bundles>
 </bs:bundlesConfig>
