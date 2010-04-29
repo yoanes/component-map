@@ -19,9 +19,6 @@
             <ref local="map.comp.screenDimensionsStrategy"/>
         </property>
         
-        <property name="minZoom" value="@{map.comp.maps.minZoom}" />
-        <property name="maxZoom" value="@{map.comp.maps.maxZoom}" />
-        
         <property name="deviceConfigRegistry">
             <ref local="map.comp.deviceConfigRegistry"/>
         </property>

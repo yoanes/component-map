@@ -98,11 +98,6 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         getObjectUnderTest().setEmsManager(getMockEmsManager());
         getObjectUnderTest().setDeviceConfigRegistry(getMockDeviceConfigRegistry());
 
-        // TODO: There has to be a better way of validating the zoom. See
-        // MapDelegate.getInitialMap comments.
-        getObjectUnderTest().setMinZoom(MIN_ZOOM);
-        getObjectUnderTest().setMaxZoom(MAX_ZOOM);
-
         getObjectUnderTest().setPoiMapRadiusMultiplier(POI_MAP_RADIUS_MULTIPLIER);
     }
 
@@ -123,6 +118,34 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     @Test
     public void testValidateStateWhenValid() throws Throwable {
         getObjectUnderTest().validateState();
+    }
+
+    @Test
+    public void testGetMaxZoom() throws Throwable {
+        final int maxZoom = 11;
+        EasyMock.expect(getMockEmsManager().getMaxZoom()).andReturn(
+                new Integer(maxZoom));
+
+        replay();
+
+        Assert.assertEquals("getMaxZoom() is wrong", maxZoom,
+                getObjectUnderTest().getMaxZoom());
+
+        verify();
+    }
+
+    @Test
+    public void testGetMinZoom() throws Throwable {
+        final int minZoom = 1;
+        EasyMock.expect(getMockEmsManager().getMinZoom()).andReturn(
+                new Integer(minZoom));
+
+        replay();
+
+        Assert.assertEquals("getMinZoom() is wrong", minZoom,
+                getObjectUnderTest().getMinZoom());
+
+        verify();
     }
 
     @Test
@@ -168,6 +191,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
+        recordGetMinMaxZoom();
+
         replay();
 
         final Map map =
@@ -188,6 +213,27 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
                 map.getResolvedIcons());
+    }
+
+    private void recordGetMinMaxZoom() {
+        recordGetMinZoom();
+        recordGetMaxZoom();
+    }
+
+    /**
+     *
+     */
+    private void recordGetMaxZoom() {
+        EasyMock.expect(getMockEmsManager().getMaxZoom())
+            .andReturn(MAX_ZOOM).atLeastOnce();
+    }
+
+    /**
+     *
+     */
+    private void recordGetMinZoom() {
+        EasyMock.expect(getMockEmsManager().getMinZoom())
+            .andReturn(MIN_ZOOM).atLeastOnce();
     }
 
     private void recordShouldGenerateServerSideMap(
@@ -237,6 +283,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 MobilesIconType.CROSS_HAIR,
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
+
+        recordGetMinMaxZoom();
 
         replay();
 
@@ -409,6 +457,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
+        recordGetMinMaxZoom();
+
         replay();
 
         final Map map =
@@ -573,6 +623,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockMobilesBoundingBox().getTopLeft())
             .andReturn(getPoint5()).anyTimes();
 
+        recordGetMinMaxZoom();
+
         replay();
 
         final Map map =
@@ -662,6 +714,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 MobilesIconType.CROSS_HAIR,
                 iconDescriptors, getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
+
+        recordGetMinMaxZoom();
 
         replay();
 
@@ -901,6 +955,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 MobilesIconType.CROSS_HAIR,
                 iconDescriptors, getMockScreenDimensions()))
                     .andReturn(resolvedIcons);
+
+        recordGetMinMaxZoom();
 
         replay();
 
@@ -1152,6 +1208,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
+
+        recordGetMinMaxZoom();
 
         replay();
 
@@ -1445,6 +1503,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
 
+        recordGetMinMaxZoom();
+
         replay();
 
         final Map map =
@@ -1514,6 +1574,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     @Test
     public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomIn()
             throws Throwable {
+        recordGetMinMaxZoom();
+
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
                 UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL - 1);
@@ -1522,6 +1584,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     @Test
     public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
+        recordGetMinMaxZoom();
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
                 UserMapInteraction.ZOOM, MIN_ZOOM, MIN_ZOOM);
@@ -1530,6 +1593,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     @Test
     public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomOut()
             throws Throwable {
+        recordGetMinMaxZoom();
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
                 UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL + 1);
@@ -1538,6 +1602,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     @Test
     public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
+        recordGetMinMaxZoom();
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
                 UserMapInteraction.ZOOM, MAX_ZOOM, MAX_ZOOM);
@@ -1638,7 +1703,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-        .andReturn(soapRouteHandle).atLeastOnce();
+            .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -1739,6 +1804,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS)
                 .atLeastOnce();
 
+        recordGetMinMaxZoom();
+
         replay();
 
         final Map map =
@@ -1825,6 +1892,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockJourneyDescriptor().getRoutingOption())
                 .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS)
                 .atLeastOnce();
+
+        recordGetMinMaxZoom();
 
         replay();
 
@@ -2022,6 +2091,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
 
+        recordGetMinMaxZoom();
+
         replay();
 
         final Map map =
@@ -2091,14 +2162,17 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     @Test
     public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomIn()
             throws Throwable {
+        recordGetMinMaxZoom();
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
                 UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL - 1);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    public void
+        testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
+        recordGetMinMaxZoom();
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
                 UserMapInteraction.ZOOM, MIN_ZOOM, MIN_ZOOM);
@@ -2107,14 +2181,17 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     @Test
     public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomOut()
             throws Throwable {
+        recordGetMinMaxZoom();
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
                 UserMapInteraction.ZOOM, ZOOM_LEVEL, ZOOM_LEVEL + 1);
     }
 
     @Test
-    public void testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    public void
+        testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
+        recordGetMinMaxZoom();
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
                 UserMapInteraction.ZOOM, MAX_ZOOM, MAX_ZOOM);

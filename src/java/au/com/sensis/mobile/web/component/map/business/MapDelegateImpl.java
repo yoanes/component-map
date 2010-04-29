@@ -47,9 +47,6 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
     private DeviceConfigRegistry deviceConfigRegistry;
 
-    private int minZoom;
-    private int maxZoom;
-
     private float poiMapRadiusMultiplier;
 
     /**
@@ -431,30 +428,14 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * @return the minZoom
      */
     public int getMinZoom() {
-        return minZoom;
-    }
-
-    /**
-     * @param minZoom
-     *            the minZoom to set
-     */
-    public void setMinZoom(final int minZoom) {
-        this.minZoom = minZoom;
+        return getEmsManager().getMinZoom().intValue();
     }
 
     /**
      * @return the maxZoom
      */
     public int getMaxZoom() {
-        return maxZoom;
-    }
-
-    /**
-     * @param maxZoom
-     *            the maxZoom to set
-     */
-    public void setMaxZoom(final int maxZoom) {
-        this.maxZoom = maxZoom;
+        return getEmsManager().getMaxZoom().intValue();
     }
 
     /**
