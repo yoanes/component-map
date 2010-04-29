@@ -15,10 +15,10 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 	shrinkImage: null,
 	
 	/* overwrite the following 4 for unique devices */
-	fullLandscapeWidth: '480px',
+/*	fullLandscapeWidth: '480px',  */
 	fullLandscapeHeight: '269px',
-	
-	fullPortraitWidth: window.innerWidth + 'px',
+
+/*	fullPortraitWidth: window.innerWidth + 'px',  */
 	fullPortraitHeight: window.innerHeight + 'px',
 	
 	initialize: function() {
@@ -77,11 +77,11 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 	adjustToFullScreen: function() {
 		if(window.orientation == 0) {
 			$(this.map.div.parentNode).style.height = this.fullPortraitHeight;
-			$(this.map.div.parentNode).style.width = this.fullPortraitWidth;
+	/*		$(this.map.div.parentNode).style.width = this.fullPortraitWidth;   */
 		} 
 		else {
 			$(this.map.div.parentNode).style.height =  this.fullLandscapeHeight;
-			$(this.map.div.parentNode).style.width = this.fullLandscapeWidth;
+	/*		$(this.map.div.parentNode).style.width = this.fullLandscapeWidth;  */
 		}
 		window.scroll(0, this.map.div.parentNode.offsetTop);
 	},
