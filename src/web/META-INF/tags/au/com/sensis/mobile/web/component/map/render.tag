@@ -38,23 +38,16 @@
 <fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
 
 <c:choose>
-    <c:when test="${clientSideGeneratedMapStateChangeUrl != null}">
-        <c:set var="stateChangeUrl" value="${clientSideGeneratedMapStateChangeUrl}"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="stateChangeUrl" value=""/>    
-    </c:otherwise>
-</c:choose>
-    
-<c:choose>
     <c:when test="${not empty map && map.mapImageRetrievalDeferredToClient}">
         <%--
           - We know that the client will generate the map itself (eg. by accessing 
           - EMS directly for JavaScript enhanced maps)
           --%>
+        <c:if test="${clientSideGeneratedMapStateChangeUrl != null}">
+            <%-- Optional URL for client to communicate state changes to the server.  --%>
+            <a id="stateChangeUrl" href="${clientSideGeneratedMapStateChangeUrl}"></a>
+        </c:if>
         
-        <%-- Hi end map. Just dish out the href with empty innerHTML and the map --%>
-    	<a id="stateChangeUrl" href="${stateChangeUrl}"></a>
         <div id="mapWindow">
             &#160;    
 		</div>
