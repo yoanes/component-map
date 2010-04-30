@@ -191,6 +191,87 @@ public final class PoiResult {
     }
 
     /**
+     * @return array of PoiResults matching a "restaurants" near "3006"
+     *         search in the WhereisMobile SSO dev environment (as of 28
+     *         Apr 2010), where WhereisMobile has been modified to display 10 results per page.
+     */
+    public static PoiResult[] createWhereisMobileRestaurantsNearby3006WithPageSize10Results() {
+        final List<PoiResult> results = new ArrayList<PoiResult>();
+
+        final double wineHouseBrasserieLat = -37.82548;
+        final double wineHouseBrasserieLon = 144.96024;
+        results.add(new PoiResult("Wine House Brasserie",
+                "yellowCoreCombinedDataSource",
+                "133 Queensbridge St, Southbank, VIC", wineHouseBrasserieLat,
+                wineHouseBrasserieLon));
+
+        final double enlightenedCuisineLat = -37.824734;
+        final double enlightenedCuisineLon = 144.960305;
+        results.add(new PoiResult("Enlightened Cuisine",
+                "yellowCoreCombinedDataSource",
+                "113 Queensbridge St, Southbank, VIC",
+                enlightenedCuisineLat, enlightenedCuisineLon));
+
+        final double luckyChanSeafood1RestaurantLat = -37.827248;
+        final double luckyChanSeafood1RestaurantLon = 144.95817;
+        results.add(new PoiResult("Lucky Chan Seafood Restaurant",
+                "yellowCoreCombinedDataSource",
+                "Casino Prm, Southbank, VIC",
+                luckyChanSeafood1RestaurantLat, luckyChanSeafood1RestaurantLon));
+
+        final double luckyChanSeafood2RestaurantLat = -37.827248;
+        final double luckyChanSeafood2RestaurantLon = 144.95817;
+        results.add(new PoiResult("Lucky Chan Seafood Restaurant",
+                "yellowCoreCombinedDataSource",
+                "Casino Promenade, Southbank, VIC",
+                luckyChanSeafood2RestaurantLat, luckyChanSeafood2RestaurantLon));
+
+        final double melbourneShortStayApartmentsLat = -37.82406;
+        final double melbourneShortStayApartmentsLon = 144.96159;
+        results.add(new PoiResult("Melbourne Short Stay Apartment",
+                "yellowCoreCombinedDataSource",
+                "186 City Rd, Southbank, VIC", melbourneShortStayApartmentsLat,
+                melbourneShortStayApartmentsLon));
+
+        final double daimonjiJapaneseRestaurantLat = -37.82987;
+        final double daimonjiJapaneseRestaurantLon = 144.95945;
+        results.add(new PoiResult("Daimonji Japanese Restaurant",
+                "yellowCoreCombinedDataSource",
+                "179 Clarendon St, South Melbourne, VIC",
+                daimonjiJapaneseRestaurantLat, daimonjiJapaneseRestaurantLon));
+
+        final double theMasalaHouseLat = -37.82361;
+        final double theMasalaHouseLon = 144.9614;
+        results.add(new PoiResult("The Masala House",
+                "yellowCoreCombinedDataSource",
+                "18 Power St, Southbank, VIC",
+                theMasalaHouseLat, theMasalaHouseLon));
+
+        final double waterfrontSeafoodRestaurantLat = -37.824611;
+        final double waterfrontSeafoodRestaurantLon = 144.957586;
+        results.add(new PoiResult("The Masala House",
+                "yellowCoreCombinedDataSource",
+                "Southbank, VIC",
+                waterfrontSeafoodRestaurantLat, waterfrontSeafoodRestaurantLon));
+
+        final double colonialTramcarRestaurantTheLat = -37.825138;
+        final double colonialTramcarRestaurantTheLon = 144.957062;
+        results.add(new PoiResult("Colonial Tramcar Restaurant The",
+                "yellowCoreCombinedDataSource",
+                "Corner of Clarendon & Whiteman Sts,, South Melbourne, VIC",
+                colonialTramcarRestaurantTheLat, colonialTramcarRestaurantTheLon));
+
+        final double brubakersBagelBarLat = -37.8232665;
+        final double brubakersBagelBarLon = 144.9602375;
+        results.add(new PoiResult("Brubakers Bagel Bar",
+                "yellowCoreCombinedDataSource",
+                "At Crown, Southbank, VIC",
+                brubakersBagelBarLat, brubakersBagelBarLon));
+
+        return results.toArray(new PoiResult[] {});
+    }
+
+    /**
      * @return array of IconDescriptor corresponding to
      *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
      */
@@ -277,6 +358,23 @@ public final class PoiResult {
         return iconDescriptors;
     }
 
+    /**
+     * @return array of IconDescriptor corresponding to
+     *         {@link #createWhereisMobileRestaurantsNearby3006WithPageSize10Results()}.
+     */
+    public static List<IconDescriptor>
+        createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors() {
+
+        final List<IconDescriptor> iconDescriptors =
+            new ArrayList<IconDescriptor>();
+
+        for (final PoiResult poiResult : PoiResult
+                .createWhereisMobileRestaurantsNearby3006WithPageSize10Results()) {
+            iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
+                    poiResult.getLon()));
+        }
+        return iconDescriptors;
+    }
     private static IconDescriptor createIconDescriptor(final double lat, final double lon) {
         return new IconDescriptor(IconType.FREE, new WGS84Point(lon, lat));
     }

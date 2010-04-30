@@ -57,6 +57,10 @@
               <xf:label>WM bassett-smith valuers near 142 Church St Brighton VIC</xf:label>
               <xf:value>bassettSmithValuersNear142ChurchStBrightonVic</xf:value>
             </xf:item>
+            <xf:item>
+              <xf:label>WM restaurants near 3006 (10 results per page)</xf:label>
+              <xf:value>restaurantsNear3006</xf:value>
+            </xf:item>
         </xf:select1>
     
         <xf:submit submission="poisFormSubmission" model="poisFormModel"

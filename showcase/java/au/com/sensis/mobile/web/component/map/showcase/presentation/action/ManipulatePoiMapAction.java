@@ -27,6 +27,7 @@ public class ManipulatePoiMapAction extends BusinessAction implements
     private static final String CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY = "cafeNearTullamarineVic";
     private static final String BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
         = "bassettSmithValuersNear142ChurchStBrightonVic";
+    private static final String RESTAURANTS_NEAR_3006_SEARCH_KEY = "restaurantsNear3006";
 
     private ManipulateMapForm manipulateMapForm;
 
@@ -95,6 +96,15 @@ public class ManipulatePoiMapAction extends BusinessAction implements
                     getModel().getMapUrl(),
                     getModel().getMapLayer(),
                     PoiResult.createSingleResultAt142ChurchStBrightonVicIconDescriptors(),
+                    getDefaultZoom(),
+                    getModel().getAction(), getContext());
+        } else if (RESTAURANTS_NEAR_3006_SEARCH_KEY
+                .equals(getModel().getSearch())) {
+            map = getMapDelegate().manipulatePoiMap(
+                    getModel().getOrignalMapCentre(),
+                    getModel().getMapUrl(),
+                    getModel().getMapLayer(),
+                    PoiResult.createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),
                     getDefaultZoom(),
                     getModel().getAction(), getContext());
         } else {
