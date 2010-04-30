@@ -9,6 +9,24 @@ var MobEMS = new Class({
 	
 	nth: null,
 	
+	/* flag to enable the controllers */
+	enable: true,
+	
+	/* controllers element in intermediate map */
+	zoomInBtn: null,
+	zoomInFBtn: null,
+	
+	zoomOutBtn: null,
+	zoomOutFBtn: null,
+	
+	panNorthBtn: null,
+	panSouthBtn: null,
+	panWestBtn: null,
+	panEastBtn: null,
+	
+	photoBtn: null,
+	mapBtn: null,
+	
 	/**
 	 * on init/window load try to grab the map and assign functions to the onclick event
 	 * each buttons in the map toolbar
@@ -18,7 +36,29 @@ var MobEMS = new Class({
 			/* get the map div */
 			this.Map = $(mapWrapper);
 
+			/* grab all the buttons */
+			this.zoomInBtn = $('zoomInButton');
+			this.zoomInFBtn = $('zoomInFaded');
+			
+			this.zoomOutBtn = $('zoomOutButton');
+			this.zoomOutFBtn = $('zoomOutFaded');
+			
+			this.panNorthBtn = $('panNorthButton');
+			this.panSouthBtn = $('panSouthButton');
+			this.panWestBtn = $('panWestButton');
+			this.panEastBtn = $('panEastButton');
+			
+			this.photoBtn = $('photoButton');
+			this.mapBtn = $('mapButton');
+			
+			/* show and hide the appropriate controllers */
+			this.viewToggle(viewOptions);
+			this.zoomInMaxToggle(false);
+			this.zoomOutMaxToggle(false);
+			
+			/* attach events to the links */
 			this.renderToolbar();
+			
 			return true;
 		}.bind(this));
 		
@@ -29,20 +69,79 @@ var MobEMS = new Class({
 	 * Switch the map view between photo and street. Presumably 
 	 * the hybrid is excluded. 
 	 */
-	switchView: function(v) {
-		if((v == "photo") || (!$defined(v) && this.Map.baseLayer.name == "Whereis Street"))
-			this.Map.setBaseLayer(this.Map.whereis_photo_wms);
-		else this.Map.setBaseLayer(this.Map.whereis_street_wms);	
+	viewToggle: function(v) {
+		if(v == "photo") {
+			this.mapButton.style.display = 'inline';
+			this.photoButton.style.display = 'none';
+		}
+		else if(v == "map") {
+			this.mapButton.style.display = 'none';
+			this.photoButton.style.display = 'inline';
+		}
 	},
 	
+	/**
+	 * toggle for the zoom in and out
+	 */
+	zoomInMaxToggle: function(max) {
+		if(max) {
+			this.zoomInFBtn.style.display = 'inline';
+			this.zoomInBtn.style.display = 'none';
+		}
+		else {
+			this.zoomInFBtn.style.display = 'none';
+			this.zoomInBtn.style.display = 'inline';
+		}
+	},
+	
+	zoomOutMaxToggle: function(max) {
+		if(max){
+			this.zoomOutFBtn.style.display = 'inline';
+			this.zoomOutBtn.style.display = 'none';
+		}
+		else {
+			this.zoomOutFBtn.style.display = 'none';
+			this.zoomOutBtn.style.display = 'inline';
+		}
+	},
+	
+	/**
+	 * methods to do bulk updates on the map controls' urls
+	 */
+	updateURL: function(responseObj) {
+		if(!$defined(responseObj)) return;
+		
+		this.zoomInBtn.href = responseObj.zoomInBtnUrl;
+		this.zoomOutBtn.href = responseObj.zoomOutBtnUrl;
+		
+		this.panEastBtn.href = responseObj.eastBtnUrl;
+		this.panWestBtn.href = responseObj.westBtnUrl;
+		this.panNorthBtn.href = responseObj.northBtnUrl;
+		this.panSouthBtn.href = responseObj.southBtnUrl;
+		
+		this.photoBtn.href = responseObj.photoBtnUrl;
+		this.mapBtn.href = responseObj.mapBtnUrl;
+	},
+	
+	/**
+	 * go and fetch the new image via ajax
+	 */
 	getNewMap: function(url) {
 		/* create a new object to retrieve a new map url via ajax */
 		var MapRequest = new Request({
 			method: 'get',
 			url: this.maintainSession(url),
 			/* on completion of url retrieval, update the map img */
-			onComplete: function(newMapUrl) {
-				this.updateMap(newMapUrl);
+			onComplete: function(jsonResponse) {
+				/* get the new map images */
+				this.updateMap(jsonResponse.mapImage);
+				/* update the zoom controllers */
+				this.zoomInMaxToggle(jsonResponse.minZoom);
+				this.zoomOutMaxToggle(jsonResponse.maxZoom);
+				/* update the urls */
+				this.updateURL(jsonResponse);
+				/* re-enable the controllers */
+				this.enable = true;
 			}.bind(this)
 		});
 		
@@ -57,94 +156,88 @@ var MobEMS = new Class({
 			this.Map.childNodes[0].src = imgSrc;
 	},
 	
+	/**
+	 * execute a click and disable the controllers
+	 */
+	execClick: function(hrefEl) {
+		if(!$defined(hrefEl)) return;
+
+		if(this.enable) {
+			/* grab the url/href value */
+			var url2hit= hrefEl.href;
+			/* get a new map */
+			this.getNewMap(url2hit);
+			/* disable the other controls */
+			this.enable = false;
+		}
+	},
+	
 	/* this method will overwrite the link on the #mapControls
 	 * Ties in closely with the element id. So make sure you update this method when 
 	 * you change the ids in render.tag
 	 *  */
 	renderToolbar: function() {
-		/* grab all the buttons */
-		var zoomInBtn = $('zoomInButton');
-		var zoomOutBtn = $('zoomOutButton');
-		
-		var panNorthBtn = $('panNorthButton');
-		var panSouthBtn = $('panSouthButton');
-		var panWestBtn = $('panWestButton');
-		var panEastBtn = $('panEastButton');
-		
-		var photoBtn = $('photoButton');
-		var mapBtn = $('mapButton');
-		
 		/* handle the zoom buttons. */
 		/* Don't try to attach the event if we are at max zoom in/out. The zoomInBtn and zoomOutBtn will not
 		 * be present */
-		if($defined(zoomInBtn)) {
-			zoomInBtn.addEvent('click', function(e){
-				/* halt the event */
-				e.stop();
-				/* grab the url */
-				var url2hit= zoomInBtn.href;
-				
-				this.getNewMap(url2hit);
-				
-				return false;
-			}.bind(this));
-		}
-		
-		if($defined(zoomOutBtn)) {
-			zoomOutBtn.addEvent('click', function(e){
-				/* halt the event */
-				e.stop();
-				/* grab the url */
-				var url2hit= zoomOutBtn.href;
-				
-				this.getNewMap(url2hit);
-				
-				return false;
-			}.bind(this));
-		}
+
+		this.zoomInBtn.addEvent('click', function(e){
+			/* halt the event */
+			e.stop();
+			this.execClick(this.zoomInBtn);
+			return false;
+		}.bind(this));
+
+		this.zoomOutBtn.addEvent('click', function(e){
+			/* halt the event */
+			e.stop();
+			this.execClick(this.zoomOutBtn);
+			return false;
+		}.bind(this));
+
 		
 		/* handle the pan buttons */
-		panNorthBtn.addEvent('click', function(e){
+		this.panNorthBtn.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			/* grab the url */
-			var url2hit= panNorthBtn.href;
-			
-			this.getNewMap(url2hit);
-			
+			this.execClick(this.panNorthBtn);
 			return false;
 		}.bind(this));
 		
-		panSouthBtn.addEvent('click', function(e){
+		this.panSouthBtn.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			/* grab the url */
-			var url2hit= panSouthBtn.href;
-			
-			this.getNewMap(url2hit);
-			
+			this.execClick(this.panSouthBtn);
 			return false;
 		}.bind(this));
 		
-		panWestBtn.addEvent('click', function(e){
+		this.panWestBtn.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			/* grab the url */
-			var url2hit= panWestBtn.href;
-			
-			this.getNewMap(url2hit);
-			
+			this.execClick(this.panWestBtn);
 			return false;
 		}.bind(this));
 		
-		panEastBtn.addEvent('click', function(e){
+		this.panEastBtn.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			/* grab the url */
-			var url2hit= panEastBtn.href;
-			
-			this.getNewMap(url2hit);
-			
+			this.execClick(this.panEastBtn);
+			return false;
+		}.bind(this));
+		
+		this.photoBtn.addEvent('click', function(e){
+			/* halt the event */
+			e.stop();
+			this.execClick(this.photoBtn);
+			this.viewToggle("photo");
+			return false;
+		}.bind(this));
+		
+		this.mapBtn.addEvent('click', function(e){
+			/* halt the event */
+			e.stop();
+			this.execClick(this.mapBtn);
+			this.viewToggle("map");
 			return false;
 		}.bind(this));
 	}
