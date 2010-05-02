@@ -1,3 +1,24 @@
+==== Version 1.1.9 (tag: map_v1_1_9) ====
+
+Fixed:
+- [CUI-140] - DNF - Map testpage -> Photo view -> The Map appears to be broken when user tries to zoom out the map
+- [CUI-178] - DNF - Map testpage -> Parts /tiles of the map freeze & do not load properly on T-Hub map , sometimes entire page hangs
+- [CUI-220] - Map Component-Photo icon is not aligned in one line with other map controls for smaller devices like ZTE T 6 and TG Tu 550
+- [CUI-224] - FULLSCREEN - Map Component - Whereis Mobile - HTC desire - Full screen mode - Pan on the map scrolling the Home page
+- [CUI-225] - FULLSCREEN - Map testpage -> Homepage Map , Poi's map & Direction summary map in Fullscreen view does not occupy complete screen size on HTC desire
+- [CUI-227] - Map testpage ->Zoom out control (-) appears missing when user returns to vertical screen mode from landscape mode on SEX10
+- [CUI-228] - FULLSCREEN - Map testpage -> Map shrinks at the bottom when user returns to vertical screen mode from landscape mode on HTC desire
+- [CUI-229] - DNF - Map testpage -> Pinch gesture on HTC desire zooms in/out the entire page
+- [CUI-230] - Map testpage -> Performance issues -> Loading of map tiles is slow , and sometimes tiles freeze on HTC desire
+- [CUI-233] - Map component -> Zoom in/out on SE X10 (Rachael) sometimes causes the map to exit fullscreen view (Intermittent)
+- [CUI-235] - Map component -> Zoom in/out controls provided by SE X10 (Rachael) device block the 'Fulscreen' & 'zoom' map component controls
+- [CUI-240] - Android (HTC Bravo + Rachel) - Map Component- Zoom controls, photo control moved from expected position after a refresh and Full screen mode
+- [CUI-244] - HTC Desire - Map tiles do not load smoothly after a few pans
+- [CUI-245] - Map Component - zoom out to maximum zoom breaks if EMS Manager not configured with 16 zoom levels
+- [CUI-246] - Iphone Client -> Map controls appear missing in fulscreen mode on iphone Yellow client
+- [CUI-248] - Yellow Mobile -> Reporting events (ECS) are captured for photo & map view mode on high-end maps
+- [CUI-238] - Remove 'full width' value from the expand map, only use 'full height'
+
 ==== Version 1.1.8 (tag: map_v1_1_8) ====
 
 Fixed:
