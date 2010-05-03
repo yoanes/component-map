@@ -52,7 +52,7 @@ var MobEMS = new Class({
 			this.mapBtn = $('mapButton');
 			
 			/* show and hide the appropriate controllers */
-			this.viewToggle(viewOptions);
+			this.viewToggle(viewOptions.layer);
 			this.zoomInMaxToggle(false);
 			this.zoomOutMaxToggle(false);
 			
@@ -71,12 +71,12 @@ var MobEMS = new Class({
 	 */
 	viewToggle: function(v) {
 		if(v == "photo") {
-			this.mapButton.style.display = 'inline';
-			this.photoButton.style.display = 'none';
+			this.mapBtn.style.display = 'inline';
+			this.photoBtn.style.display = 'none';
 		}
 		else if(v == "map") {
-			this.mapButton.style.display = 'none';
-			this.photoButton.style.display = 'inline';
+			this.mapBtn.style.display = 'none';
+			this.photoBtn.style.display = 'inline';
 		}
 	},
 	
@@ -132,7 +132,8 @@ var MobEMS = new Class({
 			method: 'get',
 			url: this.maintainSession(url),
 			/* on completion of url retrieval, update the map img */
-			onComplete: function(jsonResponse) {
+			onComplete: function(responseText) {
+				var jsonResponse = JSON.decode(responseText);
 				/* get the new map images */
 				this.updateMap(jsonResponse.mapImage);
 				/* update the zoom controllers */
