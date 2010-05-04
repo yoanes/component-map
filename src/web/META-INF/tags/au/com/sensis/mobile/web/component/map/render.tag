@@ -67,6 +67,7 @@
     </c:when>
     
     <c:when test="${not empty map && map.mapImageRetrieved && deviceConfig.enableIntermediateMap}">
+    	<a href="#map" name="map"></a>
         <div id="mapWindow">     
             <object src="${map.mapUrl.imageUrl}" id="map" srctype="image/png">
                 <param name="mcs-transcode" value="false"/>

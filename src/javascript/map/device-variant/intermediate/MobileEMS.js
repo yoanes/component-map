@@ -13,19 +13,16 @@ var MobEMS = new Class({
 	enable: true,
 	
 	/* controllers element in intermediate map */
-	zoomInBtn: null,
-	zoomInFBtn: null,
+	zoomIn: {element: null, href: null, faded: null },
+	zoomOut: {element: null, href: null, faded: null },
 	
-	zoomOutBtn: null,
-	zoomOutFBtn: null,
+	panNorth: {element: null, href: null},
+	panSouth: {element: null, href: null},
+	panWest: {element: null, href: null},
+	panEast: {element: null, href: null},
 	
-	panNorthBtn: null,
-	panSouthBtn: null,
-	panWestBtn: null,
-	panEastBtn: null,
-	
-	photoBtn: null,
-	mapBtn: null,
+	photoMode: {element: null, href: null},
+	mapMode: {element: null, href: null},
 	
 	/**
 	 * on init/window load try to grab the map and assign functions to the onclick event
@@ -37,19 +34,33 @@ var MobEMS = new Class({
 			this.Map = $(mapWrapper);
 
 			/* grab all the buttons */
-			this.zoomInBtn = $('zoomInButton');
-			this.zoomInFBtn = $('zoomInFaded');
+			this.zoomIn.element = $('zoomInButton');
+			this.zoomIn.href = this.zoomIn.element.href;
+			this.zoomIn.faded = $('zoomInFaded');
 			
-			this.zoomOutBtn = $('zoomOutButton');
-			this.zoomOutFBtn = $('zoomOutFaded');
+			this.zoomOut.element= $('zoomOutButton');
+			this.zoomOut.href = this.zoomOut.element.href;
+			this.zoomOut.faded = $('zoomOutFaded');
 			
-			this.panNorthBtn = $('panNorthButton');
-			this.panSouthBtn = $('panSouthButton');
-			this.panWestBtn = $('panWestButton');
-			this.panEastBtn = $('panEastButton');
+			this.panNorth.element = $('panNorthButton');
+			this.panNorth.href = this.panNorth.element.href;
 			
-			this.photoBtn = $('photoButton');
-			this.mapBtn = $('mapButton');
+			this.panSouth.element = $('panSouthButton');
+			this.panSouth.href = this.panSouth.element.href;
+			
+			this.panWest.element = $('panWestButton');
+			this.panWest.href = this.panWest.element.href;
+			
+			this.panEast.element = $('panEastButton');
+			this.panEast.href = this.panEast.element.href;
+			
+			this.photoMode.element = $('photoButton');
+			this.photoMode.href = this.photoMode.element.href;
+			
+			this.mapMode.element = $('mapButton');
+			this.mapMode.href = this.mapMode.element.href;
+			
+			this.zoomIn.element.href = this.zoomOut.element.href = this.panNorth.element.href = this.panSouth.element.href = this.panWest.element.href = this.panEast.element.href = this.photoMode.element.href = this.mapMode.element.href = "#map";
 			
 			/* show and hide the appropriate controllers */
 			this.viewToggle(viewOptions.layer);
@@ -71,12 +82,12 @@ var MobEMS = new Class({
 	 */
 	viewToggle: function(v) {
 		if(v == "photo") {
-			this.mapBtn.style.display = 'inline';
-			this.photoBtn.style.display = 'none';
+			this.mapMode.element.style.display = 'inline';
+			this.photoMode.element.style.display = 'none';
 		}
 		else if(v == "map") {
-			this.mapBtn.style.display = 'none';
-			this.photoBtn.style.display = 'inline';
+			this.mapMode.element.style.display = 'none';
+			this.photoMode.element.style.display = 'inline';
 		}
 	},
 	
@@ -85,23 +96,23 @@ var MobEMS = new Class({
 	 */
 	zoomInMaxToggle: function(max) {
 		if(max) {
-			this.zoomInFBtn.style.display = 'inline';
-			this.zoomInBtn.style.display = 'none';
+			this.zoomIn.faded.style.display = 'inline';
+			this.zoomIn.element.style.display = 'none';
 		}
 		else {
-			this.zoomInFBtn.style.display = 'none';
-			this.zoomInBtn.style.display = 'inline';
+			this.zoomIn.faded.style.display = 'none';
+			this.zoomIn.element.style.display = 'inline';
 		}
 	},
 	
 	zoomOutMaxToggle: function(max) {
 		if(max){
-			this.zoomOutFBtn.style.display = 'inline';
-			this.zoomOutBtn.style.display = 'none';
+			this.zoomOut.faded.style.display = 'inline';
+			this.zoomOut.element.style.display = 'none';
 		}
 		else {
-			this.zoomOutFBtn.style.display = 'none';
-			this.zoomOutBtn.style.display = 'inline';
+			this.zoomOut.faded.style.display = 'none';
+			this.zoomOut.element.style.display = 'inline';
 		}
 	},
 	
@@ -111,16 +122,16 @@ var MobEMS = new Class({
 	updateURL: function(responseObj) {
 		if(!$defined(responseObj)) return;
 		
-		this.zoomInBtn.href = responseObj.zoomInBtnUrl;
-		this.zoomOutBtn.href = responseObj.zoomOutBtnUrl;
+		this.zoomIn.href = responseObj.zoomInBtnUrl;
+		this.zoomOut.href = responseObj.zoomOutBtnUrl;
 		
-		this.panEastBtn.href = responseObj.eastBtnUrl;
-		this.panWestBtn.href = responseObj.westBtnUrl;
-		this.panNorthBtn.href = responseObj.northBtnUrl;
-		this.panSouthBtn.href = responseObj.southBtnUrl;
+		this.panEast.href = responseObj.eastBtnUrl;
+		this.panWest.href = responseObj.westBtnUrl;
+		this.panNorth.href = responseObj.northBtnUrl;
+		this.panSouth.href = responseObj.southBtnUrl;
 		
-		this.photoBtn.href = responseObj.photoBtnUrl;
-		this.mapBtn.href = responseObj.mapBtnUrl;
+		this.photoMode.href = responseObj.photoBtnUrl;
+		this.mapMode.href = responseObj.mapBtnUrl;
 	},
 	
 	/**
@@ -146,7 +157,7 @@ var MobEMS = new Class({
 			}.bind(this)
 		});
 		
-		MapRequest.send();
+		MapRequest.send('xrw=xhr');
 	},
 	
 	/* method to update the displayed map 
@@ -160,14 +171,12 @@ var MobEMS = new Class({
 	/**
 	 * execute a click and disable the controllers
 	 */
-	execClick: function(hrefEl) {
-		if(!$defined(hrefEl)) return;
+	execClick: function(url) {
+		if(!$defined(url)) return;
 
 		if(this.enable) {
-			/* grab the url/href value */
-			var url2hit= hrefEl.href;
 			/* get a new map */
-			this.getNewMap(url2hit);
+			this.getNewMap(url);
 			/* disable the other controls */
 			this.enable = false;
 		}
@@ -182,62 +191,62 @@ var MobEMS = new Class({
 		/* Don't try to attach the event if we are at max zoom in/out. The zoomInBtn and zoomOutBtn will not
 		 * be present */
 
-		this.zoomInBtn.addEvent('click', function(e){
+		this.zoomIn.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.zoomInBtn);
+			this.execClick(this.zoomIn.href);
 			return false;
 		}.bind(this));
 
-		this.zoomOutBtn.addEvent('click', function(e){
+		this.zoomOut.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.zoomOutBtn);
+			this.execClick(this.zoomOut.href);
 			return false;
 		}.bind(this));
 
 		
 		/* handle the pan buttons */
-		this.panNorthBtn.addEvent('click', function(e){
+		this.panNorth.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.panNorthBtn);
+			this.execClick(this.panNorth.href);
 			return false;
 		}.bind(this));
 		
-		this.panSouthBtn.addEvent('click', function(e){
+		this.panSouth.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.panSouthBtn);
+			this.execClick(this.panSouth.href);
 			return false;
 		}.bind(this));
 		
-		this.panWestBtn.addEvent('click', function(e){
+		this.panWest.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.panWestBtn);
+			this.execClick(this.panWest.href);
 			return false;
 		}.bind(this));
 		
-		this.panEastBtn.addEvent('click', function(e){
+		this.panEast.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.panEastBtn);
+			this.execClick(this.panEast.href);
 			return false;
 		}.bind(this));
 		
-		this.photoBtn.addEvent('click', function(e){
+		this.photoMode.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.photoBtn);
+			this.execClick(this.photoMode.href);
 			this.viewToggle("photo");
 			return false;
 		}.bind(this));
 		
-		this.mapBtn.addEvent('click', function(e){
+		this.mapMode.element.addEvent('click', function(e){
 			/* halt the event */
 			e.stop();
-			this.execClick(this.mapBtn);
+			this.execClick(this.mapMode.href);
 			this.viewToggle("map");
 			return false;
 		}.bind(this));
