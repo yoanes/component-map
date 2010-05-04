@@ -42,7 +42,7 @@
 {
     mapImage: '<c:out value="${map.mapUrl.imageUrl}" escapeXml="false"/>' ,
 
-    eastBtnUrl: '<c:out value="${panEastUrl}" escapeXml="false" /> ' ,
+    eastBtnUrl: '<c:out value="${panEastUrl}" escapeXml="false" />' ,
     westBtnUrl: '<c:out value="${panWestUrl}" escapeXml="false" />' ,
     northBtnUrl: '<c:out value="${panNorthUrl}" escapeXml="false" />' ,
     southBtnUrl: '<c:out value="${panSouthUrl}" escapeXml="false" />' ,
