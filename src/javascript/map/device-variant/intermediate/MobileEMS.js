@@ -1,7 +1,7 @@
 MAP = {};
 MAP.instances = new Array();
 
-var MobEMS = new Class({
+var MobEMSPrototype = new Class({
 	
 	Map: null,
 
@@ -157,7 +157,7 @@ var MobEMS = new Class({
 			}.bind(this)
 		});
 		
-		MapRequest.send('xrw=xhr');
+		MapRequest.send();
 	},
 	
 	/* method to update the displayed map 

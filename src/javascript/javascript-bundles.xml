@@ -65,6 +65,16 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/sex10">
             </fileset>
         </bundle>
+        
+        <bundle name="nokia6120" parent="intermediate">
+            <fileset dir="${src.javascript.dir}/map/device-variant/nokia6120">
+            </fileset>
+        </bundle>
 
+		<bundle name="samsungC5220" parent="intermediate">
+            <fileset dir="${src.javascript.dir}/map/device-variant/samsungC5220">
+            </fileset>
+        </bundle>
+        
     </bundles>
 </bs:bundlesConfig>
