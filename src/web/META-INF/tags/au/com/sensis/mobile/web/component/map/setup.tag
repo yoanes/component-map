@@ -1,11 +1,16 @@
 <%@ tag body-content="empty" isELIgnored="false" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 <%@ taglib prefix="ems" uri="/au/com/sensis/mobile/web/component/ems/ems.tld"%>
 <%@ taglib prefix="util" uri="/au/com/sensis/mobile/web/component/util/util.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
+<%@ attribute name="device" required="true"
+    type="au.com.sensis.wireless.common.volantis.devicerepository.api.Device"  
+    description="Device of the current user." %>
+    
 <%@ attribute name="map" required="true"
     type="au.com.sensis.mobile.web.component.map.model.Map"  
     description="Map returned by the MapDelegate." %>
@@ -13,12 +18,23 @@
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
 <logging:debug logger="${logger}" message="Entering setup.tag" />
 
+<%-- Set the default resource bundle for the current tag file. --%>    
+<fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
+
+<%-- Figure out the name of the current component.--%>
+<c:set var="componentName">
+    <fmt:message key="comp.name" />
+</c:set>
+<core:deviceConfig var="deviceConfig" device="${device}" 
+    registryBeanName="${componentName}.comp.deviceConfigRegistry"/>
+
 <core:compMcsBasePath var="compMcsBasePath" />
 
 <%-- Themes for current component. --%>
 <core:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
 
-<c:if test="${not empty map && map.mapImageRetrievalDeferredToClient}">
+<%-- Hi end map themes and JavaScript. --%>
+<c:if test="${not empty map && map.mapImageRetrievalDeferredToClient && deviceConfig.enableHiEndMap}">
     <%-- Setup components that we depend on. --%>
     <core:setup />
     <ems:setup />
@@ -112,17 +128,40 @@
                 </c:otherwise>
             </c:choose> 
         
-            var MEMS = new MobEMS('mapWindow', 
+            new MobEMS('mapWindow', 
                 {
-                    layer: '<c:out value="${map.jsMapLayer}"/>',
-                    photoLayerAnchorId: 'photoButton',
-                    mapLayerAnchorId: 'mapButton',
-                    zoomInAnchorId: 'zoomInButton',
-                    zoomOutAnchorId: 'zoomOutButton'
+                    layer: '<c:out value="${map.jsMapLayer}"/>'
                 },                
                 mapOptions,
                 icons, 
                 directions
+            );
+        }
+    </core:script>
+</c:if>    
+
+<%-- Intermediate map themes and JavaScript. --%>
+<c:if test="${not empty map && map.mapImageRetrieved && deviceConfig.enableIntermediateMap}">
+    <%-- Setup components that we depend on. --%>
+    <core:setup />
+    <util:setup />
+    <logging:setup />
+    
+    <%-- Themes for current component. --%>
+    <%--<core:link rel="mcs:theme" href="${compMcsBasePath}/map/hiMap.mthm" />--%>
+    
+    <%-- Scripts for current component. --%>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component-tilePath.mscr"></core:script>
+    
+    <core:script name="create-map" type="text/javascript">
+        if(typeof(MobEMS) != 'undefined') {
+            new MobEMS(
+                'mapWindow',
+                {
+                    layer: '<c:out value="${map.jsMapLayer}"/>'
+                }                
             );
         }
     </core:script>

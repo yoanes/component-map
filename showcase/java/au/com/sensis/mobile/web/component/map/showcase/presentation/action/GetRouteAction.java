@@ -3,33 +3,21 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 import org.apache.log4j.Logger;
 
 import au.com.sensis.address.GeocodedAddress;
-import au.com.sensis.mobile.web.component.map.business.MapDelegate;
 import au.com.sensis.mobile.web.component.map.model.Map;
-import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
-import au.com.sensis.mobile.web.testbed.ResultName;
-import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 
-import com.opensymphony.xwork2.ModelDriven;
-
 /**
- * Demonstrates how to get an initial Route map using the {@link MapDelegate}.
+ * Demonstrates how to get an initial Route map using the {@link #getMapDelegate()}.
  *
  * @author Adrian.Koh2@sensis.com.au
  */
-public class GetRouteAction extends BusinessAction implements
-        ModelDriven<MapForm> {
+public class GetRouteAction extends AbstractMapAction {
 
     private static Logger logger = Logger.getLogger(GetRouteAction.class);
 
     private MapForm mapForm;
-
-    private LocationDelegate locationDelegate;
-    private MapDelegate mapDelegate;
-
-    private Map map;
 
     /**
      * Executes this action and returns a result name.
@@ -67,8 +55,7 @@ public class GetRouteAction extends BusinessAction implements
             logger.debug("mapUrl found: " + getMap().getMapUrl());
         }
 
-        return ResultName.SUCCESS;
-
+        return successOrAjaxSuccess();
     }
 
     /**
@@ -89,50 +76,5 @@ public class GetRouteAction extends BusinessAction implements
             mapForm = new MapForm();
         }
         return mapForm;
-    }
-
-    /**
-     * @return the locationDelegate
-     */
-    public LocationDelegate getLocationDelegate() {
-        return locationDelegate;
-    }
-
-    /**
-     * @param locationDelegate
-     *            the locationDelegate to set
-     */
-    public void setLocationDelegate(final LocationDelegate locationDelegate) {
-        this.locationDelegate = locationDelegate;
-    }
-
-    /**
-     * @return the map
-     */
-    public Map getMap() {
-        return map;
-    }
-
-    /**
-     * @param map
-     *            the map to set
-     */
-    public void setMap(final Map map) {
-        this.map = map;
-    }
-
-    /**
-     * @return the mapDelegate
-     */
-    public MapDelegate getMapDelegate() {
-        return mapDelegate;
-    }
-
-    /**
-     * @param mapDelegate
-     *            the mapDelegate to set
-     */
-    public void setMapDelegate(final MapDelegate mapDelegate) {
-        this.mapDelegate = mapDelegate;
     }
 }

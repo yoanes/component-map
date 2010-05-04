@@ -3,23 +3,16 @@ package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 import org.apache.log4j.Logger;
 
 import au.com.sensis.address.WGS84Point;
-import au.com.sensis.mobile.web.component.map.business.MapDelegate;
 import au.com.sensis.mobile.web.component.map.model.Map;
-import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
-import au.com.sensis.mobile.web.testbed.ResultName;
-import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 
-import com.opensymphony.xwork2.ModelDriven;
-
 /**
- * Demonstrates how to get an initial POI map using the {@link MapDelegate}.
+ * Demonstrates how to get an initial POI map using the {@link #getMapDelegate()}.
  *
  * @author Adrian.Koh2@sensis.com.au
  */
-public class GetPoisAction extends BusinessAction implements
-        ModelDriven<MapForm> {
+public class GetPoisAction extends AbstractMapAction {
 
     private static final WGS84Point MELBOURCE_VIC_COORDINATES
         = new WGS84Point(144.9628322, -37.8133895);
@@ -47,11 +40,6 @@ public class GetPoisAction extends BusinessAction implements
     private static Logger logger = Logger.getLogger(GetPoisAction.class);
 
     private MapForm mapForm;
-
-    private LocationDelegate locationDelegate;
-    private MapDelegate mapDelegate;
-
-    private Map map;
 
     private int defaultZoom;
 
@@ -99,7 +87,8 @@ public class GetPoisAction extends BusinessAction implements
             // result at the same (lat, lon) as the search centre.
             map = getMapDelegate().getInitialPoiMap(
                     POSTCODE_3006_COORDINATES, MapLayer.Map,
-                    PoiResult.createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),
+                    PoiResult
+                        .createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),
                     defaultZoom, getContext());
         } else {
             throw new UnsupportedOperationException("Unsupported search key: '"
@@ -112,8 +101,7 @@ public class GetPoisAction extends BusinessAction implements
             logger.debug("mapUrl found: " + getMap().getMapUrl());
         }
 
-        return ResultName.SUCCESS;
-
+        return successOrAjaxSuccess();
     }
 
     /**
@@ -128,40 +116,10 @@ public class GetPoisAction extends BusinessAction implements
     }
 
     /**
-     * @return the locationDelegate
-     */
-    public LocationDelegate getLocationDelegate() {
-        return locationDelegate;
-    }
-
-    /**
-     * @param locationDelegate
-     *            the locationDelegate to set
-     */
-    public void setLocationDelegate(final LocationDelegate locationDelegate) {
-        this.locationDelegate = locationDelegate;
-    }
-
-    /**
      * @return the defaultZoom.
      */
     public int getDefaultZoom() {
         return defaultZoom;
-    }
-
-    /**
-     * @return the map
-     */
-    public Map getMap() {
-        return map;
-    }
-
-    /**
-     * @param map
-     *            the map to set
-     */
-    public void setMap(final Map map) {
-        this.map = map;
     }
 
     /**
@@ -170,20 +128,5 @@ public class GetPoisAction extends BusinessAction implements
      */
     public void setDefaultZoom(final int defaultZoom) {
         this.defaultZoom = defaultZoom;
-    }
-
-    /**
-     * @return the mapDelegate
-     */
-    public MapDelegate getMapDelegate() {
-        return mapDelegate;
-    }
-
-    /**
-     * @param mapDelegate
-     *            the mapDelegate to set
-     */
-    public void setMapDelegate(final MapDelegate mapDelegate) {
-        this.mapDelegate = mapDelegate;
     }
 }

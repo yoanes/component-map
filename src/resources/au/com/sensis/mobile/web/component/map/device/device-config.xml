@@ -9,6 +9,8 @@
         <deviceId>PC</deviceId>
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>true</enableHiEndMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
     
@@ -16,6 +18,8 @@
         <deviceId>PC-Win32-IE</deviceId>
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
     
@@ -23,6 +27,8 @@
         <deviceId>PC-MacOS-IE</deviceId>
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
         
@@ -31,12 +37,16 @@
         
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>true</enableHiEndMap>
         </deviceConfig>
         
         <userAgentDeviceConfig>
             <useragentRegex>.*OS [012]_.*</useragentRegex>
             <deviceConfig xsi:type="map:DeviceConfig">
                 <generateServerSideMap>true</generateServerSideMap>
+                <enableIntermediateMap>false</enableIntermediateMap>
+                <enableHiEndMap>false</enableHiEndMap>
             </deviceConfig>
         </userAgentDeviceConfig>
     </identifiedDeviceConfig>    
@@ -46,6 +56,8 @@
         
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>true</enableHiEndMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
     
@@ -54,6 +66,8 @@
         
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>true</enableHiEndMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
     
@@ -62,6 +76,8 @@
         
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>true</enableHiEndMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
     
@@ -69,10 +85,54 @@
         <deviceId>SAGEM-HomeManager</deviceId>
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>false</generateServerSideMap>
+            <enableIntermediateMap>false</enableIntermediateMap>
+            <enableHiEndMap>true</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>Samsung-GT-C5220</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>Nokia-6120c</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>Nokia-N85</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>Nokia-N95</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
         </deviceConfig>
     </identifiedDeviceConfig>    
     
     <defaultDeviceConfig xsi:type="map:DeviceConfig">
         <generateServerSideMap>true</generateServerSideMap>
+        <enableIntermediateMap>false</enableIntermediateMap>
+        <enableHiEndMap>false</enableHiEndMap>
     </defaultDeviceConfig>
 </core:deviceConfigs>

@@ -34,7 +34,7 @@
             </fileset>
         </bundle>
      
-     	<bundle name="intermediate" parent="common" abstract="true">
+     	<bundle name="intermediate" parent="common">
         	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
             </fileset>
         </bundle>

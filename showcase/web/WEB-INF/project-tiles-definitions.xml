@@ -45,7 +45,11 @@
         <put-attribute name="mapControlsActionName" value="manMap"/>
         <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="mapStateChange"/>
     </definition>
-
+    
+    <definition name="map.component.map.json" template="/WEB-INF/view/map/jsp/jsonMap.jsp">
+        <put-attribute name="mapControlsActionName" value="manMap"/>
+    </definition>
+    
     <!-- ======================================================================================= -->
     <!-- POIs.                                                                                   -->
     <!-- ======================================================================================= -->
@@ -64,6 +68,10 @@
     <definition name="map.component.poisAndControls" template="/WEB-INF/view/map/layout/mapAndControlsLayout.jsp">
         <put-attribute name="mapControlsActionName" value="manPoiMap"/>
         <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="poiMapStateChange"/>
+    </definition>
+    
+    <definition name="map.component.pois.json" template="/WEB-INF/view/map/jsp/jsonMap.jsp">
+        <put-attribute name="mapControlsActionName" value="manPoiMap"/>
     </definition>
     
     <!-- ======================================================================================= -->
@@ -86,6 +94,10 @@
         <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="routeMapStateChange"/>
     </definition>
     
+    <definition name="map.component.route.json" template="/WEB-INF/view/map/jsp/jsonMap.jsp">
+        <put-attribute name="mapControlsActionName" value="manRouteMap"/>
+    </definition>
+    
     <!-- ======================================================================================= -->
     <!-- Route leg step.                                                                         -->
     <!-- ======================================================================================= -->
@@ -104,6 +116,10 @@
     <definition name="map.component.routeLegStepAndControls" template="/WEB-INF/view/map/layout/mapAndControlsLayout.jsp">
         <put-attribute name="mapControlsActionName" value="manRouteLegStepMap"/>
         <put-attribute name="clientSideGeneratedMapStateChangeActionName" value="routeMapStateChange"/>
+    </definition>
+    
+    <definition name="map.component.route.leg.json" template="/WEB-INF/view/map/jsp/jsonMap.jsp">
+        <put-attribute name="mapControlsActionName" value="manRouteLegStepMap"/>
     </definition>
 
 </tiles-definitions>

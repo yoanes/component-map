@@ -10,44 +10,39 @@
 
     </bean>
     
-    <bean id="getMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetMapAction"
-            scope="prototype">
+    <bean id="abstractMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.AbstractMapAction"
+            scope="prototype" abstract="true">
         <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="locationManager" ref="locationManager"/>
         <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+        <property name="xmlHttpRequestDetector" ref="core.comp.xmlHttpRequestDetector"/>
+    </bean>
+    
+    <bean id="getMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetMapAction"
+            scope="prototype" parent="abstractMapAction">
+        <property name="locationManager" ref="locationManager"/>
         <property name="defaultZoom" value="${app.service.location.defaultZoomLevel}" />
     </bean>
     
     <bean id="manMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ManipulateMapAction"
-            scope="prototype">
-        <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+            scope="prototype" parent="abstractMapAction">
     </bean>
 
     <bean id="getPoisAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetPoisAction"
-            scope="prototype">
-        <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+            scope="prototype" parent="abstractMapAction">
         <property name="defaultZoom" value="${app.service.location.defaultZoomLevel}" />
     </bean>
 
     <bean id="manPoiMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ManipulatePoiMapAction"
-            scope="prototype">
-        <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+            scope="prototype" parent="abstractMapAction">
         <property name="defaultZoom" value="${app.service.location.defaultZoomLevel}" />            
     </bean>
     
     <bean id="getRouteAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetRouteAction"
-            scope="prototype">
-        <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+            scope="prototype" parent="abstractMapAction">
     </bean>
     
     <bean id="manRouteMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ManipulateRouteMapAction"
-            scope="prototype">
-        <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+            scope="prototype" parent="abstractMapAction">
     </bean>
     
     <bean id="clientSideGeneratedMapStateChangeAction" 
@@ -56,14 +51,10 @@
     </bean>
     
     <bean id="getRouteLegStepMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.GetRouteLegStepMapAction"
-            scope="prototype">
-        <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+            scope="prototype" parent="abstractMapAction">
     </bean>
     
     <bean id="manRouteLegStepMapAction" class="au.com.sensis.mobile.web.component.map.showcase.presentation.action.ManipulateRouteLegStepMapAction"
-            scope="prototype">
-        <property name="locationDelegate" ref="locationDelegate"/>
-        <property name="mapDelegate" ref="map.comp.mapDelegate"/>
+            scope="prototype" parent="abstractMapAction">
     </bean>
 </beans>

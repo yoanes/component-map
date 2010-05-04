@@ -9,10 +9,12 @@
 
         <action name="getMap" class="getMapAction" >
             <result name="success" type="tiles">map.component.map</result>
+            <result name="ajaxSuccess" type="tiles">map.component.map.json</result>
         </action>
 
         <action name="manMap" class="manMapAction" >
             <result name="success" type="tiles">map.component.map</result>
+            <result name="ajaxSuccess" type="tiles">map.component.map.json</result>
         </action>
 
         <action name="mapStateChange" class="clientSideGeneratedMapStateChangeAction" >
@@ -21,10 +23,12 @@
         
         <action name="getPois" class="getPoisAction" >
             <result name="success" type="tiles">map.component.pois</result>
+            <result name="ajaxSuccess" type="tiles">map.component.pois.json</result>
         </action>
         
         <action name="manPoiMap" class="manPoiMapAction" >
             <result name="success" type="tiles">map.component.pois</result>
+            <result name="ajaxSuccess" type="tiles">map.component.pois.json</result>
         </action>
 
         <action name="poiMapStateChange" class="clientSideGeneratedMapStateChangeAction" >
@@ -33,10 +37,12 @@
         
         <action name="getRoute" class="getRouteAction" >
             <result name="success" type="tiles">map.component.route</result>
+            <result name="ajaxSuccess" type="tiles">map.component.route.json</result>
         </action>
         
         <action name="manRouteMap" class="manRouteMapAction" >
             <result name="success" type="tiles">map.component.route</result>
+            <result name="ajaxSuccess" type="tiles">map.component.route.json</result>
         </action>
 
         <action name="routeMapStateChange" class="clientSideGeneratedMapStateChangeAction" >
@@ -45,10 +51,12 @@
         
         <action name="getRouteLegStepMap" class="getRouteLegStepMapAction" >
             <result name="success" type="tiles">map.component.route.leg</result>
+            <result name="ajaxSuccess" type="tiles">map.component.route.leg.json</result>
         </action>
         
         <action name="manRouteLegStepMap" class="manRouteLegStepMapAction" >
             <result name="success" type="tiles">map.component.route.leg</result>
+            <result name="ajaxSuccess" type="tiles">map.component.route.leg.json</result>
         </action>
         
 

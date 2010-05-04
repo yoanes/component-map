@@ -90,7 +90,8 @@
     <s:url id="stateChangeUrl" namespace="/map" action="%{#attr.clientSideGeneratedMapStateChangeActionName}"
             includeContext="true"/>
 
-    <map:render map="${map}" zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
+    <map:render device="${context.device}" map="${map}" 
+        zoomInUrl="${zoomInUrl}" zoomOutUrl="${zoomOutUrl}" 
         panNorthUrl="${panNorthUrl}" panSouthUrl="${panSouthUrl}"
         panEastUrl="${panEastUrl}" panWestUrl="${panWestUrl}"
         photoLayerUrl="${photoLayerUrl}" mapLayerUrl="${mapLayerUrl}"

@@ -17,4 +17,9 @@
         <description>Render a map. Must be called in the HTML body.</description>
         <path>/META-INF/tags/au/com/sensis/mobile/web/component/map/render.tag</path>
     </tag-file>    
+    <tag-file>
+        <name>renderJson</name>
+        <description>Render a JSON map (typically the response from manipulating a map via AJAX). Must be called in the HTML body.</description>
+        <path>/META-INF/tags/au/com/sensis/mobile/web/component/map/renderJson.tag</path>
+    </tag-file>    
 </taglib>

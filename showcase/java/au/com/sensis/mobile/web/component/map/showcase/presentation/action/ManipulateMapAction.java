@@ -1,28 +1,17 @@
 package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 
-import au.com.sensis.mobile.web.component.map.business.MapDelegate;
 import au.com.sensis.mobile.web.component.map.model.Map;
-import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationDelegate;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.ManipulateMapForm;
-import au.com.sensis.mobile.web.testbed.ResultName;
-import au.com.sensis.mobile.web.testbed.presentation.framework.BusinessAction;
-
-import com.opensymphony.xwork2.ModelDriven;
 
 /**
- * Demonstrates how to manipulate (eg. pan or zoom) an existing map using the {@link MapDelegate}.
+ * Demonstrates how to manipulate (eg. pan or zoom) an existing map using the
+ * {@link #getMapDelegate()}.
  *
  * @author Adrian.Koh2@sensis.com.au
  */
-public class ManipulateMapAction extends BusinessAction implements
-        ModelDriven<ManipulateMapForm> {
+public class ManipulateMapAction extends AbstractMapAction {
 
     private ManipulateMapForm manipulateMapForm;
-
-    private LocationDelegate locationDelegate;
-    private MapDelegate mapDelegate;
-
-    private Map map;
 
     /**
      * Executes this action and returns a result name.
@@ -37,7 +26,7 @@ public class ManipulateMapAction extends BusinessAction implements
                         getModel().getAction(), getContext());
         setMap(map);
 
-        return ResultName.SUCCESS;
+        return successOrAjaxSuccess();
     }
 
     /**
@@ -50,50 +39,4 @@ public class ManipulateMapAction extends BusinessAction implements
         }
         return manipulateMapForm;
     }
-
-    /**
-     * @return the locationDelegate
-     */
-    public LocationDelegate getLocationDelegate() {
-        return locationDelegate;
-    }
-
-    /**
-     * @param locationDelegate
-     *            the locationDelegate to set
-     */
-    public void setLocationDelegate(final LocationDelegate locationDelegate) {
-        this.locationDelegate = locationDelegate;
-    }
-
-    /**
-     * @return the mapDelegate
-     */
-    public MapDelegate getMapDelegate() {
-        return mapDelegate;
-    }
-
-    /**
-     * @param mapDelegate
-     *            the mapDelegate to set
-     */
-    public void setMapDelegate(final MapDelegate mapDelegate) {
-        this.mapDelegate = mapDelegate;
-    }
-
-    /**
-     * @return the map
-     */
-    public Map getMap() {
-        return map;
-    }
-
-    /**
-     * @param map
-     *            the map to set
-     */
-    public void setMap(final Map map) {
-        this.map = map;
-    }
-
 }

@@ -2,9 +2,14 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
+<%@ attribute name="device" required="true"
+    type="au.com.sensis.wireless.common.volantis.devicerepository.api.Device"  
+    description="Device of the current user." %>
 <%@ attribute name="map" required="true"
+
     type="au.com.sensis.mobile.web.component.map.model.Map"  
     description="Map returned by the MapDelegate." %>
     
@@ -37,8 +42,15 @@
 <%-- Set the default resource bundle for the current tag file. --%>    
 <fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
 
+<%-- Figure out the name of the current component.--%>
+<c:set var="componentName">
+    <fmt:message key="comp.name" />
+</c:set>
+<core:deviceConfig var="deviceConfig" device="${device}" 
+    registryBeanName="${componentName}.comp.deviceConfigRegistry"/>
+
 <c:choose>
-    <c:when test="${not empty map && map.mapImageRetrievalDeferredToClient}">
+    <c:when test="${not empty map && map.mapImageRetrievalDeferredToClient && deviceConfig.enableHiEndMap}">
         <%--
           - We know that the client will generate the map itself (eg. by accessing 
           - EMS directly for JavaScript enhanced maps)
@@ -52,6 +64,64 @@
             &#160;    
 		</div>
 
+    </c:when>
+    
+    <c:when test="${not empty map && map.mapImageRetrieved && deviceConfig.enableIntermediateMap}">
+        <div id="mapWindow">     
+            <object src="${map.mapUrl.imageUrl}" id="map" srctype="image/png">
+                <param name="mcs-transcode" value="false"/>
+            </object>
+        </div>
+    
+        <div id="mapControls">
+            <div id="zoomControls">
+                <object src="/comp/map/images/zoomIn_faded.mimg" id="zoomInFaded">+</object>
+                
+                <a id="zoomInButton" href="${zoomInUrl}" class="mapControl">
+                    <object src="/comp/map/images/zoomIn.mimg" id="mapZoomIn">+</object>
+                </a>
+                
+                <object src="/comp/map/images/zoomOut_faded.mimg" id="zoomOutFaded">-</object>
+                <a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl">
+                    <object src="/comp/map/images/zoomOut.mimg" id="mapZoomOut">-</object>
+                </a>
+            </div>
+                
+    
+            <div id="directionControls">
+                <a id="panNorthButton" href="${panNorthUrl}" class="mapControl">
+                    <object src="/comp/map/images/north.mimg" id="mapPanNorthImage"> /\ </object>
+                </a>
+                
+                <a id="panSouthButton" href="${panSouthUrl}" class="mapControl">
+                    <object src="/comp/map/images/south.mimg" id="mapPanSouthImage"> \/ </object>
+                </a>
+    
+                <a id="panWestButton" href="${panWestUrl}" class="mapControl">
+                    <object src="/comp/map/images/west.mimg" id="mapPanWestImage"> &#60; </object>
+                </a>
+    
+                <a id="panEastButton" href="${panEastUrl}" class="mapControl">
+                    <object src="/comp/map/images/east.mimg" id="mapPanEastImage"> &#62; </object>
+                </a>
+            </div>
+        
+        
+            <div id="viewControls">
+                  <a id="photoButton" href="${photoLayerUrl}">
+                      <object src="/comp/map/images/photo.mimg">
+                          <fmt:message key="comp.photoLayer.label"/>
+                      </object>
+                  </a>
+              
+                  <a id="mapButton" href="${mapLayerUrl}">
+                      <object src="/comp/map/images/map.mimg">
+                          <fmt:message key="comp.mapLayer.label"/>
+                      </object>
+                  </a>
+            </div>
+        </div>
+    
     </c:when>
     
     <c:otherwise>
@@ -68,22 +138,22 @@
 	            <div id="zoomControls">
 	                <c:choose>
 	                   <c:when test="${map.zoomDetails.atMinimumZoom}">
-	                        <object src="/comp/map/images/zoomIn_faded.mimg" id="mapZoomInFadedImage">+</object>
+	                        <object src="/comp/map/images/zoomIn_faded.mimg" id="mapZoomInFaded">+</object>
 	                   </c:when>
 	                   <c:otherwise>
 	                        <a id="zoomInButton" href="${zoomInUrl}" class="mapControl">
-	                            <object src="/comp/map/images/zoomIn.mimg" id="mapZoomInImage">+</object>
+	                            <object src="/comp/map/images/zoomIn.mimg" id="mapZoomIn">+</object>
 	                        </a>
 	                   </c:otherwise>
 	                </c:choose>
 	                
 	                <c:choose>
 	                   <c:when test="${map.zoomDetails.atMaximumZoom}">
-	                        <object src="/comp/map/images/zoomOut_faded.mimg" id="mapZoomOutFadedImage">-</object>
+	                        <object src="/comp/map/images/zoomOut_faded.mimg" id="mapZoomOutFaded">-</object>
 	                   </c:when>
 	                   <c:otherwise>
 	                        <a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl">
-	                            <object src="/comp/map/images/zoomOut.mimg" id="mapZoomOutImage">-</object>
+	                            <object src="/comp/map/images/zoomOut.mimg" id="mapZoomOut">-</object>
 	                        </a>
 	                   </c:otherwise>
 	                </c:choose>
