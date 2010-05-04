@@ -144,7 +144,6 @@
 <c:if test="${not empty map && map.mapImageRetrieved && deviceConfig.enableIntermediateMap}">
     <%-- Setup components that we depend on. --%>
     <core:setup />
-    <util:setup />
     <logging:setup />
     
     <%-- Themes for current component. --%>
