@@ -1,7 +1,7 @@
 MAP = {};
 MAP.instances = new Array();
 
-var MobEMSPrototype = new Class({
+var MobEMS = new Class({
 	
 	Map: null,
 
@@ -139,7 +139,7 @@ var MobEMSPrototype = new Class({
 	 */
 	getNewMap: function(url) {
 		/* create a new object to retrieve a new map url via ajax */
-		var MapRequest = new Request({
+		var MapRequest = new MobileRequest({
 			method: 'get',
 			url: this.maintainSession(url),
 			/* on completion of url retrieval, update the map img */
