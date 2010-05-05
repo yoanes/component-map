@@ -6,7 +6,27 @@
     - CUI-239 Create an Intermediate Map component
 
 Upgrade notes:
-- now depends on wl-core-component 1.0.29.
+- now depends on wl-core-component 1.0.30. Webapps should include the following filter in their web.xml,
+  placed after the ServletCaptureFilter or MCSFilter.
+
+    <filter>
+        <filter-name>jsonLeadingAndTrailingWhitespaceTrimmingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>core.comp.jsonLeadingAndTrailingWhitespaceTrimmingFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>jsonLeadingAndTrailingWhitespaceTrimmingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+- now depends on wl-webapp-testbed 1.0.8. 
 
 ==== Version 1.1.9 (tag: map_v1_1_9) ====
 
