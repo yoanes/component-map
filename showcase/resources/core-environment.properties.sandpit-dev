@@ -4,11 +4,11 @@
 
 # True if you want bundle explosion initially activated for each new session. 
 # Only honoured if env.bundleExplosionEnabled=true. 
-env.bundleExplosionInitialValue=true
+env.bundleExplosionInitialValue=false
 
 # True if you want support for bypassing of the client cache activated for each new session. 
 # Only honoured if env.bypassClientCacheEnabled=true. 
-env.bypassClientCacheInitialValue=true
+env.bypassClientCacheInitialValue=false
 
 # Context root relative prefix for all components.
 env.context.root.component.prefix=/dev/map-component-showcase/comp/
