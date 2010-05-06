@@ -2,6 +2,7 @@
 
 Fixed:
 - CUI-255 Map Component - serve classic map to iPhone 3.0.x for YM
+- CUI-257 YM app -> Map in 'fulscreen' mode does not occupy complete screen size when user navigates from landscape to vertical screen mode
 
 ==== Version 1.1.9 (tag: map_v1_1_9) ====
 
