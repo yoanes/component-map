@@ -19,7 +19,7 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 	fullLandscapeHeight: '269px',
 
 /*	fullPortraitWidth: window.innerWidth + 'px',  */
-	fullPortraitHeight: window.innerHeight + 'px',
+	fullPortraitHeight: (window.innerHeight == 367 ? window.innerHeight : 416) + 'px',
 	
 	initialize: function() {
 		this.active = true;
