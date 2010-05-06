@@ -41,7 +41,7 @@
         </userAgentDeviceConfig>
         
         <userAgentDeviceConfig>
-            <useragentRegex>.*OS 3_0_.*</useragentRegex>
+            <useragentRegex>.*OS 3_0.*</useragentRegex>
             <deviceConfig xsi:type="map:DeviceConfig">
                 <generateServerSideMap>true</generateServerSideMap>
             </deviceConfig>
