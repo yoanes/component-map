@@ -6,7 +6,7 @@
     - CUI-239 Create an Intermediate Map component
 
 Upgrade notes:
-- now depends on wl-core-component 1.0.31 and uses Nokia 6120 and Samsung C5220 specialisations
+- now depends on wl-core-component 1.0.32 and uses Nokia 6120 and Samsung C5220 specialisations
   from that instead of this current component. Webapps should also include the following filter in 
   their web.xml, placed after the ServletCaptureFilter or MCSFilter.
 
