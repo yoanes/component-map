@@ -8,7 +8,7 @@
               navigates from landscape to vertical screen mode    
 
 Upgrade notes:
-- now depends on wl-core-component 1.0.32 and uses Nokia 6120 and Samsung C5220 specialisations
+- now depends on wl-core-component 1.0.33 and uses Nokia 6120 and Samsung C5220 specialisations
   from that instead of this current component. Webapps should also include the following filter in 
   their web.xml, placed after the ServletCaptureFilter or MCSFilter.
 
