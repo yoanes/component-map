@@ -1,4 +1,4 @@
-==== (pending) Version 1.1.10 (tag: map_v1_1_10) ====
+==== Version 1.1.10 (tag: map_v1_1_10) ====
 
 - Fixed:
     - CUI-104 Map Component - (Location, POIs, Routes) - Intermediate Map - Server Side
