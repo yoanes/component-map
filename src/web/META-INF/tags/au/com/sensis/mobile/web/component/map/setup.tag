@@ -46,10 +46,10 @@
     
     <%-- Scripts for current component. --%>
     <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component-hiEnd.mscr"></core:script>
     <core:script src="${compMcsBasePath}/map/scripts/map-component-tilePath.mscr"></core:script>
     
-    <core:script name="create-map" type="text/javascript">
+    <core:script name="create-hiEnd-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
         
             var icons = [
@@ -147,15 +147,12 @@
     <util:setup />
     <logging:setup />
     
-    <%-- Themes for current component. --%>
-    <%--<core:link rel="mcs:theme" href="${compMcsBasePath}/map/hiMap.mthm" />--%>
+    <%-- Themes for current component: none required at the moment. --%>
     
     <%-- Scripts for current component. --%>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component.mscr"></core:script>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component-tilePath.mscr"></core:script>
+    <core:script src="${compMcsBasePath}/map/scripts/map-component-intermediate.mscr"></core:script>
     
-    <core:script name="create-map" type="text/javascript">
+    <core:script name="create-intermediate-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
             new MobEMS(
                 'mapWindow',

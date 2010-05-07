@@ -49,6 +49,16 @@
                 <enableHiEndMap>false</enableHiEndMap>
             </deviceConfig>
         </userAgentDeviceConfig>
+        
+        <userAgentDeviceConfig>
+            <useragentRegex>.*OS 3_0.*</useragentRegex>
+            <deviceConfig xsi:type="map:DeviceConfig">
+                <generateServerSideMap>true</generateServerSideMap>
+                <enableIntermediateMap>true</enableIntermediateMap>
+                <enableHiEndMap>false</enableHiEndMap>
+            </deviceConfig>
+        </userAgentDeviceConfig>
+        
     </identifiedDeviceConfig>    
     
     <identifiedDeviceConfig>
@@ -122,6 +132,16 @@
     
     <identifiedDeviceConfig>
         <deviceId>Nokia-N95</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>Nokia-N96</deviceId>
         
         <deviceConfig xsi:type="map:DeviceConfig">
             <generateServerSideMap>true</generateServerSideMap>
