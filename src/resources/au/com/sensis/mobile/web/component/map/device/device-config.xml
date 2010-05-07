@@ -101,16 +101,6 @@
     </identifiedDeviceConfig>    
     
     <identifiedDeviceConfig>
-        <deviceId>Samsung-GT-C5220</deviceId>
-        
-        <deviceConfig xsi:type="map:DeviceConfig">
-            <generateServerSideMap>true</generateServerSideMap>
-            <enableIntermediateMap>true</enableIntermediateMap>
-            <enableHiEndMap>false</enableHiEndMap>
-        </deviceConfig>
-    </identifiedDeviceConfig>    
-    
-    <identifiedDeviceConfig>
         <deviceId>Nokia-6120c</deviceId>
         
         <deviceConfig xsi:type="map:DeviceConfig">
