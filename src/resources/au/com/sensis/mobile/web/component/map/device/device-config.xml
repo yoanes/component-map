@@ -111,6 +111,36 @@
     </identifiedDeviceConfig>    
     
     <identifiedDeviceConfig>
+        <deviceId>Nokia-6720c</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>    
+    
+    <identifiedDeviceConfig>
+        <deviceId>Nokia-E51</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>
+    
+    <identifiedDeviceConfig>
+        <deviceId>Nokia-E71</deviceId>
+        
+        <deviceConfig xsi:type="map:DeviceConfig">
+            <generateServerSideMap>true</generateServerSideMap>
+            <enableIntermediateMap>true</enableIntermediateMap>
+            <enableHiEndMap>false</enableHiEndMap>
+        </deviceConfig>
+    </identifiedDeviceConfig>
+    
+    <identifiedDeviceConfig>
         <deviceId>Nokia-N85</deviceId>
         
         <deviceConfig xsi:type="map:DeviceConfig">
