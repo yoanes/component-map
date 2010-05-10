@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
 
@@ -55,7 +56,7 @@
           - We know that the client will generate the map itself (eg. by accessing 
           - EMS directly for JavaScript enhanced maps)
           --%>
-        <c:if test="${clientSideGeneratedMapStateChangeUrl != null}">
+        <c:if test="${fn:length(fn:trim(clientSideGeneratedMapStateChangeUrl)) gt 0}">
             <%-- Optional URL for client to communicate state changes to the server.  --%>
             <a id="stateChangeUrl" href="${clientSideGeneratedMapStateChangeUrl}"></a>
         </c:if>
