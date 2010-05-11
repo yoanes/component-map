@@ -1,8 +1,11 @@
-==== (pending) Version 1.1.9-200 (tag: map_v1_1_9-200, branch: map_branch_v1_1_9) ====
+==== Version 1.1.9-200 (tag: map_v1_1_9-200, branch: map_branch_v1_1_9) ====
 
 Fixed:
+- CUI-215 Map testpage / Whereis mobile -> Unable to exit fullscreen view on the SE X10 , 
+  due to horizontal scrolling on the map (Android devices)     
+- CUI-246 Iphone Client -> Map controls appear missing in fulscreen mode on iphone Yellow client
 - CUI-248 Yellow Mobile -> Reporting events (ECS) are captured for photo & map view mode on high-end maps
-    - improvement related to this Jira.  clientSideGeneratedMapStateChangeUrl only used if it is non-blank. 
+    - improvement related to this Jira.  clientSideGeneratedMapStateChangeUrl only used if it is non-blank.
 - Full screen toggle re-enabled for Android-OS devices.     
     
 Upgrade notes:
