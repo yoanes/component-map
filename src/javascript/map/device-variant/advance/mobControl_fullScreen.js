@@ -72,6 +72,12 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
+		
+		/* iphone client app's bdp. fullscreen map needs to be reduced by 44 which is
+		 * the height of the 'save to contact' button'
+		 */
+		if(this.fullPortraitHeight.toInt() == 367 && $('businessName')) 
+			this.fullPortraitHeight = this.fullPortraitHeight.toInt() - 44;
 	},
 	
 	adjustToFullScreen: function() {
