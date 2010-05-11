@@ -1,3 +1,9 @@
+==== (pending) Version 1.1.9-200 (tag: map_v1_1_9-200, branch: map_branch_v1_1_9) ====
+
+Fixed:
+- CUI-248 Yellow Mobile -> Reporting events (ECS) are captured for photo & map view mode on high-end maps
+    - improvement related to this Jira.  clientSideGeneratedMapStateChangeUrl only used if it is non-blank. 
+
 ==== Version 1.1.9-100 (tag: map_v1_1_9-100, branch: map_branch_v1_1_9) ====
 
 Fixed:
