@@ -77,7 +77,7 @@ EMS.Control.FullScreen = OpenLayers.Class(OpenLayers.Control, {
 		 * the height of the 'save to contact' button'
 		 */
 		if(this.fullPortraitHeight.toInt() == 367 && $('businessName')) 
-			this.fullPortraitHeight = this.fullPortraitHeight.toInt() - 44;
+			this.fullPortraitHeight = (this.fullPortraitHeight.toInt() - 44) + 'px';
 	},
 	
 	adjustToFullScreen: function() {
