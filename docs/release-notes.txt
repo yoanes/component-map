@@ -3,6 +3,10 @@
 Fixed:
 - CUI-248 Yellow Mobile -> Reporting events (ECS) are captured for photo & map view mode on high-end maps
     - improvement related to this Jira.  clientSideGeneratedMapStateChangeUrl only used if it is non-blank. 
+- Full screen toggle re-enabled for Android-OS devices.     
+    
+Upgrade notes:
+- Now depends on wl-core-component 1.0.32. 
 
 ==== Version 1.1.9-100 (tag: map_v1_1_9-100, branch: map_branch_v1_1_9) ====
 
