@@ -4,6 +4,10 @@
     - CUI-248 Yellow Mobile -> Reporting events (ECS) are captured for photo & map view mode on high-end maps
         - improvement related to this Jira.  clientSideGeneratedMapStateChangeUrl only used if it is non-blank. 
 
+	- Merged with branch 1.1.9
+	- Iphone's client app's bdp to have special height in fullscreen mode
+	- Enable fullscreen control on androids 
+	
 ==== Version 1.1.10 (tag: map_v1_1_10) ====
 
 - Fixed:
