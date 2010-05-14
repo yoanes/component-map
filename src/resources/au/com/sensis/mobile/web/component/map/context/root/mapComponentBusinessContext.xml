@@ -38,5 +38,18 @@
     </bean>
     
     <bean id="map.comp.screenDimensionsStrategy" 
-        class="au.com.sensis.mobile.web.component.map.business.DefaultScreenDimensionsStrategy" />
+        class="au.com.sensis.mobile.web.component.map.business.MarginAwareScreenDimensionsStrategy" >
+        
+        <property name="defaultMargin" value="@{map.comp.margin.default}"/>
+        <property name="xtraSmallMargin" value="@{map.comp.margin.xtrasmall}"/>
+        <property name="smallMargin" value="@{map.comp.margin.small}"/>
+        <property name="mediumMargin" value="@{map.comp.margin.medium}"/>
+        <property name="largeMargin" value="@{map.comp.margin.large}"/>
+        <property name="hd480Margin" value="@{map.comp.margin.hd480}"/>
+        <property name="hd600Margin" value="@{map.comp.margin.hd600}"/>
+        <property name="hd800Margin" value="@{map.comp.margin.hd800}"/>
+        <property name="hd1024Margin" value="@{map.comp.margin.hd1024}"/>
+        
+    </bean>        
+        
 </beans>
