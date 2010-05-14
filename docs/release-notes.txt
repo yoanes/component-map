@@ -1,3 +1,39 @@
+==== Version 1.1.9-300 (tag: map_v1_1_9-300, branch: map_branch_v1_1_9) ====
+
+Fixed:
+- Map component now allows applications to specify margins for classic and intermediate maps, based
+  on the ImageCategory of the device.
+    - map.comp.screenDimensionsStrategy bean is now a 
+      au.com.sensis.mobile.whitepages.presentation.map.MarginAwareScreenDimensionsStrategy
+      (moved in from Boyd's WPM implementation).
+    - DefaultScreenDimensionsStrategy has been removed.
+- Also now depends on 
+    - <dependency org="com.sensis" name="wl-build-scripts" rev="1.0.11" conf="buildBootstrap->default" />        
+    
+- Upgrade notes:
+    - If an application wishes to specify non-zero margins for classic and intermediate maps, they must 
+      create a map-component.properties file (with this exact name) in the root of their classpath and 
+      override any or all of the following properties (the default values set by the component are
+      shown here):
+      
+        comp.margin.default=0
+        comp.margin.xtrasmall=0
+        comp.margin.small=0
+        comp.margin.medium=0
+        comp.margin.large=0
+        comp.margin.hd480=0
+        comp.margin.hd600=0
+        comp.margin.hd800=0
+        comp.margin.hd1024=0
+        
+      Any property that the application does not specify will default to 0. Note that the 
+      comp.margin.default property is only used if no ImageCategory specific property is found. 
+      This caters to the event that a new ImageCategory is created but no specific property for it is 
+      created in the component. 
+      
+      Also note that each margin property is a sum of the left and right margins so this implementation
+      assumes that both left and right margins are equal.
+
 ==== Version 1.1.9-200 (tag: map_v1_1_9-200, branch: map_branch_v1_1_9) ====
 
 Fixed:
