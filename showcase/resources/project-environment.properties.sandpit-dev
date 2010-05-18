@@ -20,7 +20,8 @@ env.ems.service.timeout.read=20000
 
 env.ems.clientPolicy=emsProxiedHttpClientPolicy
 env.ems.service=https://ems.whereis.com/v1/soap/ems
-env.ems.token=4316381136292159452
+env.ems.service.js=http://ems.whereis.com/v1/web/js/ems/EMS.js?profile=mobi&amp;token=
+env.ems.token=1386742213227490342
 env.ems.password=dev?755545!!whitep
 env.ems.client.map.icons.img.src.prefix=/dev/map-component-imageserver
 
