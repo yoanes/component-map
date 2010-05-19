@@ -34,7 +34,7 @@
             </fileset>
         </bundle>
      
-     	<bundle name="intermediate" parent="common">
+     	<bundle name="intermediate" parent="common" abstract="true">
         	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
             </fileset>
         </bundle>
@@ -65,5 +65,15 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/sex10">
             </fileset>
         </bundle>
+        
+        <bundle name="ipad">
+             <fileset dir="${src.javascript.dir}/map/device-variant/advance">
+             	<include name="**/*" />
+                <exclude name="mobControl_fullScreen.js" />
+            </fileset>
+            <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
+            </fileset>
+        </bundle>
+
     </bundles>
 </bs:bundlesConfig>
