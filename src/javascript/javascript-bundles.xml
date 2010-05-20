@@ -5,56 +5,56 @@
     
     <bundles basename="map-component" subpackage="map">
     	<!-- device independent script. So far none -->
-        <bundle name="common" abstract="true">
-       <!-- <fileset dir="${src.javascript.dir}/map/device-invariant">
-            </fileset> -->
-        </bundle>
         
         <!-- set the higher level categories dependencies -->
-        <bundle name="advance" parent="common" abstract="true">
+        <bundle name="advance" abstract="true">
             <fileset dir="${src.javascript.dir}/map/device-variant/advance">
             </fileset>
         </bundle>
         
-        <bundle name="android" parent="common" abstract="true">
-        	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
-        		<include name="MobileEMS.js" />
-        		<include name="patch.js" />
-            </fileset>
-            <fileset dir="${src.javascript.dir}/map/device-variant/android">
-            </fileset>
-        </bundle>
-     
-        <bundle name="advance-nonGesturalTouch" parent="common" abstract="true">
-        	<fileset dir="${src.javascript.dir}/map/device-variant/advance">
-        		<include name="MobileEMS.js" />
-        		<include name="patch.js" />
-            </fileset>
-        	<fileset dir="${src.javascript.dir}/map/device-variant/advance-nonGesturalTouch">
-            </fileset>
-        </bundle>
-     
-     	<bundle name="intermediate" parent="common">
+        <bundle name="intermediate">
         	<fileset dir="${src.javascript.dir}/map/device-variant/intermediate">
             </fileset>
         </bundle>
+        
+        <!-- device family categories -->
+        <bundle name="android" parent="advance" abstract="true">
+            <fileset dir="${src.javascript.dir}/map/device-variant/android">
+            </fileset>
+        </bundle>
+        
+        <bundle name="apple" parent="advance" abstract="true">
+            <fileset dir="${src.javascript.dir}/map/device-variant/apple">
+            </fileset>
+        </bundle>
+     
+        <bundle name="advance-nonGesturalTouch" parent="advance" abstract="true">
+        	<fileset dir="${src.javascript.dir}/map/device-variant/advance-nonGesturalTouch">
+            </fileset>
+        </bundle>
            
-        <!-- more specific config per device families -->
+        <!-- more specific device family. This point onwards are the real bundle -->
         
         <bundle name="default" parent="advance-nonGesturalTouch">
             <fileset dir="${src.javascript.dir}/map/device-variant/default">
             </fileset>
         </bundle>
-        <bundle name="iphone" parent="advance">
-            <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
-            </fileset>
-        </bundle>
+        
         <bundle name="android-os" parent="android">
             <fileset dir="${src.javascript.dir}/map/device-variant/android-os">
             </fileset>
         </bundle>
         
-        <!-- device specific confirg -->
+        <!-- device specific config -->
+        <bundle name="iphone-ipod" parent="apple">
+            <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
+            </fileset>
+        </bundle>
+        
+        <bundle name="ipad" parent="apple">
+            <fileset dir="${src.javascript.dir}/map/device-variant/ipad">
+            </fileset>
+        </bundle>
         
         <bundle name="thub" parent="advance-nonGesturalTouch">
             <fileset dir="${src.javascript.dir}/map/device-variant/thub">
