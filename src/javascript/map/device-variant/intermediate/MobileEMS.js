@@ -154,6 +154,9 @@ var MobEMS = new Class({
 				this.updateURL(jsonResponse);
 				/* re-enable the controllers */
 				this.enable = true;
+			}.bind(this),
+			onFailure: function(response) {
+				this.enable = true;
 			}.bind(this)
 		});
 		
