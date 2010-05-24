@@ -1,6 +1,6 @@
 EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, { 
 	
-	Device: "Apple",
+	Device: "Apple-iPad",
 	CLASS_NAME: "EMS.Control.MobileDefaults",
 	
 	active: false,
