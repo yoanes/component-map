@@ -1,14 +1,20 @@
-==== ******************** PENDING ******************* Version 1.1.12 (tag: map_v1_1_12) ====
+==== Version 1.1.12 (tag: map_v1_1_12) ====
 
-Removed showcase *.mscr overrides under showcase/resources/mcs/policies in line with
-new wl-build-scripts 1.0.13. Ensured that project-environment.properties.* contains all
-properties required for MCS token replacement.
+Fixed:
+- CUI-271 Intermediate map-> Nokia 6120C -> Map controls freeze & stop working after sometime (Intermittent)
 
-Upgraded some libs:
+Other refactoring:
+- Removed showcase *.mscr overrides under showcase/resources/mcs/policies in line with
+  new wl-build-scripts 1.0.13. Ensured that project-environment.properties.* contains all
+  properties required for MCS token replacement.
+- Upgraded some libs:
 
     <dependency org="com.sensis" name="wl-build-scripts" rev="1.0.13" conf="buildBootstrap->default" />
     <dependency org="com.sensis" name="wl-core-component" rev="1.0.34" conf="default,test"/>
     <dependency org="com.sensis" name="wl-webapp-testbed" rev="1.0.9" conf="showcase->default"/>        
+    
+Upgrade notes:
+- Note lib upgrades above. These really only contain changes that affect non-production code.    
 
 ==== Version 1.1.11 (tag: map_v1_1_11) ====
 
