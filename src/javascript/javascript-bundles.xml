@@ -3,7 +3,7 @@
     xmlns:bs="http://mobile.sensis.com.au/build-scripts"
     xsi:schemaLocation="http://mobile.sensis.com.au/build-scripts au.com.sensis.mobile.bundles.xsd">
     
-    <bundles basename="map-component" subpackage="map">
+    <bundles basename="map-component" package="map">
     	<!-- device independent script. So far none -->
         
         <!-- set the higher level categories dependencies -->

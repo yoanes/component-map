@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    OASIS XML catalog file defining where to find all XSDs from the common
+    component that other components may include or import.
+     
+    See https://jaxb.dev.java.net/guide/Fixing_broken_references_in_schema.html
+    for more information on catalog files.
+-->
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <public publicId="http://mobile.sensis.com.au/web/component/core/device" 
+        uri="../../core/device/au.com.sensis.mobile.web.component.core.device.xsd"/>
+</catalog>
+

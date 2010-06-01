@@ -2,10 +2,10 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="core" uri="/au/com/sensis/mobile/web/component/core/core.tld"%>
-<%@ taglib prefix="ems" uri="/au/com/sensis/mobile/web/component/ems/ems.tld"%>
-<%@ taglib prefix="util" uri="/au/com/sensis/mobile/web/component/util/util.tld"%>
-<%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/logging/logging.tld"%>
+<%@ taglib prefix="base" uri="/au/com/sensis/mobile/web/component/core/base/base.tld"%>
+<%@ taglib prefix="ems" uri="/au/com/sensis/mobile/web/component/core/ems/ems.tld"%>
+<%@ taglib prefix="util" uri="/au/com/sensis/mobile/web/component/core/util/util.tld"%>
+<%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/core/logging/logging.tld"%>
 
 <%@ attribute name="device" required="true"
     type="au.com.sensis.wireless.common.volantis.devicerepository.api.Device"  
@@ -25,31 +25,31 @@
 <c:set var="componentName">
     <fmt:message key="comp.name" />
 </c:set>
-<core:deviceConfig var="deviceConfig" device="${device}" 
+<base:deviceConfig var="deviceConfig" device="${device}" 
     registryBeanName="${componentName}.comp.deviceConfigRegistry"/>
 
-<core:compMcsBasePath var="compMcsBasePath" />
+<base:compMcsBasePath var="compMcsBasePath" />
 
 <%-- Themes for current component. --%>
-<core:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
+<base:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
 
 <%-- Hi end map themes and JavaScript. --%>
 <c:if test="${not empty map && map.mapImageRetrievalDeferredToClient && deviceConfig.enableHiEndMap}">
     <%-- Setup components that we depend on. --%>
-    <core:setup />
+    <base:setup />
     <ems:setup />
     <util:setup />
     <logging:setup />
     
     <%-- Themes for current component. --%>
-    <core:link rel="mcs:theme" href="${compMcsBasePath}/map/hiMap.mthm" />
+    <base:link rel="mcs:theme" href="${compMcsBasePath}/map/hiMap.mthm" />
     
     <%-- Scripts for current component. --%>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></core:script>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component-hiEnd.mscr"></core:script>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component-tilePath.mscr"></core:script>
+    <base:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></base:script>
+    <base:script src="${compMcsBasePath}/map/scripts/map-component-hiEnd.mscr"></base:script>
+    <base:script src="${compMcsBasePath}/map/scripts/map-component-tilePath.mscr"></base:script>
     
-    <core:script name="create-hiEnd-map" type="text/javascript">
+    <base:script name="create-hiEnd-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
         
             var icons = [
@@ -137,22 +137,22 @@
                 directions
             );
         }
-    </core:script>
+    </base:script>
 </c:if>    
 
 <%-- Intermediate map themes and JavaScript. --%>
 <c:if test="${not empty map && map.mapImageRetrieved && deviceConfig.enableIntermediateMap}">
     <%-- Setup components that we depend on. --%>
-    <core:setup />
+    <base:setup />
     <util:setup />
     <logging:setup />
     
     <%-- Themes for current component: none required at the moment. --%>
     
     <%-- Scripts for current component. --%>
-    <core:script src="${compMcsBasePath}/map/scripts/map-component-intermediate.mscr"></core:script>
+    <base:script src="${compMcsBasePath}/map/scripts/map-component-intermediate.mscr"></base:script>
     
-    <core:script name="create-intermediate-map" type="text/javascript">
+    <base:script name="create-intermediate-map" type="text/javascript">
         if(typeof(MobEMS) != 'undefined') {
             new MobEMS(
                 'mapWindow',
@@ -161,7 +161,7 @@
                 }                
             );
         }
-    </core:script>
+    </base:script>
 </c:if>    
 
 <logging:debug logger="${logger}" message="Exiting setup.tag" />

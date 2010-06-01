@@ -13,8 +13,7 @@
         </xs:documentation>
     </xs:annotation>
 
-    <xs:import namespace="http://mobile.sensis.com.au/web/component/core/device"
-        schemaLocation="au.com.sensis.mobile.web.component.core.device.xsd" />
+    <xs:import namespace="http://mobile.sensis.com.au/web/component/core/device"/>
 
     <!-- ================================================================== -->
     
