@@ -57,6 +57,7 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		
 		/* create a div for zoom In */
 		this.ziDiv = new Element('div');
+		this.ziDiv.id = 'onMapZoomIn';
 		this.ziDiv.appendChild(this.zoomInImage);
 		this.ziDiv.style.display = 'inline';
 		this.ziDiv.addEventListener('click', function(e) {
@@ -72,6 +73,7 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 
 		/* and another one for zoom Out */
 		this.zoDiv = new Element('div');
+		this.zoDiv.id = 'onMapZoomOut';
 		this.zoDiv.appendChild(this.zoomOutImage);
 		this.zoDiv.style.display = 'inline';
 		this.zoDiv.addEventListener('click', function(e) {
