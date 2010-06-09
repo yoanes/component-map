@@ -71,7 +71,7 @@
              	<include name="**/*" />
                 <exclude name="mobControl_fullScreen.js" />
             </fileset>
-            <fileset dir="${src.javascript.dir}/map/device-variant/iphone">
+            <fileset dir="${src.javascript.dir}/map/device-variant/ipad">
             </fileset>
         </bundle>
 
