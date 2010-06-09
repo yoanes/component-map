@@ -1,3 +1,6 @@
+==== Version 1.1.9-500 (tag: map_v1_1_9-500, branch: map_branch_v1_1_9) ====
+- optimised gesture and pan for ipad
+
 ==== Version 1.1.9-400 (tag: map_v1_1_9-400, branch: map_branch_v1_1_9) ====
 - Create a separate bundle for iPad with the exclusion of full screen controls on iPad
 
