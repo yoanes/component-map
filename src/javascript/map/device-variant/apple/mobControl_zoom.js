@@ -66,12 +66,22 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.div.appendChild(zoDiv);
 		
 		/* reposition when the device is tilted */
-		this.div.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
+//		this.div.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
+		window.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
 		
 		/* reposition when the map is resized */
-		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
+		this.map.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
+		
+		this.map.events.register('zoomend', this, function() { 	
+			if(this.map.getZoom() == 0)
+				$('onMapZoomOut').style.opacity = '0.3';
+			else if(this.map.getZoom() == 16)
+				$('onMapZoomIn').style.opacity = '0.3';
+			else 
+				$('onMapZoomIn').style.opacity = $('onMapZoomOut').style.opacity = '1';
+		});
 	},
 	
 	rePosition: function() {
