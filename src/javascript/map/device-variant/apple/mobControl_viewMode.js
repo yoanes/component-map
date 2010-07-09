@@ -61,10 +61,10 @@ EMS.Control.ViewMode = OpenLayers.Class(OpenLayers.Control, {
 		this.div.addEventListener('touchend', function(e) {this.doViewChange();}.bind(this), false);
 		
 		/* do resize when the device is tilted */
-		this.div.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
+		window.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
 		
 		/* do resize when the map is resized */
-		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
+		this.map.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
 	},
