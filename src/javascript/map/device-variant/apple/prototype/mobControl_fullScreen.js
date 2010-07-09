@@ -14,11 +14,6 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 	growImage: null,
 	shrinkImage: null,
 	
-	yellowAppHeight: 367,
-	saveToContactHeight: 44,
-	
-	webAppHeight: 416,
-	
 	/* overwrite the following 4 for unique devices */
 /*	fullLandscapeWidth: '480px',  */
 	fullLandscapeHeight: '269px',
@@ -38,8 +33,6 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.shrinkImage.src = _MapControlsPath_ + 'mini.png';
 		this.shrinkImage.style.display = 'none';
 		this.shrinkImage.id = 'shrink';
-		
-		this.fullPortraitHeight = (window.innerHeight.toInt() == this.yellowAppHeight ? this.yellowAppHeight : this.webAppHeight) + 'px';
 	},
 	
 	calcPosition: function() {
@@ -70,21 +63,15 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.div.addEventListener('touchend', function(e) {this.doMapResize();}.bind(this), false);
 		
 		/* do resize on resize event */
-		this.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
+		this.map.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		/* do resize when the device is tilted */
-		this.div.addEventListener('orientationchange', function(e) {
-			this.rePosition();
+		window.addEventListener('orientationchange', function(e) {
 			this.reOrientate(); 
+			this.rePosition();
 		}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
-		
-		/* iphone client app's bdp. fullscreen map needs to be reduced by 44 which is
-		 * the height of the 'save to contact' button'
-		 */
-		if(this.fullPortraitHeight.toInt() == this.yellowAppHeight && $('businessName')) 
-			this.fullPortraitHeight = (this.fullPortraitHeight.toInt() - this.saveToContactHeight) + 'px';
 	},
 	
 	adjustToFullScreen: function() {
@@ -123,6 +110,7 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		if(this.inFullscreenMode) {
 			this.adjustToFullScreen();	
 		}
+		else this.map.updateSize();
 	},
 	
 	rePosition: function() {	
