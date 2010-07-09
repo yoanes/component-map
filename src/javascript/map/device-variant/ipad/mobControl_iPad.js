@@ -121,7 +121,9 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 			this.Y1 = movedY;
 		}
 		
-		/* do panning straight away if there's no zoom performed */
+		/* differ panning on ipad to later stage of event as it will be massive overkill when we do
+		 * panning on the fly. Especially when the map is big *like in whereis
+		 *  */
 		if(this.scale == null) {
 			/* simulate the panning */
 			$(this.map.viewPortDiv).setStyle('margin-left', $(this.map.viewPortDiv).getStyle('margin-left').toInt() - diffX + "px");
@@ -290,6 +292,10 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	 */
 	
 	draw: function() { //see observe()
+		/* add extra css3 things to smooth things out */
+		this.map.layerContainerDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
+		this.map.layerContainerDiv.style['-webkit-transition'] = '-webkit-transform 10ms ease-out 0';
+	
 		this.map.div.ongesturestart = this.execGestureStart.bind(this);
 		this.map.div.ongesturechange = this.execGestureChange.bind(this);
 		this.map.div.ongestureend = this.execGestureEnd.bind(this);
