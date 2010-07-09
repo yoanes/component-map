@@ -53,6 +53,13 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 		this.map.events.register("zoomend", this, function() {
 			this.ziDiv.style.opacity = this.zoDiv.style.opacity = '1';
 			this.controlEnabled = true;
+			
+			if(this.map.getZoom() == 0)
+				$('onMapZoomOut').style.opacity = '0.3';
+			else if(this.map.getZoom() == 16)
+				$('onMapZoomIn').style.opacity = '0.3';
+			else 
+				$('onMapZoomIn').style.opacity = $('onMapZoomOut').style.opacity = '1';
 		});
 		
 		/* create a div for zoom In */
@@ -68,7 +75,6 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 					this.map.zoomIn();
 				}
 			} 
-			else this.ziDiv.style.opacity = '0.3';
 		}.bind(this), false);
 
 		/* and another one for zoom Out */
@@ -84,7 +90,6 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 					this.map.zoomOut();
 				}
 			}
-			else this.zoDiv.style.opacity = '0.3';
 		}.bind(this), false);
 		
 		/* append these zoom divs */
