@@ -1,3 +1,8 @@
+==== Version 1.2.1 (tag: map_v1_2_1) ====
+* Remove yellow app specific code
+* Improvement CUI-144 implemented
+* Apple specific: target the window object for orientation change event
+
 ==== Version 1.2.0 (tag: map_v1_2_0) ====
 
 Fixed:
