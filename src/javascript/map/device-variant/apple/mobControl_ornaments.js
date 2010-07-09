@@ -56,10 +56,10 @@ EMS.Control.Ornaments = OpenLayers.Class(OpenLayers.Control, {
 		this.logoDiv.appendChild(this.logoImage);
 		
 		/* do resize when the device is tilted */
-		this.northDiv.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
+		window.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
 		
 		/* do resize when the map is resized */
-		this.northDiv.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
+		this.map.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
 		
 		this.map.div.appendChild(this.northDiv);
 		this.map.div.appendChild(this.logoDiv);
