@@ -293,7 +293,7 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	
 	draw: function() { //see observe()
 		/* add extra css3 things to smooth things out */
-		this.map.layerContainerDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
+	/*	this.map.layerContainerDiv.style['-webkit-transform'] = 'translate3d(0,0,0)'; */
 		this.map.layerContainerDiv.style['-webkit-transition'] = '-webkit-transform 10ms ease-out 0';
 	
 		this.map.div.ongesturestart = this.execGestureStart.bind(this);
