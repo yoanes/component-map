@@ -1,3 +1,6 @@
+==== Version 1.2.3 (tag: map_v1_2_3) ====
+* remove translate3d() so the ipad's hardware accel doesn't get triggered
+
 ==== Version 1.2.2 (tag: map_v1_2_2) ====
 * Fix the full height issue that the iphone 4 has.
 
