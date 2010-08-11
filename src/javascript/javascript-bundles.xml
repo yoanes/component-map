@@ -51,6 +51,14 @@
             </fileset>
         </bundle>
         
+        <bundle name="iphone4" parent="apple">
+        	<fileset dir="${src.javascript.dir}/map/device-variant/iphone">
+        		<include name="mobControl_iPhone.js" />
+        	</fileset>
+            <fileset dir="${src.javascript.dir}/map/device-variant/iphone4">
+            </fileset>
+        </bundle>
+        
         <bundle name="ipad" parent="apple">
             <fileset dir="${src.javascript.dir}/map/device-variant/ipad">
             </fileset>

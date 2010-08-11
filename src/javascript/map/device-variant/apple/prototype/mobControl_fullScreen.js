@@ -44,9 +44,13 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		);	
 	},
 	
+	calcDimension: function() {
+		return new OpenLayers.Size(this.growImage.width, this.growImage.height);
+	},
+	
 	draw: function() {
 		/* initialize the button size on draw */
-		this.resizeButtonSize = new OpenLayers.Size(this.growImage.width, this.growImage.height);
+		this.resizeButtonSize = this.calcDimension();
 		
 		var resizeControlExactPosition = this.calcPosition();
 		

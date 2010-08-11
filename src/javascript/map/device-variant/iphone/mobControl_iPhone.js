@@ -274,12 +274,29 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	 */
 	
 	draw: function() { //see observe()
-		this.map.div.ongesturestart = this.execGestureStart.bind(this);
-		this.map.div.ongesturechange = this.execGestureChange.bind(this);
-		this.map.div.ongestureend = this.execGestureEnd.bind(this);
-		this.map.div.ontouchstart = this.execTouchStart.bind(this);
-		this.map.div.ontouchmove = this.execTouchMove.bind(this);
-		this.map.div.ontouchend = this.execTouchEnd.bind(this);
+		this.map.div.addEventListener('touchstart', function(e){
+			this.execTouchStart(e);
+		}.bind(this), false);
+		
+		this.map.div.addEventListener('touchmove', function(e){
+			this.execTouchMove(e);
+		}.bind(this), false);
+		
+		this.map.div.addEventListener('touchend', function(e){
+			this.execTouchEnd(e);
+		}.bind(this), false);
+		
+		this.map.div.addEventListener('gesturestart', function(e){
+			this.execGestureStart(e);
+		}.bind(this), false);
+		
+		this.map.div.addEventListener('gesturechange', function(e){
+			this.execGestureChange(e);
+		}.bind(this), false);
+		
+		this.map.div.addEventListener('gestureend', function(e){
+			this.execGestureEnd(e);
+		}.bind(this), false);
 
 		/** register the zoomend event as well. Does the reverting back to original scale */
 		this.map.events.register('zoomend', this, function() { 
