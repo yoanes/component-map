@@ -73,5 +73,10 @@
             <fileset dir="${src.javascript.dir}/map/device-variant/sex10">
             </fileset>
         </bundle>
+        
+        <bundle name="sex10mini" parent="android">
+            <fileset dir="${src.javascript.dir}/map/device-variant/sex10mini">
+            </fileset>
+        </bundle>
     </bundles>
 </bs:bundlesConfig>
