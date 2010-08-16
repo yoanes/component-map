@@ -33,7 +33,7 @@
                     <data>_MapControls_ = new Array();
 _MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@/images/component/map/';
 _MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/L/';
-_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/L/';
 </data>
                 </embedded>
             </content>
@@ -59,7 +59,7 @@ _MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
                     <data>_MapControls_ = new Array();
 _MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@/images/component/map/';
 _MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/HD800/';
-_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';</data>
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/L/';</data>
                 </embedded>
             </content>
         </variant>
@@ -83,7 +83,7 @@ _MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';</data>
                     <data>_MapControls_ = new Array();
 _MapImgPath_ = '@env.ems.client.map.icons.img.src.prefix@/images/component/map/';
 _MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/HD640/';
-_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';</data>
+_MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/HD640/';</data>
                 </embedded>
             </content>
         </variant>

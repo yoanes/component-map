@@ -23,8 +23,9 @@
             </fileset>
         </bundle>
         
+        <!--  exclude the double tap controller for now -->
         <bundle name="apple" parent="advance" abstract="true">
-            <fileset dir="${src.javascript.dir}/map/device-variant/apple">
+            <fileset dir="${src.javascript.dir}/map/device-variant/apple/prototype">
             </fileset>
         </bundle>
      
