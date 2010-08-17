@@ -1,3 +1,7 @@
+==== Version 1.1.9-501 (tag: map_v1_1_9-501, branch: map_branch_v1_1_9) ====
+iPhone 4 patch. Update the path to the images to conform to the latest common images folder structure
+iPhone 4 doesn't get updated with hi res images.
+
 ==== Version 1.1.9-500 (tag: map_v1_1_9-500, branch: map_branch_v1_1_9) ====
 - optimised gesture and pan for ipad
 
