@@ -27,14 +27,17 @@ EMS.Control.MobileDefaults = OpenLayers.Class(EMS.Control.MobileDefaultsPrototyp
 		/* revert back after panning during zoom  */
 		$(this.map.viewPortDiv).setStyle('margin-left', "0px");
 		$(this.map.viewPortDiv).setStyle('margin-top', "0px");
-	},
+	}
 	
-	setupAnimation: function() {
+	/* comment out this section. Seems to introduce a bug on ipad that causes the text in any input field text
+	 * to dissapear intermittently. 
+	 * 
+	setupAnimation: function() {  
 		this.map.viewPortDiv.style['-webkit-transition-property'] = '-webkit-transform, margin-left, margin-top';
 		this.map.viewPortDiv.style['-webkit-transition-duration'] = '10ms, 1ms, 1ms';
 		this.map.viewPortDiv.style['-webkit-transition-timing-function'] = 'ease-in-out, linear, linear';
-		this.map.viewPortDiv.style['-webkit-transition-delay'] = '0 0 0';
-	}
+		this.map.viewPortDiv.style['-webkit-transition-delay'] = '0 0 0';  
+	}  */
 });
 
 _MapControls_.push(new EMS.Control.MobileDefaults);
