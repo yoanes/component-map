@@ -17,73 +17,73 @@
    under the License.
 -->
 
-<!-- 
-  - Ivy dependencies file for the entire project, including configurations 
+<!--
+  - Ivy dependencies file for the entire project, including configurations
   - for each separate component.
   -->
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
     <info organisation="com.sensis" module="wl-map-component"/>
 
     <configurations>
-        <!--  
+        <!--
           - Note: the configurations approach here differs from other projects:
-          - 
-          - 1. The showcase configuration extends the default configuration. The test configuration extends all other configurations. 
-          - This ensures that ivy will detect and handle library conflicts. 
-          - 
+          -
+          - 1. The showcase configuration extends the default configuration. The test configuration extends all other configurations.
+          - This ensures that ivy will detect and handle library conflicts.
+          -
           - 2. When building classpaths in your build scripts, you _should not_ combine these configurations if you are, say, running
           - JUnit tests in a forked JVM. This is because the command line will be too long for Windows to handle, due to the overlap
-          - between configurations. When running tests, the libs in the test configuration are sufficient. 
-          - In theory, it is still okay to combine the classpaths in your build script if you are not forking a JVM, since any 
+          - between configurations. When running tests, the libs in the test configuration are sufficient.
+          - In theory, it is still okay to combine the classpaths in your build script if you are not forking a JVM, since any
           - duplicate jars should be compatible. ie. you can compile tests with all configurations on the classpath.
           -->
         <conf name="default" description="Default libs required by the component." />
         <conf name="showcase" description="Libs required by the component's showcase." extends="default"/>
         <conf name="test" description="Test libs." extends="default, showcase"/>
-        
-        <conf name="buildBootstrap"  
+
+        <conf name="buildBootstrap"
             description="Shared build scripts required by this project." />
     </configurations>
-    
+
     <publications>
         <artifact name="wl-map-component" type="jar" ext="jar" conf="default"/>
         <artifact name="wl-map-component-src" type="source" ext="zip" conf="default"/>
     </publications>
 
     <dependencies>
-    
-        <!-- Shared build scripts required by this project. -->    
+
+        <!-- Shared build scripts required by this project. -->
         <dependency org="com.sensis" name="wl-build-scripts" rev="1.0.11" conf="buildBootstrap->default" />
-        
+
         <!-- Commons -->
         <dependency org="apache" name="commons-lang" rev="2.4" conf="default" />
         <dependency org="apache" name="commons-io" rev="1.1" conf="default"/>
-        
+
         <!-- jstl tags -->
         <!-- note this is already referenced in the spring 2.0.6 ivy.xml -->
         <!-- not sure why - seems a weird place for it -->
-        <dependency org="taglibs" name="standard" rev="1.1.2" conf="default"/>        
-        
+        <dependency org="taglibs" name="standard" rev="1.1.2" conf="default"/>
+
         <!-- MCS -->
         <dependency org="com.volantis" name="com.volantis.mcs.servlet" rev="5.1.2" conf="showcase->default"/>
-        
+
         <!-- Struts2 -->
         <dependency org="org.apache" name="struts2-core" rev="2.0.11.2" conf="showcase->default"/>
-        
+
         <!-- Tiles2 core -->
         <dependency org="org.apache" name="tiles-core" rev="2.0.6" conf="showcase->default"/>
 
         <!-- Struts2 Tiles plugin -->
         <dependency org="org.apache" name="struts2-tiles-plugin" rev="2.0.11.2" conf="showcase->default"/>
-        
 
-        <!-- Spring Integration -->        
+
+        <!-- Spring Integration -->
         <dependency org="org.springframework" name="spring" rev="2.5.5" conf="default"/>
-        <dependency org="org.apache" name="struts2-spring-plugin" rev="2.0.11.2" conf="showcase->default"/>        
-        
+        <dependency org="org.apache" name="struts2-spring-plugin" rev="2.0.11.2" conf="showcase->default"/>
+
         <!-- Spring MVC -->
         <dependency org="org.springframework" name="spring-webmvc" rev="2.5.5" conf="default"/>
-        
+
         <!--  WP Web Services -->
         <dependency org="org.apache.cxf" name="cxf" rev="2.1.2" conf="showcase->client"/>
         <dependency org="javax.xml" name="jaxws-api" rev="2.1" conf="showcase->default"/>
@@ -105,15 +105,15 @@
         <dependency org="com.sensis" name="sal-advertising" rev="1.9-016" conf="showcase->default"/>
         <dependency org="com.sensis" name="sal-wlcommon" rev="1.9-013" conf="showcase->default"/>
         <dependency org="com.sensis" name="sal-positioning" rev="1.9-013" conf="showcase->default"/>
-        
+
         <dependency org="com.sensis" name="wl-smsmanager-cxf-client" rev="1.6.001" conf="showcase->default"/>
         <dependency org="com.sensis" name="wl-searchService-cxf-client" rev="2.1.5"
                 conf="showcase->default"/>
 
         <!-- SDP Common -->
-        <dependency org="com.sensis" name="sdpCommon-logging" rev="0.5" conf="default"/>        
+        <dependency org="com.sensis" name="sdpCommon-logging" rev="0.5" conf="default"/>
         <dependency org="com.sensis" name="sdpCommon-web" rev="1.6-012" conf="default"/>
-        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.0-075" conf="default"/>
+        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.1.002" conf="default"/>
         <dependency org="com.sensis" name="sdpCommon-utils" rev="1.0-005" conf="default"/>
 
         <!-- EMS dependencies -->
@@ -127,12 +127,12 @@
         <dependency org="hibernate" name="hibernate" rev="3.2.2.ga" conf="showcase->default"/>
         <dependency org="hibernate" name="hibernate-commons-annotations" rev="3.3.0.ga" conf="showcase->default"/>
         <dependency org="hibernate" name="hibernate-annotations" rev="3.3.0.ga" conf="showcase->default"/>
-        
+
         <!--
           - Dependencies on other components.
           -->
         <dependency org="com.sensis" name="wl-core-component" rev="1.0.32" conf="default,test"/>
-        
+
         <!-- Testing -->
         <dependency org="junit" name="junit" rev="4.4" conf="test->default"/>
         <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="test->default"/>
@@ -143,6 +143,6 @@
         <dependency org="com.thoughtworks" name="selenium-server" rev="1.0-beta-1" conf="test->default"/>
         <dependency org="com.vladium" name="emma" rev="2.0" conf="test->default"/>
 
-        <dependency org="com.sensis" name="wl-webapp-testbed" rev="1.0.7" conf="showcase->default"/>        
+        <dependency org="com.sensis" name="wl-webapp-testbed" rev="1.0.7" conf="showcase->default"/>
     </dependencies>
 </ivy-module>

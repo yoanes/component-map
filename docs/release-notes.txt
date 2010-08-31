@@ -1,3 +1,13 @@
+==== Version 1.1.9-503 (tag: map_v1_1_9-503, branch: map_branch_v1_1_9) ====
+
+- Author: Brendan Doyle
+- Date: 30/08/2010
+- Updated to use sdpCommon-manager-1.1.002.jar. This contains a fix for out-of-bounds co-ordinates.
+    See the sdpCommon-manager release notes for details.
+
+Upgrade notes:
+- No change required.
+
 ==== Version 1.1.9-501 (tag: map_v1_1_9-501, branch: map_branch_v1_1_9) ====
 iPhone 4 patch. Update the path to the images to conform to the latest common images folder structure
 iPhone 4 doesn't get updated with hi res images.
@@ -13,19 +23,19 @@ iPhone 4 doesn't get updated with hi res images.
 Fixed:
 - Map component now allows applications to specify margins for classic and intermediate maps, based
   on the ImageCategory of the device.
-    - map.comp.screenDimensionsStrategy bean is now a 
+    - map.comp.screenDimensionsStrategy bean is now a
       au.com.sensis.mobile.whitepages.presentation.map.MarginAwareScreenDimensionsStrategy
       (moved in from Boyd's WPM implementation).
     - DefaultScreenDimensionsStrategy has been removed.
-- Also now depends on 
-    - <dependency org="com.sensis" name="wl-build-scripts" rev="1.0.11" conf="buildBootstrap->default" />        
-    
+- Also now depends on
+    - <dependency org="com.sensis" name="wl-build-scripts" rev="1.0.11" conf="buildBootstrap->default" />
+
 - Upgrade notes:
-    - If an application wishes to specify non-zero margins for classic and intermediate maps, they must 
-      create a map-component.properties file (with this exact name) in the root of their classpath and 
+    - If an application wishes to specify non-zero margins for classic and intermediate maps, they must
+      create a map-component.properties file (with this exact name) in the root of their classpath and
       override any or all of the following properties (the default values set by the component are
       shown here):
-      
+
         comp.margin.default=0
         comp.margin.xtrasmall=0
         comp.margin.small=0
@@ -35,27 +45,27 @@ Fixed:
         comp.margin.hd600=0
         comp.margin.hd800=0
         comp.margin.hd1024=0
-        
-      Any property that the application does not specify will default to 0. Note that the 
-      comp.margin.default property is only used if no ImageCategory specific property is found. 
-      This caters to the event that a new ImageCategory is created but no specific property for it is 
-      created in the component. 
-      
+
+      Any property that the application does not specify will default to 0. Note that the
+      comp.margin.default property is only used if no ImageCategory specific property is found.
+      This caters to the event that a new ImageCategory is created but no specific property for it is
+      created in the component.
+
       Also note that each margin property is a sum of the left and right margins so this implementation
       assumes that both left and right margins are equal.
 
 ==== Version 1.1.9-200 (tag: map_v1_1_9-200, branch: map_branch_v1_1_9) ====
 
 Fixed:
-- CUI-215 Map testpage / Whereis mobile -> Unable to exit fullscreen view on the SE X10 , 
-  due to horizontal scrolling on the map (Android devices)     
+- CUI-215 Map testpage / Whereis mobile -> Unable to exit fullscreen view on the SE X10 ,
+  due to horizontal scrolling on the map (Android devices)
 - CUI-246 Iphone Client -> Map controls appear missing in fulscreen mode on iphone Yellow client
 - CUI-248 Yellow Mobile -> Reporting events (ECS) are captured for photo & map view mode on high-end maps
     - improvement related to this Jira.  clientSideGeneratedMapStateChangeUrl only used if it is non-blank.
-- Full screen toggle re-enabled for Android-OS devices.     
-    
+- Full screen toggle re-enabled for Android-OS devices.
+
 Upgrade notes:
-- Now depends on wl-core-component 1.0.32. 
+- Now depends on wl-core-component 1.0.32.
 
 ==== Version 1.1.9-100 (tag: map_v1_1_9-100, branch: map_branch_v1_1_9) ====
 
@@ -108,11 +118,11 @@ Fixed:
     - MapDelegate.getInitialRouteMap documentation updated to mention that the actual RoutingOption
       used may change.
     - Showcase now allows the user to select the "Travel By" method for routes.
-    
+
 Upgrade notes:
 - Now depends on sdpCommon-manager 1.0-074.
 - The RoutingOption contained in the Map.getRouteDetails() returned by MapDelegate.getInitialRouteMap
-  should be used for all subsequent requests to manipulateRouteMap, getInitialRouteLegStepMap and 
+  should be used for all subsequent requests to manipulateRouteMap, getInitialRouteLegStepMap and
   manipulateRouteLegStepMap. It should also be used to display the routing option used to the user.
 
 ==== Version 1.1.7 (tag: map_v1_1_7) ====
@@ -125,13 +135,13 @@ Upgrade notes:
   located at theme/default/style.css (note that this is a relative path). For an app like
   WM, this can result in the home/error page being loaded as CSS, incorrectly parsed
   as CSS and severely messing up the page. So as a bandaid fix, make sure you define
-  this style.css file at all possible relative paths in your app.   
+  this style.css file at all possible relative paths in your app.
 
 ==== Version 1.1.6-100 (tag: map_v1_1_6-100) ====
 
 Fixed:
 - CUI-142 Map testpage -> The Route (blue coloured line) is missing on the Directions map (Intermittent)
-- CUI-154 Map testpage -> Map controls appear distorted on Samsung A411 
+- CUI-154 Map testpage -> Map controls appear distorted on Samsung A411
 - CUI-219 Map Component - configure IE on PCs to receive classic maps
 
 Minor styling change at JavaScript level for hi end iphone maps.
@@ -152,9 +162,9 @@ Fixed:
 ==== Version 1.1.6-003 (tag: map_v1_1_6-003) ====
 
 Fixed:
-- CUI-200: Map testpage(high end)  -> Directions route does not connect start & End points completely 
+- CUI-200: Map testpage(high end)  -> Directions route does not connect start & End points completely
     - Now depends on sdpCommon-manager 1.0-073.
-    
+
 Upgrade notes:
 - Now depends on sdpCommon-manager 1.0-073.
 
@@ -181,8 +191,8 @@ Fixes:
 - CUI-132 Implement the background tile for the map
 
 Upgrade notes:
-- Apple and Android maps are now 180px high instead of 200px hi. Make sure you re-deploy the policies. 
-  If you don't like the new height, you can override it in your application's MCS theme file, as long 
+- Apple and Android maps are now 180px high instead of 200px hi. Make sure you re-deploy the policies.
+  If you don't like the new height, you can override it in your application's MCS theme file, as long
   as your theme file is declared after the map:setup tag is called.
 
 ==== Version 1.1.5-008 (tag: map_v1_1_5-008) ====
@@ -201,7 +211,7 @@ Fixes:
     - All mscr files include the @project.version.complete@ token
       in JavaScript file names.
     - Now depends on wl-core-component 1.0.25.
-    
+
 Upgrade notes:
 - Now depends on wl-build-scripts 1.0.10.
 - Now depends on wl-core-component 1.0.25.
@@ -219,7 +229,7 @@ Fixed:
 - CUI-193: getInitialPoiMap fails when centre of map is same as single poi location
     - Showcase contains new POI map test case "WM bassett-smith valuers near 142 Church St Brighton VIC"
       that demonstrates this bug.
-- CUI-181: Behaviour of the Map Zoom Buttons displays       
+- CUI-181: Behaviour of the Map Zoom Buttons displays
 
 Upgrade Notes:
 - Now depends on sdpCommon-manager 1.0-072.
@@ -228,16 +238,16 @@ Upgrade Notes:
 
 Fixed:
 - CUI-100: Map Component - Configure mscr files and device-config.xml to target desired devices
-    
+
 Other changes:
 - Fixed map-component-jsconfig.mscr.sandpit-test to be consistent with latest configs.
 - JavaScript fixes:
     - remove map.updateSize from rePosition(). call updateSize() only at doMapResize() at fullScreen.js
 - map.mthm fixes:
     - assign position:relative only to those device with hi end map
-    
+
 Upgrade Notes:
-- You must redeploy your policies. Also make sure that you have the latest image server.    
+- You must redeploy your policies. Also make sure that you have the latest image server.
 
 ==== Version 1.1.5-003 (tag: map_v1_1_5-003) ====
 
@@ -246,7 +256,7 @@ Fixed:
     - device-config.xml and supporting classes updated to conform to wl-core-component 1.0.24.
     - au.com.sensis.mobile.web.component.core.device.xsd and au.com.sensis.mobile.web.component.core.device.xjb
       copied from core component so that they can be made available to the build scripts.
-    - setup.tag now only calls the setup tag of dependencies if map.mapImageRetrievalDeferredToClient is true.  
+    - setup.tag now only calls the setup tag of dependencies if map.mapImageRetrievalDeferredToClient is true.
 - Also JavaScript refactoring to distinguish between ornaments and onmapcontrols.
 
 Upgrade Notes:
@@ -256,30 +266,30 @@ Upgrade Notes:
 
 Fixed:
 - CUI-146: Whereis Mobile - Naer by search Result- All POI's are not displayed in the initial displayed map
-    - MapDelegateImpl.getInitialPoiMap now only calculates a bounding box, not a zoom level. The client side 
-      JavaScript is responsible for calculating the zoom level based on the mobilesZoomThreshold. 
-      There is no way for the server side to calculate the zoom because it doesn't know the dimensions of the 
-      hi end map. 
+    - MapDelegateImpl.getInitialPoiMap now only calculates a bounding box, not a zoom level. The client side
+      JavaScript is responsible for calculating the zoom level based on the mobilesZoomThreshold.
+      There is no way for the server side to calculate the zoom because it doesn't know the dimensions of the
+      hi end map.
     - Map interface has new method:
         Integer getBoundingBoxEmsJavaScriptZoomInThreshold();
     - advance/MobileEMS.js constructor accepts optional mapOptions.zoomInThreshold that is applied
       if a bounding box is specified. setup.tag updated to pass this in.
     - Showcase contains new POI map test case that exhibits this issue: "WM cafe near Tullamarine VIC".
-    
-- CUI-173  Map component - icons 
-    
+
+- CUI-173  Map component - icons
+
 Upgrade notes:
 - Now depends on sdpCommon-manager 1.0-070.
 - MapDelegate.manipulatePoiMap now requires the same mobilesZoomThreshold parameter that you pass to
-  getInitialPoiMap. This is only required as a consequence of fixing CUI-146 above. Given that the 
-  webapp currently has no way of knowing whether the user has zoomed or panned a hi end map, there is 
+  getInitialPoiMap. This is only required as a consequence of fixing CUI-146 above. Given that the
+  webapp currently has no way of knowing whether the user has zoomed or panned a hi end map, there is
   no way for the delegate to know what zoom level to use when manipulatePoiMap is called. As such,
   the implementation of manipulatePoiMap now simply displays the original POI map with possibly
   only a different mapLayer. Therefore, the manipulatePoiMap now requires the same mobilesZoomThreshold
-  as getInitialPoiMap. This requirement can be changed in future if we communicate hi end map 
+  as getInitialPoiMap. This requirement can be changed in future if we communicate hi end map
   zoom and pan changes to webapps.
 - MapDelegate.getInitialPoiMap and MapDelegate.manipulatePoiMap will not return zoom details for
-  hi end maps. Like with routing, this will have implications for WhereisMobile reporting. 
+  hi end maps. Like with routing, this will have implications for WhereisMobile reporting.
 
 ==== Version 1.1.5-001 (tag: map_v1_1_5-001) ====
 
@@ -326,7 +336,7 @@ Upgrade notes:
 ==== Version 1.1.4-006 (tag: map_v1_1_4-006) ====
 
 Fixed CUI-145: Whereis Mobile - Navigate between the tabs- Home page with out Map
-- MapDelegate.manipulate* methods can now be safely called for devices that receive hi end maps. 
+- MapDelegate.manipulate* methods can now be safely called for devices that receive hi end maps.
 
 ==== Version 1.1.4-005 (tag: map_v1_1_4-005) ====
 
@@ -334,17 +344,17 @@ Now depends on wl-core-component 1.0.19.
 
 device-config.xml now specifies device families as device ids, such as Apple and Android-OS.
 
-MCS theme file updated for Android-OS devices.   
+MCS theme file updated for Android-OS devices.
 
 ==== Version 1.1.4-004 (tag: map_v1_1_4-004) ====
 
 Fix for CUI-143 Whereis Mobile - map components with out the images.
-- map-component-jsconfig.mscr config corrected to have a "/" after the 
+- map-component-jsconfig.mscr config corrected to have a "/" after the
   @env.ems.client.map.icons.img.src.prefix@ token.
 
 ==== Version 1.1.4-003 (tag: map_v1_1_4-003) ====
 
-- Now depends on wl-core-component 1.0.18. EMS related mscr files are now sourced from 
+- Now depends on wl-core-component 1.0.18. EMS related mscr files are now sourced from
   wl-core-component.
 - setup.tag now invokes <ems:setup /> and no longer includes EMS, OpenLayers and CommMode mscr
   files directly.
@@ -381,23 +391,23 @@ any showcase code.
 Marks the end of iteration 1.1.4 for the Rockit Common UI project.
 
 FIxed CUI-122 Map Component - hi end POI maps are receiving POI icons with incorrect paths,
-although this requires work from the app to be really "fixed". See upgrade notes below. 
+although this requires work from the app to be really "fixed". See upgrade notes below.
 
 Showcase also updated with new POI search "WM bassett-smith valuers near 140 Church St Brighton VIC"
 to demonstrate the POI zoom threshold logic.
 
 Hi end map experience updated to match latest design:
-- iphone and android should have controls on the map: photo/map button, zoom in/out, fullscreen 
+- iphone and android should have controls on the map: photo/map button, zoom in/out, fullscreen
 - thub should have controls on the map: photo/map button, zoom in/out, fullscreen, plus pan controls,
-  one button on each side of the map. NOTE: Firefox is now treated as the thub experience.  
+  one button on each side of the map. NOTE: Firefox is now treated as the thub experience.
 
 Upgrade notes:
 - When you define the environment property "env.ems.client.map.icons.img.src.prefix",
-  make sure that it does not end in "/". Make sure that the clientImgSrcPath property 
+  make sure that it does not end in "/". Make sure that the clientImgSrcPath property
   of the au.com.sensis.wireless.manager.mapping.MobilesIcon beans in your context
   include a "/" after the property. eg:
-  
-    <property name="clientImgSrcPath" 
+
+    <property name="clientImgSrcPath"
         value="${env.ems.client.map.icons.img.src.prefix}/images/component/map/markers/standard/icon_emscell_28x28.png" />
 
 ==== Version 1.1.3-005 (tag: map_v1_1_3-005) ====
@@ -406,24 +416,24 @@ Fixed CUI-121  Map Component - POI map starting zoom level is wrong.
 
 Now depends on sdpCommon-manager 1.0-067 containing the logic fix.
 
-Showcase now provides two POI searches: 
+Showcase now provides two POI searches:
 - cars nearby Melbourne Vic
 - bars nearby Toorak Vic
 
 The latter search demonstrates the CUI-121 bug.
 
 mobileToEmsZoomConversionMap and emsToMobileZoomConversionMap beans
-now map zoom levels one-to-one as agreed by Alex Johnston. 
+now map zoom levels one-to-one as agreed by Alex Johnston.
 
 ==== Version 1.1.3-004 (tag: map_v1_1_3-004) ====
 
-LocationManager and LocationManagerImpl now moved to showcase specific packages, 
+LocationManager and LocationManagerImpl now moved to showcase specific packages,
 since they are not part of the component proper.
 
 Showcase now accepts start and end address to be entered for route maps.
 Showcase also now demonstrates how the state of the route leg step map zoom
 can be retained when clicking between steps but reset when a new route summary
-map is obtained. 
+map is obtained.
 
 ==== Version 1.1.3-003 (tag: map_v1_1_3-003) ====
 
@@ -431,17 +441,17 @@ Fixes for CUI-86 Map Component - Route Leg Step Maps.
 
 MapDelegateImpl now implements:
 - getInitialRouteLegStepMap
-- manipulateRouteLegStepMap 
+- manipulateRouteLegStepMap
 - getInitialRouteMap (client side generated map support added).
 
 Now depends on sdpCommon-manager 1.0-066.
 
-Showcase updated to display basic route leg step links when a route summary 
+Showcase updated to display basic route leg step links when a route summary
 map is displayed. All route and leg step maps now work for both hi end
 and classic maps. One known issue though: WhereisMobile contains
 special code that tries to detect when a pan/zoom of a route summary
 map returns to the original map. It is not perfect, though, and this
-component does not (yet) cater to this. 
+component does not (yet) cater to this.
 
 ==== Version 1.1.3-002 (tag: map_v1_1_3-002) ====
 
@@ -451,26 +461,26 @@ MapDelegate updated with new methods:
 - getInitialRouteMap
 - manipulateRouteMap
 - getInitialRouteLegStepMap
-- manipulateRouteLegStepMap 
+- manipulateRouteLegStepMap
 
-MapDelegateImpl implements getInitialRouteMap (except for path that needs to cater 
-to client generated maps) and manipulateRouteMap. JavaScript slightly modified 
+MapDelegateImpl implements getInitialRouteMap (except for path that needs to cater
+to client generated maps) and manipulateRouteMap. JavaScript slightly modified
 to get the hi end maps working. Showcase updated to demonstrate
 rendering and manipulating a "journey summary" route map. Works for both Classic maps
-and hi end maps. 
+and hi end maps.
 
 Now depends on sdpCommon-manager 1.0-065.
 
 Upgrade notes:
 - The Map interface has been refactored so that the zoom details are encapsulated
   by getZoomDetails(). I think this change should be transparent to clients since
-  they are not expected to be calling these methods directly.  
+  they are not expected to be calling these methods directly.
 
 ==== Version 1.1.3 (tag: map_v1_1_3) ====
 
 Fixes for:
-- CUI-93 Map Component - add support for AJAX map/photo toggle, including support for retaining server side state 
-- CUI-97 Map Component - Style 
+- CUI-93 Map Component - add support for AJAX map/photo toggle, including support for retaining server side state
+- CUI-97 Map Component - Style
 
 Remaining TODOs (which will become new Jiras):
 - Styling of map height is incorrect for low end devices.
@@ -496,7 +506,7 @@ Not yet complete since we still need Yoanes' JavaScript support.
 
 ==== Version 1.0.28 (tag: map_v1_0_28) ====
 
-Fix for "CUI-96: Map Component - always generate icons arg in setup.tag in case 
+Fix for "CUI-96: Map Component - always generate icons arg in setup.tag in case
 generateServerSideMap is true in device-config.xml.". MapDelegate methods
 now ensure that the returned Map contains non-empty "List<ResolvedIcon>" regardless
 of whether the server side map was generated.
@@ -515,11 +525,11 @@ Fixes CUI-92 Map Component - JS EMS authorisation must be configurable per app (
 Details are below.
 
 EMS.mscr.* files in src/resources/mcs/policies/comp/map/scripts reduced
-to EMS.mscr.default. Url in that file replaced with the following so that 
+to EMS.mscr.default. Url in that file replaced with the following so that
 web apps can substitute their own URL and token:
 
     <relative>@env.ems.service.js@@env.ems.token@</relative>
-    
+
 EMS.mscr.desk, EMS.mscr.sandpit, EMS.mscr.sandpit-dev and EMS.mscr.sandpit-test
 added to showcase/resources/mcs/policies/comp/map/scripts so that the showcase
 can use its own versions without having to specific a replacement token
@@ -527,7 +537,7 @@ for EMS.mscr.default. This in turn avoids figuring out how the map component
 showcase would override the standard showcase policy extraction in the shared
 build scripts.
 
-Also upgraded ivy.xml to depend on the latest wl-build-scripts 1.0.8 although 
+Also upgraded ivy.xml to depend on the latest wl-build-scripts 1.0.8 although
 not strictly required.
 
 Upgrade instructions for webapps:
@@ -538,31 +548,31 @@ Upgrade instructions for webapps:
         <!--
           - Extract the policies from all components found in the core libs dir.
           -->
-        <sensis:extract-all-component-policies 
+        <sensis:extract-all-component-policies
             componentLibDir="${lib.dir}/jar/core" destDir="${build.dir}/work/policies"
             mcsMgrpComponentScriptsBaseUrl="${mcs.mgrp.component.scripts.base.url}"
             mcsMgrpComponentImagesBaseUrl="${mcs.mgrp.component.images.base.url}"
             platform="${project.platform}">
-        
+
             <filtersetelements>
-                   <filtersfile file="${cfg.dir}/environment.properties.${project.platform}"/>      
+                   <filtersfile file="${cfg.dir}/environment.properties.${project.platform}"/>
             </filtersetelements>
         </sensis:extract-all-component-policies>
-        
+
    The filters file must define the following properties, where the token must be specific
    to your application and environment (here, we use the WPM dev token as an example):
-   
+
        env.ems.service.js=http://ems.whereis.com/v1/web/js/ems/lib/EMS.js?token=
        env.ems.token=4316381136292159452
-       
+
 ==== Version 1.0.25 (tag: map_v1_0_25) ====
 
-Based on discussions with Heather and Rob, implemented DefaultScreenDimensionsStrategy 
+Based on discussions with Heather and Rob, implemented DefaultScreenDimensionsStrategy
 and configured MapDelegateImpl in mapComponentBusinessContext.xml to use it by default.
-Also refactored the bean definition to be a named bean (map.comp.screenDimensionsStrategy) 
+Also refactored the bean definition to be a named bean (map.comp.screenDimensionsStrategy)
 so that webapps can (if they wish) substitute their own implementation.
 
-Removed WhitePagesMobileScreenDimensionsStrategy. Removed properties that it 
+Removed WhitePagesMobileScreenDimensionsStrategy. Removed properties that it
 used to require from map-component.properties.
 
 Added dev and tst config files for JavaScript maps: EMS.mscr.dev and EMS.mscr.tst
@@ -578,7 +588,7 @@ MapDelegate interface streamlined based on Heather's feedback during WhereisMobi
 - MapDelegate.manipulateMap and MapDelegate.manipulatePoiMap modified so that the
   mapLayer argument must be the existing MapLayer, not the new value (which is now
   controlled by the MapDelegate.Action value above.
-  
+
 Also updated ivy config (in .classpath) to work with latest Eclipse ivy plugins:
 - Apache Ivy 2.1.0.final_20090925235825
 - Apache IvyDE 2.0.0.final_200907011148-RELEASE
@@ -586,7 +596,7 @@ This allows the ivy-settings path to be project relative.
 
 ==== Version 1.0.23 (tag: map_v1_0_23) ====
 
-Now depends on wl-core-component 1.0.15 to remove transitive dependency on struts2 
+Now depends on wl-core-component 1.0.15 to remove transitive dependency on struts2
 for the default configuration.
 
 ==== Version 1.0.22 (tag: map_v1_0_22) ====
@@ -606,21 +616,21 @@ JavaScript maps now works (tested on iphone on sandpit-dev).
 ==== Version 1.0.19 (tag: map_v1_0_19) ====
 
 Updates to support client side JavaScript POI maps.
-- Now depends on sdpCommon-manager 1.0-062 to obtain support for resolving map icons 
+- Now depends on sdpCommon-manager 1.0-062 to obtain support for resolving map icons
   needed for client side JavaScript maps.
 - Showcase updates:
     - environment properties now configure env.ems.client.map.icons.img.src.prefix property needed by latest sdpCommon-manager.
     - emsManagerContext.xml updated to set clientImgSrcPath property of MobilesIcon instances.
-- MapUrlHolder contains new method "List<ResolvedIcon> getResolvedIcons();". 
+- MapUrlHolder contains new method "List<ResolvedIcon> getResolvedIcons();".
   MapDelegateImpl.retrieveInitialMap and getInitialPoiMap updated to set this when
   map rendering is deferred to the client.
 - Fixed paths in all *.mimg files based on restructure of component images in the image-server project.
-- setup.tag updated to pass ${mapUrlHolder.resolvedIcons} to the JavaScript MobEMS constructor. 
+- setup.tag updated to pass ${mapUrlHolder.resolvedIcons} to the JavaScript MobEMS constructor.
 
 ==== Version 1.0.18 (tag: map_v1_0_18) ====
 
 MapDelegate updated with POI support (getInitialPoiMap and manipulatePoiMap).
-Showcase updated with a "Render POIs" button that demonstrates a) rendering a POI map and 
+Showcase updated with a "Render POIs" button that demonstrates a) rendering a POI map and
 b) panning, zooming and changing between Photo/Map layers for POI maps.
 
 ==== Version 1.0.17 (tag: map_v1_0_17) ====
@@ -629,7 +639,7 @@ Fixed image paths in mapLayer.mimg and photoLayer.mimg.
 
 ==== Version 1.0.16 (tag: map_v1_0_16) ====
 
-map.comp.deviceConfigRegistry bean is now configured via the 
+map.comp.deviceConfigRegistry bean is now configured via the
 comp.device.config.classpath property in map-component.properties.
 
 Now depends on wl-core-component 1.0.14.
@@ -637,7 +647,7 @@ Now depends on wl-core-component 1.0.14.
 ==== Version 1.0.15 (tag: map_v1_0_15) ====
 
 Added au.com.sensis.mobile.web.component.map.device.xsd and now
-depends on wl-build-scripts 1.0.7 for device-config-xjc target and 
+depends on wl-build-scripts 1.0.7 for device-config-xjc target and
 wl-core-component 1.0.13 for related JAXB classes.
 
 Added JAXB classes and xjb files generated by the device-config-xjc target.
@@ -675,12 +685,12 @@ Notable changes:
 - MapDelegateImpl no longer depends on the LocationManager that was inherited from WhitePagesMobile.
 - The screen dimensions calculation of the device has been encapsulated behind a ScreenDimensionsStrategy
   interface. This may change in future once the real requirements become apparent.
-- Fixed a bug inherited from WhitePagesMobile where panning the map moves the "centre" icon to the new centre. 
+- Fixed a bug inherited from WhitePagesMobile where panning the map moves the "centre" icon to the new centre.
   The new implementation has been based on WhereisMobile. This relies on passing the original centre coordinate
   down to the EMSManager, whilst the new centre is encapsulated in the PanZoomDetail.
-  
+
 Also upgraded sdpCommon-manager to 1.0-059 in order to obtain new equals and hashCode methods on some
-key model classes. 
+key model classes.
 
 ==== Version 1.0.9 (tag: map_v1_0_9) ====
 
@@ -695,35 +705,34 @@ Upgraded libs:
 
 ==== Version 1.0.7 (tag: map_v1_0_7) ====
 
-Fixed showcase bug introduced from previous release when 
+Fixed showcase bug introduced from previous release when
 publish artifact and showcase names were changed to start with "wl-" prefix.
 Some config files were not updated accordingly.
 
 ==== Version 1.0.6 (tag: map_v1_0_6) ====
 
-Deliverable from iteration 1.0.6 (and 1.0.5 since I skipped that tag) 
-of the rockit Common UI project (http://jira.sensis.com.au/browse/CUI). 
+Deliverable from iteration 1.0.6 (and 1.0.5 since I skipped that tag)
+of the rockit Common UI project (http://jira.sensis.com.au/browse/CUI).
 These iterations focused mainly on stabilising the framework.
 
 ==== Version 1.0.4 (tag: map_v1_0_4) ====
 
-Deliverable from iteration 1.0.4 of the rockit Common UI project 
-(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly 
+Deliverable from iteration 1.0.4 of the rockit Common UI project
+(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly
 on adding logging support to the current framework, adding a template
 component and fixing up various other, smaller issues.
 
 ==== Version 1.0.3 (tag: map_v1_0_3) ====
 
-Deliverable from iteration 1.0.3 of the rockit Common UI project 
-(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly 
+Deliverable from iteration 1.0.3 of the rockit Common UI project
+(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly
 on testing the current framework by prototyping the networknav and
 map components and (locally) integrating them into WPM.
 
 ==== Version 1.0.1 (tag: v1_0_1) ====
 
-Deliverable from iteration 1.0.1 of the rockit Common UI project 
-(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly 
-on the project structure, testbed structure and build scripts. 
+Deliverable from iteration 1.0.1 of the rockit Common UI project
+(http://jira.sensis.com.au/browse/CUI). This iteration focused mainly
+on the project structure, testbed structure and build scripts.
 All build targets should work.
- 
- 
+
