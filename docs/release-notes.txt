@@ -1,3 +1,8 @@
+==== Version 1.1.9-504 (tag: map_v1_1_9-504, branch: map_branch_v1_1_9) ====
+
+Emergency prod slap fix resulting from EMS upgrade to Decartes. patch.js now points to 
+EMS (tiles?) 1.0.5 instead of 1.0.3. 
+
 ==== Version 1.1.9-503 (tag: map_v1_1_9-503, branch: map_branch_v1_1_9) ====
 
 - Author: Brendan Doyle
