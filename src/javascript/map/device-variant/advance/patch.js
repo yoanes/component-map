@@ -79,20 +79,20 @@ EMS.Services.Map.prototype.initialize = function (div, options) {
 
         // added bg layer, and set it visible        
         this.bgLayer = new EMS.BackgroundLayer("Background tiles",
-        EMS.BackgroundLayer.TILE, {layers: 'background', format: "image/gif", CACHE: "TRUE", VERSION: '1.0.3'}, {displayOutsideMaxExtent: true, visible: true});
+        EMS.BackgroundLayer.TILE, {layers: 'background', format: "image/gif", CACHE: "TRUE", VERSION: '1.0.5'}, {displayOutsideMaxExtent: true, visible: true});
         this.bgLayer.isBaseLayer = true;
         this.bgLayer.setVisibility(true);
         this.whereis_street_wms = new EMS.IndexedLayer("Whereis Street",
-        tilePath, {layers: 'street', format: "image/gif", TRANSPARENT: true, CACHE: "TRUE", VERSION: '1.0.3'}, {displayOutsideMaxExtent: true, visible: true, transparent: true});
+        tilePath, {layers: 'street', format: "image/gif", TRANSPARENT: true, CACHE: "TRUE", VERSION: '1.0.5'}, {displayOutsideMaxExtent: true, visible: true, transparent: true});
         this.whereis_street_wms.setVisibility(true);
         this.whereis_street_wms.transitionEffect = "resize";
         
         this.whereis_photo_wms = new EMS.IndexedLayer("Whereis Photo",
-                tilePath, {layers: 'photo', format: "image/jpg", TRANSPARENT: true, CACHE: "TRUE", VERSION: '1.0.3'}, {displayOutsideMaxExtent: true, visible: false, transparent: true});
+                tilePath, {layers: 'photo', format: "image/jpg", TRANSPARENT: true, CACHE: "TRUE", VERSION: '1.0.5'}, {displayOutsideMaxExtent: true, visible: false, transparent: true});
         this.whereis_photo_wms.setVisibility(false);
         this.whereis_photo_wms.transitionEffect = "resize";
         this.whereis_hybrid_wms = new EMS.IndexedLayer("Whereis Hybrid",
-                tilePath, {layers: 'hybrid', format: "image/gif", TRANSPARENT: true, CACHE: "TRUE", VERSION: '1.0.3'}, {displayOutsideMaxExtent: true, transparent: true});
+                tilePath, {layers: 'hybrid', format: "image/gif", TRANSPARENT: true, CACHE: "TRUE", VERSION: '1.0.5'}, {displayOutsideMaxExtent: true, transparent: true});
         this.whereis_hybrid_wms.setVisibility(false);
         this.whereis_hybrid_wms.transitionEffect = "resize";
 
@@ -128,7 +128,7 @@ EMS.Services.Map.prototype.initialize = function (div, options) {
         this.addControl( this.scalebar = new EMS.Control.Scale());
 
         var ovLayer = new EMS.IndexedLayer("Street",
-                tilePath, {layers: 'street', format: "image/gif", cache: "TRUE", version: '1.0.3'}, {displayOutsideMaxExtent: true, visible: true});
+                tilePath, {layers: 'street', format: "image/gif", cache: "TRUE", version: '1.0.5'}, {displayOutsideMaxExtent: true, visible: true});
         ovLayer.buffer = 0;
         this.addControl( this.overviewmap = new EMS.Control.OverviewMap( {layers: [ovLayer], mapOptions: {maxResolution: 1.6, numZoomLevels: 21, maxExtent: new OpenLayers.Bounds(100, -50, 170, -3)}} ) );
     }
