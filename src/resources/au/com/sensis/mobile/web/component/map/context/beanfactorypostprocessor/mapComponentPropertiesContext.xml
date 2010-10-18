@@ -23,7 +23,7 @@
     </bean>                
     
     <!-- Define PropertyPlaceholderConfigurer that merges the mandatory properties with optional properties. -->
-    <bean class="au.com.sensis.mobile.web.component.core.spring.LazyPropertiesInjectingPropertyPlaceholderConfigurer">
+    <bean class="au.com.sensis.mobile.crf.spring.LazyPropertiesInjectingPropertyPlaceholderConfigurer">
         <!-- Default properties provided by this component. -->
         <property name="propertiesBeanName" value="map.comp.properties"/>
         

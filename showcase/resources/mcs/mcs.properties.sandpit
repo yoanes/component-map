@@ -1,8 +1,5 @@
 mcs.devicerepository.filepath=/app/smtestapp/testapps/mcstestapp/devices/devices.mdpr
 mcs.policies.filepath=/app/smtestapp/testapps/mcstestapp/policies
 
-mcs.mgrp.component.scripts.base.url=/mcstestapp/comp/
-mcs.mgrp.component.images.base.url=http://dsb.sensis.com.au/mcstestapp/imageserver/
-
 mcs.cache.policies=false
 mcs.script.asset.path=/mcstestapp/scripts/

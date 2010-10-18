@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="base" uri="/au/com/sensis/mobile/web/component/core/base/base.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/core/logging/logging.tld"%>
+<%@ taglib prefix="crf" uri="/au/com/sensis/mobile/crf/crf.tld"%>
 
 <%@ attribute name="device" required="true"
     type="au.com.sensis.wireless.common.volantis.devicerepository.api.Device"  

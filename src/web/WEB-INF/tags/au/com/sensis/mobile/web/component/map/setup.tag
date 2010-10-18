@@ -6,6 +6,7 @@
 <%@ taglib prefix="ems" uri="/au/com/sensis/mobile/web/component/core/ems/ems.tld"%>
 <%@ taglib prefix="util" uri="/au/com/sensis/mobile/web/component/core/util/util.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/core/logging/logging.tld"%>
+<%@ taglib prefix="crf" uri="/au/com/sensis/mobile/crf/crf.tld"%>
 
 <%@ attribute name="device" required="true"
     type="au.com.sensis.wireless.common.volantis.devicerepository.api.Device"  
@@ -14,6 +15,9 @@
 <%@ attribute name="map" required="true"
     type="au.com.sensis.mobile.web.component.map.model.Map"  
     description="Map returned by the MapDelegate." %>
+    
+<%@ attribute name="emsJsUrl" required="true"
+    description="URL of the EMS JavaScript library." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
 <logging:debug logger="${logger}" message="Entering setup.tag" />
@@ -31,25 +35,24 @@
 <base:compMcsBasePath var="compMcsBasePath" />
 
 <%-- Themes for current component. --%>
-<base:link rel="mcs:theme" href="${compMcsBasePath}/map/map.mthm" />
+<crf:link rel="stylesheet" type="text/css" href="comp/map/map.css" device="${device}"/>
 
 <%-- Hi end map themes and JavaScript. --%>
 <c:if test="${not empty map && map.mapImageRetrievalDeferredToClient && deviceConfig.enableHiEndMap}">
     <%-- Setup components that we depend on. --%>
-    <base:setup />
-    <ems:setup />
-    <util:setup />
-    <logging:setup />
+    <base:setup device="${device}"/>
+    <ems:setup device="${device}" emsJsUrl="${emsJsUrl}" />
+    <util:setup device="${device}" />
+    <logging:setup device="${device}" />
     
-    <%-- Themes for current component. --%>
-    <base:link rel="mcs:theme" href="${compMcsBasePath}/map/hiMap.mthm" />
+    <%-- Styles for current component. --%>
+    <%-- TODO: once we split setup.tag into two, the need for a specific hiMap.css will go away. --%>
+    <crf:link href="comp/map/hiMap.css" rel="stylesheet" type="text/css" device="${device}"/>
     
     <%-- Scripts for current component. --%>
-    <base:script src="${compMcsBasePath}/map/scripts/map-component-jsconfig.mscr"></base:script>
-    <base:script src="${compMcsBasePath}/map/scripts/map-component-hiEnd.mscr"></base:script>
-    <base:script src="${compMcsBasePath}/map/scripts/map-component-tilePath.mscr"></base:script>
+    <crf:script src="comp/map/package" type="text/javascript" device="${device}"></crf:script>
     
-    <base:script name="create-hiEnd-map" type="text/javascript">
+    <crf:script name="create-hiEnd-map" type="text/javascript" device="${device}">
         if(typeof(MobEMS) != 'undefined') {
         
             var icons = [
@@ -137,22 +140,22 @@
                 directions
             );
         }
-    </base:script>
+    </crf:script>
 </c:if>    
 
 <%-- Intermediate map themes and JavaScript. --%>
 <c:if test="${not empty map && map.mapImageRetrieved && deviceConfig.enableIntermediateMap}">
     <%-- Setup components that we depend on. --%>
-    <base:setup />
-    <util:setup />
-    <logging:setup />
+    <base:setup device="${device}" />
+    <util:setup device="${device}" />
+    <logging:setup device="${device}" />
     
     <%-- Themes for current component: none required at the moment. --%>
     
     <%-- Scripts for current component. --%>
-    <base:script src="${compMcsBasePath}/map/scripts/map-component-intermediate.mscr"></base:script>
+    <crf:script src="comp/map/package" type="text/javascript" device="${device}"></crf:script>
     
-    <base:script name="create-intermediate-map" type="text/javascript">
+    <crf:script name="create-intermediate-map" type="text/javascript" device="${device}">
         if(typeof(MobEMS) != 'undefined') {
             new MobEMS(
                 'mapWindow',
@@ -161,7 +164,7 @@
                 }                
             );
         }
-    </base:script>
+    </crf:script>
 </c:if>    
 
 <logging:debug logger="${logger}" message="Exiting setup.tag" />

@@ -1,6 +1,0 @@
-########################################################
-## ENVIRONMENT : map-showcase SANDPIT-test overrides
-########################################################
-
-# Context root relative prefix for all components.
-env.context.root.component.prefix=/test/map-component-showcase/comp/

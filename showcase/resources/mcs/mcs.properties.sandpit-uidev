@@ -1,0 +1,5 @@
+mcs.devicerepository.filepath=/app/smtestapp/sandpit-uidev/wl-webapp-testbed/devices/devices.mdpr
+mcs.policies.filepath=/app/smtestapp/sandpit-uidev/map-component/
+
+mcs.cache.policies=false
+#!mcs.script.asset.path=/map-component-showcase/scripts/

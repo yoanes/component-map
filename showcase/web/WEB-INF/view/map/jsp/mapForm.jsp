@@ -2,113 +2,118 @@
 
 <div id="mapLocationForm">
     <h4>Map a &lt;suburb state&gt;. eg. melbourne vic</h4>
-    <xf:group class="mapInput" model="mapFormModel">
+    <form action="<s:url namespace='/map' action='getMap' />" method="post"/>
     
-        <xf:select1 model="mapFormModel" ref="ct" >
-            <xf:label class="locationMessage">Cursor Type</xf:label>
-            <xf:item>
-              <xf:label>Cross Hair</xf:label>
-              <xf:value>CROSS_HAIR</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>Blank POI</xf:label>
-              <xf:value>POI_BLANK</xf:value>
-            </xf:item>
-        </xf:select1>
+        <div>
+            <label for="ctId" class="locationMessage">Cursor Type</label>
+            <select id="ctId" name="ct">
+                <c:choose>
+                    <c:when test="${cursorTypeAsString eq 'POI_BLANK'}">
+                        <option value="CROSS_HAIR">Cross Hair</option>
+                        <option value="POI_BLANK" selected>Blank POI</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option value="CROSS_HAIR" selected>Cross Hair</option>
+                        <option value="POI_BLANK">Blank POI</option>
+                    </c:otherwise>
+                </c:choose>
+        
+            </select>
+        </div>
 
-        <xf:input ref="ml" model="mapFormModel" class="mapLocationInput"
-                id="location">
-            <xf:label class="locationMessage">Location</xf:label>
-        </xf:input>
+        <div>
+            <label for="location" class="locationMessage">Location</label>
+            <input type="text" id="location" name="ml" class="mapLocationInput" value="<s:property value='location' />"></input>
+        </div>
 
-        <xf:submit submission="mapFormSubmission" model="mapFormModel"
-                class="mapButton"
-                title="Get Map">
-            <xf:label class="mapButtonLabel">
-                <s:text name="Get Map"/>
-            </xf:label>
-        </xf:submit>
-    </xf:group>
+        <input type="submit" class="mapButton" value="<s:text name='Get Map'/>"></input>
+    </form>
 </div>
 
 <div id="poisForm">
     <h4>Render (hard coded) POIs</h4>
-    <xf:group class="mapInput" model="poisFormModel">
     
-        <xf:select1 model="poisFormModel" ref="search" >
-            <xf:label></xf:label>
-            <xf:item>
-              <xf:label>WM cars near Melbourne VIC</xf:label>
-              <xf:value>carsNearMelbourneVic</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>WM bars near Toorak VIC</xf:label>
-              <xf:value>barsNearToorakVic</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>WM bassett-smith valuers near 140 Church St Brighton VIC</xf:label>
-              <xf:value>bassettSmithValuersNear140ChurchStBrightonVic</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>WM cafe near Tullamarine VIC</xf:label>
-              <xf:value>cafeNearTullamarineVic</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>WM bassett-smith valuers near 142 Church St Brighton VIC</xf:label>
-              <xf:value>bassettSmithValuersNear142ChurchStBrightonVic</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>WM restaurants near 3006 (10 results per page)</xf:label>
-              <xf:value>restaurantsNear3006</xf:value>
-            </xf:item>
-        </xf:select1>
+    <c:choose>
+        <c:when test="${'barsNearToorakVic' eq search}">
+            <c:set var="barsNearToorakVicSelected" value="selected"/>        
+        </c:when>
+        <c:when test="${'bassettSmithValuersNear140ChurchStBrightonVic' eq search}">
+            <c:set var="bassettSmithValuersNear140ChurchStBrightonVicSelected" value="selected"/>        
+        </c:when>
+        <c:when test="${'cafeNearTullamarineVic' eq search}">
+            <c:set var="cafeNearTullamarineVicSelected" value="selected"/>        
+        </c:when>
+        <c:when test="${'bassettSmithValuersNear142ChurchStBrightonVic' eq search}">
+            <c:set var="bassettSmithValuersNear142ChurchStBrightonVicSelected" value="selected"/>        
+        </c:when>
+        <c:when test="${'restaurantsNear3006' eq search}">
+            <c:set var="restaurantsNear3006Selected" value="selected"/>        
+        </c:when>
+        <c:otherwise>
+            <c:set var="carsNearMelbourneVicSelected" value="selected"/>
+        </c:otherwise>    
+    </c:choose>
     
-        <xf:submit submission="poisFormSubmission" model="poisFormModel"
-                class="mapButton"
-                title="Get POIs">
-            <xf:label class="mapButtonLabel">
-                <s:text name="Get POIs"/>
-            </xf:label>
-        </xf:submit>
-    </xf:group>
+    <form action="<s:url namespace='/map' action='getPois'/>" method="post">
+        <select name="search" >
+     	    <option ${carsNearMelbourneVicSelected} value="carsNearMelbourneVic">WM cars near Melbourne VIC</option>
+          
+     	    <option ${barsNearToorakVicSelected} value="barsNearToorakVic">WM bars near Toorak VIC</option>
+          
+     	    <option ${bassettSmithValuersNear140ChurchStBrightonVicSelected} 
+                value="bassettSmithValuersNear140ChurchStBrightonVic"
+                >WM bassett-smith valuers near 140 Church St Brighton VIC</option>
+                
+     	    <option ${cafeNearTullamarineVicSelected} value="cafeNearTullamarineVic">WM cafe near Tullamarine VIC</option>
+          
+     	    <option ${bassettSmithValuersNear142ChurchStBrightonVicSelected} value="bassettSmithValuersNear142ChurchStBrightonVic"
+                >WM bassett-smith valuers near 142 Church St Brighton VIC</option>
+                
+     	    <option ${restaurantsNear3006Selected} value="restaurantsNear3006">WM restaurants near 3006 (10 results per page)</option>
+        </select>
+
+        <input type="submit" class="mapButton" value="<s:text name='Get POIs'/>"></input>    
+    </form>
 </div>
 
 <div id="routeForm">
     <h4>Get route</h4>
-    <xf:group class="mapInput" model="routeFormModel">
     
-        <xf:select1 model="routeFormModel" ref="rop" class="mapLocationInput">
-            <xf:label class="locationMessage">Travel By</xf:label>
-            <xf:item>
-              <xf:label>Car (tolls)</xf:label>
-              <xf:value>roadTolls</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>Car (no tolls)</xf:label>
-              <xf:value>roadNoTolls</xf:value>
-            </xf:item>
-            <xf:item>
-              <xf:label>Walking</xf:label>
-              <xf:value>foot</xf:value>
-            </xf:item>
-        </xf:select1>
+    <c:choose>
+        <c:when test="${'roadNoTolls' eq routingOption.shortName}">
+            <c:set var="roadNoTollsSelected" value="selected"/>        
+        </c:when>
+        <c:when test="${'foot' eq routingOption.shortName}">
+            <c:set var="footSelected" value="selected"/>        
+        </c:when>
+        <c:otherwise>
+            <c:set var="roadTollsSelected" value="selected"/>
+        </c:otherwise>    
+    </c:choose>
     
-        <xf:input ref="rsa" model="routeFormModel" class="mapLocationInput"
-                id="routeStartAddress">
-            <xf:label class="locationMessage">Start</xf:label>
-        </xf:input>
+    <form action="<s:url namespace='/map' action='getRoute'/>" method="post">
+    
+        <div>
+            <label for="routingOptionId" class="locationMessage">Travel By</label>
+            <select id="routingOptionId" name="rop" class="mapLocationInput">
+                <option ${roadTollsSelected} value="roadTolls">Car (tolls)</option>
+                <option ${roadNoTollsSelected} value="roadNoTolls">Car (no tolls)</option>
+                <option ${footSelected} value="foot">Walking</option>
+        	</select>
+        </div>
+    
+        <div>
+            <label for="routeStartAddress" class="locationMessage">Start</label>
+            <input type="text" name="rsa" class="mapLocationInput" id="routeStartAddress"
+                value="<s:property value='routeStartAddress' />"></input>
+        </div>            
+
+        <div>
+            <label for="routeEndAddress" class="locationMessage">End</label>
+            <input type="text" name="rea" class="mapLocationInput" id="routeEndAddress"
+                value="<s:property value='routeEndAddress' />"></input>
+        </div>
         
-        <xf:input ref="rea" model="routeFormModel" class="mapLocationInput"
-                id="routeEndAddress">
-            <xf:label class="locationMessage">End</xf:label>
-        </xf:input>
-        
-        <xf:submit submission="routeFormSubmission" model="routeFormModel"
-                class="mapButton"
-                title="Render Route/>">
-            <xf:label class="mapButtonLabel">
-                <s:text name="Get Route"/>
-            </xf:label>
-        </xf:submit>
-    </xf:group>
+        <input type="submit" class="mapButton" value="<s:text name='Get Route'/>"></input>    
+    </form>
 </div>
