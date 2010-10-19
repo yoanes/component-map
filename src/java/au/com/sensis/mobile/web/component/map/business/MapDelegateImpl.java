@@ -2,13 +2,13 @@ package au.com.sensis.mobile.web.component.map.business;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import au.com.sensis.address.WGS84Point;
-import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
-import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfig;
+import au.com.sensis.mobile.crf.service.PropertiesLoader;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.model.MapImpl;
 import au.com.sensis.sal.common.UserContext;
@@ -45,9 +45,12 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
     private ScreenDimensionsStrategy screenDimensionsStrategy;
 
-    private DeviceConfigRegistry deviceConfigRegistry;
+    private PropertiesLoader propertiesConfigLoader;
 
     private float poiMapRadiusMultiplier;
+
+    private String abstractPropertiesPath;
+    private String generateServerSideMapPropertyName;
 
     /**
      * Strategy interface for determining the {@link ScreenDimensions} for the
@@ -78,7 +81,12 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         ValidatableUtils.validateObjectIsNotNull(getEmsManager(), "emsManager");
         ValidatableUtils.validateObjectIsNotNull(getScreenDimensionsStrategy(),
                 "screenDimensionsStrategy");
-        // TODO: validate new deviceConfigRegistry
+        ValidatableUtils.validateObjectIsNotNull(getPropertiesConfigLoader(),
+                "propertiesConfigLoader");
+        ValidatableUtils.validateStringIsNotBlank(getAbstractPropertiesPath(),
+                "abstractPropertiesPath");
+        ValidatableUtils.validateStringIsNotBlank(getGenerateServerSideMapPropertyName(),
+                "generateServerSideMapPropertyName");
     }
 
     /**
@@ -138,12 +146,15 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      *         clients are able to retrieve the map themselves by talking to EMS
      *         directly and then displaying a really funky AJAX enabled map.
      */
-    private boolean deviceNeedsServerSideMapGenerated(
-            final MobileContext mobileContext) {
-        final DeviceConfig deviceConfig = (DeviceConfig)
-                getDeviceConfigRegistry().getDeviceConfig(
-                        mobileContext.getDevice());
-        return deviceConfig.isGenerateServerSideMap();
+    private boolean deviceNeedsServerSideMapGenerated(final MobileContext mobileContext) {
+        final Properties properties =
+                getPropertiesConfigLoader().loadProperties(mobileContext.getDevice(),
+                        getAbstractPropertiesPath());
+        final boolean generateServerSideMap =
+                Boolean
+                        .parseBoolean(properties
+                                .getProperty(getGenerateServerSideMapPropertyName()));
+        return generateServerSideMap;
     }
 
     private boolean isZoomLevelMax(final int zoomLevel) {
@@ -468,18 +479,47 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     }
 
     /**
-     * @return the deviceConfigRegistry
+     * @return the propertiesConfigLoader
      */
-    public DeviceConfigRegistry getDeviceConfigRegistry() {
-        return deviceConfigRegistry;
+    public PropertiesLoader getPropertiesConfigLoader() {
+        return propertiesConfigLoader;
     }
 
     /**
-     * @param deviceConfigRegistry the deviceConfigRegistry to set
+     * @param propertiesConfigLoader the propertiesConfigLoader to set
      */
-    public void setDeviceConfigRegistry(
-            final DeviceConfigRegistry deviceConfigRegistry) {
-        this.deviceConfigRegistry = deviceConfigRegistry;
+    public void setPropertiesConfigLoader(final PropertiesLoader propertiesConfigLoader) {
+        this.propertiesConfigLoader = propertiesConfigLoader;
+    }
+
+    /**
+     * @return the abstractPropertiesPath
+     */
+    public String getAbstractPropertiesPath() {
+        return abstractPropertiesPath;
+    }
+
+    /**
+     * @param abstractPropertiesPath the abstractPropertiesPath to set
+     */
+    public void setAbstractPropertiesPath(final String abstractPropertiesPath) {
+        this.abstractPropertiesPath = abstractPropertiesPath;
+    }
+
+    /**
+     * @return the generateServerSideMapPropertyName
+     */
+    public String getGenerateServerSideMapPropertyName() {
+        return generateServerSideMapPropertyName;
+    }
+
+    /**
+     * @param generateServerSideMapPropertyName
+     *            the generateServerSideMapPropertyName to set
+     */
+    public void setGenerateServerSideMapPropertyName(
+            final String generateServerSideMapPropertyName) {
+        this.generateServerSideMapPropertyName = generateServerSideMapPropertyName;
     }
 
     /**

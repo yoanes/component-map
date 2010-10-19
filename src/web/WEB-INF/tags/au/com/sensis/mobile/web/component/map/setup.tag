@@ -29,8 +29,6 @@
 <c:set var="componentName">
     <fmt:message key="comp.name" />
 </c:set>
-<base:deviceConfig var="deviceConfig" device="${device}" 
-    registryBeanName="${componentName}.comp.deviceConfigRegistry"/>
 
 <base:compMcsBasePath var="compMcsBasePath" />
 

@@ -2,7 +2,9 @@ package au.com.sensis.mobile.web.component.map.business;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,10 +12,9 @@ import org.junit.Test;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.WGS84PointTestDataFactory;
-import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
+import au.com.sensis.mobile.crf.service.PropertiesLoader;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.ScreenDimensionsStrategy;
-import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfig;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.sal.common.UserContext;
 import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
@@ -45,6 +46,10 @@ import com.whereis.ems.SoapRouteHandle;
  */
 public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
+    private static final String GENERATE_SERVER_SIDE_MAP_PROPERTY_NAME = "generate.server.side.map";
+
+    private static final String ABSTRACT_PROPERTIES_PATH = "comp/map/map.properties";
+
     private static final int MAX_ZOOM = 10;
 
     private static final int MIN_ZOOM = 1;
@@ -72,9 +77,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     private ScreenDimensions mockScreenDimensions;
     private MobilesBoundingBox mockMobilesBoundingBox;
     private MobilesBoundingBox mockUpdatedMobilesBoundingBox;
-    private DeviceConfigRegistry mockDeviceConfigRegistry;
+    private PropertiesLoader mockPropertiesConfigLoader;
     private Device mockDevice;
-    private DeviceConfig deviceConfig;
     private JourneyDescriptor mockJourneyDescriptor;
 
     /**
@@ -91,12 +95,13 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         setPoint4(getWgs84PointTestDataFactory().createValidWGS84Point4());
         setPoint5(getWgs84PointTestDataFactory().createValidWGS84Point5());
 
-        setDeviceConfig(new DeviceConfig());
-
         setObjectUnderTest(new MapDelegateImpl());
         getObjectUnderTest().setScreenDimensionsStrategy(getMockScreenDimensionsStrategy());
         getObjectUnderTest().setEmsManager(getMockEmsManager());
-        getObjectUnderTest().setDeviceConfigRegistry(getMockDeviceConfigRegistry());
+        getObjectUnderTest().setPropertiesConfigLoader(getMockPropertiesConfigLoader());
+        getObjectUnderTest().setAbstractPropertiesPath(ABSTRACT_PROPERTIES_PATH);
+        getObjectUnderTest().setGenerateServerSideMapPropertyName(
+                GENERATE_SERVER_SIDE_MAP_PROPERTY_NAME);
 
         getObjectUnderTest().setPoiMapRadiusMultiplier(POI_MAP_RADIUS_MULTIPLIER);
     }
@@ -113,6 +118,66 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         getObjectUnderTest().setScreenDimensionsStrategy(null);
         ValidatableTestUtils.testValidateState(getObjectUnderTest(),
                 "screenDimensionsStrategy", "null");
+    }
+
+    @Test
+    public void testValidateStateWhenPropertiesConfigLoaderIsNull()
+    throws Throwable {
+        getObjectUnderTest().setPropertiesConfigLoader(null);
+        ValidatableTestUtils.testValidateState(getObjectUnderTest(),
+                "propertiesConfigLoader", "null");
+    }
+
+    @Test
+    public void testValidateStateWhenAbstractPropertiesPathIsNull() throws Throwable {
+        getObjectUnderTest().setAbstractPropertiesPath(null);
+        ValidatableTestUtils.testValidateState(getObjectUnderTest(), "abstractPropertiesPath",
+                "null");
+    }
+
+    @Test
+    public void testValidateStateWhenAbstractPropertiesPathEmpty() throws Throwable {
+
+        getObjectUnderTest().setAbstractPropertiesPath(StringUtils.EMPTY);
+        ValidatableTestUtils.testValidateState(getObjectUnderTest(), "abstractPropertiesPath",
+                "empty");
+    }
+
+    @Test
+    public void testValidateStateWhenAbstractPropertiesPathBlank() throws Throwable {
+
+        final String[] testValues = new String[] { " ", "  " };
+        for (final String testValue : testValues) {
+            getObjectUnderTest().setAbstractPropertiesPath(testValue);
+            ValidatableTestUtils.testValidateState(getObjectUnderTest(), "abstractPropertiesPath",
+                    "blank");
+        }
+    }
+
+    @Test
+    public void testValidateStateWhenGenerateServerSideMapPropertyNameNull() throws Throwable {
+        getObjectUnderTest().setGenerateServerSideMapPropertyName(null);
+        ValidatableTestUtils.testValidateState(getObjectUnderTest(),
+                "generateServerSideMapPropertyName", "null");
+    }
+
+    @Test
+    public void testValidateStateWhenGenerateServerSideMapPropertyNameEmpty() throws Throwable {
+
+        getObjectUnderTest().setGenerateServerSideMapPropertyName(StringUtils.EMPTY);
+        ValidatableTestUtils.testValidateState(getObjectUnderTest(),
+                "generateServerSideMapPropertyName", "empty");
+    }
+
+    @Test
+    public void testValidateStateWhenGenerateServerSideMapPropertyNameBlank() throws Throwable {
+
+        final String[] testValues = new String[] { " ", "  " };
+        for (final String testValue : testValues) {
+            getObjectUnderTest().setGenerateServerSideMapPropertyName(testValue);
+            ValidatableTestUtils.testValidateState(getObjectUnderTest(),
+                    "generateServerSideMapPropertyName", "blank");
+        }
     }
 
     @Test
@@ -238,12 +303,15 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     private void recordShouldGenerateServerSideMap(
             final boolean recordShouldGenerateServerSideMap) {
-        getDeviceConfig().setGenerateServerSideMap(recordShouldGenerateServerSideMap);
+        final Properties properties = new Properties();
+        properties.setProperty(GENERATE_SERVER_SIDE_MAP_PROPERTY_NAME,
+                new Boolean(recordShouldGenerateServerSideMap).toString());
 
         EasyMock.expect(getMockMobileContext().getDevice())
             .andReturn(getMockDevice()).atLeastOnce();
-        EasyMock.expect(getMockDeviceConfigRegistry().getDeviceConfig(getMockDevice()))
-            .andReturn(getDeviceConfig());
+        EasyMock.expect(getMockPropertiesConfigLoader().loadProperties(getMockDevice(),
+                ABSTRACT_PROPERTIES_PATH))
+            .andReturn(properties);
     }
 
     private void assertZoomDetails(final Map map, final int expectedEmsZoomLevel,
@@ -1027,7 +1095,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    public void
+        testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
         doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
@@ -1043,7 +1112,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    public void
+        testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
         doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
@@ -1582,7 +1652,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    public void
+        testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
         recordGetMinMaxZoom();
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
@@ -1600,7 +1671,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    public void
+        testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
         recordGetMinMaxZoom();
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
@@ -1965,7 +2037,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    public void
+        testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
@@ -1981,7 +2054,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    public void
+        testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
@@ -2441,6 +2515,20 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     /**
+     * @return the mockPropertiesConfigLoader
+     */
+    public PropertiesLoader getMockPropertiesConfigLoader() {
+        return mockPropertiesConfigLoader;
+    }
+
+    /**
+     * @param mockPropertiesConfigLoader the mockPropertiesConfigLoader to set
+     */
+    public void setMockPropertiesConfigLoader(final PropertiesLoader mockPropertiesConfigLoader) {
+        this.mockPropertiesConfigLoader = mockPropertiesConfigLoader;
+    }
+
+    /**
      * @return the mockUserContext
      */
     public UserContext getMockUserContext() {
@@ -2584,21 +2672,6 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     /**
-     * @return the mockDeviceConfigRegistry
-     */
-    public DeviceConfigRegistry getMockDeviceConfigRegistry() {
-        return mockDeviceConfigRegistry;
-    }
-
-    /**
-     * @param mockDeviceConfigRegistry the mockDeviceConfigRegistry to set
-     */
-    public void setMockDeviceConfigRegistry(
-            final DeviceConfigRegistry mockDeviceConfigRegistry) {
-        this.mockDeviceConfigRegistry = mockDeviceConfigRegistry;
-    }
-
-    /**
      * @return the mockDevice
      */
     public Device getMockDevice() {
@@ -2610,20 +2683,6 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
      */
     public void setMockDevice(final Device mockDevice) {
         this.mockDevice = mockDevice;
-    }
-
-    /**
-     * @return the deviceConfig
-     */
-    public DeviceConfig getDeviceConfig() {
-        return deviceConfig;
-    }
-
-    /**
-     * @param deviceConfig the deviceConfig to set
-     */
-    public void setDeviceConfig(final DeviceConfig deviceConfig) {
-        this.deviceConfig = deviceConfig;
     }
 
     /**

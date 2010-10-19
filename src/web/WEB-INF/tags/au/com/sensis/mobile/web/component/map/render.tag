@@ -48,8 +48,6 @@
 <c:set var="componentName">
     <fmt:message key="comp.name" />
 </c:set>
-<base:deviceConfig var="deviceConfig" device="${device}" 
-    registryBeanName="${componentName}.comp.deviceConfigRegistry"/>
 
 <c:choose>
     <c:when test="${not empty map && map.mapImageRetrievalDeferredToClient && deviceConfig.enableHiEndMap}">

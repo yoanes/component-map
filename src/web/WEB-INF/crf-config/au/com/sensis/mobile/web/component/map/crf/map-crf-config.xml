@@ -6,6 +6,9 @@
 
     <config-path>comp/map</config-path>
     <groups>
+        <group name="pc-win32-ie" expr="device.isA('PC-Win32-IE')" />
+        <group name="pc" expr="device.isA('PC')" />
+        
         <default-group name="default" />
     </groups>
     

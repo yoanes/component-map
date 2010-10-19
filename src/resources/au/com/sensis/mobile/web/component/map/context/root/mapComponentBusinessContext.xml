@@ -19,22 +19,12 @@
             <ref local="map.comp.screenDimensionsStrategy"/>
         </property>
         
-        <property name="deviceConfigRegistry">
-            <ref local="map.comp.deviceConfigRegistry"/>
-        </property>
+        <property name="propertiesConfigLoader" ref="crf.propertiesLoader"/>
         
         <property name="poiMapRadiusMultiplier" value="1.0"/>
-    </bean>
-    
-    <bean id="map.comp.deviceConfigRegistry"
-        class="au.com.sensis.mobile.web.component.map.device.MapDeviceConfigRegistry">
-        <constructor-arg index="0" value="@{map.comp.device.config.classpath}"/>
-        <constructor-arg index="1">
-            <bean class="au.com.sensis.wireless.common.utils.jaxb.JaxbXMLBinderImpl">
-                <constructor-arg index="0" value="au.com.sensis.mobile.web.component.map.device.generated:au.com.sensis.mobile.web.component.core.device.generated"/>
-                <property name="validationEnabled" value="true"/>
-            </bean>
-        </constructor-arg>
+        
+        <property name="abstractPropertiesPath" value="comp/map/map.properties" />
+        <property name="generateServerSideMapPropertyName" value="generate.server.side.map" />
     </bean>
     
     <bean id="map.comp.screenDimensionsStrategy" 
