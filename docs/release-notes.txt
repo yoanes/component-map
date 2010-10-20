@@ -1,3 +1,7 @@
+==== Version 1.2.6-ymb1 (tag: map_v1_2_6-ymb1) ====
+
+iPhone 3.0 low end map re-introduced
+
 ==== Version 1.2.6-ymb0 (tag: map_v1_2_6-ymb0) ====
 
 Removed intermediate map support (for Nokias and iPhone 3.0)
