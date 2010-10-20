@@ -50,6 +50,15 @@
             </deviceConfig>
         </userAgentDeviceConfig>
         
+        <userAgentDeviceConfig>
+            <useragentRegex>.*OS 3_0.*</useragentRegex>
+            <deviceConfig xsi:type="map:DeviceConfig">
+                <generateServerSideMap>true</generateServerSideMap>
+                <enableIntermediateMap>false</enableIntermediateMap>
+                <enableHiEndMap>false</enableHiEndMap>
+            </deviceConfig>
+        </userAgentDeviceConfig>
+        
     </identifiedDeviceConfig>
     
     <identifiedDeviceConfig>
