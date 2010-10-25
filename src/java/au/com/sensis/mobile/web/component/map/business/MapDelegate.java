@@ -239,7 +239,7 @@ public interface MapDelegate {
      * @return {@link Map}. May not be null.
      */
     Map getInitialPoiMap(final WGS84Point mapCentre,
-            MapLayer mapLayer, final List<IconDescriptor> poiIcons,
+            MapLayer mapLayer, final List<IconDescriptor> poiIcons,final IconDescriptor paIcon,
             int mobilesZoomThreshold, final MobileContext mobileContext);
 
     /**
@@ -280,7 +280,7 @@ public interface MapDelegate {
      */
     Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, MapLayer existingMapLayer,
-            final List<IconDescriptor> poiIcons, final int mobilesZoomThreshold,
+            final List<IconDescriptor> poiIcons,final IconDescriptor paIcon, final int mobilesZoomThreshold,
             final Action mapManipulationAction,
             final MobileContext mobileContext);
 

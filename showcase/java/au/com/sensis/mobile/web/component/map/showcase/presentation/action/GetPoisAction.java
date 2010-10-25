@@ -54,24 +54,24 @@ public class GetPoisAction extends AbstractMapAction {
         if (CARS_NEAR_MELBOURNE_VIC_SEARCH_KEY.equals(getModel().getSearch())) {
             map = getMapDelegate().getInitialPoiMap(
                     MELBOURCE_VIC_COORDINATES, MapLayer.Map,
-                    PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
+                    PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),null,
                     defaultZoom, getContext());
         } else if (BARS_NEAR_TOORAK_VIC_SEARCH_KEY.equals(getModel().getSearch())) {
             map = getMapDelegate().getInitialPoiMap(
                     TOORAK_VIC_COORDINATES, MapLayer.Map,
-                    PoiResult.createWhereisMobileBarsNearbyToorakVicIconDescriptors(),
+                    PoiResult.createWhereisMobileBarsNearbyToorakVicIconDescriptors(),null,
                     defaultZoom, getContext());
         } else if (BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
                 .equals(getModel().getSearch())) {
             map = getMapDelegate().getInitialPoiMap(
                 LOC_140_CHURCH_ST_BRIGHTON_VIC_COORDINATES, MapLayer.Map,
-                PoiResult.createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors(),
+                PoiResult.createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors(),null,
                 defaultZoom, getContext());
         } else if (CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY
                 .equals(getModel().getSearch())) {
             map = getMapDelegate().getInitialPoiMap(
                     TULLAMARINE_VIC_COORDINATES, MapLayer.Map,
-                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),
+                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),null,
                     defaultZoom, getContext());
         } else if (BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
                 .equals(getModel().getSearch())) {
@@ -79,7 +79,7 @@ public class GetPoisAction extends AbstractMapAction {
             // result at the same (lat, lon) as the search centre.
             map = getMapDelegate().getInitialPoiMap(
                     LOC_142_CHURCH_ST_BRIGHTON_VIC_COORDINATES, MapLayer.Map,
-                    PoiResult.createSingleResultAt142ChurchStBrightonVicIconDescriptors(),
+                    PoiResult.createSingleResultAt142ChurchStBrightonVicIconDescriptors(),null,
                     defaultZoom, getContext());
         } else if (RESTAURANTS_NEAR_3006_SEARCH_KEY
                 .equals(getModel().getSearch())) {
@@ -88,7 +88,7 @@ public class GetPoisAction extends AbstractMapAction {
             map = getMapDelegate().getInitialPoiMap(
                     POSTCODE_3006_COORDINATES, MapLayer.Map,
                     PoiResult
-                        .createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),
+                        .createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),null,
                     defaultZoom, getContext());
         } else {
             throw new UnsupportedOperationException("Unsupported search key: '"

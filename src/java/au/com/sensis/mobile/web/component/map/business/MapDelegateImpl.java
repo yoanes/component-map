@@ -2,13 +2,13 @@ package au.com.sensis.mobile.web.component.map.business;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import au.com.sensis.address.WGS84Point;
-import au.com.sensis.mobile.crf.service.PropertiesLoader;
+import au.com.sensis.mobile.web.component.core.device.DeviceConfigRegistry;
+import au.com.sensis.mobile.web.component.map.device.generated.DeviceConfig;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.model.MapImpl;
 import au.com.sensis.sal.common.UserContext;
@@ -45,12 +45,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
     private ScreenDimensionsStrategy screenDimensionsStrategy;
 
-    private PropertiesLoader propertiesConfigLoader;
+    private DeviceConfigRegistry deviceConfigRegistry;
 
     private float poiMapRadiusMultiplier;
-
-    private String abstractPropertiesPath;
-    private String generateServerSideMapPropertyName;
 
     /**
      * Strategy interface for determining the {@link ScreenDimensions} for the
@@ -81,12 +78,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         ValidatableUtils.validateObjectIsNotNull(getEmsManager(), "emsManager");
         ValidatableUtils.validateObjectIsNotNull(getScreenDimensionsStrategy(),
                 "screenDimensionsStrategy");
-        ValidatableUtils.validateObjectIsNotNull(getPropertiesConfigLoader(),
-                "propertiesConfigLoader");
-        ValidatableUtils.validateStringIsNotBlank(getAbstractPropertiesPath(),
-                "abstractPropertiesPath");
-        ValidatableUtils.validateStringIsNotBlank(getGenerateServerSideMapPropertyName(),
-                "generateServerSideMapPropertyName");
+        // TODO: validate new deviceConfigRegistry
     }
 
     /**
@@ -146,15 +138,12 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      *         clients are able to retrieve the map themselves by talking to EMS
      *         directly and then displaying a really funky AJAX enabled map.
      */
-    private boolean deviceNeedsServerSideMapGenerated(final MobileContext mobileContext) {
-        final Properties properties =
-                getPropertiesConfigLoader().loadProperties(mobileContext.getDevice(),
-                        getAbstractPropertiesPath());
-        final boolean generateServerSideMap =
-                Boolean
-                        .parseBoolean(properties
-                                .getProperty(getGenerateServerSideMapPropertyName()));
-        return generateServerSideMap;
+    private boolean deviceNeedsServerSideMapGenerated(
+            final MobileContext mobileContext) {
+        final DeviceConfig deviceConfig = (DeviceConfig)
+                getDeviceConfigRegistry().getDeviceConfig(
+                        mobileContext.getDevice());
+        return deviceConfig.isGenerateServerSideMap();
     }
 
     private boolean isZoomLevelMax(final int zoomLevel) {
@@ -295,8 +284,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * from WhereisMobile.
      * </p>
      */
+    // WMT PA modified
     public Map getInitialPoiMap(final WGS84Point mapCentre,
-            final MapLayer mapLayer, final List<IconDescriptor> poiIcons,
+            final MapLayer mapLayer, final List<IconDescriptor> poiIcons,final IconDescriptor paidAdIcon,
             final int mobilesZoomThreshold, final MobileContext mobileContext) {
 
         final ScreenDimensions screenDimensions =
@@ -346,9 +336,10 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * {@inheritDoc}
      */
+    // WMT PA modified
     public Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, final MapLayer existingMapLayer,
-            final List<IconDescriptor> poiIcons, final int mobilesZoomThreshold,
+            final List<IconDescriptor> poiIcons,final IconDescriptor paidAdIcon, final int mobilesZoomThreshold,
             final Action mapManipulationAction,
             final MobileContext mobileContext) {
 
@@ -479,47 +470,18 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     }
 
     /**
-     * @return the propertiesConfigLoader
+     * @return the deviceConfigRegistry
      */
-    public PropertiesLoader getPropertiesConfigLoader() {
-        return propertiesConfigLoader;
+    public DeviceConfigRegistry getDeviceConfigRegistry() {
+        return deviceConfigRegistry;
     }
 
     /**
-     * @param propertiesConfigLoader the propertiesConfigLoader to set
+     * @param deviceConfigRegistry the deviceConfigRegistry to set
      */
-    public void setPropertiesConfigLoader(final PropertiesLoader propertiesConfigLoader) {
-        this.propertiesConfigLoader = propertiesConfigLoader;
-    }
-
-    /**
-     * @return the abstractPropertiesPath
-     */
-    public String getAbstractPropertiesPath() {
-        return abstractPropertiesPath;
-    }
-
-    /**
-     * @param abstractPropertiesPath the abstractPropertiesPath to set
-     */
-    public void setAbstractPropertiesPath(final String abstractPropertiesPath) {
-        this.abstractPropertiesPath = abstractPropertiesPath;
-    }
-
-    /**
-     * @return the generateServerSideMapPropertyName
-     */
-    public String getGenerateServerSideMapPropertyName() {
-        return generateServerSideMapPropertyName;
-    }
-
-    /**
-     * @param generateServerSideMapPropertyName
-     *            the generateServerSideMapPropertyName to set
-     */
-    public void setGenerateServerSideMapPropertyName(
-            final String generateServerSideMapPropertyName) {
-        this.generateServerSideMapPropertyName = generateServerSideMapPropertyName;
+    public void setDeviceConfigRegistry(
+            final DeviceConfigRegistry deviceConfigRegistry) {
+        this.deviceConfigRegistry = deviceConfigRegistry;
     }
 
     /**

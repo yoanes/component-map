@@ -42,7 +42,7 @@ public class ManipulatePoiMapAction extends AbstractMapAction {
                             getModel().getMapUrl(),
                             getModel().getMapLayer(),
                             PoiResult
-                                    .createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
+                                    .createWhereisMobileCarsNearbyMelbourneIconDescriptors(),null,
                             getDefaultZoom(),
                             getModel().getAction(), getContext());
         } else if (BARS_NEAR_TOORAK_VIC_SEARCH_KEY.equals(getModel()
@@ -53,7 +53,7 @@ public class ManipulatePoiMapAction extends AbstractMapAction {
                             getModel().getMapUrl(),
                             getModel().getMapLayer(),
                             PoiResult
-                                    .createWhereisMobileBarsNearbyToorakVicIconDescriptors(),
+                                    .createWhereisMobileBarsNearbyToorakVicIconDescriptors(),null,
                             getDefaultZoom(),
                             getModel().getAction(), getContext());
         } else if (BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
@@ -63,7 +63,7 @@ public class ManipulatePoiMapAction extends AbstractMapAction {
                 getModel().getMapUrl(),
                 getModel().getMapLayer(),
                 PoiResult
-                        .createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors(),
+                        .createWhereisMobileBassettSmithValuersNearbyBrightonVicIconDescriptors(),null,
                 getDefaultZoom(),
                 getModel().getAction(), getContext());
         } else if (CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY
@@ -72,7 +72,7 @@ public class ManipulatePoiMapAction extends AbstractMapAction {
                     getModel().getOrignalMapCentre(),
                     getModel().getMapUrl(),
                     getModel().getMapLayer(),
-                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),
+                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),null,
                     getDefaultZoom(),
                     getModel().getAction(), getContext());
         } else if (BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
@@ -83,7 +83,7 @@ public class ManipulatePoiMapAction extends AbstractMapAction {
                     getModel().getOrignalMapCentre(),
                     getModel().getMapUrl(),
                     getModel().getMapLayer(),
-                    PoiResult.createSingleResultAt142ChurchStBrightonVicIconDescriptors(),
+                    PoiResult.createSingleResultAt142ChurchStBrightonVicIconDescriptors(),null,
                     getDefaultZoom(),
                     getModel().getAction(), getContext());
         } else if (RESTAURANTS_NEAR_3006_SEARCH_KEY
@@ -93,7 +93,7 @@ public class ManipulatePoiMapAction extends AbstractMapAction {
                     getModel().getMapUrl(),
                     getModel().getMapLayer(),
                     PoiResult
-                        .createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),
+                        .createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),null,
                     getDefaultZoom(),
                     getModel().getAction(), getContext());
         } else {

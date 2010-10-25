@@ -1,3 +1,8 @@
+==== Version 1.2.7  ====
+This is development only version for Whereis mobile.
+It includes few temporary changes for an internal whereis drop and should NOT be used 
+by any product or for any production releases.
+
 ==== Version 1.2.6 (tag: map_v1_2_6) ====
 
 Emergency prod slap fix resulting from EMS upgrade to Decartes. patch.js now points to 
