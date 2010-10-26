@@ -9,6 +9,19 @@
         <group name="pc-win32-ie" expr="device.isA('PC-Win32-IE')" />
         <group name="pc" expr="device.isA('PC')" />
         
+        <group name="advance" expr="device.isA('Android-OS') or device.isA('Android-Emulator') or device.isA('Apple') or device.isA('SAGEM-HomeManager')" />
+        <group name="advance-nonGesturalTouch" expr="device.isA('SAGEM-HomeManager') or device.isA('PC')" />
+      	<group name="android" expr="device.isA('Android-OS') or device.isA('Android-Emulator')" />
+      	<group name="android-os" expr="device.isA('HTC-A8183') or device.isA('SonyEricsson-X10')" />
+        <group name="ipad" expr="device.isA('Apple-iPad')" />
+        <group name="iphone" expr="device.isA('Apple-iPhone') or device.isA('Apple-iPod')" />
+        <group name="iphone4" expr="device.isA('Apple-iPhone-OS-4.0')" />
+        <group name="sex10" expr="device.isA('SonyEricsson-X10')" />
+        <group name="sex10mini" expr="device.isA('SE-X10-mini')" />
+        <group name="thub" expr="device.isA('SAGEM-HomeManager')" />
+        
+        <group name="hiend" expr="device.isA('Android-OS') or device.isA('Android-Emulator') or device.isA('Apple') or device.isA('SAGEM-HomeManager') or device.isA('PC')" />
+        <group name="intermediate" expr="device.isA('Nokia-6120c') or device.isA('Nokia-6720c') or device.isA('Nokia-E51') or device.isA('Nokia-E71') or device.isA('Nokia-N85') or device.isA('Nokia-N95') or device.isA('Nokia-N96')" />
         <default-group name="default" />
     </groups>
     
