@@ -1,3 +1,9 @@
+==== Version 2.0.0-001 (tag: map_v2_0_0-001) ====
+
+Jakes commits. Moved images from common server into the map component project, configured
+map-crf-config.xml, decomposed JSP tag files into tag files and JSP includes, copied JavaScript
+to new folders.
+
 ==== Version 1.2.6 (tag: map_v1_2_6) ====
 
 Emergency prod slap fix resulting from EMS upgrade to Decartes. patch.js now points to 
