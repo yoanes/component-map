@@ -1,0 +1,28 @@
+#mapWindow {
+    background-color: #efefef;
+}
+
+#mapControls {
+    background-image: url("/resources/images/comp/map/controls/mc_bg.image");
+    background-repeat: repeat-x;;
+    text-align: center;    
+}
+
+#mapControls a {
+    /* May not be needed but just in case. */
+    text-decoration: none;;
+}
+
+#mapControls a img {
+    border: 0px none;
+}
+
+#directionControls, #zoomControls, #viewControls {
+    display: inline;
+}
+    
+#viewControls {
+    /* Keep view controls a bit separate from the other controls. */
+    margin-left: 5px;
+}
+

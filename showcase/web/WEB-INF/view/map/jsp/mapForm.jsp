@@ -2,7 +2,7 @@
 
 <div id="mapLocationForm">
     <h4>Map a &lt;suburb state&gt;. eg. melbourne vic</h4>
-    <form action="<s:url namespace='/map' action='getMap' />" method="post"/>
+    <form action="<s:url namespace='/map' action='getMap' includeParams="none"/>" method="post">
     
         <div>
             <label for="ctId" class="locationMessage">Cursor Type</label>
@@ -23,10 +23,10 @@
 
         <div>
             <label for="location" class="locationMessage">Location</label>
-            <input type="text" id="location" name="ml" class="mapLocationInput" value="<s:property value='location' />"></input>
+            <input type="text" id="location" name="ml" class="mapLocationInput" value="<s:property value='location' />" />
         </div>
 
-        <input type="submit" class="mapButton" value="<s:text name='Get Map'/>"></input>
+        <input type="submit" class="mapButton" value="<s:text name='Get Map'/>" />
     </form>
 </div>
 
@@ -54,7 +54,7 @@
         </c:otherwise>    
     </c:choose>
     
-    <form action="<s:url namespace='/map' action='getPois'/>" method="post">
+    <form action="<s:url namespace='/map' action='getPois' includeParams="none"/>" method="post">
         <select name="search" >
      	    <option ${carsNearMelbourneVicSelected} value="carsNearMelbourneVic">WM cars near Melbourne VIC</option>
           
@@ -72,7 +72,7 @@
      	    <option ${restaurantsNear3006Selected} value="restaurantsNear3006">WM restaurants near 3006 (10 results per page)</option>
         </select>
 
-        <input type="submit" class="mapButton" value="<s:text name='Get POIs'/>"></input>    
+        <input type="submit" class="mapButton" value="<s:text name='Get POIs'/>"/>    
     </form>
 </div>
 
@@ -91,7 +91,7 @@
         </c:otherwise>    
     </c:choose>
     
-    <form action="<s:url namespace='/map' action='getRoute'/>" method="post">
+    <form action="<s:url namespace='/map' action='getRoute' includeParams="none"/>" method="post">
     
         <div>
             <label for="routingOptionId" class="locationMessage">Travel By</label>
@@ -105,15 +105,15 @@
         <div>
             <label for="routeStartAddress" class="locationMessage">Start</label>
             <input type="text" name="rsa" class="mapLocationInput" id="routeStartAddress"
-                value="<s:property value='routeStartAddress' />"></input>
+                value="<s:property value='routeStartAddress' />"/>
         </div>            
 
         <div>
             <label for="routeEndAddress" class="locationMessage">End</label>
             <input type="text" name="rea" class="mapLocationInput" id="routeEndAddress"
-                value="<s:property value='routeEndAddress' />"></input>
+                value="<s:property value='routeEndAddress' />"/>
         </div>
         
-        <input type="submit" class="mapButton" value="<s:text name='Get Route'/>"></input>    
+        <input type="submit" class="mapButton" value="<s:text name='Get Route'/>"/>    
     </form>
 </div>

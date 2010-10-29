@@ -6,22 +6,82 @@
 
     <config-path>comp/map</config-path>
     <groups>
-        <group name="pc-win32-ie" expr="device.isA('PC-Win32-IE')" />
-        <group name="pc" expr="device.isA('PC')" />
-        
-        <group name="advance" expr="device.isA('Android-OS') or device.isA('Android-Emulator') or device.isA('Apple') or device.isA('SAGEM-HomeManager')" />
-        <group name="advance-nonGesturalTouch" expr="device.isA('SAGEM-HomeManager') or device.isA('PC')" />
-      	<group name="android" expr="device.isA('Android-OS') or device.isA('Android-Emulator')" />
-      	<group name="android-os" expr="device.isA('HTC-A8183') or device.isA('SonyEricsson-X10')" />
-        <group name="ipad" expr="device.isA('Apple-iPad')" />
-        <group name="iphone" expr="device.isA('Apple-iPhone') or device.isA('Apple-iPod')" />
-        <group name="iphone4" expr="device.isA('Apple-iPhone-OS-4.0')" />
+        <!-- Image category groups. -->
+        <group name="HD1024" expr="device.imageCategory eq 'HD1024'" />
+        <group name="HD800" expr="device.imageCategory eq 'HD800'" />
+        <group name="HD640" expr="device.imageCategory eq 'HD640'" />
+        <group name="HD480" expr="device.imageCategory eq 'HD480'" />
+        <group name="L" expr="device.imageCategory eq 'L'" />
+        <group name="M" expr="device.imageCategory eq 'M'" />
+        <group name="S" expr="device.imageCategory eq 'S'" />
+        <group name="XS" expr="device.imageCategory eq 'XS'" />
+    
+        <!-- Specific devices. -->
+        <group name="thub" expr="device.isA('SAGEM-HomeManager')" />    
         <group name="sex10" expr="device.isA('SonyEricsson-X10')" />
         <group name="sex10mini" expr="device.isA('SE-X10-mini')" />
-        <group name="thub" expr="device.isA('SAGEM-HomeManager')" />
+
+        <group name="iphone4" expr="device.isA('Apple-iPhone-OS-4.0')" />
+        <group name="ipad" expr="device.isA('Apple-iPad')" />
+        <group name="map-iphone-ipod-touch" expr="(
+                device.isA('Apple-iPhone') 
+                    or device.isA('Apple-iPod-Touch') ) 
+                and device.userAgent !~ '.*OS [012]_.*' and device.userAgent !~ '.*OS 3_0.*'" />
+            
+        <!-- Device families. -->
+        <group name="nonIEPC" expr="device.isA('PC') 
+            and !device.isA('PC-Win32-IE') 
+            and !device.isA('PC-MacOS-IE')" />    
         
-        <group name="hiend" expr="device.isA('Android-OS') or device.isA('Android-Emulator') or device.isA('Apple') or device.isA('SAGEM-HomeManager') or device.isA('PC')" />
-        <group name="intermediate" expr="device.isA('Nokia-6120c') or device.isA('Nokia-6720c') or device.isA('Nokia-E51') or device.isA('Nokia-E71') or device.isA('Nokia-N85') or device.isA('Nokia-N95') or device.isA('Nokia-N96')" />
+        <group name="map-android-os-generic" expr="device.isA('HTC-Desire') 
+            or device.isA('HTC-A8183') 
+            or device.isA('Android-Emulator')" />
+            
+        <group name="map-apple" expr="(
+            (device.isA('Apple-iPhone')
+                or device.isA('Apple-iPod-Touch')) 
+                    and device.userAgent !~ '.*OS [012]_.*' and device.userAgent !~ '.*OS 3_0.*')
+            or device.isA('Apple-iPhone-OS-4.0')
+            or device.isA('Apple-iPad')" />
+
+        <group name="map-advanced-nonGesturalTouch" expr="device.isA('SAGEM-HomeManager') 
+            or (device.isA('PC') 
+                    and !device.isA('PC-Win32-IE') 
+                    and !device.isA('PC-MacOS-IE') )" />
+            
+        <group name="map-android" expr="device.isA('SonyEricsson-X10') 
+            or device.isA('SE-X10-mini')
+            or device.isA('HTC-Desire')
+            or device.isA('HTC-A8183') 
+            or device.isA('Android-Emulator')" />
+        
+        <!-- Broad map functionality groupings. -->
+        <group name="map-advanced" expr="device.isA('SonyEricsson-X10') 
+            or device.isA('SE-X10-mini')
+            or device.isA('HTC-Desire') 
+            or device.isA('HTC-A8183') 
+            or device.isA('Android-Emulator') 
+            or (  (device.isA('Apple-iPhone') 
+                    or device.isA('Apple-iPod-Touch')
+                  ) and device.userAgent !~ '.*OS [012]_.*' and device.userAgent !~ '.*OS 3_0.*')
+            or device.isA('Apple-iPhone-OS-4.0')
+            or device.isA('Apple-iPad')
+            or device.isA('SAGEM-HomeManager') 
+            or (device.isA('PC') 
+                    and !device.isA('PC-Win32-IE') 
+                    and !device.isA('PC-MacOS-IE'))" />
+            
+        <group name="map-intermediate" expr="device.isA('Nokia-6120c') 
+            or device.isA('Nokia-6720c') 
+            or device.isA('Nokia-E51') 
+            or device.isA('Nokia-E71') 
+            or device.isA('Nokia-N85') 
+            or device.isA('Nokia-N95') 
+            or device.isA('Nokia-N96')
+            or (  ( device.isA('Apple-iPhone') 
+                    or device.isA('Apple-iPod-Touch')
+                  ) and device.userAgent =~ '.*OS 3_0.*' )" />
+        
         <default-group name="default" />
     </groups>
     

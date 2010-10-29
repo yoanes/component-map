@@ -1,3 +1,45 @@
+==== Version 2.0.0-002 (tag: map_v2_0_0-002) ====
+
+Low end maps work except for XS devices (the map controls do not yet render for these). 
+Hi end and intermediate maps do not yet work.
+
+Now depends on:
+
+        <dependency org="com.sensis" name="wl-build-scripts" rev="2.0.7" conf="buildBootstrap->default" />
+        <dependency org="com.sensis" name="wl-crf" rev="0.1.2-003" conf="default" />        
+        <dependency org="com.sensis" name="wl-webapp-testbed" rev="2.0.6" conf="showcase->default"/>        
+
+Also changed showcase so that the map renders at the top of the page. Makes it easier to test
+low end maps. 
+        
+Upgrade notes:
+* emsManagerContext.xml
+    * Apply the following regex replacement to this file:
+        Replace: images/component/map/markers/(.+?)/(.*)\.png
+        With:    comp/map/markers/$1/$2.image
+        
+      This should change all the clientImgSrcPaths to look something like:
+      
+        <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/comp/map/markers/large/start_27x34.image" />
+        
+* Your web.xml must include:
+
+    <jsp-config>
+        
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <!--
+              - Ensure that template text containing only whitespaces is removed from the 
+              - response output. Note that this keeps whitespace from JSP tags from being
+              - present in the response but whitespace before and after template text 
+              - (eg. XHTML tags) will still be preserved.
+              -->
+            <trim-directive-whitespaces>true</trim-directive-whitespaces>
+        </jsp-property-group>
+        
+    </jsp-config>
+
+
 ==== Version 2.0.0-001 (tag: map_v2_0_0-001) ====
 
 Jakes commits. Moved images from common server into the map component project, configured

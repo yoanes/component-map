@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="test/unit/resources"/>
 	<classpathentry kind="src" path="test/unit/java"/>
 	<classpathentry kind="src" path="test/selenium/java"/>
-	<classpathentry kind="src" path="src/web"/>
 	<classpathentry kind="src" path="showcase/resources"/>
 	<classpathentry kind="src" path="showcase/java"/>
 	<classpathentry kind="src" path="src/resources"/>

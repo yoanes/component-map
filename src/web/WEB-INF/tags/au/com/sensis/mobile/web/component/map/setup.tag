@@ -18,6 +18,9 @@
     
 <%@ attribute name="emsJsUrl" required="true"
     description="URL of the EMS JavaScript library." %>
+    
+<%@ attribute name="iconImagesSrcPrefix" required="true"
+    description="Prefix to use for advanced maps to retrieve icon images directly." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
 <logging:debug logger="${logger}" message="Entering setup.tag" />
@@ -29,6 +32,7 @@
 <c:set var="mapComponentDevice" scope="request" value="${device}" />
 <c:set var="mapComponentMap" scope="request" value="${map}" />
 <c:set var="mapComponentEmsJsUrl" scope="request" value="${emsJsUrl}" />
+<c:set var="mapComponentIconImagesSrcPrefix" scope="request" value="${iconImagesSrcPrefix}" />
 
 <jsp:include page="/WEB-INF/view/jsp/comp/map/setup.crf" />
 

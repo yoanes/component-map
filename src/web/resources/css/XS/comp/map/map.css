@@ -1,0 +1,23 @@
+#viewControls {
+    display: none;
+}
+
+#directionControls {
+    margin-left: 5px;
+}
+
+#zoomControls a, #directionControls a {
+    margin-left: 2px;
+    margin-right: 3px;
+}
+
+/* TODO: this is actually CSS3. May not work on XS devices !!!*/
+#directionControls > a:first-child, #directionControls > a:nth-child(2 {
+    font-size: 100%;
+}
+
+#mapControls {
+    font-family: "Arial", sans-serif;
+    font-size: 100%;
+    font-weight: bold;
+}

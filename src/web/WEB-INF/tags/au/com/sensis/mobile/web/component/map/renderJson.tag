@@ -30,14 +30,6 @@
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
 <logging:debug logger="${logger}" message="Entering renderJson.tag" />
 
-<%-- Set the default resource bundle for the current tag file. --%>    
-<fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
-
-<%-- Figure out the name of the current component.--%>
-<c:set var="componentName">
-    <fmt:message key="comp.name" />
-</c:set>
-
 <%-- Render the JSON response. --%>    
 {
     mapImage: '<c:out value="${map.mapUrl.imageUrl}" escapeXml="false"/>' ,

@@ -10,8 +10,8 @@
 <%@ attribute name="device" required="true"
     type="au.com.sensis.wireless.common.volantis.devicerepository.api.Device"  
     description="Device of the current user." %>
+    
 <%@ attribute name="map" required="true"
-
     type="au.com.sensis.mobile.web.component.map.model.Map"  
     description="Map returned by the MapDelegate." %>
     
@@ -40,14 +40,6 @@
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
 <logging:debug logger="${logger}" message="Entering render.tag" />
-
-<%-- Set the default resource bundle for the current tag file. --%>    
-<fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
-
-<%-- Figure out the name of the current component.--%>
-<c:set var="componentName">
-    <fmt:message key="comp.name" />
-</c:set>
 
 <%--
   - Set attributes into request scope, then include a JSP so that we can route through the 
