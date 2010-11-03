@@ -23,10 +23,6 @@
     <util:setup device="${device}" />
     <logging:setup device="${device}" />
     
-    <%-- Styles for current component. --%>
-    <%-- TODO: once we split setup.tag into two, the need for a specific hiMap.css will go away. --%>
-    <crf:link href="comp/map/hiMap.css" rel="stylesheet" type="text/css" device="${device}"/>
-    
     <crf:script name="advanced-map-js-config" type="text/javascript" device="${device}">
         _MapImgSrcPrefix_ = '<c:out value="${iconImagesSrcPrefix}" escapeXml="false"/>';
         EMS.BackgroundLayer.TILE = _MapImgSrcPrefix_ + 'comp/map/tile_bg_200x200.gif';

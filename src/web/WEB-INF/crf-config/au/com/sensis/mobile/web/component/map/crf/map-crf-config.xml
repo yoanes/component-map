@@ -26,7 +26,8 @@
         <group name="map-iphone-ipod-touch" expr="(
                 device.isA('Apple-iPhone') 
                     or device.isA('Apple-iPod-Touch') ) 
-                and device.userAgent !~ '.*OS [012]_.*' and device.userAgent !~ '.*OS 3_0.*'" />
+                and device.userAgent !~ '.*OS [012]_.*' and device.userAgent !~ '.*OS 3_0.*'
+                and !device.isA('Apple-iPhone-OS-4.0')" />
             
         <!-- Device families. -->
         <group name="nonIEPC" expr="device.isA('PC') 

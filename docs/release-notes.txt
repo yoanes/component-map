@@ -1,3 +1,9 @@
+==== Version 2.0.0-004 (tag: map_v2_0_0-004) ====
+
+Hi end maps migrated. From previous two versions:
+
+"Low end maps work except for XS devices (the map controls do not yet render for these). 
+
 ==== Version 2.0.0-003 (tag: map_v2_0_0-003) ====
 
 Intermediate maps migrated. From previous version:
