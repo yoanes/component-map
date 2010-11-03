@@ -19,61 +19,61 @@
 <%-- Set the default resource bundle for the current tag file. --%>    
 <fmt:setBundle basename="au.com.sensis.mobile.web.component.map.map-component" />    
 
-<a href="#map" name="map"></a>
-<div id="mapWindow">     
-    <img src="${map.mapUrl.imageUrl}" id="map" />
-</div>
-arrrgh 2: ${zoomInUrl}
-<div id="mapControls">
-    <div id="zoomControls">
-        <%-- TODO: can't use alt text. img tag body needs to take value.--%>
-        <crf:img device="${context.device}" src="comp/map/controls/mc_in_g.image" id="zoomInFaded" alt="+"></crf:img>
-        
-        <a id="zoomInButton" href="${zoomInUrl}" class="mapControl">
-            <crf:img device="${context.device}" src="comp/map/controls/mc_in.image" id="mapZoomIn" alt="+"></crf:img>        
-        </a>
-        
-        <crf:img device="${context.device}" src="comp/map/controls/mc_out_g.image" id="zoomOutFaded" alt="-"></crf:img>        
-        <a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl">
-            <crf:img device="${context.device}" src="comp/map/controls/mc_out.image" id="mapZoomOut" alt="-"></crf:img>        
-        </a>
+<c:if test="${not empty map && map.mapImageRetrieved}"> 
+
+    <a href="#map" name="map"></a>
+    <div id="mapWindow">    
+        <img src="${map.mapUrl.imageUrl}" id="map" />
     </div>
-        
-
-    <div id="directionControls">
-        <a id="panNorthButton" href="${panNorthUrl}" class="mapControl">
-			<crf:img device="${context.device}" src="comp/map/controls/mc_up.image" id="mapPanNorthImage" alt=" /\ "></crf:img>
-        </a>
-        
-        <a id="panSouthButton" href="${panSouthUrl}" class="mapControl">
-			<crf:img device="${context.device}" src="comp/map/controls/mc_down.image" id="mapPanSouthImage" alt=" \/ "></crf:img>
-        </a>
-
-        <a id="panWestButton" href="${panWestUrl}" class="mapControl">
-        	<crf:img device="${context.device}" src="comp/map/controls/mc_left.image" id="mapPanWestImage" alt=" &#60; "></crf:img>
-        </a>
-
-        <a id="panEastButton" href="${panEastUrl}" class="mapControl">
-			<crf:img device="${context.device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage" alt=" &#62; "></crf:img>
-        </a>
-    </div>
-
-
-    <div id="viewControls">
-		<c:set var="photoLayerLabel">
-            <fmt:message key="comp.photoLayer.label"/>
-        </c:set>
+    <div id="mapControls">
+        <div id="zoomControls">
+            <crf:img device="${context.device}" src="comp/map/controls/mc_in_g.image" id="zoomInFaded" alt="+"
+            ></crf:img
+            ><a id="zoomInButton" href="${zoomInUrl}" class="mapControl"
+                ><crf:img device="${context.device}" src="comp/map/controls/mc_in.image" id="mapZoomIn" alt="+"
+                ></crf:img
+            ></a><crf:img device="${context.device}" src="comp/map/controls/mc_out_g.image" id="zoomOutFaded" alt="-"
+            ></crf:img
+            ><a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl"
+                ><crf:img device="${context.device}" src="comp/map/controls/mc_out.image" id="mapZoomOut" alt="-"
+                ></crf:img
+            ></a
+        ></div
+        ><div id="directionControls"
+            ><a id="panNorthButton" href="${panNorthUrl}" class="mapControl"
+                ><crf:img device="${context.device}" src="comp/map/controls/mc_up.image" id="mapPanNorthImage" alt=" /\ "
+                ></crf:img
+            ></a
+            ><a id="panSouthButton" href="${panSouthUrl}" class="mapControl"
+                ><crf:img device="${context.device}" src="comp/map/controls/mc_down.image" id="mapPanSouthImage" alt=" \/ "
+                ></crf:img
+            ></a
+            ><a id="panWestButton" href="${panWestUrl}" class="mapControl"
+                ><crf:img device="${context.device}" src="comp/map/controls/mc_left.image" id="mapPanWestImage" alt=" &#60; "
+                ></crf:img
+            ></a
+            ><a id="panEastButton" href="${panEastUrl}" class="mapControl"
+                ><crf:img device="${context.device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage" alt=" &#62; "
+                ></crf:img
+            ></a>
+        </div>
+    
+        <div id="viewControls">
+    		<c:set var="photoLayerLabel">
+                <fmt:message key="comp.photoLayer.label"/>
+            </c:set>
+                     
+            <a id="photoButton" href="${photoLayerUrl}">
+                <crf:img device="${context.device}" src="comp/map/controls/photo.image" alt="${photoLayerLabel}"></crf:img>
+            </a>
+           
+            <c:set var="mapLayerLabel">
+                <fmt:message key="comp.mapLayer.label"/>
+            </c:set>
                  
-        <a id="photoButton" href="${photoLayerUrl}">
-            <crf:img device="${context.device}" src="comp/map/controls/photo.image" alt="${photoLayerLabel}"></crf:img>
-        </a>
-       
-        <c:set var="mapLayerLabel">
-            <fmt:message key="comp.mapLayer.label"/>
-        </c:set>
-             
-        <a id="mapButton" href="${mapLayerUrl}">
-            <crf:img device="${context.device}" src="comp/map/controls/map.image" alt="${mapLayerLabel}"></crf:img>
-        </a>          
+            <a id="mapButton" href="${mapLayerUrl}">
+                <crf:img device="${context.device}" src="comp/map/controls/map.image" alt="${mapLayerLabel}"></crf:img>
+            </a>          
+        </div>
     </div>
-</div>
+</c:if>

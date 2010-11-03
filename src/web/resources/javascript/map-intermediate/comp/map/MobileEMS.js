@@ -167,8 +167,11 @@ var MobEMS = new Class({
 	 * It assumes that 1st child node of this.Map is an image of the map.
 	 * */
 	updateMap: function(imgSrc) {
-		if($defined(imgSrc))
-			this.Map.childNodes[0].src = imgSrc;
+		if($defined(imgSrc)) {
+			// Use Mootools getChildren instead of childNodes[0]. The latter may allow
+			// the array to contain TextNodes, whilst the former will not.
+			$(this.Map).getChildren('img')[0].src = imgSrc;
+		}
 	},
 	
 	/**

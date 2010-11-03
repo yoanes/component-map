@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" isELIgnored="false" %>
+<%@ tag body-content="empty" isELIgnored="false" trimDirectiveWhitespaces="true" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -28,10 +28,11 @@
     description="URL to be used for generating map layer server side maps." %>
     
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
-<logging:debug logger="${logger}" message="Entering renderJson.tag" />
-
-<%-- Render the JSON response. --%>    
-{
+<logging:debug logger="${logger}" message="Entering renderJson.tag" />{
+    <%--
+      - Render the JSON response. Place the opening { hard up against the previous tag
+      - to prevent extraneous whitespaces. Similarly for the closing }.       
+      --%>
     mapImage: '<c:out value="${map.mapUrl.imageUrl}" escapeXml="false"/>' ,
 
     eastBtnUrl: '<c:out value="${panEastUrl}" escapeXml="false" />' ,
@@ -47,6 +48,4 @@
 
     maxZoom: <c:out value="${map.zoomDetails.atMaximumZoom}" escapeXml="false" /> ,
     minZoom: <c:out value="${map.zoomDetails.atMinimumZoom}" escapeXml="false" />
-}
-
-<logging:debug logger="${logger}" message="Exiting renderJson.tag" />
+}<logging:debug logger="${logger}" message="Exiting renderJson.tag" />
