@@ -26,44 +26,44 @@
         <img src="${map.mapUrl.imageUrl}" id="map" />
     </div>
     <div id="mapControls">
-        <div id="zoomControls">
-            <crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="zoomInFaded"
+        <div id="mapZoomControls">
+            <crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded"
             >+</crf:img
-            ><a id="zoomInButton" href="${zoomInUrl}" class="mapControl"
+            ><a id="mapZoomInButton" href="${zoomInUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_in.image" id="mapZoomIn"
                 >+</crf:img
-            ></a><crf:img device="${device}" src="comp/map/controls/mc_out_g.image" id="zoomOutFaded"
+            ></a><crf:img device="${device}" src="comp/map/controls/mc_out_g.image" id="mapZoomOutFaded"
             >-</crf:img
-            ><a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl"
+            ><a id="mapZoomOutButton" href="${zoomOutUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_out.image" id="mapZoomOut"
                 >-</crf:img
             ></a
         ></div
-        ><div id="directionControls"
-            ><a id="panNorthButton" href="${panNorthUrl}" class="mapControl"
+        ><div id="mapDirectionControls"
+            ><a id="mapPanNorthButton" href="${panNorthUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_up.image" id="mapPanNorthImage"
                 > /\ </crf:img
             ></a
-            ><a id="panSouthButton" href="${panSouthUrl}" class="mapControl"
+            ><a id="mapPanSouthButton" href="${panSouthUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_down.image" id="mapPanSouthImage"
                 > \/ </crf:img
             ></a
-            ><a id="panWestButton" href="${panWestUrl}" class="mapControl"
+            ><a id="mapPanWestButton" href="${panWestUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_left.image" id="mapPanWestImage"
                 > &#60; </crf:img
             ></a
-            ><a id="panEastButton" href="${panEastUrl}" class="mapControl"
+            ><a id="mapPanEastButton" href="${panEastUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage"
                 > &#62; </crf:img
             ></a>
         </div>
     
-        <div id="viewControls">
-            <a id="photoButton" href="${photoLayerUrl}">
+        <div id="mapViewControls">
+            <a id="mapPhotoViewButton" href="${photoLayerUrl}">
                 <crf:img device="${device}" src="comp/map/controls/photo.image"><fmt:message key="comp.photoLayer.label"/></crf:img>
             </a>
            
-            <a id="mapButton" href="${mapLayerUrl}">
+            <a id="mapMapViewButton" href="${mapLayerUrl}">
                 <crf:img device="${device}" src="comp/map/controls/map.image"><fmt:message key="comp.mapLayer.label"/></crf:img>
             </a>          
         </div>

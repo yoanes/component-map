@@ -29,14 +29,14 @@
 	</div>
    
     <div id="mapControls">
-        <div id="zoomControls">
+        <div id="mapZoomControls">
             <c:choose>
                <c:when test="${map.zoomDetails.atMinimumZoom}">
                     <%-- TODO: can't use alt text. img tag body needs to take value.--%>               
                     <crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded">+</crf:img>
                </c:when>
                <c:otherwise
-                    ><a id="zoomInButton" href="${zoomInUrl}" class="mapControl"
+                    ><a id="mapZoomInButton" href="${zoomInUrl}" class="mapControl"
                         ><crf:img device="${device}" src="comp/map/controls/mc_in.image" id="mapZoomIn"
                         >+</crf:img></a
                ></c:otherwise>
@@ -47,26 +47,26 @@
                     <crf:img device="${device}" src="comp/map/controls/mc_out_g.image" id="mapZoomOutFaded">-</crf:img>
                </c:when>
                <c:otherwise
-                    ><a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl"
+                    ><a id="mapZoomOutButton" href="${zoomOutUrl}" class="mapControl"
                         ><crf:img device="${device}" src="comp/map/controls/mc_out.image" id="mapZoomOut"
                         >-</crf:img></a
                ></c:otherwise>
             </c:choose
         ></div
-        ><div id="directionControls"
-            ><a id="panNorthButton" href="${panNorthUrl}" class="mapControl"
+        ><div id="mapDirectionControls"
+            ><a id="mapPanNorthButton" href="${panNorthUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_up.image" id="mapPanNorthImage"
                 > /\ </crf:img
             ></a
-            ><a id="panSouthButton" href="${panSouthUrl}" class="mapControl"
+            ><a id="mapPanSouthButton" href="${panSouthUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_down.image" id="mapPanSouthImage"
             > \/ </crf:img
             ></a
-            ><a id="panWestButton" href="${panWestUrl}" class="mapControl"
+            ><a id="mapPanWestButton" href="${panWestUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_left.image" id="mapPanWestImage"
             > &#60; </crf:img
             ></a
-            ><a id="panEastButton" href="${panEastUrl}" class="mapControl"
+            ><a id="mapPanEastButton" href="${panEastUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage"
                 > &#62; </crf:img
             ></a>

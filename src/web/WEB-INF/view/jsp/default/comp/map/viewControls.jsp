@@ -12,7 +12,7 @@
 <c:set var="photoLayerUrl" value="${requestScope['mapComponentPhotoLayerUrl']}" />
 <c:set var="mapLayerUrl" value="${requestScope['mapComponentMapLayerUrl']}" />
 
-<div id="viewControls">
+<div id="mapViewControls">
     <c:choose>
         <c:when test="${map.mapLayer}">
             <a href="${photoLayerUrl}">

@@ -45,8 +45,8 @@ EMS.Control.ViewModePrototype = OpenLayers.Class(OpenLayers.Control, {
 		/* initialize the button size on draw */
 		this.viewButtonSize = this.calcDimension();
 		
-		if($('stateChangeUrl')) {
-			this.updateServerURL = $('stateChangeUrl').href;
+		if($('mapStateChangeUrl')) {
+			this.updateServerURL = $('mapStateChangeUrl').href;
 		}
 		
 		var viewControlExactPosition = this.calcPosition();

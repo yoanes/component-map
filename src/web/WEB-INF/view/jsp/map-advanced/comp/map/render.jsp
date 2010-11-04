@@ -12,7 +12,7 @@
       --%>
     <c:if test="${fn:length(fn:trim(clientSideGeneratedMapStateChangeUrl)) gt 0}">
         <%-- Optional URL for client to communicate state changes to the server.  --%>
-        <a id="stateChangeUrl" href="${clientSideGeneratedMapStateChangeUrl}"></a>
+        <a id="mapStateChangeUrl" href="${clientSideGeneratedMapStateChangeUrl}"></a>
     </c:if>
     
     <div id="mapWindow">

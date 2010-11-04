@@ -4,23 +4,23 @@
     font-weight: bold;
 }
 
-#zoomControls a, #directionControls a {
+#mapZoomControls a, #mapDirectionControls a {
     margin-left: 2px;
     margin-right: 3px;
 }
 
-#directionControls {
+#mapDirectionControls {
     margin-left: 5px;
 }
 
-#panNorthButton {
+#mapPanNorthButton {
     font-size: 100%;
 }
 
-#panSouthButton {
+#mapPanSouthButton {
     font-size: 100%;
 }
 
-#viewControls {
+#mapViewControls {
     display: none;
 }

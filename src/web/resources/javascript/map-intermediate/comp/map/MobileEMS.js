@@ -34,30 +34,30 @@ var MobEMS = new Class({
 			this.Map = $(mapWrapper);
 
 			/* grab all the buttons */
-			this.zoomIn.element = $('zoomInButton');
+			this.zoomIn.element = $('mapZoomInButton');
 			this.zoomIn.href = this.zoomIn.element.href;
-			this.zoomIn.faded = $('zoomInFaded');
+			this.zoomIn.faded = $('mapZoomInFaded');
 			
-			this.zoomOut.element= $('zoomOutButton');
+			this.zoomOut.element= $('mapZoomOutButton');
 			this.zoomOut.href = this.zoomOut.element.href;
-			this.zoomOut.faded = $('zoomOutFaded');
+			this.zoomOut.faded = $('mapZoomOutFaded');
 			
-			this.panNorth.element = $('panNorthButton');
+			this.panNorth.element = $('mapPanNorthButton');
 			this.panNorth.href = this.panNorth.element.href;
 			
-			this.panSouth.element = $('panSouthButton');
+			this.panSouth.element = $('mapPanSouthButton');
 			this.panSouth.href = this.panSouth.element.href;
 			
-			this.panWest.element = $('panWestButton');
+			this.panWest.element = $('mapPanWestButton');
 			this.panWest.href = this.panWest.element.href;
 			
-			this.panEast.element = $('panEastButton');
+			this.panEast.element = $('mapPanEastButton');
 			this.panEast.href = this.panEast.element.href;
 			
-			this.photoMode.element = $('photoButton');
+			this.photoMode.element = $('mapPhotoViewButton');
 			this.photoMode.href = this.photoMode.element.href;
 			
-			this.mapMode.element = $('mapButton');
+			this.mapMode.element = $('mapMapViewButton');
 			this.mapMode.href = this.mapMode.element.href;
 			
 			this.zoomIn.element.href = this.zoomOut.element.href = this.panNorth.element.href = this.panSouth.element.href = this.panWest.element.href = this.panEast.element.href = this.photoMode.element.href = this.mapMode.element.href = "#map";
