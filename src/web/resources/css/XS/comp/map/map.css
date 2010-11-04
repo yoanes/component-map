@@ -1,9 +1,7 @@
-#viewControls {
-    display: none;
-}
-
-#directionControls {
-    margin-left: 5px;
+#mapControls {
+    font-family: "Arial", sans-serif;
+    font-size: 105%;
+    font-weight: bold;
 }
 
 #zoomControls a, #directionControls a {
@@ -11,13 +9,18 @@
     margin-right: 3px;
 }
 
-/* TODO: this is actually CSS3. May not work on XS devices !!!*/
-#directionControls > a:first-child, #directionControls > a:nth-child(2 {
+#directionControls {
+    margin-left: 5px;
+}
+
+#panNorthButton {
     font-size: 100%;
 }
 
-#mapControls {
-    font-family: "Arial", sans-serif;
+#panSouthButton {
     font-size: 100%;
-    font-weight: bold;
+}
+
+#viewControls {
+    display: none;
 }

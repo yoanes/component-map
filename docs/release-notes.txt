@@ -1,3 +1,13 @@
+==== Version 2.0.0-005 (tag: map_v2_0_0-005) ====
+
+Low end maps now work on XS devices.
+
+Now depends on:
+    <dependency org="com.sensis" name="wl-crf" rev="0.1.2-004" conf="default" /> 
+    
+Fixed missing mc_bg.gif image for L category low and intermediate devices.
+Created missing HD480 images (actually same copy as the L category).
+
 ==== Version 2.0.0-004 (tag: map_v2_0_0-004) ====
 
 Hi end maps migrated. From previous two versions:

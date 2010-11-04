@@ -33,77 +33,45 @@
             <c:choose>
                <c:when test="${map.zoomDetails.atMinimumZoom}">
                     <%-- TODO: can't use alt text. img tag body needs to take value.--%>               
-                    <crf:img device="${context.device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded" alt="+"></crf:img>
+                    <crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded">+</crf:img>
                </c:when>
                <c:otherwise
                     ><a id="zoomInButton" href="${zoomInUrl}" class="mapControl"
-                        ><crf:img device="${context.device}" src="comp/map/controls/mc_in.image" id="mapZoomIn" alt="+"
-                        ></crf:img></a
+                        ><crf:img device="${device}" src="comp/map/controls/mc_in.image" id="mapZoomIn"
+                        >+</crf:img></a
                ></c:otherwise>
             </c:choose>
             
             <c:choose>
                <c:when test="${map.zoomDetails.atMaximumZoom}">
-                    <crf:img device="${context.device}" src="comp/map/controls/mc_out_g.image" id="mapZoomOutFaded" alt="-"></crf:img>
+                    <crf:img device="${device}" src="comp/map/controls/mc_out_g.image" id="mapZoomOutFaded">-</crf:img>
                </c:when>
                <c:otherwise
                     ><a id="zoomOutButton" href="${zoomOutUrl}" class="mapControl"
-                        ><crf:img device="${context.device}" src="comp/map/controls/mc_out.image" id="mapZoomOut" alt="-"
-                        ></crf:img></a
+                        ><crf:img device="${device}" src="comp/map/controls/mc_out.image" id="mapZoomOut"
+                        >-</crf:img></a
                ></c:otherwise>
             </c:choose
         ></div
         ><div id="directionControls"
             ><a id="panNorthButton" href="${panNorthUrl}" class="mapControl"
-                ><crf:img device="${context.device}" src="comp/map/controls/mc_up.image" id="mapPanNorthImage" alt=" /\ "
-                ></crf:img
+                ><crf:img device="${device}" src="comp/map/controls/mc_up.image" id="mapPanNorthImage"
+                > /\ </crf:img
             ></a
             ><a id="panSouthButton" href="${panSouthUrl}" class="mapControl"
-                ><crf:img device="${context.device}" src="comp/map/controls/mc_down.image" id="mapPanSouthImage" alt=" \/ "
-            ></crf:img
+                ><crf:img device="${device}" src="comp/map/controls/mc_down.image" id="mapPanSouthImage"
+            > \/ </crf:img
             ></a
             ><a id="panWestButton" href="${panWestUrl}" class="mapControl"
-                ><crf:img device="${context.device}" src="comp/map/controls/mc_left.image" id="mapPanWestImage" alt=" &#60; "
-            ></crf:img
+                ><crf:img device="${device}" src="comp/map/controls/mc_left.image" id="mapPanWestImage"
+            > &#60; </crf:img
             ></a
             ><a id="panEastButton" href="${panEastUrl}" class="mapControl"
-                ><crf:img device="${context.device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage" alt=" &#62; "
-                ></crf:img
+                ><crf:img device="${device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage"
+                > &#62; </crf:img
             ></a>
         </div>
         
-        <div id="viewControls">
-            <c:choose>
-                <c:when test="${map.mapLayer}">
-                    <c:set var="photoLayerLabel">
-                        <fmt:message key="comp.photoLayer.label"/>
-                    </c:set>
-                    
-                    <a href="${photoLayerUrl}">
-                        <crf:img device="${context.device}" src="comp/map/controls/photo.image" alt="${photoLayerLabel}"></crf:img>
-                    </a>
-                </c:when>
-                
-                <c:when test="${map.photoLayer}">
-                    <c:set var="mapLayerLabel">
-                        <fmt:message key="comp.mapLayer.label"/>
-                    </c:set>
-                
-                    <a href="${mapLayerUrl}">
-                        <crf:img device="${context.device}" src="comp/map/controls/map.image" alt="${mapLayerLabel}"></crf:img>
-                    </a>
-                </c:when>
-                
-                <c:otherwise>
-                    <%--
-                      - In the event that the mapLayer is anything else (such as "PhotoWithStreets"),
-                      - display the Map view link.   
-                      --%>
-                    <a href="${mapLayerUrl}">
-                        <crf:img src="comp/map/controls/map.image" device="{device.context}" alt="${mapLayerLabel}"></crf:img>
-                    </a>
-                </c:otherwise>
-            </c:choose>
-        </div>
+        <jsp:include page="/WEB-INF/view/jsp/comp/map/viewControls.crf" />
     </div>
 </c:if>
