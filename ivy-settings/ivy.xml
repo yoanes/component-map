@@ -54,13 +54,13 @@
     <dependencies>
     
         <!-- Shared build scripts required by this project. -->    
-        <dependency org="com.sensis" name="wl-build-scripts" rev="2.0.7" conf="buildBootstrap->default" />
+        <dependency org="com.sensis" name="wl-build-scripts" rev="2.0.9" conf="buildBootstrap->default" />
         
         <!-- Content Rendering Framework. -->
-        <dependency org="com.sensis" name="wl-crf" rev="0.1.2-004" conf="default" />        
+        <dependency org="com.sensis" name="wl-crf" rev="0.1.2-103" conf="default" />        
         
         <!-- Components. -->
-        <dependency org="com.sensis" name="wl-core-component" rev="2.0.0-003" conf="default,test"/>        
+        <dependency org="com.sensis" name="wl-core-component" rev="2.0.4" conf="default,test"/>        
         
         <!-- Commons -->
         <dependency org="apache" name="commons-lang" rev="2.4" conf="default" />

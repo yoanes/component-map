@@ -4,10 +4,10 @@
 
 env.resources.jsp.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp
 env.resources.properties.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/WEB-INF/properties
-env.resources.css.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/resources/css
-env.resources.javascript.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/resources/javascript
-env.resources.images.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/resources/images
+env.resources.css.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/uiresources/css
+env.resources.javascript.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/uiresources/javascript
+env.resources.images.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/uiresources/images
 
-env.resources.css.client.path.prefix=/uidev/map-component-showcase/resources/css/
-env.resources.javascript.client.path.prefix=/uidev/map-component-showcase/resources/javascript/
-env.resources.images.client.path.prefix=/uidev/map-component-showcase/resources/images/
+env.resources.css.client.path.prefix=/uidev/map-component-showcase/uiresources/css/
+env.resources.javascript.client.path.prefix=/uidev/map-component-showcase/uiresources/javascript/
+env.resources.images.client.path.prefix=/uidev/map-component-showcase/uiresources/images/

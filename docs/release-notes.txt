@@ -1,3 +1,14 @@
+==== (PENDING) Version 2.0.0-006 (tag: map_v2_0_0-006) ====
+
+Now depends on:
+
+        <dependency org="com.sensis" name="wl-build-scripts" rev="2.0.9" conf="buildBootstrap->default" />
+        <dependency org="com.sensis" name="wl-crf" rev="0.1.2-103" conf="default" />                
+        <dependency org="com.sensis" name="wl-core-component" rev="2.0.4" conf="default,test"/>        
+
+Simplified map-crf-config.xml and javascript groups using new wl-crf capability: files with 
+the same name in more specific groups mask less specific groups.                
+
 ==== Version 2.0.0-005 (tag: map_v2_0_0-005) ====
 
 Low end maps now work on XS devices.
