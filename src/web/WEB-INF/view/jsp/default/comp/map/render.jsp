@@ -28,13 +28,12 @@
     	<img src="${map.mapUrl.imageUrl}" id="map" />
 	</div>
    
-    <div id="mapControls">
-        <div id="mapZoomControls">
-            <c:choose>
-               <c:when test="${map.zoomDetails.atMinimumZoom}">
-                    <%-- TODO: can't use alt text. img tag body needs to take value.--%>               
-                    <crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded">+</crf:img>
-               </c:when>
+    <div id="mapControls"
+        ><div id="mapZoomControls"
+            ><c:choose>
+               <c:when test="${map.zoomDetails.atMinimumZoom}"
+                    ><crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded">+</crf:img
+               ></c:when>
                <c:otherwise
                     ><a id="mapZoomInButton" href="${zoomInUrl}" class="mapControl"
                         ><crf:img device="${device}" src="comp/map/controls/mc_in.image" id="mapZoomIn"
@@ -43,9 +42,9 @@
             </c:choose>
             
             <c:choose>
-               <c:when test="${map.zoomDetails.atMaximumZoom}">
-                    <crf:img device="${device}" src="comp/map/controls/mc_out_g.image" id="mapZoomOutFaded">-</crf:img>
-               </c:when>
+               <c:when test="${map.zoomDetails.atMaximumZoom}"
+                    ><crf:img device="${device}" src="comp/map/controls/mc_out_g.image" id="mapZoomOutFaded">-</crf:img
+               ></c:when>
                <c:otherwise
                     ><a id="mapZoomOutButton" href="${zoomOutUrl}" class="mapControl"
                         ><crf:img device="${device}" src="comp/map/controls/mc_out.image" id="mapZoomOut"
@@ -69,9 +68,8 @@
             ><a id="mapPanEastButton" href="${panEastUrl}" class="mapControl"
                 ><crf:img device="${device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage"
                 > &#62; </crf:img
-            ></a>
-        </div>
-        
-        <jsp:include page="/WEB-INF/view/jsp/comp/map/viewControls.crf" />
-    </div>
+            ></a
+        ></div
+        ><jsp:include page="/WEB-INF/view/jsp/comp/map/viewControls.crf"
+    /></div>
 </c:if>

@@ -1,3 +1,5 @@
+<%@ page trimDirectiveWhitespaces="true" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -25,8 +27,8 @@
     <div id="mapWindow">    
         <img src="${map.mapUrl.imageUrl}" id="map" />
     </div>
-    <div id="mapControls">
-        <div id="mapZoomControls">
+    <div id="mapControls"
+        ><div id="mapZoomControls">
             <crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded"
             >+</crf:img
             ><a id="mapZoomInButton" href="${zoomInUrl}" class="mapControl"
@@ -56,16 +58,16 @@
                 ><crf:img device="${device}" src="comp/map/controls/mc_right.image" id="mapPanEastImage"
                 > &#62; </crf:img
             ></a>
-        </div>
-    
-        <div id="mapViewControls">
-            <a id="mapPhotoViewButton" href="${photoLayerUrl}">
-                <crf:img device="${device}" src="comp/map/controls/photo.image"><fmt:message key="comp.photoLayer.label"/></crf:img>
-            </a>
-           
-            <a id="mapMapViewButton" href="${mapLayerUrl}">
-                <crf:img device="${device}" src="comp/map/controls/map.image"><fmt:message key="comp.mapLayer.label"/></crf:img>
-            </a>          
-        </div>
-    </div>
-</c:if>
+        </div
+        ><div id="mapViewControls"
+            ><a id="mapPhotoViewButton" href="${photoLayerUrl}"
+                ><crf:img device="${device}" src="comp/map/controls/photo.image"
+                ><fmt:message key="comp.photoLayer.label"/></crf:img
+                ></a
+            ><a id="mapMapViewButton" href="${mapLayerUrl}"
+                ><crf:img device="${device}" src="comp/map/controls/map.image"
+                ><fmt:message key="comp.mapLayer.label"/></crf:img
+                ></a
+        ></div
+    ></div
+></c:if>

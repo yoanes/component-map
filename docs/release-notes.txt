@@ -1,4 +1,8 @@
-==== (PENDING) Version 2.0.0-006 (tag: map_v2_0_0-006) ====
+==== Version 2.0.1 (tag: map_v2_0_1) ====
+
+Jiras:
+- CUI-322: Maps- Low end devices
+    - JSPs updated to remove extraneous whitespace.
 
 Now depends on:
 
@@ -8,6 +12,8 @@ Now depends on:
 
 Simplified map-crf-config.xml and javascript groups using new wl-crf capability: files with 
 the same name in more specific groups mask less specific groups.                
+
+Removed old Volantis policy files that were still in the project.
 
 ==== Version 2.0.0-005 (tag: map_v2_0_0-005) ====
 

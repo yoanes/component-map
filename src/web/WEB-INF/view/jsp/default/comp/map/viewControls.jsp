@@ -12,28 +12,31 @@
 <c:set var="photoLayerUrl" value="${requestScope['mapComponentPhotoLayerUrl']}" />
 <c:set var="mapLayerUrl" value="${requestScope['mapComponentMapLayerUrl']}" />
 
-<div id="mapViewControls">
-    <c:choose>
-        <c:when test="${map.mapLayer}">
-            <a href="${photoLayerUrl}">
-                <crf:img device="${device}" src="comp/map/controls/photo.image"><fmt:message key="comp.photoLayer.label"/></crf:img>
-            </a>
-        </c:when>
+<div id="mapViewControls"
+    ><c:choose>
+        <c:when test="${map.mapLayer}"
+            ><a href="${photoLayerUrl}"
+                ><crf:img device="${device}" src="comp/map/controls/photo.image"
+                ><fmt:message key="comp.photoLayer.label"/></crf:img
+                ></a
+        ></c:when>
         
-        <c:when test="${map.photoLayer}">
-            <a href="${mapLayerUrl}">
-                <crf:img device="${device}" src="comp/map/controls/map.image"><fmt:message key="comp.mapLayer.label"/></crf:img>
-            </a>
-        </c:when>
-        
-        <c:otherwise>
-            <%--
-              - In the event that the mapLayer is anything else (such as "PhotoWithStreets"),
-              - display the Map view link.   
-              --%>
-            <a href="${mapLayerUrl}">
-                <crf:img src="comp/map/controls/map.image" device="${device}"><fmt:message key="comp.mapLayer.label"/></crf:img>
-            </a>
-        </c:otherwise>
-    </c:choose>
-</div>
+        <c:when test="${map.photoLayer}"
+            ><a href="${mapLayerUrl}"
+                ><crf:img device="${device}" src="comp/map/controls/map.image"
+                ><fmt:message key="comp.mapLayer.label"/></crf:img
+                ></a
+        ></c:when>
+
+        <%--
+          - In the event that the mapLayer is anything else (such as "PhotoWithStreets"),
+          - display the Map view link.   
+          --%>
+        <c:otherwise
+            ><a href="${mapLayerUrl}"
+                ><crf:img src="comp/map/controls/map.image" device="${device}"
+                ><fmt:message key="comp.mapLayer.label"/></crf:img
+                ></a
+        ></c:otherwise>
+    </c:choose
+></div>
