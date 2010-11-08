@@ -701,7 +701,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 EasyMock.eq(MapLayer.Photo), EasyMock.eq(iconDescriptors),
                 EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),
                 EasyMock.eq(mobilesZoomThreshold),
-                EasyMock.isA(UserContext.class))).andReturn(getMockMapUrl());
+                EasyMock.isA(UserContext.class),EasyMock.eq(true))).andReturn(getMockMapUrl());
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl())
@@ -720,7 +720,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
-                MapLayer.Photo, iconDescriptors,null, mobilesZoomThreshold,
+                MapLayer.Photo, iconDescriptors, mobilesZoomThreshold,
                 getMockMobileContext());
 
         Assert.assertTrue("isMapRetrieved() should be true", map
@@ -760,7 +760,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(mockEmsManager.getPoiMapBoundingBox(
                 EasyMock.eq(getPoint1()),
                 EasyMock.eq(iconDescriptors),
-                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),EasyMock.eq(true)))
                     .andReturn(getMockMobilesBoundingBox());
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
                 EMS_ZOOM_LEVEL);
@@ -774,7 +774,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
-                MapLayer.PhotoWithStreets, iconDescriptors,null, mobilesZoomThreshold,
+                MapLayer.PhotoWithStreets, iconDescriptors, mobilesZoomThreshold,
                 getMockMobileContext());
 
         Assert.assertFalse("isMapImageRetrieved() should be false", map
@@ -964,7 +964,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         final Map map =
                 getObjectUnderTest().manipulatePoiMap(getPoint2(),
                         getMockExistingMapUrl(), existingMapLayer,
-                        iconDescriptors,null, mobilesZoomThreshold,
+                        iconDescriptors, mobilesZoomThreshold,
                         mapDelegateAction,
                         getMockMobileContext());
 
@@ -1106,7 +1106,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(mockEmsManager.getPoiMapBoundingBox(
                 EasyMock.eq(getPoint1()),
                 EasyMock.eq(iconDescriptors),
-                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),EasyMock.eq(true)))
                     .andReturn(getMockMobilesBoundingBox());
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
                 EMS_ZOOM_LEVEL);
@@ -1122,7 +1122,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         final Map map =
             getObjectUnderTest().manipulatePoiMap(getPoint1(),
                     getMockExistingMapUrl(), existingMapLayer,
-                    iconDescriptors,null, mobilesZoomThreshold,
+                    iconDescriptors, mobilesZoomThreshold,
                     mapDelegateAction,
                     getMockMobileContext());
 

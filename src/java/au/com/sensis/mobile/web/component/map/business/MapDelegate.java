@@ -239,9 +239,33 @@ public interface MapDelegate {
      * @return {@link Map}. May not be null.
      */
     Map getInitialPoiMap(final WGS84Point mapCentre,
-            MapLayer mapLayer, final List<IconDescriptor> poiIcons,final IconDescriptor paIcon,
+            MapLayer mapLayer, final List<IconDescriptor> poiIcons,
             int mobilesZoomThreshold, final MobileContext mobileContext);
 
+    /**
+     * Retrieve an initial POI map centred at a particular coordinate (as opposed to
+     * manipulating an existing POI map - see
+     * {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action, MobileContext).
+	 * Using this method the map does not zoom out to cover this Priority Ad icon	
+     * @param mapCentre
+     *            Coordinates of the centre of the map
+     * @param mapLayer
+     *            The {@link MapLayer} that should be rendered to produce the
+     *            map image.
+     * @param poiIcons
+     *            List of icons to render on the map.
+     * @param priorityAdIcon
+     *            Priority Ad icon to be displayed on the map. Map does not zoom out to cover this icon
+     * @param mobilesZoomThreshold
+     *            Threshold that the zoom level of the map will not go below.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link Map}. May not be null.
+     */
+    Map getInitialPoiMapNoPaZoomout(final WGS84Point mapCentre,
+            MapLayer mapLayer, final List<IconDescriptor> poiIcons, 
+            int mobilesZoomThreshold, final MobileContext mobileContext);
+    
     /**
      * Manipulate an existing POI map, such as panning or zooming it or changing
      * the type of view. The manipulation to be performed is given by the
@@ -280,10 +304,52 @@ public interface MapDelegate {
      */
     Map manipulatePoiMap(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, MapLayer existingMapLayer,
-            final List<IconDescriptor> poiIcons,final IconDescriptor paIcon, final int mobilesZoomThreshold,
+            final List<IconDescriptor> poiIcons, final int mobilesZoomThreshold,
             final Action mapManipulationAction,
             final MobileContext mobileContext);
 
+    /**
+     * Manipulate an existing POI map, such as panning or zooming it or changing
+     * the type of view. The manipulation to be performed is given by the
+     * mapManipulationAction parameter.
+     * Using this method the map does not zoom out to cover this Priority Ad icon
+     *
+     * @param originalMapCentrePoint
+     *            The original map centre that was passed to
+     *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext)}.
+     *            Also contained by the {@link Map} returned by that
+     *            method.
+     * @param existingMapUrl
+     *            The existing {@link MapUrl} to be manipulated. Contained in
+     *            the {@link Map} returned by a previous call to
+     *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext) or
+     *            this
+     *            {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action,
+     *            MobileContext)}.
+     * @param existingMapLayer
+     *            The existing {@link MapLayer} that the existingMapUrl was
+     *            rendered with. Contained in the {@link Map} returned by a previous call to
+     *            {@link #getInitialPoiMap(WGS84Point, MapLayer, List, int, MobileContext) or
+     *            this
+     *            {@link #manipulatePoiMap(WGS84Point, MapUrl, MapLayer, List, Action,
+     *            MobileContext)}.
+     * @param poiIcons
+     *            List of icons to render on the map.
+     * @param mobilesZoomThreshold
+     *            Same param as for getInitialPoiMap. TODO: only required as a hack for now.
+     *            See release notes for version 1.1.5-002 and the implementation comments.
+     * @param mapManipulationAction
+     *            {@link Action} describing the type of manipulation to be
+     *            performed.
+     * @param mobileContext
+     *            Context of the user that the map is being retrieved for.
+     * @return {@link Map}. May not be null.
+     */
+    Map manipulatePoiMapNoPaZoomout(final WGS84Point originalMapCentrePoint,
+            final MapUrl existingMapUrl, MapLayer existingMapLayer,
+            final List<IconDescriptor> poiIcons, final int mobilesZoomThreshold,
+            final Action mapManipulationAction,
+            final MobileContext mobileContext);
 
     /**
      * Retrieve an initial map containing a route through the given waypoints
