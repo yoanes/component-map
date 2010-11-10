@@ -1,3 +1,11 @@
+==== Version 2.0.2.1 (tag: map_v2_0_2_1) ====
+
+Jiras:
+* CUI-325: Maps for Intermediate devices-  Controls on the map lock 
+    * Now depends on <dependency org="com.sensis" name="wl-core-component" rev="2.0.5" conf="default,test"/>
+      to fix bug with window.location sometimes containing the "#map" anchor of the <a /> that the user
+      clicked.
+
 ==== Version 2.0.2 (tag: map_v2_0_2) ====
 
 Jiras:
