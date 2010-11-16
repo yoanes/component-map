@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%-- Retrieve attributes from request. --%>
+<c:set var="map" value="${requestScope['mapComponentMap']}" />
 <c:set var="clientSideGeneratedMapStateChangeUrl" value="${requestScope['mapComponentClientSideGeneratedMapStateChangeUrl']}" />
 
 <c:if test="${not empty map && map.mapImageRetrievalDeferredToClient}">

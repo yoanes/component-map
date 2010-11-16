@@ -9,7 +9,6 @@
 <%-- Retrieve attributes from request. --%>
 <c:set var="device" value="${requestScope['mapComponentDevice']}" />
 <c:set var="map" value="${requestScope['mapComponentMap']}" />
-<c:set var="emsJsUrl" value="${requestScope['mapComponentEmsJsUrl']}" />
 
 <%-- Themes for current component. --%>
 <crf:link rel="stylesheet" type="text/css" href="comp/map/map.css" device="${device}"/>
