@@ -1,3 +1,7 @@
+==== Version 1.2.9 (tag: map_v1_2_9) ====
+This is development version and a candidate to be merge with head for Whereis mobile.
+It includes a change in ivy.xml file to use the latest version of sdbcommon-manager.
+
 ==== Version 1.2.8 (tag: map_v1_2_8) ====
 This is development version and a candidate to be merge with head for Whereis mobile.
 It includes all necessary changes for Priority Ad map behaviours.

@@ -336,7 +336,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * {@inheritDoc}
      */
-    // WMT PA added
+  
     
 	public Map getInitialPoiMapNoPaZoomout(WGS84Point mapCentre, MapLayer mapLayer,
 			List<IconDescriptor> poiIcons,
@@ -454,7 +454,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     /**
      * {@inheritDoc}
      */
-    // WMT PA added
+   
     public Map manipulatePoiMapNoPaZoomout(final WGS84Point originalMapCentrePoint,
             final MapUrl existingMapUrl, final MapLayer existingMapLayer,
             final List<IconDescriptor> poiIcons, final int mobilesZoomThreshold,
