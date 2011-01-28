@@ -2,6 +2,7 @@
     font-family: "Arial", sans-serif;
     font-size: 105%;
     font-weight: bold;
+    height: 25px;
 }
 
 #mapZoomControls a, #mapDirectionControls a {
