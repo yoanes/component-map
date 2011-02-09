@@ -1,3 +1,7 @@
+==== Version 2.0.2.5 (tag: map_v2_0_2_5) ====
+
+Move the crf group of image category down the stack. 
+
 ==== Version 2.0.2.4 (tag: map_v2_0_2_4) ====
 
 Specify height for the #mapControls
