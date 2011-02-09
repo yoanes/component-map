@@ -11,3 +11,6 @@ env.resources.images.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/
 env.resources.css.client.path.prefix=/uidev/map-component-showcase/uiresources/css/
 env.resources.javascript.client.path.prefix=/uidev/map-component-showcase/uiresources/javascript/
 env.resources.images.client.path.prefix=/uidev/map-component-showcase/uiresources/images/
+
+#env.cache.ui.configuration=true
+#env.cache.resources=true
