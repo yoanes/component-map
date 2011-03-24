@@ -88,23 +88,34 @@ MobEMS.implement({
 			 * A Multi poi default to SLIM_MULTI unless one of them is a THICK poi then
 			 * it will morph into MULTI
 			 */
-			var index = this.isPoiInArray(iconList[i], pois);
-			if(index) {
+			var poisIndex = this.isPoiInArray(iconList[i], pois);
+			if(poisIndex) {
 				if(iconList[i].type == 'THICK') 
-					iconList[index].type = 'MULTI';
+					pois[poisIndex].type = 'MULTI';
 				else {
 					/* only updates if the type is not multi yet */
-					if(iconList[index].type != 'MULTI')
-						iconList[index].type = 'SLIM_MULTI';
+					if(pois[poisIndex].type != 'MULTI')
+						pois[poisIndex].type = 'SLIM_MULTI';
 				}
 				
-				/* push the current poi (iconList[i] to the multiPois list */
-				this.MultiPois.push(iconList[i]);
+				/* initate the next pointer for the soon to be child node */
+				iconList[i].next = null;
 				/* if the iconList[index] not in multiPois array then push it there */
-				if(!this.isPoiInArray(iconList[index], this.MultiPois)) {
-					this.MultiPois.push(iconList[index]);
+				var multipoiIndex = this.isPoiInArray(pois[poisIndex], this.MultiPois);
+				if(!multipoiIndex) {
+					/* attach i as the childNode of indx */
+					pois[poisIndex].next = iconList[i];
+					this.MultiPois.push(pois[poisIndex]);
 				}
-				
+				else { 
+					/* grab the next */
+					var nextSpot = this.MultiPois[multipoiIndex].next;
+					/* find the next spot in the link */
+					while(nextSpot.next != null) {
+						nextSpot = nextSpot.next;
+					}
+					nextSpot.next = iconList[i];
+				}
 				continue;
 			}
 			/* only push to pois when it is a unique poi */
