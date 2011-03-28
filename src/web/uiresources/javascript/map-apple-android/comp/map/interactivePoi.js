@@ -4,6 +4,11 @@ MobEMS.implement({
 	
 	/* holds the detected pois with the same lat lon */
 	MultiPois: new Array(),
+
+	MultiPoisCurrentIcon: null,
+	MultiPoisCurrentPoi: null,
+	
+	PopupHeight: {'MINI': 110, 'SMALL': 210, 'LARGE': 246},
 	
 	addPoi: function(map, marker, icon) {
 		var iconText = new String();
@@ -40,8 +45,10 @@ MobEMS.implement({
 		this.Map.markersLayer.addMarker(interactiveMarker);
 		
 		/* add popup if possible */
-		if($(icon.id))
+		if($(icon.id)) {
+			interactiveIcon.coordinates = marker.coordinates;
 			this.addPopup(icon.id, interactiveIcon, interactiveMarker);
+		}
 		
 		return interactiveMarker ;
 	},
@@ -89,7 +96,7 @@ MobEMS.implement({
 			 * it will morph into MULTI
 			 */
 			var poisIndex = this.isPoiInArray(iconList[i], pois);
-			if(poisIndex) {
+			if(poisIndex !== false) {
 				if(iconList[i].type == 'THICK') 
 					pois[poisIndex].type = 'MULTI';
 				else {
@@ -98,13 +105,19 @@ MobEMS.implement({
 						pois[poisIndex].type = 'SLIM_MULTI';
 				}
 				
-				/* initate the next pointer for the soon to be child node */
+				/* initate the prev and next pointer for the soon to be child node */
 				iconList[i].next = null;
+				iconList[i].prev = null;
+				
 				/* if the iconList[index] not in multiPois array then push it there */
 				var multipoiIndex = this.isPoiInArray(pois[poisIndex], this.MultiPois);
-				if(!multipoiIndex) {
+				if(multipoiIndex === false) {
 					/* attach i as the childNode of indx */
 					pois[poisIndex].next = iconList[i];
+					iconList[i].prev = pois[poisIndex];
+					
+					/* prev is null since this poisIndex is the head of the list */
+					pois[poisIndex].prev = null;
 					this.MultiPois.push(pois[poisIndex]);
 				}
 				else { 
@@ -115,6 +128,7 @@ MobEMS.implement({
 						nextSpot = nextSpot.next;
 					}
 					nextSpot.next = iconList[i];
+					iconList[i].prev = nextSpot;
 				}
 				continue;
 			}
@@ -154,9 +168,17 @@ MobEMS.implement({
 		
 		/* if no dock is specified */
 		if(this.Dock == null) {
+			var popupSize = this.getSizeForPopup(icon); 
+			if(popupSize == EMS.InteractiveMarkerPopupSizes.SMALL_WITH_HEADER ||
+				popupSize == EMS.InteractiveMarkerPopupSizes.LARGE_WITH_HEADER) {
+				icon.popup = this.buildMultiPoiPopup(icon, popupSize, true);
+			}
+			
 			/* create event to open popup */
-			icon.div.addEventListener('touchend', function() {
-				this.popupDiv = this.showPopup(this.popup, true);
+			icon.div.addEventListener('touchend', function(e) {
+				/* stop the event to propagate */
+				e.stopPropagation();
+				this.popupDiv = this.showPopup(this.popup, true, popupSize);
 				/* create event to close popup */ 
 				this.popupDiv.addEventListener('touchend', function(){
 					this.hidePopup();
@@ -171,6 +193,60 @@ MobEMS.implement({
 		}
 	}, 
 
+	getPopupHeightWhenWidthIs202: function(popupDiv) {
+		var tempWidth = popupDiv.style.width;
+		
+		popupDiv.style.width = '202px';
+		var popupHeight = popupDiv.getSize().y;
+		
+		popupDiv.style.width = tempWidth;
+		return popupHeight;
+	},
+	
+	getSizeForPopup: function(icon) {
+		var isAMultiPoi = this.isPoiInArray(icon, this.MultiPois);
+		
+		if(isAMultiPoi === false) {
+			/* set the width the 202 so we can get a more accurate height. 202 is the max width of the popup */
+
+			var popupHeight = this.getPopupHeightWhenWidthIs202(icon.popup);
+			
+			if(popupHeight <= this.PopupHeight.MINI)
+				return EMS.InteractiveMarkerPopupSizes.MINI;
+			else if(popupHeight <= this.PopupHeight.SMALL)
+				return EMS.InteractiveMarkerPopupSizes.SMALL;
+			else return EMS.InteractiveMarkerPopupSizes.LARGE;
+		}
+		
+		else {
+			popupHeight = this.getLargestPopup(this.MultiPois[isAMultiPoi]);
+			if(popupHeight <= this.PopupHeight.SMALL)
+				return EMS.InteractiveMarkerPopupSizes.SMALL_WITH_HEADER;
+			else return EMS.InteractiveMarkerPopupSizes.LARGE_WITH_HEADER;
+		}
+	},
+	
+	getLargestPopup: function(icon) {
+		var height = null;
+		
+		if(!$defined(icon.popup)) icon.popup = $(icon.id);
+		
+		height = this.getPopupHeightWhenWidthIs202(icon.popup);
+		
+		var currentIcon = icon;
+		while(currentIcon.next != null) {
+			var next = currentIcon.next;
+			
+			var nextHeight = this.getPopupHeightWhenWidthIs202($(next.id));
+			
+			height = Math.max(height, nextHeight);
+			
+			currentIcon = next;
+		}
+		
+		return height;
+	},
+	
 	addDock: function(map, dOpt) {
 		/* instantiate */
 		this.Dock = new EMS.Control.DockedInfoBox();
@@ -186,8 +262,10 @@ MobEMS.implement({
 		 * try to detect if the app declare a dom with id = mapDockBox. If it is declared we'll
 		 * dump the box there. Otherwise it will be embedded to the map it self.
 		 * */
-		if($('mapDockBox'))
+		if($('mapDockBox')) {
+			$('mapDockBox').style.position = 'relative';
 			$('mapDockBox').appendChild(this.Dock.draw());
+		}
 		else map.div.appendChild(this.Dock.draw()); 
 	},
 	
@@ -208,6 +286,120 @@ MobEMS.implement({
 	loadDockWithContentFromIndex: function(idx) {
 		if(this.Dock.contents instanceof Array) {
 			this.Dock.loadContentsForIndex(idx);
+		}
+	},
+	
+	buildMultiPoiPagination: function(icon, popupSize) {
+		/* generate the next DOM */
+		var next = new Element('div');
+		next.setAttribute('class', 'poiPopupNext');
+		next.innerHTML = "Next";
+		next.addEventListener('touchend', function(e) {
+			/* set the current icon/poi for pagination */
+			if(this.MultiPoisCurrentPoi == null || this.MultiPoisCurrentPoi.multiPoisIndex != icon.multiPoisIndex) {
+				this.MultiPoisCurrentIcon = icon.multiPoisIcon;
+				this.MultiPoisCurrentPoi = icon;
+			}
+			e.stopPropagation();
+			this.multiPoiGoNext(icon, popupSize);
+		}.bind(this), false);
+		
+		/* generate the prev DOM */
+		var prev = new Element('div');
+		prev.setAttribute('class', 'poiPopupPrev');
+		prev.innerHTML = "Prev";
+		prev.addEventListener('touchend', function(e) {
+			/* set the current icon/poi for pagination */
+			if(this.MultiPoisCurrentPoi == null || this.MultiPoisCurrentPoi.multiPoisIndex != icon.multiPoisIndex) {
+				this.MultiPoisCurrentIcon = icon.multiPoisIcon;
+				this.MultiPoisCurrentPoi = icon;
+			}
+			e.stopPropagation();
+			this.multiPoiGoPrev(icon, popupSize);
+		}.bind(this), false);
+		
+		/* generate the pagination text DOM */
+		var showing = new Element('div');
+		showing.setAttribute('class', 'poiPopupShowing');
+		
+		/* generate the number for the currently shown multi poi */
+		var currentShowing = new Element('span');
+		currentShowing.setAttribute('id', icon.paginationIndexSpan);
+		currentShowing.innerHTML = "1";
+		
+		showing.appendChild(currentShowing)
+		showing.appendChild(document.createTextNode(" of " + icon.multiPoisLength));
+		
+		var pagination = new Element('div');
+		pagination.setAttribute('class', 'poiPopupPagination');
+		
+		var hurdle = new Element('div');
+		hurdle.style.clear = 'both';
+			
+		pagination.appendChild(prev);
+		pagination.appendChild(showing);
+		pagination.appendChild(next);
+		pagination.appendChild(hurdle);
+		
+		return pagination;
+	},
+	
+	buildMultiPoiPopup: function(icon, popupSize, initialPopup) {
+		/* generate userContentDiv id and pagination id and next id and prev id */
+		icon.userContentDiv = icon.id + "-userContent";
+		icon.paginationDiv = icon.id + "-pagination";
+		icon.paginationIndexSpan = icon.paginationDiv + "-index";
+		
+		/* get the total length and index in the multiPois array */
+		icon.multiPoisIndex = this.isPoiInArray(icon, this.MultiPois);
+		icon.multiPoisLength = this.getMultiPoiLength(icon.multiPoisIndex);
+		icon.multiPoisIcon = this.MultiPois[icon.multiPoisIndex];
+		
+		/* build the pagination */
+		var pagination = this.buildMultiPoiPagination(icon);
+		pagination.id = icon.paginationDiv;
+	
+		/* generate the initial popup content */
+		var userContent = new Element('div');
+		userContent.id = icon.userContentDiv;
+		userContent.appendChild($(icon.id).clone());
+		
+		var popup = new Element('div');
+		popup.appendChild(pagination);
+		popup.appendChild(userContent);
+		
+		return popup;
+	},
+	
+	getMultiPoiLength: function(idx) {
+		var i = 1;
+		var current = this.MultiPois[idx];
+		while(current.next != null) {
+			i++;
+			current = current.next;
+		}
+		return i;
+	},
+	
+	multiPoiGoPrev: function(icon, size) {		
+		if(this.MultiPoisCurrentIcon.prev == null) return;
+		else {
+			$(this.MultiPoisCurrentPoi.userContentDiv).empty();
+			$(this.MultiPoisCurrentPoi.userContentDiv).appendChild($(this.MultiPoisCurrentIcon.prev.id).clone());
+			var currIndex = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
+			$(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML = --currIndex;
+			this.MultiPoisCurrentIcon = this.MultiPoisCurrentIcon.prev;
+		}
+	},
+	
+	multiPoiGoNext: function(icon, size) { 
+		if(this.MultiPoisCurrentIcon.next == null) return;
+		else {
+			$(this.MultiPoisCurrentPoi.userContentDiv).empty();
+			$(this.MultiPoisCurrentPoi.userContentDiv).appendChild($(this.MultiPoisCurrentIcon.next.id).clone());
+			var currIndex = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
+			$(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML = ++currIndex;
+			this.MultiPoisCurrentIcon = this.MultiPoisCurrentIcon.next;
 		}
 	}
 });
