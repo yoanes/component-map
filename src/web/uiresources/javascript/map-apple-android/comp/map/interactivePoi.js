@@ -8,6 +8,8 @@ MobEMS.implement({
 	MultiPoisCurrentIcon: null,
 	MultiPoisCurrentPoi: null,
 	
+	CurrentlyPopping: null,
+	
 	PopupHeight: {'MINI': 110, 'SMALL': 210, 'LARGE': 246},
 	
 	addPoi: function(map, marker, icon) {
@@ -165,6 +167,8 @@ MobEMS.implement({
 		icon.id = id;
 		icon.marker = marker; 
 		icon.popup = $(id);
+		/* store ref to the map instance */
+		icon.mapNth = this.nth;
 		
 		/* if no dock is specified */
 		if(this.Dock == null) {
@@ -178,6 +182,15 @@ MobEMS.implement({
 			icon.div.addEventListener('touchend', function(e) {
 				/* stop the event to propagate */
 				e.stopPropagation();
+				
+				(function(icon){
+					/* close the currently popping poi if possible */
+					if(this.CurrentlyPopping != null)
+						this.CurrentlyPopping.hidePopup();
+					/* replace with the latest or newest */
+					this.CurrentlyPopping = icon;
+				}.bind(MAP.instances[this.mapNth]))(this);
+				
 				this.popupDiv = this.showPopup(this.popup, true, popupSize);
 				/* create event to close popup */ 
 				this.popupDiv.addEventListener('touchend', function(){
@@ -265,6 +278,7 @@ MobEMS.implement({
 		if($('mapDockBox')) {
 			$('mapDockBox').style.position = 'relative';
 			$('mapDockBox').appendChild(this.Dock.draw());
+			$('EMS.Control.DockedInfoBox_261').style.position = 'relative';
 		}
 		else map.div.appendChild(this.Dock.draw()); 
 	},
@@ -327,7 +341,7 @@ MobEMS.implement({
 		currentShowing.setAttribute('id', icon.paginationIndexSpan);
 		currentShowing.innerHTML = "1";
 		
-		showing.appendChild(currentShowing)
+		showing.appendChild(currentShowing);
 		showing.appendChild(document.createTextNode(" of " + icon.multiPoisLength));
 		
 		var pagination = new Element('div');
