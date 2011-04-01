@@ -5,9 +5,11 @@ MobEMS.implement({
 	/* holds the detected pois with the same lat lon */
 	MultiPois: new Array(),
 
+	/* multi pois pagination vars */
 	MultiPoisCurrentIcon: null,
 	MultiPoisCurrentPoi: null,
 	
+	/* holds the interactive icon that's currently popping */
 	CurrentlyPopping: null,
 	
 	PopupHeight: {'MINI': 110, 'SMALL': 210, 'LARGE': 246},
@@ -39,8 +41,19 @@ MobEMS.implement({
 		/* for TEXT InteractiveIcon type set text */
 		else iconText = icon.text;
 			
+		if(icon.type == 'MULTI-TEXT') {
+			icon.type = 'TEXT';
+			/* parse in the marker because it is the only obj with coordinate as this poin of time
+			 * later on the interactiveIcon will be extended with the coordinates property from the marker
+			 * 
+			 * at this point we just want to know the total node that under this multipoi
+			 */
+			var iconTitle = this.getMultiPoiLength(this.isPoiInArray(marker, this.MultiPois)) + ' Locations';
+		}
+		else iconTitle = icon.title;
+		
 		var interactiveIcon = new EMS.InteractiveIcon(map,{
-			markerStyle:EMS.InteractiveMarkerStyles[icon.type], text:iconText, title:icon.title
+			markerStyle:EMS.InteractiveMarkerStyles[icon.type], text:iconText, title:iconTitle
 		}); 
 		var interactiveMarker = new OpenLayers.Marker(this.formatLatLon(marker.coordinates), interactiveIcon);
 		
@@ -80,6 +93,17 @@ MobEMS.implement({
 		}
 	},
 	
+	/* this method will filter out the iconlist down to the unique poi
+	 * unique as in each poi will have a unique lat lon
+	 * 
+	 * those pois identified with duplicate lat lon will be shelved in the 
+	 * MultiPois array. Note that at this point all the pois are not of Interactive Poi type.
+	 * They are just plainjane json.
+	 * 
+	 * these unique pois will later on be converted into interactive pois while
+	 * those that got shelved into MultiPois will be stay as it is (not converted to 
+	 * interactive poi at all)
+	 */
 	detectUniquePoi: function(iconList) {
 		/* place holder for pois with unique coordinates */
 		var pois = new Array();
@@ -96,14 +120,18 @@ MobEMS.implement({
 			 * 
 			 * A Multi poi default to SLIM_MULTI unless one of them is a THICK poi then
 			 * it will morph into MULTI
+			 * If any of them is of TEXT then we set it temporarily into MULTI-TEXT which later 
+			 * on should be converted to TEXT type.
 			 */
 			var poisIndex = this.isPoiInArray(iconList[i], pois);
 			if(poisIndex !== false) {
 				if(iconList[i].type == 'THICK') 
 					pois[poisIndex].type = 'MULTI';
+				else if(iconList[i].type == 'TEXT')
+					pois[poisIndex].type = 'MULTI-TEXT';
 				else {
 					/* only updates if the type is not multi yet */
-					if(pois[poisIndex].type != 'MULTI')
+					if(pois[poisIndex].type != 'MULTI' || pois[poisIndex].type != 'MULTI-TEXT')
 						pois[poisIndex].type = 'SLIM_MULTI';
 				}
 				
@@ -167,15 +195,20 @@ MobEMS.implement({
 		icon.id = id;
 		icon.marker = marker; 
 		icon.popup = $(id);
-		/* store ref to the map instance */
+		/* store ref to the map instance and if it is a multi interactive poi*/
 		icon.mapNth = this.nth;
+		icon.isMulti = false;
 		
 		/* if no dock is specified */
 		if(this.Dock == null) {
 			var popupSize = this.getSizeForPopup(icon); 
 			if(popupSize == EMS.InteractiveMarkerPopupSizes.SMALL_WITH_HEADER ||
-				popupSize == EMS.InteractiveMarkerPopupSizes.LARGE_WITH_HEADER) {
-				icon.popup = this.buildMultiPoiPopup(icon, popupSize, true);
+				popupSize == EMS.InteractiveMarkerPopupSizes.LARGE_WITH_HEADER || 
+				popupSize == "MINI_MULTI") {
+				
+				if(popupSize == "MINI_MULTI") popupSize = EMS.InteractiveMarkerPopupSizes.MINI;
+				icon.popup = this.buildMultiPoiPopup(icon);
+				icon.isMulti = true;
 			}
 			
 			/* create event to open popup */
@@ -183,19 +216,38 @@ MobEMS.implement({
 				/* stop the event to propagate */
 				e.stopPropagation();
 				
+				/* initiate the MultiPoisCurrentPoi and MultiPoisCurrentIcon
+				 * hide other popup if it is showing
+				 */
 				(function(icon){
 					/* close the currently popping poi if possible */
-					if(this.CurrentlyPopping != null)
+					if(this.CurrentlyPopping != null) 
 						this.CurrentlyPopping.hidePopup();
+					
 					/* replace with the latest or newest */
 					this.CurrentlyPopping = icon;
+					
+					if(icon.isMulti) {
+						/* set the pointer for pagination on multi poi */
+						this.MultiPoisCurrentPoi = icon;
+						this.MultiPoisCurrentIcon = this.MultiPois[icon.multiPoisIndex];
+					}
 				}.bind(MAP.instances[this.mapNth]))(this);
 				
 				this.popupDiv = this.showPopup(this.popup, true, popupSize);
+				
+				(function() {
+					/* re align the current icon if it is a multi poi */
+					if(this.CurrentlyPopping.isMulti){
+						var idx = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
+						this.MultiPoisCurrentIcon = this.getMultiPoiAt(this.MultiPoisCurrentPoi.multiPoisIndex, idx-1);
+					}
+				}.bind(MAP.instances[this.mapNth]))(this);
+				
 				/* create event to close popup */ 
 				this.popupDiv.addEventListener('touchend', function(){
 					this.hidePopup();
-				}.bind(this), false);
+				}.bind(this), false)
 			}.bind(icon), false);
 		} 
 		
@@ -204,7 +256,7 @@ MobEMS.implement({
 				this.loadDockWithContentFromIndex(this.getPopupIndexById(icon.id));
 			}.bind(this), false);
 		}
-	}, 
+	},
 
 	getPopupHeightWhenWidthIs202: function(popupDiv) {
 		var tempWidth = popupDiv.style.width;
@@ -233,7 +285,9 @@ MobEMS.implement({
 		
 		else {
 			popupHeight = this.getLargestPopup(this.MultiPois[isAMultiPoi]);
-			if(popupHeight <= this.PopupHeight.SMALL)
+			if(popupHeight <= this.PopupHeight.MINI)
+				return "MINI_MULTI";
+			else if(popupHeight <= this.PopupHeight.SMALL)
 				return EMS.InteractiveMarkerPopupSizes.SMALL_WITH_HEADER;
 			else return EMS.InteractiveMarkerPopupSizes.LARGE_WITH_HEADER;
 		}
@@ -303,19 +357,14 @@ MobEMS.implement({
 		}
 	},
 	
-	buildMultiPoiPagination: function(icon, popupSize) {
+	buildMultiPoiPagination: function(icon) {
 		/* generate the next DOM */
 		var next = new Element('div');
 		next.setAttribute('class', 'poiPopupNext');
 		next.innerHTML = "Next";
 		next.addEventListener('touchend', function(e) {
-			/* set the current icon/poi for pagination */
-			if(this.MultiPoisCurrentPoi == null || this.MultiPoisCurrentPoi.multiPoisIndex != icon.multiPoisIndex) {
-				this.MultiPoisCurrentIcon = icon.multiPoisIcon;
-				this.MultiPoisCurrentPoi = icon;
-			}
 			e.stopPropagation();
-			this.multiPoiGoNext(icon, popupSize);
+			this.multiPoiGoNext(icon);
 		}.bind(this), false);
 		
 		/* generate the prev DOM */
@@ -323,13 +372,8 @@ MobEMS.implement({
 		prev.setAttribute('class', 'poiPopupPrev');
 		prev.innerHTML = "Prev";
 		prev.addEventListener('touchend', function(e) {
-			/* set the current icon/poi for pagination */
-			if(this.MultiPoisCurrentPoi == null || this.MultiPoisCurrentPoi.multiPoisIndex != icon.multiPoisIndex) {
-				this.MultiPoisCurrentIcon = icon.multiPoisIcon;
-				this.MultiPoisCurrentPoi = icon;
-			}
 			e.stopPropagation();
-			this.multiPoiGoPrev(icon, popupSize);
+			this.multiPoiGoPrev(icon);
 		}.bind(this), false);
 		
 		/* generate the pagination text DOM */
@@ -358,7 +402,7 @@ MobEMS.implement({
 		return pagination;
 	},
 	
-	buildMultiPoiPopup: function(icon, popupSize, initialPopup) {
+	buildMultiPoiPopup: function(icon) {
 		/* generate userContentDiv id and pagination id and next id and prev id */
 		icon.userContentDiv = icon.id + "-userContent";
 		icon.paginationDiv = icon.id + "-pagination";
@@ -395,7 +439,17 @@ MobEMS.implement({
 		return i;
 	},
 	
-	multiPoiGoPrev: function(icon, size) {		
+	getMultiPoiAt: function(idx, pidx) {
+		var i = 0;
+		var current = this.MultiPois[idx];
+		while(i != pidx) {
+			i++;
+			current = current.next;
+		}
+		return current;
+	},
+	
+	multiPoiGoPrev: function() {		
 		if(this.MultiPoisCurrentIcon.prev == null) return;
 		else {
 			$(this.MultiPoisCurrentPoi.userContentDiv).empty();
@@ -406,7 +460,7 @@ MobEMS.implement({
 		}
 	},
 	
-	multiPoiGoNext: function(icon, size) { 
+	multiPoiGoNext: function() { 
 		if(this.MultiPoisCurrentIcon.next == null) return;
 		else {
 			$(this.MultiPoisCurrentPoi.userContentDiv).empty();
