@@ -89,7 +89,7 @@ MobEMS.implement({
 		return new OpenLayers.Pixel(userPos.x - centerPos.x, userPos.y - centerPos.y);
 	},
 	
-	customInit: function(map) {
+	createDeviceLocationInstance: function(map) {
 		if(typeof(DeviceLocation) != 'undefined') {
 			this.LocationPoi = this.createLocationPoi(map);
 			MAP.DEVICELOCATION.instance = new DeviceLocation(null, MAP.DEVICELOCATION.AutoLocate);
