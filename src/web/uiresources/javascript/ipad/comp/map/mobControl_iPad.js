@@ -2,11 +2,15 @@ EMS.Control.MobileDefaults = OpenLayers.Class(EMS.Control.MobileDefaultsPrototyp
 	/* override the device name */
 	Device: "Apple-iPad",
 	
+	/* no need to take up the scale because when this clause is executed there will be no scaling */
 	simulatePan: function(dX, dY) {
 		/* simulate the panning */
-		$(this.map.viewPortDiv).setStyle('margin-left', $(this.map.viewPortDiv).getStyle('margin-left').toInt() - dX + "px");
-		$(this.map.viewPortDiv).setStyle('margin-top',  $(this.map.viewPortDiv).getStyle('margin-top').toInt() - dY + "px");
+	    var t3dp = this.getTranslate3dProperties();
+	    var tScale = this.getScale3dCSS();
 		
+	/*	this.map.viewPortDiv.style['-webkit-transition'] = '-webkit-transform 10ms ease-out 0'; */
+        this.map.viewPortDiv.style['-webkit-transform'] = tScale + ' translate3d(' + (t3dp.x-dX) + 'px, ' + (t3dp.y-dY) + 'px, 0)';
+	    
 		/* accumulate the dx and dy*/
 		this.dX += dX;
 		this.dY += dY;
@@ -25,12 +29,14 @@ EMS.Control.MobileDefaults = OpenLayers.Class(EMS.Control.MobileDefaultsPrototyp
 		this.dX = this.dY = 0;
 			
 		/* revert back after panning during zoom  */
-		$(this.map.viewPortDiv).setStyle('margin-left', "0px");
-		$(this.map.viewPortDiv).setStyle('margin-top', "0px");
+		this.map.viewPortDiv.style['-webkit-transform'] = '';
 	},
 	
 	setupAnimation: function() {  
-		this.map.layerContainerDiv.style['-webkit-transition'] = '-webkit-transform 10ms ease-out 0';
+		/* 2 lines below is to avoid the flickering in the screen */
+		this.map.viewPortDiv.style['-webkit-perspective'] = 1000;
+		this.map.viewPortDiv.style['-webkit-backface-visibility'] = 'hidden';
+
 	}
 });
 
