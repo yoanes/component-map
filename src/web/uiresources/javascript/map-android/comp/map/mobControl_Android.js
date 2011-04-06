@@ -15,6 +15,18 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.active = true;
 	},
 	
+	/* return the x and y properties from the transflate3d css style */
+	getTranslate3dProperties: function() {
+		var transform = this.map.viewPortDiv.style.webkitTransform;
+		var t3dX = parseInt(transform.replace(/translate3d./,'').replace(/,.*/,''));
+		var t3dY = parseInt(transform.replace(/translate3d.*?,/,'').replace(/,0.*/,''));
+		
+		if (t3dX == null || isNaN(t3dX)) t3dX = 0;
+        if (t3dY == null || isNaN(t3dY)) t3dY = 0;
+        
+        return {x: t3dX, y: t3dY};
+	},
+	
 	execTouchStart: function(e) {
 		e.preventDefault();
 		var node = e.touches[0];
@@ -41,9 +53,12 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		this.X = movedX;
 		this.Y = movedY;
 
-		$(this.map.viewPortDiv).setStyle('margin-left', $(this.map.viewPortDiv).getStyle('margin-left').toInt() - diffX + "px");
-		$(this.map.viewPortDiv).setStyle('margin-top',  $(this.map.viewPortDiv).getStyle('margin-top').toInt() - diffY + "px");
+		/* use translate 3d to simulate the pan */
 		
+		/* simulate the panning */
+	    var t3dp = this.getTranslate3dProperties();
+        this.map.viewPortDiv.style['-webkit-transform'] = 'translate3d(' + (t3dp.x-diffX) + 'px, ' + (t3dp.y-diffY) + 'px, 0)';
+        
 		this.dX += diffX;
 		this.dY += diffY;
 		
@@ -54,8 +69,9 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		e.preventDefault();
 		this.map.pan(this.dX, this.dY, {animate: false});
 		
-		$(this.map.viewPortDiv).setStyle('margin-left', "0px");
-		$(this.map.viewPortDiv).setStyle('margin-top',  "0px");
+		/* reset */
+		this.map.viewPortDiv.style['-webkit-transform'] = '';
+		this.dX = this.dY = 0;
 		
 		return false;
 	},
@@ -65,9 +81,11 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	 */
 	
 	draw: function() { 
-		this.map.div.ontouchstart = this.execTouchStart.bind(this);
-		this.map.div.ontouchmove = this.execTouchMove.bind(this);
-		this.map.div.ontouchend = this.execTouchEnd.bind(this); 
+		/* attach the event listener properly */
+		this.map.div.addEventListener('touchstart', function(e) { this.execTouchStart(e); }.bind(this), false);
+		this.map.div.addEventListener('touchmove', function(e) { this.execTouchMove(e); }.bind(this), false);
+		this.map.div.addEventListener('touchend', function(e) { this.execTouchEnd(e); }.bind(this), false);
+
 	},
 	
 	/**	
