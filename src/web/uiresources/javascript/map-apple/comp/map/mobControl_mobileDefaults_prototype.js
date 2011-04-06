@@ -53,8 +53,38 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	
 	setupAnimation: function() {},
 	
+	/* return the x and y properties from the transflate3d css style */
+	getTranslate3dProperties: function() {
+		var transform = this.map.viewPortDiv.style.webkitTransform;
+		var t3dX = parseInt(transform.replace(/translate3d./,'').replace(/,.*/,''));
+		var t3dY = parseInt(transform.replace(/translate3d.*?,/,'').replace(/,0.*/,''));
+		
+		if (t3dX == null || isNaN(t3dX)) t3dX = 0;
+        if (t3dY == null || isNaN(t3dY)) t3dY = 0;
+        
+        return {x: t3dX, y: t3dY};
+	},
+	
+	/* return the css style string for translate3d */
+	getTranslate3dCSS: function() {
+		var transform = this.map.viewPortDiv.style.webkitTransform;
+		var tTranslate = transform.match(/translate3d.*?\)/);
+		return tTranslate == null ? "" : tTranslate;
+	},
+	
+	/* return the css style string for scale3d */
+	getScale3dCSS: function() {
+		var transform = this.map.viewPortDiv.style.webkitTransform;
+		var tScale = transform.match(/scale3d.*?\)/);
+		return tScale == null? "" : tScale;
+	},
+	
+	getCalculatableScale: function() {
+		return this.scale == null ? 1 : this.scale;
+	},
+	
 	/* Util method. Returns the center point of multi touches with respect to the map viewport */
-	getCenterTouch: function(n1, n2, f) {
+	getCenterTouch: function(n1, n2, f) { 
 		var cX = (n1.pageX + n2.pageX) / 2 - $(this.map.div.parentNode).offsetLeft;
 		var cY = (n1.pageY + n2.pageY) / 2 - $(this.map.div.parentNode).offsetTop;
 		
@@ -156,10 +186,10 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 				
 				this.cX = centerTouch2.x;
 				this.cY = centerTouch2.y;
-				
+
 				/* accumulate the diff */
-				this.dX += diffX;
-				this.dY += diffY;
+                this.dX += diffX;
+                this.dY += diffY;
 			}
 			
 			else { 
@@ -169,13 +199,17 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 				 * this case should handle the case where (this.zooming && e.touches.length == 2). 
 				 * this case the panning factor is based on the first node changes. Not the center touch.
 				 * */
-				this.dX += diffX / this.scale;
-				this.dY += diffY / this.scale;
+				 
+				/* accumulate the diff */
+				this.dX += diffX;
+	            this.dY += diffY;
 			}
 			
+			/* grab the transform properties */
+			var t3dp = this.getTranslate3dProperties();
+			var tScale = this.getScale3dCSS();
 			/* simulate the panning while zooming */
-			$(this.map.viewPortDiv).setStyle('margin-left', $(this.map.viewPortDiv).getStyle('margin-left').toInt() - diffX + "px");
-			$(this.map.viewPortDiv).setStyle('margin-top',  $(this.map.viewPortDiv).getStyle('margin-top').toInt() - diffY + "px");
+			this.map.viewPortDiv.style['-webkit-transform'] = 'translate3d(' + Math.floor(t3dp.x-diffX) + 'px, ' + Math.floor(t3dp.y-diffY) + 'px, 0) ' + tScale;
 		}
 	},
 	
@@ -223,10 +257,8 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 				this.dX = this.dY = 0;
 				
 				/* revert back after panning during zoom  */
-				$(this.map.viewPortDiv).setStyle('margin-left', "0px");
-				$(this.map.viewPortDiv).setStyle('margin-top', "0px");
-
-				this.map.viewPortDiv.style['-webkit-transform'] = 'scale(1)';
+				this.map.viewPortDiv.style['-webkit-transform'] = '';
+				this.map.viewPortDiv.style['-webkit-transform-origin'] = '';
 				
 				this.scale = null;
 				
@@ -265,10 +297,14 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 			this.lastScale = e.scale;
 		}
 		else this.scale = e.scale;
-		
-		this.map.viewPortDiv.style['-webkit-transform'] = 'scale(' + this.scale + ')';	
-		this.map.viewPortDiv.style['-webkit-transform-origin-x'] = this.zX + '%';	
-		this.map.viewPortDiv.style['-webkit-transform-origin-y'] = this.zY + '%';
+
+		var t3dp = this.getTranslate3dProperties();
+		/* set the origin for transformation here */
+		this.map.viewPortDiv.style['-webkit-transform-origin-x'] = this.zX + '%';
+        this.map.viewPortDiv.style['-webkit-transform-origin-y'] = this.zY + '%';
+
+		var tTranslate = this.getTranslate3dCSS();
+		this.map.viewPortDiv.style['-webkit-transform'] = tTranslate + ' scale3d(' + this.scale + ', ' + this.scale + ', 1)';
 	},
 	
 	/* finalise the scale factor. Don't zoom in or out at this stage as the users are likely
@@ -316,7 +352,8 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 
 		/** register the zoomend event as well. Does the reverting back to original scale */
 		this.map.events.register('zoomend', this, function() { 
-			this.map.viewPortDiv.style['-webkit-transform'] = 'scale(1)'; 
+			this.map.viewPortDiv.style['-webkit-transform'] = '';
+			this.map.viewPortDiv.style['-webkit-transform-origin'] = '';
 		});
 	},
 	
