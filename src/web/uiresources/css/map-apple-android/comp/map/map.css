@@ -1,0 +1,616 @@
+/** begin location marker stuff */
+.location-marker {
+    width: 100px;
+    height: 100px;
+
+    position: absolute;
+    z-index:950;
+}
+.location-marker .background {
+    width: 100%;
+    height: 100%;
+}
+/** note massive border-radius here. should be as large as you
+   intend the marker to ever grow so that it renders as a circle */
+.location-marker .stroke {
+    width: 100%;
+    height: 100%;
+    position:absolute;
+
+    opacity: 0.0;
+    border: 2px solid #3DBFEF;
+    border-radius: 1000px;
+    -webkit-border-radius: 8px;
+
+    padding: 0;
+}
+.location-marker .gradient {
+    width: 100%;
+    height: 100%;
+    position:absolute;
+
+    opacity: 0.7;
+    background: -webkit-gradient(radial, 50 50, 0, 50 50, 50, from(rgba(255,255,255,0.0)), to(rgba(255,255,255,0.0)),
+    color-stop(0.35, rgba(255,255,255,0)),
+    color-stop(0.39, rgba(240,248,248,0.12)),
+    color-stop(0.45, rgba(223,240,241,0.32)),
+    color-stop(0.51, rgba(213,235,236,0.53)),
+    color-stop(0.6, rgba(210,234,235,0.8)),
+    color-stop(0.9, rgba(112,200,241,0.7)),
+    color-stop(1, rgba(208,233,240,0.4))
+    );
+
+    border: 2px solid #3DBFEF;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+
+    padding: 0;
+}
+.location-marker img {
+    position: absolute;
+    top: 41px;
+    left: 42px;
+}
+/** end location marker stuff */
+
+
+
+
+
+
+/** begin ------ named pois and markers */
+/** properties for both pois and markers **/
+.box {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 8px;
+
+	padding:1px 1px;
+
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0, rgb(3,40,73)),
+	    color-stop(1, rgb(46,87,123))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(3,40,73) 0%,
+	    rgb(46,87,123) 100%
+	);
+
+	-webkit-box-shadow: 0 3px 5px #555555;
+	-moz-box-shadow: 0 3px 5px #555555;
+}
+
+.box .inside {
+	height: 100%;
+	width: 100%;
+
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 8px;
+
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0.28, rgb(0,102,153)),
+	    color-stop(0.8, rgb(0,153,204)),
+	    color-stop(1, rgb(51,153,255))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(0,102,153) 28%,
+	    rgb(0,153,204) 80%,
+	    rgb(51,153,255) 100%
+	);
+
+	-webkit-box-shadow: inset 0 1px 0px #baddfb;
+	-moz-box-shadow: inset 0 1px 0px #baddfb;
+}
+.box .inside .popup-contents {
+	padding: 5px 10px 0px 10px;
+}
+.box .inside .text {
+	color: #FFFFFF;
+	font-family: Helvetica, san-serif;
+	font-size: 14px;
+
+	padding: 11px 10px 0px 10px;
+
+	text-shadow: 0 -1px 1px #141414;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.box .inside .title {
+	color: #FFFFFF;
+	font-family: Helvetica, san-serif;
+	font-weight: bold;
+	font-size: 13px;
+
+	padding: 4px 10px 0px 10px;
+
+	text-shadow: 0 -1px 1px #141414;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.box .inside .text.with-title {
+	font-size: 13px;
+	padding: 0px 10px 0px 10px;
+	margin-top:-2px;
+}
+
+.triangle-box {
+	    position:absolute;
+        width: 24px;
+        height: 24px;
+        clip: rect( 13px 40px 40px -10px);
+}
+.box a {
+    color: white;
+}
+
+
+.poi.popup {
+    position:absolute;
+}
+.box .popup {
+    height: 80px;
+    width: 250px;
+}
+
+/** disclosure indicator - by default this is blank but brands can provide their own
+  disclosure indicator by using css styling to add a background image and width/height here, then
+  update the width of the '.box .inside' class to suit. */
+.box .disclosure {
+    display:none;
+}
+
+/** poi related properties **/
+.poi {
+	position: absolute;
+}
+.poi .box {
+	width: 200px;
+	height: 40px;
+}
+
+.poi .triangle-box {
+	bottom: -10px;
+	left: 90px;
+}
+.poi .triangle-cover {
+        width: 22px;
+        height: 2px;
+        position: absolute;
+        bottom: 1px;
+        left: 35px;
+        background-color: rgb(0,102,153);
+}
+
+.popup .box {
+	width: 200px;
+	height: 200px;
+}
+.popup .box.small-with-head,
+.popup .box.large {
+	width: 200px;
+	height: 234px;
+}
+.popup .box.large-with-head {
+	width: 200px;
+	height: 268px;
+}
+.popup .box.mini {
+	width: 200px;
+	height: 100px;
+}
+
+
+/** marker properties **/
+.marker {
+	margin: 20px;
+	position: absolute;
+    width: 50px;
+    height: 36px;
+}
+
+.marker .box {
+	width: 24px;
+	height: 26px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+.marker .clip {
+	clip: rect( auto auto 21px auto);
+	position: absolute;
+    width: 28px;
+    height: 35px;
+}
+
+.marker .box .inside {
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0.28, rgb(0,102,153)),
+	    color-stop(0.8, rgb(0,153,204)),
+	    color-stop(1, rgb(51,153,255))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(0,102,153) 28%,
+	    rgb(0,153,204) 80%,
+	    rgb(51,153,255) 100%
+	);
+}
+.marker .box .inside .text {
+    width: 100%;
+    padding:3px 0 0 0;
+    text-align:center;
+    font-size: 14px;
+    font-weight: bold;
+}
+.marker .box .inside .text.point {
+    font-size: 55px;
+    font-family: serif;
+    position: relative;
+    top: -36px;
+    left: 0px;
+    padding: 0;
+}
+.marker .triangle-box {
+	top: 8px;
+	left: 2px;
+    clip: rect( 13px 24px 40px -2px);
+    -moz-transform: scale(1, 0.75);
+    -webkit-transform: scale(1, 0.75);
+}
+.triangle-box .inside  {
+        width: 20px;
+		height: 20px;
+        position: absolute;
+        background-color: rgb(0,102,153);
+        border: 1px solid rgb(7,44,48);
+        -webkit-transform:rotate(45deg);
+        -moz-transform:rotate(45deg);
+		-moz-box-shadow: 3px 3px 5px #555555;
+		-webkit-box-shadow: 3px 3px 5px #555555;
+}
+.marker .triangle-box .inside {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+    border: 1px solid rgb(3,40,73);
+}
+
+.marker-shadow {
+    position: absolute;
+    top: 6px;
+    left: 19px;
+    opacity: 0.4;
+}
+/** note the magic here: border radius goes AFTER -webkit-border-radius and uses the new more specific options to
+     make the corners look slightly nicer on the newer versions of webkit. */
+.marker-shadow .main-shadow {
+    background: #000000;
+    width: 24px;
+    height: 18px;
+
+    -webkit-border-radius: 5px;
+    border-radius: 5px 5px 8px 5px / 5px 5px 4px 5px;
+    -moz-border-radius: 5px;
+
+    -moz-transform: scale(1.5,0.95) skew(-30deg,0deg) translate(-3px,1px);
+    -webkit-transform: scale(1.5,0.95) skew(-30deg,0deg) translate(-3px,1px);
+}
+.marker-shadow .triangle-shadow {
+    border-color: #000000 transparent transparent transparent;
+    border-style:solid;
+    border-width:8px 22px 8px 2px;
+    width:0;
+    height:0;
+    position:absolute;
+    top:16px;
+    left: -7px;
+}
+
+/** mini markers **/
+.marker.mini .marker-shadow {
+	-webkit-transform:  translate(-9px, 2px) scale(0.7,1.0);
+}
+.marker.mini .box{
+	width: 18px;
+	height: 22px;
+}
+/** note again the magic here where we set -webkit-border-radius first for old devices, then override with the
+     more specific border-radius options for the newer editions which support it */
+.marker.mini .box,
+.marker.mini .box .inside{
+	-webkit-border-radius: 4px;
+	border-radius: 10px 10px 2px 2px / 4px 4px 6px 5px;
+}
+.marker.mini .triangle-box {
+	-webkit-transform: scale(0.75, 0.85) translate(-4.5px,0px);
+}
+.marker.mini .triangle-box .inside {
+	border-radius: 0px 5px 0px 5px;
+}
+.marker.mini .box .inside .text {
+    font-size: 13px;
+}
+.marker.mini .box .inside .text.point {
+    font-size: 45px;
+    font-family: serif;
+    position: relative;
+    top: -27px;
+    left: 0px;
+    padding: 0;
+}
+
+
+/** multi pois */
+.multi .marker-shadow {
+    opacity: 0.6;
+}
+.multi-component.back {
+	-webkit-transform: translate(4px,-4px);
+}
+.multi-component.middle {
+	-webkit-transform: translate(2px,-2px);
+}
+.marker.mini.multi .marker-shadow {
+	-webkit-transform: translate(-3px,1px);
+}
+.marker.mini.multi .box .inside .text.point {
+	font-size:18px;
+	top: -4px;
+	left: 1px;
+	text-align:center;
+	width:16px;
+}
+.marker.multi .box .inside .text.point {
+	font-size:22px;
+	top: -6px;
+	left: 0px;
+	text-align: middle;
+}
+.marker.multi .marker-shadow {
+	top: 7px;
+	left: 18px;
+}
+
+
+/** end ------ named pois and markers */
+
+/** start ------ dock */
+.dock {
+    width: 100%;
+    position:absolute;
+    bottom:0px;
+}
+.dock .inside {
+    margin: 10px 10px 4px 10px;
+    height: 50px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border: 1px solid #d9d9d9;
+    background: #FFFFFF;
+
+    position:relative;
+    font-family: Arial, san-serif;
+}
+
+
+.dock .prev,
+.dock .next {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Arial;
+    border: 2px solid #297db3;
+    width: 32px;
+    height: 30px;
+    margin: 9px 10px;
+
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(176,209,229)),
+        color-stop(0.65, rgb(230,237,247)),
+        color-stop(1, rgb(231,241,251))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(176,209,229) 0%,
+        rgb(230,237,247) 65%,
+        rgb(231,241,251) 100%
+    );
+
+}
+.dock .prev.inactive,
+.dock .next.inactive {
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(226,226,226)),
+        color-stop(0.65, rgb(244,244,247)),
+        color-stop(1, rgb(249,249,249))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(226,226,226) 0%,
+        rgb(244,244,247) 65%,
+        rgb(249,249,249) 100%
+    );
+    border-color: #b2b2b2;
+}
+.dock .inside .prev {
+    float:left;
+}
+.dock .inside .next {
+    float:right;
+}
+.dock .content {
+    float:left;
+    margin-top: 14px;
+    font-size: 13px;
+
+    /** brands will probably want to override this based on contents and screen size */
+    width: 180px;
+    text-align: center;
+}
+.dock .prev .icon,
+.dock .next .icon {
+  border-style:solid;
+  border-width:8px 8px;
+  height:0;
+  position:relative;
+  top:7px;
+}
+.dock .prev .icon {
+  border-color: transparent #3180B3 transparent transparent;
+  right: 13px;
+}
+.dock .next .icon {
+  border-color: transparent transparent transparent #3180B3;
+  left: 13px;
+}
+.dock .prev.inactive .icon {
+  border-color: transparent #b2b2b2 transparent transparent;
+}
+.dock .next.inactive .icon {
+  border-color: transparent transparent transparent #b2b2b2;
+}
+/** end ------ dock */
+
+
+/** non-geo */
+.non-geo-marker {
+	position:absolute;
+
+	width:23px;
+	height: 23px;
+
+   border: 1px solid #004241;
+   border-radius: 12px;
+   -webkit-border-radius:12px;
+
+   margin-top: -27px;
+   margin-left: 2px;
+}
+.non-geo-marker .inside {
+	position:absolute;
+
+   border-radius: 12px;
+   -webkit-border-radius:12px;
+
+   width: 100%;
+   height: 100%;
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.3, rgb(10,91,171)),
+        color-stop(0.8, rgb(3,137,214)),
+        color-stop(1, rgb(53,155,244))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(10,91,171) 30%,
+        rgb(3,137,214) 80%,
+        rgb(53,155,244) 100%
+    );
+
+  	-webkit-box-shadow: inset 0 1px 0px #baddfb;
+	-moz-box-shadow: inset 0 1px 0px #baddfb;
+}
+.non-geo-marker .inside .text {
+	color: #FFFFFF;
+	font-family: Helvetica, san-serif;
+	font-size: 14px;
+	font-weight:bold;
+
+
+	text-align:center;
+	padding-top: 2px;
+
+	text-shadow: 0 -1px 1px #141414;
+}
+.non-geo-marker .marker-shadow {
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;
+	background:#000000;
+	opacity: 0.4;
+
+   border-radius: 15px;
+   -webkit-border-radius:15px;
+
+    -moz-transform: skew(-45deg,0deg);
+    -webkit-transform: skew(-45deg,0deg) scale(1.0, 0.8) translate(13px,3px);
+
+}
+.non-geo-marker .inside .text.point {
+    font-family: serif;
+    font-size: 54px;
+
+    position: relative;
+    top: -37px;
+    left: 1px;
+}
+
+
+.non-geo-marker.mini {
+	width:18px;
+	height:18px;
+	border-radius: 9px;
+    -webkit-border-radius: 9px;
+}
+
+.non-geo-marker.mini .inside {
+	border-radius: 9px;
+    -webkit-border-radius: 9px;
+}
+
+.non-geo-marker.mini .inside .text {
+	font-size:11px;
+    position: relative;
+	left:1px;
+}
+.non-geo-marker.mini .inside .text.point {
+    font-size: 47px;
+    font-family: serif;
+
+    top: -33px;
+    left: 0px;
+}
+
+.poiPopupNext { float: right; }
+
+.poiPopupPrev, .poiPopupShowing { float: left; }
+
+.poiPopupShowing {
+	width: 100px;
+	text-align: center; 
+}
+
+.poiPopupPagination { 
+	border-bottom: 1px solid #FFFFFF;	
+}
+
+.dock .content { width: 70%; }
