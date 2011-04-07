@@ -551,20 +551,25 @@
 }
 .non-geo-marker .marker-shadow {
 	position:absolute;
-	top:0px;
+	top:20px;
 	left:0px;
 	height:100%;
 	width:100%;
 	background:#000000;
 	opacity: 0.4;
 
-   border-radius: 15px;
-   -webkit-border-radius:15px;
+   border-radius: 12px;
+   -webkit-border-radius: 12px;
 
-    -moz-transform: skew(-45deg,0deg);
-    -webkit-transform: skew(-45deg,0deg) scale(1.0, 0.8) translate(13px,3px);
-
+    -moz-transform: scale(1.0,0.25);
+    -webkit-transform: scale(1.0,0.25);
 }
+
+.non-geo-marker.mini .marker-shadow {
+	border-radius: 9px;
+   -webkit-border-radius: 9px;
+}
+
 .non-geo-marker .inside .text.point {
     font-family: serif;
     font-size: 54px;
@@ -613,4 +618,4 @@
 	border-bottom: 1px solid #FFFFFF;	
 }
 
-.dock .content { width: 70%; }
+.dock .content { width: 55% !important; }
