@@ -31,6 +31,19 @@ public abstract class AbstractMapAction extends BusinessAction implements
 
     private MapDelegate mapDelegate;
 
+    /* internal flag to set whether to use dock for popup or not 
+     * this is for showcase purpose only. 
+     * */
+    private boolean docked;
+    
+    public void setDocked(final boolean docked) {
+    	this.docked = docked;
+    }
+    
+    public boolean isDocked() {
+    	return docked;
+    }
+    
     /**
      * Returns either a standard success result name or an ajax success result name.
      *
