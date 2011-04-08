@@ -70,11 +70,15 @@ var MobEMS = new Class({
 								var EMSLatLon = new EMS.LonLat(mapOptions.longitude, mapOptions.latitude);
 								this.Map.setCenter(EMSLatLon, mapOptions.zoom);
 							}
+							
+							/* add dock for popup if specified */
+							if($defined(mapOptions.dock))
+								this.addDock(map, mapOptions.dock);
 						}
 						
 						/* parse the poiOption for initial display */
 						if($defined(poiOptions)) {
-							this.addPois(poiOptions);
+							this.addPois(map, poiOptions);
 						}
 						
 						/* parse the directionOptions for initial display */ 
@@ -84,6 +88,8 @@ var MobEMS = new Class({
 								this.routeHistory.push(this.routeAddress(directionOptions.wayPoints[i]));
 							this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
 						}
+						
+						this.createDeviceLocationInstance(map);
 					}.bind(this)
 				});		
 			}
@@ -172,41 +178,17 @@ var MobEMS = new Class({
 		);
 	},
 	
-	formatPopupText: function(aPoiMarker) {
-		var infoString = "<b>" + aPoiMarker.name + "</b><br/><i>" + aPoiMarker.description + "</i>";
-		return infoString;
-	},
-	
-	addPopup: function(marker, text) {
-		/* 
-		 * clear previous popup. Seems to quicken the switching between popup.
-		 * leaving it to EMS to clear up slows the popup down considerably.
-		 */
-		if($defined(this.Popup)) { 
-			this.Map.removePopup(this.Popup);
-			this.Popup.destroy();
-		}
-		
-		var popup = new EMS.Popup(marker.id, marker.lonlat, new OpenLayers.Size(100,50), text, marker.icon, true);
-		this.Map.addPopup(popup, true);
-		
-		this.Popup = popup;
-	},
-	
-	addPoi: function(poiMarker, poiIcon) {
+	__addPoi: function(poiMarker, poiIcon) {
 		var marker = new OpenLayers.Marker(this.formatLatLon(poiMarker.coordinates), this.createIcon(poiIcon));
 		this.Map.markersLayer.addMarker(marker);
-		
-		/* add popup when possible */
-		if($defined(poiMarker.title) || $defined(poiMarker.description)) {
-			marker.events.register("click", marker, function(e) { 
-				this.addPopup(marker, this.formatPopupText(poiMarker));
-			}.bind(this),false);
-		}
 
 		marker.display(true);
 		
 		return marker;
+	},
+	
+	addPoi: function(poiMarker, poiIcon) {
+		return this.__addPoi(poiMarker, poiIcon);
 	},
 	
 	/**
@@ -225,15 +207,12 @@ var MobEMS = new Class({
 	 * 
 	 * if no title and description given, the poi will not be clickable
 	 */
-	addPois: function(iconsList) {
+	addPois: function(map, iconsList) {
 		var resultLength = iconsList.length;
 		if(resultLength > 0){
 			for(var i = 0; i < resultLength; i++) {
 				/* construct the marker and icon */
-				var newMarker = {coordinates: iconsList[i].coordinates, 
-						title: iconsList[i].title, 
-						description: iconsList[i].description
-					};
+				var newMarker = {coordinates: iconsList[i].coordinates};
 				var newIcon = {url: iconsList[i].url, 
 						width: iconsList[i].width,
 						height: iconsList[i].height,
@@ -247,10 +226,6 @@ var MobEMS = new Class({
 	
 	clearPois: function() {
 		this.Map.markersLayer.clearMarkers();
-		if($defined(this.Popup)) {
-			this.Map.removePopup(this.Popup);
-			this.Popup.destroy();
-		}
 	},
 	/** END **/
 	
@@ -295,5 +270,11 @@ var MobEMS = new Class({
 	clearMap: function() {
 		this.clearRoutes();
 		this.clearPois();
-	}
+	},
+	
+	/* placeholder for additional stuff to be initiated along with the map */
+	createDeviceLocationInstance: function() {},
+	
+	/* interface for creating dock for popup */
+	addDock: function() {}
 });
