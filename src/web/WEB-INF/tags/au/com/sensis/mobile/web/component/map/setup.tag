@@ -22,6 +22,16 @@
 <%@ attribute name="iconImagesSrcPrefix" required="true"
     description="Prefix to use for advanced maps to retrieve icon images directly." %>
 
+<%@ attribute name="useMyLocation" required="false"
+	description="Flag to include the devicelocation component plus all features associated with it." %>
+
+<%@ attribute name="useDockForPopup" required="false"
+	description="Flag to determine where the popup will go. 
+		     - If it's not set then the popup will be displayed in the poi itself.
+		     - Set it to true if you want the popup to go to the dock instead of updating the poi.
+		     - Or pass a JS method to be called on content changed - your method will be called everytime a new popup is loaded
+			to the dock. Your method will receive the current index of the popup content's array as the argument." %>
+
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
 <logging:debug logger="${logger}" message="Entering setup.tag" />
 
@@ -33,6 +43,8 @@
 <c:set var="mapComponentMap" scope="request" value="${map}" />
 <c:set var="mapComponentEmsJsUrl" scope="request" value="${emsJsUrl}" />
 <c:set var="mapComponentIconImagesSrcPrefix" scope="request" value="${iconImagesSrcPrefix}" />
+<c:set var="mapComponentUseMyLocation" scope="request" value="${useMyLocation}" />
+<c:set var="mapComponentUseDockForPopup" scope="request" value="${useDockForPopup}" />
 
 <jsp:include page="/WEB-INF/view/jsp/comp/map/setup.crf" />
 
