@@ -26,17 +26,24 @@ public class GetPoisAction extends AbstractMapAction {
         = new WGS84Point(144.99653, -37.91627);
     private static final WGS84Point POSTCODE_3006_COORDINATES
     = new WGS84Point(144.9612317, -37.826947);
-
+    
+    private static final WGS84Point CENTER_OF_VICTORIAN_COACHES_COORDINATES = 
+    	new WGS84Point(144.9628322, -37.8133895);
+    
     private static final String CARS_NEAR_MELBOURNE_VIC_SEARCH_KEY = "carsNearMelbourneVic";
     private static final String BARS_NEAR_TOORAK_VIC_SEARCH_KEY = "barsNearToorakVic";
     private static final String BASSETT_SMITH_VALUERS_NEAR_140_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
         = "bassettSmithValuersNear140ChurchStBrightonVic";
     private static final String CAFE_NEAR_TULLAMARINE_VIC_SEARCH_KEY = "cafeNearTullamarineVic";
+    private static final String CAFE_NEAR_TULLAMARINE_VIC_SLIM_SEARCH_KEY = "cafeNearTullamarineVicSlim";
     private static final String BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
         = "bassettSmithValuersNear142ChurchStBrightonVic";
     private static final String RESTAURANTS_NEAR_3006_SEARCH_KEY = "restaurantsNear3006";
 
-
+    private static final String VICTORIAN_COACHES_NEAR_3000_SEARCH_KEY = "victorianCoachesNear3000";
+    
+    private static final String VICTORIAN_COACHES_NEAR_3000_TEXT_SEARCH_KEY = "victorianCoachesNear3000TEXT";
+    
     private static Logger logger = Logger.getLogger(GetPoisAction.class);
 
     private MapForm mapForm;
@@ -56,6 +63,10 @@ public class GetPoisAction extends AbstractMapAction {
                     MELBOURCE_VIC_COORDINATES, MapLayer.Map,
                     PoiResult.createWhereisMobileCarsNearbyMelbourneIconDescriptors(),
                     defaultZoom, getContext());
+            
+            /* used docked popup for this poi results */
+            setDocked(true);
+            
         } else if (BARS_NEAR_TOORAK_VIC_SEARCH_KEY.equals(getModel().getSearch())) {
             map = getMapDelegate().getInitialPoiMap(
                     TOORAK_VIC_COORDINATES, MapLayer.Map,
@@ -71,9 +82,15 @@ public class GetPoisAction extends AbstractMapAction {
                 .equals(getModel().getSearch())) {
             map = getMapDelegate().getInitialPoiMap(
                     TULLAMARINE_VIC_COORDINATES, MapLayer.Map,
-                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),
+                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(""),
                     defaultZoom, getContext());
-        } else if (BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
+        } else if (CAFE_NEAR_TULLAMARINE_VIC_SLIM_SEARCH_KEY
+                .equals(getModel().getSearch())) {
+            map = getMapDelegate().getInitialPoiMap(
+                    TULLAMARINE_VIC_COORDINATES, MapLayer.Map,
+                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors("slim"),
+                    defaultZoom, getContext());
+        }  else if (BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
                 .equals(getModel().getSearch())) {
             // This test case tests that the poi maps don't fall over if there is a single
             // result at the same (lat, lon) as the search centre.
@@ -90,7 +107,22 @@ public class GetPoisAction extends AbstractMapAction {
                     PoiResult
                         .createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),
                     defaultZoom, getContext());
-        } else {
+        } else if (VICTORIAN_COACHES_NEAR_3000_SEARCH_KEY.equals(getModel().getSearch())) {
+        	  // This test case tests multi poi
+            map = getMapDelegate().getInitialPoiMap(
+            		 POSTCODE_3006_COORDINATES, MapLayer.Map,
+                     PoiResult
+                         .createWhereisMobileVictorianCoachesMultiPoiIconDescriptors(""),
+                     defaultZoom, getContext());
+        }	else if (VICTORIAN_COACHES_NEAR_3000_TEXT_SEARCH_KEY.equals(getModel().getSearch())) {
+        	  // This test case tests multi poi
+            map = getMapDelegate().getInitialPoiMap(
+            		 POSTCODE_3006_COORDINATES, MapLayer.Map,
+                     PoiResult
+                         .createWhereisMobileVictorianCoachesMultiPoiIconDescriptors("txt"),
+                     defaultZoom, getContext());
+        }
+        else {
             throw new UnsupportedOperationException("Unsupported search key: '"
                     + getModel().getSearch() + "'");
         }
