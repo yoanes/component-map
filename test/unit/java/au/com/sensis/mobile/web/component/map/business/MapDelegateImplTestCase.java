@@ -31,6 +31,7 @@ import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
+import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 import au.com.sensis.wireless.manager.mapping.UserMapInteraction;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
@@ -252,7 +253,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-                MobilesIconType.CROSS_HAIR,
+                MobilesIconType.CROSS_HAIR, new InteractivePoiInfo("","","",""),
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -348,7 +349,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-                MobilesIconType.CROSS_HAIR,
+                MobilesIconType.CROSS_HAIR, new InteractivePoiInfo("", "", "", ""),
                 new ArrayList<IconDescriptor>(), getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -779,7 +780,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-                MobilesIconType.CROSS_HAIR,
+                MobilesIconType.CROSS_HAIR, new InteractivePoiInfo("","","",""),
                 iconDescriptors, getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -835,7 +836,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-                MobilesIconType.CROSS_HAIR,
+                MobilesIconType.CROSS_HAIR, new InteractivePoiInfo("","","",""),
                 iconDescriptors, getMockScreenDimensions()))
                     .andReturn(resolvedIcons);
 
@@ -2467,7 +2468,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         firstIconDescriptor.setIconType(IconType.FREE);
         firstIconDescriptor.setPoint(firstPoiLocation);
-
+        firstIconDescriptor.setInteractivePoiInfo(new InteractivePoiInfo("","","",""));
         return firstIconDescriptor;
     }
 
