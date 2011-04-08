@@ -285,12 +285,16 @@ MobEMS.implement({
 				 * otherwise it will bubble up/propagate to the map 
 				 * the touchmove needs to be killed to otherwise it will simulate the pan
 				 * but will never do a real pan because the touchend is silenced
+				 * prevent the gesturechange as well so you don't zoom in the popup and not zoom in the map
 				 * */ 
 				this.popupDiv.addEventListener('touchend', function(e){
 					e.stopPropagation();
 				}.bind(this), false);
 				this.popupDiv.addEventListener('touchmove', function(e){
                     e.stopPropagation();
+				}.bind(this), false);
+				this.popupDiv.addEventListener('gesturechange', function(e){
+					 e.stopPropagation();
 				}.bind(this), false);
 			}.bind(icon), false);
 			
@@ -441,7 +445,31 @@ MobEMS.implement({
 		/* generate the next DOM */
 		var next = new Element('div');
 		next.setAttribute('class', 'poiPopupNext');
-		next.innerHTML = "Next";
+		next.id = "nextContainer";
+		
+		/* create the next image for on state */
+		var nextImg = new Element('img');
+		nextImg.src = _MapImgPath_ + 'right.image';
+		nextImg.id = "next";
+
+		/* create the next image for off state */
+		var nextImgOff = new Element('img');
+		nextImgOff.src = _MapImgPath_ + 'right_off.image';
+		/* initially there will be next item */
+		nextImgOff.style.display = 'none';
+		nextImgOff.id = "nextOff";
+
+		next.style.width = '10px';
+		next.style.height = '16px';
+		next.style.padding = '6px 11px';
+		next.style.backgroundAttachment = 'scroll';
+		next.style.backgroundRepeat = 'no-repeat';
+		next.style.backgroundPosition = 'left top';
+		next.style.backgroundImage = "url('" + _MapImgPath_ + "bg.image')";
+		
+		next.appendChild(nextImg);
+		next.appendChild(nextImgOff);
+
 		next.addEventListener('touchend', function(e) {
 			e.stopPropagation();
 			this.multiPoiGoNext();
@@ -450,7 +478,31 @@ MobEMS.implement({
 		/* generate the prev DOM */
 		var prev = new Element('div');
 		prev.setAttribute('class', 'poiPopupPrev');
-		prev.innerHTML = "Prev";
+		prev.id = "prevContainer";
+		
+		/* create the prev image for on state */
+		var prevImg = new Element('img');
+		prevImg.src = _MapImgPath_ + 'left.image';
+		/* initially there won't be prev item */
+		prevImg.style.display = 'none';
+		prevImg.id = "prev";
+		
+		/* create the prev image for off state */
+		var prevImgOff = new Element('img');
+		prevImgOff.src = _MapImgPath_ + 'left_off.image';
+		prevImgOff.id = "prevOff";
+		
+		prev.style.width = '10px';
+		prev.style.height = '16px';
+		prev.style.padding = '6px 11px';
+		prev.style.backgroundAttachment = 'scroll';
+		prev.style.backgroundRepeat = 'no-repeat';
+		prev.style.backgroundPosition = 'left top';
+		prev.style.backgroundImage = "url('" + _MapImgPath_ + "bg_off.image')";
+
+		prev.appendChild(prevImg);
+		prev.appendChild(prevImgOff);
+
 		prev.addEventListener('touchend', function(e) {
 			e.stopPropagation();
 			this.multiPoiGoPrev();
@@ -555,6 +607,8 @@ MobEMS.implement({
 			var currIndex = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
 			$(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML = --currIndex;
 			this.MultiPoisCurrentIcon = this.MultiPoisCurrentIcon.prev;
+			
+			this.detectMultiPoiPrevNextState();
 		}
 	},
 	
@@ -567,6 +621,48 @@ MobEMS.implement({
 			var currIndex = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
 			$(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML = ++currIndex;
 			this.MultiPoisCurrentIcon = this.MultiPoisCurrentIcon.next;
+			
+			this.detectMultiPoiPrevNextState();
 		}
+	},
+
+	detectMultiPoiPrevNextState: function() {
+		if(this.MultiPoisCurrentIcon.next != null) this.switchNextOn();
+		else this.switchNextOff();
+		
+		if(this.MultiPoisCurrentIcon.prev != null) this.switchPrevOn();
+		else this.switchPrevOff();
+	},
+	
+	switchNextOn: function() {
+		/* hide the off element */
+		$('nextOff').style.display = 'none';
+		/* and display the on */
+		$('next').style.display = 'block';
+		$('nextContainer').style.backgroundImage = "url('" + _MapImgPath_ + "bg.image')";
+	},
+	
+	switchNextOff: function() {
+		/* hide the on element */
+		$('next').style.display = 'none';
+		/* and display the off */
+		$('nextOff').style.display = 'block';
+		$('nextContainer').style.backgroundImage = "url('" + _MapImgPath_ + "bg_off.image')";
+	},
+
+	switchPrevOn: function() {
+		/* hide the off element */
+		$('prevOff').style.display = 'none';
+		/* and display the on */
+		$('prev').style.display = 'block';
+		$('prevContainer').style.backgroundImage = "url('" + _MapImgPath_ + "bg.image')";
+	},
+	
+	switchPrevOff: function() {
+		/* hide the on element */
+		$('prev').style.display = 'none';
+		/* and display the off */
+		$('prevOff').style.display = 'block';
+		$('prevContainer').style.backgroundImage = "url('" + _MapImgPath_ + "bg_off.image')";
 	}
 });
