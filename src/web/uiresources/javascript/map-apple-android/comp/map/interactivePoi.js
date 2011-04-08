@@ -12,6 +12,8 @@ MobEMS.implement({
 	/* holds the interactive icon that's currently popping */
 	CurrentlyPopping: null,
 	
+	UserDidMapInteraction: false,
+	
 	PopupHeight: {'MINI': 110, 'SMALL': 210, 'LARGE': 246},
 	
 	addPoi: function(map, marker, icon) {
@@ -43,8 +45,9 @@ MobEMS.implement({
 			
 		if(icon.type == 'MULTI-TEXT') {
 			icon.type = 'TEXT';
-			/* parse in the marker because it is the only obj with coordinate as this poin of time
+			/* parse in the marker because it is the only obj with coordinate as this point of time
 			 * later on the interactiveIcon will be extended with the coordinates property from the marker
+			 * if it has a popup to be displayed
 			 * 
 			 * at this point we just want to know the total node that under this multipoi
 			 */
@@ -91,6 +94,27 @@ MobEMS.implement({
 				this.addPoi(map, newMarker, newIcon);
 			}
 		}
+		
+		/* attach events on map.div to detect whether user
+		 * has been interacting with the map or not
+		 * if they are interacting with the map then
+		 * ontouchend don't close the popup (if any is open)
+		 */
+		this.Map.div.addEventListener('touchmove', function(){
+			this.UserDidMapInteraction = true;
+		}.bind(this), false);
+		
+		this.Map.div.addEventListener('gesturestart', function(){
+			this.UserDidMapInteraction = true;
+		}.bind(this), false);
+		
+		this.Map.div.addEventListener('gesturechange', function(){
+			this.UserDidMapInteraction = true;
+		}.bind(this), false);
+		
+		this.Map.div.addEventListener('gestureend', function(){
+			this.UserDidMapInteraction = true;
+		}.bind(this), false);
 	},
 	
 	/* this method will filter out the iconlist down to the unique poi
@@ -107,9 +131,21 @@ MobEMS.implement({
 	detectUniquePoi: function(iconList) {
 		/* place holder for pois with unique coordinates */
 		var pois = new Array();
+		/* this array below will contains all the non interactive poi
+		 * we'll try to ignore non interactive poi because if it happens to be detected as a multi poi
+		 * (meaning there are other poi with the same latlon as this one) the generated poi won't be
+		 * interactive at all because the first poi happens to not have any popup hence you won't be able
+		 * to get to the other multipois down the chain.
+		 */
+		var nonInteractivePois = new Array();
 		
 		for(var i = 0; i < iconList.length; i++) {
-			if(pois.length == 0) {
+			if(iconList[i].type == '' || iconList[i].id == '') {
+				nonInteractivePois.push(iconList[i]);
+				continue;
+			}
+				
+			else if(pois.length == 0) {
 				pois.push(iconList[i]);
 				continue;
 			}
@@ -166,7 +202,8 @@ MobEMS.implement({
 			else pois.push(iconList[i]);
 		}
 		
-		return pois;
+		/* return all unique arrays */
+		return nonInteractivePois.concat(pois);
 	},
 	
 	/* check if there's any other poi in the neighbourhood with the same lat-lon */
@@ -227,7 +264,7 @@ MobEMS.implement({
 					/* replace with the latest or newest */
 					this.CurrentlyPopping = icon;
 					
-					if(icon.isMulti) {
+					if(icon.isMulti) { 
 						/* set the pointer for pagination on multi poi */
 						this.MultiPoisCurrentPoi = icon;
 						this.MultiPoisCurrentIcon = this.MultiPois[icon.multiPoisIndex];
@@ -237,18 +274,46 @@ MobEMS.implement({
 				this.popupDiv = this.showPopup(this.popup, true, popupSize);
 				
 				(function() {
-					/* re align the current icon if it is a multi poi */
+					/* re align the current icon's pagination if it is a multi poi */
 					if(this.CurrentlyPopping.isMulti){
 						var idx = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
 						this.MultiPoisCurrentIcon = this.getMultiPoiAt(this.MultiPoisCurrentPoi.multiPoisIndex, idx-1);
 					}
 				}.bind(MAP.instances[this.mapNth]))(this);
 				
-				/* create event to close popup */ 
-				this.popupDiv.addEventListener('touchend', function(){
-					this.hidePopup();
-				}.bind(this), false)
+				/* touching on the popup shouldn't close anything but stop the event propagation
+				 * otherwise it will bubble up/propagate to the map 
+				 * the touchmove needs to be killed to otherwise it will simulate the pan
+				 * but will never do a real pan because the touchend is silenced
+				 * */ 
+				this.popupDiv.addEventListener('touchend', function(e){
+					e.stopPropagation();
+				}.bind(this), false);
+				this.popupDiv.addEventListener('touchmove', function(e){
+                    e.stopPropagation();
+				}.bind(this), false);
 			}.bind(icon), false);
+			
+			/* create event to close popup on touch of the map */ 
+			this.Map.div.addEventListener('touchend', function(e){
+				if(!this.UserDidMapInteraction && this.CurrentlyPopping != null) {
+					/* reset the CurrentlyPopping to null
+					 * we don't need to reset the MultiPoisCurrentPoi and MultiPoisCurrentIcon because
+					 * they will be re-initiated if the multi poi is clicked/touched
+					 * and they are not being used if a poi is not a multi
+					 */
+					this.CurrentlyPopping.hidePopup();
+					this.CurrentlyPopping = null;
+				}
+				
+				/* put a delay in setting the UserDidMapInteraction to false
+				 * otherwise they will fight over each other and the flag will
+				 * be set to false in a lot earlier stage
+				 */
+				if(e.touches.length == 0) {
+                     setTimeout(function(){this.UserDidMapInteraction = false;}.bind(this),1);
+				}
+			}.bind(this), false);
 		} 
 		
 		else {
@@ -258,6 +323,10 @@ MobEMS.implement({
 		}
 	},
 
+	/* this method is to calculate the height of the popup div
+	 * when the width is 202px. This is because all popups from EMS will have 
+	 * a width of 202 with varying height
+	 */
 	getPopupHeightWhenWidthIs202: function(popupDiv) {
 		var tempWidth = popupDiv.style.width;
 		
@@ -293,6 +362,9 @@ MobEMS.implement({
 		}
 	},
 	
+	/* get the tallest popup if this icon is a multi poi
+	 * this is to determine which height of popup size the multi poi should have
+	 */
 	getLargestPopup: function(icon) {
 		var height = null;
 		
@@ -332,7 +404,14 @@ MobEMS.implement({
 		if($('mapDockBox')) {
 			$('mapDockBox').style.position = 'relative';
 			$('mapDockBox').appendChild(this.Dock.draw());
-			$('EMS.Control.DockedInfoBox_261').style.position = 'relative';
+			/* we need to target the Dock div and set the style to relative (by default it is 
+			 * absolute positioned at the bottom of the inside of the map)
+			 * We can't target the id however, because it will depend on many factors, hence the
+			 * id will be randomly generated at run time. Thus we'll target that dom
+			 * by targeting the last element appended to the #mapDockBox
+			 */
+			var mapDockBoxChildren = $('mapDockBox').getChildren();
+			$('mapDockBox').childNodes[mapDockBoxChildren.length - 1].style.position = 'relative';
 		}
 		else map.div.appendChild(this.Dock.draw()); 
 	},
@@ -357,6 +436,7 @@ MobEMS.implement({
 		}
 	},
 	
+	/* build the pagination for the multi poi popup */
 	buildMultiPoiPagination: function(icon) {
 		/* generate the next DOM */
 		var next = new Element('div');
@@ -364,7 +444,7 @@ MobEMS.implement({
 		next.innerHTML = "Next";
 		next.addEventListener('touchend', function(e) {
 			e.stopPropagation();
-			this.multiPoiGoNext(icon);
+			this.multiPoiGoNext();
 		}.bind(this), false);
 		
 		/* generate the prev DOM */
@@ -373,7 +453,7 @@ MobEMS.implement({
 		prev.innerHTML = "Prev";
 		prev.addEventListener('touchend', function(e) {
 			e.stopPropagation();
-			this.multiPoiGoPrev(icon);
+			this.multiPoiGoPrev();
 		}.bind(this), false);
 		
 		/* generate the pagination text DOM */
@@ -402,6 +482,15 @@ MobEMS.implement({
 		return pagination;
 	},
 	
+	/* when building multi poi popup we need to extend the interactive icon object with 
+	 * the following attributes:
+	 * - userContentDiv : the id of the div that contains the popup content 
+	 * - paginationDiv  : the id of the div that host the pagination of the multi pois popup
+	 * - paginationIndexSpan : the id the span element that indicates which item is currently shown
+	 * 
+	 * - multiPoisIndex : the index of the this interactive icon in the this.MultiPois array
+	 * - multiPoisLength : the total item contains in the this.MultiPois array. 
+	 */
 	buildMultiPoiPopup: function(icon) {
 		/* generate userContentDiv id and pagination id and next id and prev id */
 		icon.userContentDiv = icon.id + "-userContent";
@@ -411,7 +500,6 @@ MobEMS.implement({
 		/* get the total length and index in the multiPois array */
 		icon.multiPoisIndex = this.isPoiInArray(icon, this.MultiPois);
 		icon.multiPoisLength = this.getMultiPoiLength(icon.multiPoisIndex);
-		icon.multiPoisIcon = this.MultiPois[icon.multiPoisIndex];
 		
 		/* build the pagination */
 		var pagination = this.buildMultiPoiPagination(icon);
@@ -429,6 +517,7 @@ MobEMS.implement({
 		return popup;
 	},
 	
+	/* get this.MultiPois[idx] length */
 	getMultiPoiLength: function(idx) {
 		var i = 1;
 		var current = this.MultiPois[idx];
@@ -438,6 +527,14 @@ MobEMS.implement({
 		}
 		return i;
 	},
+	
+	/* get the icon at the this.MultiPois[idx] list on the pidx-th index 
+	 * MultiPois[idx] --> head icon         --
+	 *                        |               |
+	 *                    next icon           |
+	 *                        |               |  -> pidx
+	 *                    next icon         --
+	 */
 	
 	getMultiPoiAt: function(idx, pidx) {
 		var i = 0;
@@ -449,6 +546,7 @@ MobEMS.implement({
 		return current;
 	},
 	
+	/* methods to go the previous icon in the multipois pagination */
 	multiPoiGoPrev: function() {		
 		if(this.MultiPoisCurrentIcon.prev == null) return;
 		else {
@@ -460,6 +558,7 @@ MobEMS.implement({
 		}
 	},
 	
+	/* methods to go the next icon in the multipois pagination */
 	multiPoiGoNext: function() { 
 		if(this.MultiPoisCurrentIcon.next == null) return;
 		else {
