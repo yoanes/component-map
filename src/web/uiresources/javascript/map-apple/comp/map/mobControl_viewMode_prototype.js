@@ -63,7 +63,7 @@ EMS.Control.ViewModePrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.div.appendChild(this.mapImage);
 
 		/* do view change on click of the button */
-		this.div.addEventListener('touchend', function(e) {this.doViewChange();}.bind(this), false);
+		this.div.addEventListener('touchend', function(e) {e.stopPropagation(); this.doViewChange();}.bind(this), false);
 		
 		/* do resize when the device is tilted */
 		window.addEventListener('orientationchange', function(e) {this.rePosition();}.bind(this), false);
