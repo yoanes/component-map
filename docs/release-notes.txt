@@ -1,3 +1,9 @@
+==== Version 2.0.2.6 (tag: map_v2_0_2_6) ====
+
+* Include interactive poi on map
+* Add dock for optional
+* Map component now includes devicelocation component as well
+
 ==== Version 2.0.2.5 (tag: map_v2_0_2_5) ====
 
 Move the crf group of image category down the stack. 
