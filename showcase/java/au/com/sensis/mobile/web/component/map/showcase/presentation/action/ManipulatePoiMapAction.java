@@ -72,7 +72,7 @@ public class ManipulatePoiMapAction extends AbstractMapAction {
                     getModel().getOrignalMapCentre(),
                     getModel().getMapUrl(),
                     getModel().getMapLayer(),
-                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(),
+                    PoiResult.createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(""),
                     getDefaultZoom(),
                     getModel().getAction(), getContext());
         } else if (BASSETT_SMITH_VALUERS_NEAR_142_CHURCH_ST_BRIGHTON_VIC_SEARCH_KEY
