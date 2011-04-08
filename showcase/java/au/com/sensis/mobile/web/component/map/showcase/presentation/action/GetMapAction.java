@@ -7,6 +7,7 @@ import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.showcase.business.logic.LocationManager;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
+import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 
 /**
  * Demonstrates how to get an initial map using the {@link #getMapDelegate()}.
@@ -22,6 +23,19 @@ public class GetMapAction extends AbstractMapAction {
     private LocationManager locationManager;
     private int defaultZoom;
 
+    /* internal flag to set whether to use multiple or 1 popup content 
+     * this is for showcase purpose only. 
+     * */
+    private boolean onePopup;
+    
+    private void setOnePopup(final boolean onePopup) {
+    	this.onePopup = true;
+    }
+    
+    public boolean isOnePopup() {
+    	return onePopup;
+    }
+    
     /**
      * Executes this action and returns a result name.
      * @return result name.
@@ -30,11 +44,29 @@ public class GetMapAction extends AbstractMapAction {
         final GeocodedAddress addressToMap =
                 getLocationDelegate().resolveToSingleLocation(getModel().getLocation());
 
+        InteractivePoiInfo centerPoiInfo;
+        
+        if(getModel().getLocation().equals("3000")) {
+        	centerPoiInfo = new InteractivePoiInfo("Melbourne", "VIC - 3000", "poi-".concat(Integer.toString(0)), InteractivePoiInfo.NAMED);
+        	setDocked(true);
+        	setOnePopup(true);
+        }
+        
+        else if(getModel().getLocation().equals("3002")) {
+        	centerPoiInfo = new InteractivePoiInfo("East Melbourne", "", "poi-".concat(Integer.toString(0)), InteractivePoiInfo.NONGEO);
+        }
+        
+        else if(getModel().getLocation().equals("3004")) {
+        	centerPoiInfo = new InteractivePoiInfo("Melbourne Port Philip", "", "poi-".concat(Integer.toString(0)), InteractivePoiInfo.SLIMNONGEO);
+        }
+        
+        else  { centerPoiInfo = new InteractivePoiInfo("", "", "poi-".concat(Integer.toString(0)), ""); }
+        
         // Example of how to use the MapDelegate to get an initial map.
         final Map map =
                 getMapDelegate().getInitialMap(addressToMap.getCoordinates(),
                         getDefaultZoom(), MapLayer.Map,
-                        getModel().getCursorType(), getContext());
+                        getModel().getCursorType(), getContext(), centerPoiInfo);
         setMap(map);
 
         if (logger.isDebugEnabled()) {
