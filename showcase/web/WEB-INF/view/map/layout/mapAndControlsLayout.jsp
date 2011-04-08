@@ -95,8 +95,21 @@
         panNorthUrl="${panNorthUrl}" panSouthUrl="${panSouthUrl}"
         panEastUrl="${panEastUrl}" panWestUrl="${panWestUrl}"
         photoLayerUrl="${photoLayerUrl}" mapLayerUrl="${mapLayerUrl}"
-        clientSideGeneratedMapStateChangeUrl="${stateChangeUrl}" />
+	clientSideGeneratedMapStateChangeUrl="${stateChangeUrl}">
+		<div id="poi-1">
+			POI-1: displaying popup
+			<input type="button" ontouchstart="window.location='http://google.com';" value="Go to google" style="display:inline;"/>
+		</div>	
+		<c:if test="${not onePopup}">
+			<div id="poi-2">POI-2: have another popup content a very long poi a very long poi a very long poi a very long poi a very long poia very long poia very long poia very long poia very long poia very long poi a very long poi a very long poi a very long poi a very long poi a very long poi</div>
+			<div id="poi-3">POI-3: and another one too</div>
+			<div id="poi-4">POI-4: bla bla bla bla</div>
+			<div id="poi-5">POI-5: HOMER SAYS: DOH!</div>
+			<div id="poi-6">POI-6: POI POI POI POI POI POI!</div>
+		</c:if>
+    </map:render>
 </div>
+<div id="mapDockBox"></div>
 
 <div>
     <c:if test="${map.routeMap}">
