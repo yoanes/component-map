@@ -6,6 +6,7 @@ import java.util.List;
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.IconType;
+import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 
 /**
  * Class for creating hard coded POI search results.
@@ -271,6 +272,54 @@ public final class PoiResult {
         return results.toArray(new PoiResult[] {});
     }
 
+    public static PoiResult[] createWhereisMobileVictorianCoachesMultiPoi() {
+    	final List<PoiResult> results = new ArrayList<PoiResult>();
+    	
+    	final double victorianCoachesLat = -37.79801;
+        final double victorianCoachesLon = 144.94025;
+        results.add(new PoiResult("Victorian Coaches",
+                "yellowCoreCombinedDataSource",
+                "10 Fogarty St North Melbourne",
+                victorianCoachesLat, victorianCoachesLon));
+    	
+        final double victorianCoaches2Lat = -37.79801;
+        final double victorianCoaches2Lon = 144.94025;
+        results.add(new PoiResult("Victorian Coaches 2",
+                "yellowCoreCombinedDataSource",
+                "10 Fogarty St North Melbourne",
+                victorianCoaches2Lat, victorianCoaches2Lon));
+        
+        final double cafeLilacLat = -37.70142;
+        final double cafeLilacLon = 144.88608;
+        results.add(new PoiResult("Cafe Lilac",
+                "yellowCoreCombinedDataSource",
+                "Fcty 2a/ 24 Carrick Drv, Tullamarine, VIC", cafeLilacLat,
+                cafeLilacLon));
+        
+        final double cafeLilacLat2 = -37.70142;
+        final double cafeLilacLon2 = 144.88608;
+        results.add(new PoiResult("Cafe Lilac 2",
+                "yellowCoreCombinedDataSource",
+                "Fcty 2a/ 24 Carrick Drv, Tullamarine, VIC", cafeLilacLat2,
+                cafeLilacLon2));
+        
+        final double victorianCoaches3Lat = -37.79801;
+        final double victorianCoaches3Lon = 144.94025;
+        results.add(new PoiResult("Victorian Coaches 3",
+                "yellowCoreCombinedDataSource",
+                "10 Fogarty St North Melbourne",
+                victorianCoaches3Lat, victorianCoaches3Lon));
+        
+        final double bassetSmithValuersLat = -37.91627;
+        final double bassettSmithValuersLon = 144.99653;
+        results.add(new PoiResult("Bassett-Smith Valuers",
+                "yellowCoreCombinedDataSource",
+                "142 Church St, Brighton, VIC", bassetSmithValuersLat,
+                bassettSmithValuersLon));
+        
+        return results.toArray(new PoiResult[] {});
+    }
+    
     /**
      * @return array of IconDescriptor corresponding to
      *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
@@ -280,10 +329,11 @@ public final class PoiResult {
         final List<IconDescriptor> iconDescriptors =
                 new ArrayList<IconDescriptor>();
 
+        int c = 1;
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileCarsNearbyMelbourneResults()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
-                    poiResult.getLon()));
+                    poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), poiResult.getAddress(), "poi-".concat(Integer.toString(c++)), InteractivePoiInfo.NAMED)));
         }
         return iconDescriptors;
     }
@@ -296,10 +346,11 @@ public final class PoiResult {
         final List<IconDescriptor> iconDescriptors =
                 new ArrayList<IconDescriptor>();
 
+        int c = 1;
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileBarsNearbyToorakVicResults()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
-                    poiResult.getLon()));
+                    poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), poiResult.getAddress(), "poi-".concat(Integer.toString(c++)), InteractivePoiInfo.THICK)));
         }
         return iconDescriptors;
     }
@@ -314,10 +365,11 @@ public final class PoiResult {
         final List<IconDescriptor> iconDescriptors =
             new ArrayList<IconDescriptor>();
 
+        int c = 1;
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileBassettSmithValuersNearbyBrightonVicResults()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
-                    poiResult.getLon()));
+                    poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), poiResult.getAddress(), "poi-".concat(Integer.toString(c++)), InteractivePoiInfo.SLIM)));
         }
         return iconDescriptors;
     }
@@ -332,10 +384,11 @@ public final class PoiResult {
         final List<IconDescriptor> iconDescriptors =
             new ArrayList<IconDescriptor>();
 
+        int c = 1;
         for (final PoiResult poiResult : PoiResult
                 .createSingleResultAt142ChurchStBrightonVic()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
-                    poiResult.getLon()));
+                    poiResult.getLon(),new InteractivePoiInfo(poiResult.getName(), ".", "poi-".concat(Integer.toString(c++)), InteractivePoiInfo.SLIM)));
         }
         return iconDescriptors;
     }
@@ -345,15 +398,21 @@ public final class PoiResult {
      *         {@link #createWhereisMobileCarsNearbyMelbourneResults()}.
      */
     public static List<IconDescriptor>
-        createWhereisMobileCafeNearbyTullamarineVicIconDescriptors() {
+        createWhereisMobileCafeNearbyTullamarineVicIconDescriptors(String ipoiType) {
 
         final List<IconDescriptor> iconDescriptors =
             new ArrayList<IconDescriptor>();
 
+        int c = 1;
+        String interactivePoiType = new String();
+        if(ipoiType.equals("slim")) {
+       	 interactivePoiType = InteractivePoiInfo.SLIM;
+        }
+        else { interactivePoiType = InteractivePoiInfo.THICK; }
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileCafeNearbyTullamarineVicResults()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
-                    poiResult.getLon()));
+                    poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), ".", "poi-".concat(Integer.toString(c++)),  interactivePoiType)));
         }
         return iconDescriptors;
     }
@@ -368,17 +427,39 @@ public final class PoiResult {
         final List<IconDescriptor> iconDescriptors =
             new ArrayList<IconDescriptor>();
 
+            int c = 1; 
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileRestaurantsNearby3006WithPageSize10Results()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
-                    poiResult.getLon()));
+                    poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), poiResult.getAddress(), "poi-".concat(Integer.toString(c++)), InteractivePoiInfo.SLIM)));
         }
         return iconDescriptors;
     }
+        
+    public static List<IconDescriptor> createWhereisMobileVictorianCoachesMultiPoiIconDescriptors(String ipoiType) {
+    	 final List<IconDescriptor> iconDescriptors =
+             new ArrayList<IconDescriptor>();
+
+             int c = 1; 
+             String interactivePoiType = new String();
+             if(ipoiType.equals("txt")) {
+            	 interactivePoiType = InteractivePoiInfo.NAMED;
+             }
+             else { interactivePoiType = InteractivePoiInfo.THICK; }
+         for (final PoiResult poiResult : PoiResult.createWhereisMobileVictorianCoachesMultiPoi()) {
+             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
+                     poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), poiResult.getAddress(), "poi-".concat(Integer.toString(c++)), interactivePoiType)));
+         }
+         return iconDescriptors;
+    }
+    
+    private static IconDescriptor createIconDescriptor(final double lat, final double lon, final InteractivePoiInfo interactivePoiInfo) {
+        return new IconDescriptor(IconType.FREE, new WGS84Point(lon, lat), interactivePoiInfo);
+    }
+
     private static IconDescriptor createIconDescriptor(final double lat, final double lon) {
         return new IconDescriptor(IconType.FREE, new WGS84Point(lon, lat));
     }
-
     private PoiResult(final String name, final String source,
             final String address, final double lat, final double lon) {
         this.lat = lat;
