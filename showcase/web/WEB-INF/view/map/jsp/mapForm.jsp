@@ -65,14 +65,20 @@
                 >WM bassett-smith valuers near 140 Church St Brighton VIC</option>
                 
      	    <option ${cafeNearTullamarineVicSelected} value="cafeNearTullamarineVic">WM cafe near Tullamarine VIC</option>
-          
+     	    <option ${cafeNearTullamarineVicSelected} value="cafeNearTullamarineVicSlim">WM cafe near Tullamarine VIC</option>
+
      	    <option ${bassettSmithValuersNear142ChurchStBrightonVicSelected} value="bassettSmithValuersNear142ChurchStBrightonVic"
                 >WM bassett-smith valuers near 142 Church St Brighton VIC</option>
-                
+            
+             <option value="victorianCoachesNear3000">YM Victorian Coaches at 3000 (2 multi poi)</option>
+                 
+             <option value="victorianCoachesNear3000TEXT">YM Victorian Coaches at 3000 (2 multi poi on text)</option>
      	    <option ${restaurantsNear3006Selected} value="restaurantsNear3006">WM restaurants near 3006 (10 results per page)</option>
         </select>
 
+		<input type="button" value="Locate Me" onclick="MAP.DEVICELOCATION.instance.autoLocate();" />
         <input type="submit" class="mapButton" value="<s:text name='Get POIs'/>"/>    
+        
     </form>
 </div>
 
