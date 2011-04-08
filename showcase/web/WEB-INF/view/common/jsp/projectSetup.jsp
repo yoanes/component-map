@@ -12,6 +12,13 @@
 </c:set>
 
 <deviceport:setup device="${context.device}" />
-<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" 
-    iconImagesSrcPrefix="${iconImagesSrcPrefix}" />
-
+<c:choose>
+	<c:when test="${docked}">
+		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" 
+    		iconImagesSrcPrefix="${iconImagesSrcPrefix}" useMyLocation="true" useDockForPopup="true"/>
+	</c:when>
+	<c:otherwise>
+		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" 
+    		iconImagesSrcPrefix="${iconImagesSrcPrefix}" useMyLocation="true"/>
+	</c:otherwise>
+</c:choose>
