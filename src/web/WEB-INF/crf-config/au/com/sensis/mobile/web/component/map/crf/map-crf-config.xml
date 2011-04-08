@@ -41,6 +41,21 @@
             or device.isA('HTC-A8183') 
             or device.isA('Android-Emulator')" />
         
+        <group name="map-apple-android" expr="(
+        		device.isA('SonyEricsson-X10') 
+            	or device.isA('SE-X10-mini')
+            	or device.isA('HTC-Desire')
+            	or device.isA('HTC-A8183') 
+            	or device.isA('Android-Emulator')
+            ) or (
+            	( 
+            	  (device.isA('Apple-iPhone') or device.isA('Apple-iPod-Touch')) 
+                  and device.userAgent !~ '.*OS [012]_.*' and device.userAgent !~ '.*OS 3_0.*'
+                ) 
+                or device.isA('Apple-iPhone-OS-4.0')
+            	or device.isA('Apple-iPad')
+            )" />
+            
         <!-- Broad map functionality groupings. -->
         <group name="map-advanced" expr="device.isA('SonyEricsson-X10') 
             or device.isA('SE-X10-mini')
