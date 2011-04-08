@@ -10,6 +10,7 @@ import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
 import au.com.sensis.wireless.manager.directions.RouteHandle;
 import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
+import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
@@ -178,7 +179,7 @@ public interface MapDelegate {
      */
     Map getInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, MapLayer mapLayer, MobilesIconType centreIconType,
-            final MobileContext mobileContext);
+            final MobileContext mobileContext, InteractivePoiInfo centrePoiInfo);
 
     /**
      * Manipulate an existing map, such as panning or zooming it or changing
@@ -238,6 +239,10 @@ public interface MapDelegate {
      *            Context of the user that the map is being retrieved for.
      * @return {@link Map}. May not be null.
      */
+    Map getInitialPoiMap(final WGS84Point mapCentre,
+            MapLayer mapLayer, final List<IconDescriptor> poiIcons,
+            int mobilesZoomThreshold, final MobileContext mobileContext, InteractivePoiInfo centrePoiInfo);
+    
     Map getInitialPoiMap(final WGS84Point mapCentre,
             MapLayer mapLayer, final List<IconDescriptor> poiIcons,
             int mobilesZoomThreshold, final MobileContext mobileContext);

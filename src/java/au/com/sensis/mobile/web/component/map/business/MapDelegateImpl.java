@@ -18,6 +18,7 @@ import au.com.sensis.wireless.manager.directions.RouteHandle;
 import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
+import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
@@ -94,11 +95,11 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      */
     public Map getInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
-            final MobileContext mobileContext) {
+            final MobileContext mobileContext, final InteractivePoiInfo centrePoiInfo) {
 
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
-                centreIconType,
+                centreIconType, centrePoiInfo, 
                 new ArrayList<IconDescriptor>(),
                 getScreenDimensionsStrategy().createScreenDimensions(mobileContext));
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
@@ -141,6 +142,13 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
 
     }
 
+    public Map getInitialMap(final WGS84Point mapCentre,
+            final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
+            final MobileContext mobileContext) {
+    	return getInitialMap(mapCentre, zoomLevel, mapLayer, centreIconType, mobileContext, new InteractivePoiInfo("", "", "", ""));
+    	
+    }
+    
     /**
      * @return True if the device needs the server to generate the map. Some
      *         clients are able to retrieve the map themselves by talking to EMS
@@ -297,13 +305,14 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      */
     public Map getInitialPoiMap(final WGS84Point mapCentre,
             final MapLayer mapLayer, final List<IconDescriptor> poiIcons,
-            final int mobilesZoomThreshold, final MobileContext mobileContext) {
+            final int mobilesZoomThreshold, final MobileContext mobileContext, 
+            final InteractivePoiInfo centrePoiInfo) {
 
         final ScreenDimensions screenDimensions =
             getScreenDimensionsStrategy().createScreenDimensions(
                     mobileContext);
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
-                MobilesIconType.CROSS_HAIR, poiIcons, screenDimensions);
+                MobilesIconType.CROSS_HAIR, centrePoiInfo, poiIcons, screenDimensions);
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve map for device: "
@@ -341,6 +350,12 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
                     getEmsManager().getEmsZoomLevel(mobilesZoomThreshold));
         }
 
+    }
+    public Map getInitialPoiMap(final WGS84Point mapCentre,
+            final MapLayer mapLayer, final List<IconDescriptor> poiIcons,
+            final int mobilesZoomThreshold, final MobileContext mobileContext) {
+    	
+    	return getInitialPoiMap(mapCentre, mapLayer, poiIcons, mobilesZoomThreshold, mobileContext, new InteractivePoiInfo("", "", "", ""));
     }
 
     /**
