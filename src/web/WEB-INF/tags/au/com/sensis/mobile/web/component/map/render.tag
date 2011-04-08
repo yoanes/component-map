@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" isELIgnored="false" trimDirectiveWhitespaces="true" %>
+<%@ tag isELIgnored="false" trimDirectiveWhitespaces="true" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -56,6 +56,9 @@
 <c:set var="mapComponentPhotoLayerUrl" scope="request" value="${photoLayerUrl}" />
 <c:set var="mapComponentMapLayerUrl" scope="request" value="${mapLayerUrl}" />
 <c:set var="mapComponentClientSideGeneratedMapStateChangeUrl" scope="request" value="${clientSideGeneratedMapStateChangeUrl}" />
+
+<jsp:doBody var="popup"/>
+<c:set var="mapComponentPopup" scope="request" value="${popup}" />
 
 <jsp:include page="/WEB-INF/view/jsp/comp/map/render.crf" />
 
