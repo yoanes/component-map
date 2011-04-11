@@ -84,9 +84,15 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	},
 	
 	/* Util method. Returns the center point of multi touches with respect to the map viewport */
-	getCenterTouch: function(n1, n2, f) { 
+	getCenterTouch: function(n1, n2, f, considerTranslate3dProperties) { 
 		var cX = (n1.pageX + n2.pageX) / 2 - $(this.map.div.parentNode).offsetLeft;
 		var cY = (n1.pageY + n2.pageY) / 2 - $(this.map.div.parentNode).offsetTop;
+		
+		if(considerTranslate3dProperties === true) {
+			var t3dp = this.getTranslate3dProperties();
+			cX -= t3dp.x;
+			cY -= t3dp.y;
+		}
 		
 		if(f == 'percent') 
 			/* return the format as percentage */
@@ -123,7 +129,10 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 				this.cX = pointCenterTouch.x;
 				this.cY = pointCenterTouch.y;
 				
-				var percentCenterTouch = this.getCenterTouch(node, node1, 'percent');
+				/* for the percentage we want to consider the translate3d properties
+				 * since the centerX and centerY have been translated
+				 */
+				var percentCenterTouch = this.getCenterTouch(node, node1, 'percent', true);
 				this.zX = percentCenterTouch.x;
 				this.zY = percentCenterTouch.y;
 			}
