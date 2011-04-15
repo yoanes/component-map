@@ -75,8 +75,6 @@
              <option value="victorianCoachesNear3000TEXT">YM Victorian Coaches at 3000 (2 multi poi on text)</option>
      	    <option ${restaurantsNear3006Selected} value="restaurantsNear3006">WM restaurants near 3006 (10 results per page)</option>
         </select>
-
-		<input type="button" value="Locate Me" onclick="MAP.DEVICELOCATION.instance.autoLocate();" />
         <input type="submit" class="mapButton" value="<s:text name='Get POIs'/>"/>    
         
     </form>
