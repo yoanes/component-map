@@ -37,7 +37,12 @@ var MobEMS = new Class({
 							if(map.controls[i].CLASS_NAME == "EMS.Control.ViewMode"){
 								if($defined(viewOptions) && $defined(viewOptions.layer))
 									map.controls[i].switchTo(viewOptions.layer);
-								break;
+							}
+							/* set this map instance to the LocateMe so the locate me controller
+							 * is bind to this particular map instance
+							 */
+							if(map.controls[i].CLASS_NAME == "EMS.Control.LocateMe") {
+								map.controls[i].setMapNth(this.nth);
 							}
 						}
 						
