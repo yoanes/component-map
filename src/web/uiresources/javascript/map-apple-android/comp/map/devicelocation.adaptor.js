@@ -1,51 +1,10 @@
-/* Device location instance on map component */
-MAP.DEVICELOCATION = {};
-MAP.DEVICELOCATION.errorMessage = "Sorry, we couldn't locate you.";
-
-/* follow me */
-MAP.DEVICELOCATION.AutoLocate = {};
-MAP.DEVICELOCATION.AutoLocate.onlocate = function(position) {
-	if(position == null) return;
-	
-	/* get distance in px */
-	var panBy = MAP.instances[0].getLocMapCtrPxDiff(position);
-	/* do the pan */
-	MAP.instances[0].Map.pan(panBy.x, panBy.y, {animate:true});
-	/* zoom in if the map is zoom out too much */
-	if(MAP.instances[0].Map.getZoom() < 9)
-		setTimeout(function() {EMS.Util.smoothZoom(MAP.instances[0].Map, MAP.instances[0].Map.getCenter(), userLatLon, 11 );} , 500);
-	
-	/* keep adding location poi */
-	MAP.instances[0].addLocationPoi(position, position.accuracy, true);
-};
-
-MAP.DEVICELOCATION.AutoLocate.prelocate = function() {
-	MAP.instances[0].clearLocationPoi();
-};
-
-MAP.DEVICELOCATION.AutoLocate.postlocate = function(lastRecordedPosition) {
-	if(!$defined(lastRecordedPosition))
-		alert(_DEVICELOCATION_WM_.errorMessage);
-	
-	else MAP.instances[0].addLocationPoi(lastRecordedPosition, lastRecordedPosition.accuracy, false);
-};
-
-MAP.DEVICELOCATION.AutoLocate.onerror = function(error) { 
-	alert(MAP.DEVICELOCATION.errorMessage);
-};
-
-/* limits */
-MAP.DEVICELOCATION.AutoLocate.limits = {};
-MAP.DEVICELOCATION.AutoLocate.limits.tries = 10;
-MAP.DEVICELOCATION.AutoLocate.limits.proximity = 50;
-MAP.DEVICELOCATION.AutoLocate.limits.timeout = 30000;
-MAP.DEVICELOCATION.AutoLocate.limits.acceptableProximity = 1000;
-
 /* extends the MobEMS base class to use addLocationPoi() */
 MobEMS.implement({
 	LocationMarker: null,
 	LocationPoi: null,
 	
+	LocateUserRelativeToPois: false,
+
 	addLocationPoi: function(coordinates, accuracy, stillLocating) {
 		/* if there's no location poi on the map */
 		if(this.LocationMarker == null) {
@@ -57,17 +16,11 @@ MobEMS.implement({
 			this.LocationPoi.startLocatingAnimation();
 		} 
 		else {
-			/* don't use moveTo() because when the x,y = 0 
-			 * the marker actually moved to the old center of the map
-			 * !@#$!!
-			 * 
-			 * so we brutally set the lonlat manually
-			 */
-			this.LocationMarker.lonlat = this.formatLatLon(coordinates);
+			this.LocationMarker.moveTo(this.Map.getViewPortPxFromLonLat(this.formatLatLon(coordinates)));
 			this.LocationPoi.setLocationAccuracy(accuracy);
-			
-			if(!stillLocating) this.LocationPoi.startLocatedAnimation();
 		}
+		
+		if(!stillLocating) this.LocationPoi.startLocatedAnimation();
 	},
 	
 	clearLocationPoi: function() {
@@ -89,10 +42,112 @@ MobEMS.implement({
 		return new OpenLayers.Pixel(userPos.x - centerPos.x, userPos.y - centerPos.y);
 	},
 	
+	/* this method will inject the DeviceLocationConfig attribute into this map instance 
+	 * this way the DeviceLocation instance is tied in with an instance of map component object
+	 * instead of the map component globally
+	 */
+	initDeviceLocationConfig: function() {
+		/* Device location instance on map component */
+		this.DeviceLocationConfig = {};
+		this.DeviceLocationConfig.errorMessage = "Sorry, we couldn't locate you.";
+
+		/* follow me */
+		this.DeviceLocationConfig.AutoLocate = {};
+		this.DeviceLocationConfig.AutoLocate.onlocate = function(position) {
+			if(position == null) return;
+
+			/* keep adding location poi */
+			var doNotLockDownPosition = position.accuracy > 500 ? true : false;
+			this.addLocationPoi(position, position.accuracy, doNotLockDownPosition);
+			
+			/* if the map has only 1 markers, that is this location marker 
+			 * then we want to pan and center the map on the user's location
+			 * 
+			 * also pan the map only if the flag "LocateUserRelativeToPois" is set to
+			 * false
+			 */
+			if(this.Map.markersLayer.markers.length == 1 || !this.LocateUserRelativeToPois) {
+				/* if the user location is already within the boundaries 
+				 * the simply display it
+				 */
+				if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
+					/* get distance in px */
+					var panBy = this.getLocMapCtrPxDiff(position);
+					/* do the pan */
+					this.Map.pan(panBy.x, panBy.y, {animate:true});
+					/* zoom in if the map is zoom out too much */
+					if(this.Map.getZoom() < 9)
+						setTimeout(function() {
+							EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), this.Map.getCenter(), 11);
+						}.bind(this), 500);
+				}
+			}
+			/* else we want to zoom out the map to show user's location relatives
+			 * to the other pois already displayed
+			 */
+			else {
+				/* but only does that if the user's location is off the map
+				 * otherwise simply plot them there
+				 */
+				if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
+					var newBoundaries = this.getNewMapBoundsWithAllMarkers();
+					EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), newBoundaries.getCenterLonLat(), this.Map.getZoomForExtent(newBoundaries));
+				}
+				
+				this.LocateUserRelativeToPois = false;
+			}
+		}.bind(this);
+
+		this.DeviceLocationConfig.AutoLocate.prelocate = function () {
+			 this.LocateUserRelativeToPois = true;
+			/* reset the device location component manually */
+			navigator.geolocation.clearWatch(this.DeviceLocation._autoLocate_locationId);
+            this.DeviceLocation.reset();
+		}.bind(this);
+
+		this.DeviceLocationConfig.AutoLocate.postlocate = function(lastRecordedPosition) {
+			if(!$defined(lastRecordedPosition))
+				alert(this.DeviceLocationConfig.errorMessage);
+			
+			else this.addLocationPoi(lastRecordedPosition, lastRecordedPosition.accuracy, false);
+		}.bind(this);
+
+		this.DeviceLocationConfig.AutoLocate.onerror = function(error) { 
+			alert(this.DeviceLocationConfig.errorMessage);
+		}.bind(this);
+
+		/* limits: we don't need any since we want to follow user always */
+		this.DeviceLocationConfig.AutoLocate.limits = {};
+
+		/* options: set the timeout between search in 5 secs. Note that setting
+		 * timeout to infinity jitters the map slightly */
+		this.DeviceLocationConfig.AutoLocate.options = {};
+		this.DeviceLocationConfig.AutoLocate.options.timeout = 30000;
+	},
+	
 	createDeviceLocationInstance: function(map) {
 		if(typeof(DeviceLocation) != 'undefined') {
 			this.LocationPoi = this.createLocationPoi(map);
-			MAP.DEVICELOCATION.instance = new DeviceLocation(null, MAP.DEVICELOCATION.AutoLocate);
+			this.initDeviceLocationConfig();
+			this.DeviceLocation = new DeviceLocation(null, this.DeviceLocationConfig.AutoLocate);
 		}
+	},
+	
+	getNewMapBoundsWithAllMarkers: function() {
+		var currentBoundaries = this.Map.calculateBounds();
+		var existingMarkers = this.Map.markersLayer.markers;
+		
+		var newBoundaries = currentBoundaries.clone();
+		for(var i = 0; i < existingMarkers.length; i++) {
+			newBoundaries.left = Math.min(existingMarkers[i].lonlat.lon, newBoundaries.left);
+			newBoundaries.right = Math.max(existingMarkers[i].lonlat.lon, newBoundaries.right);
+			newBoundaries.top = Math.max(existingMarkers[i].lonlat.lat, newBoundaries.top);
+			newBoundaries.bottom = Math.min(existingMarkers[i].lonlat.lat, newBoundaries.bottom);
+		}
+	
+		/* extend the boundaries by 30 px */
+		newBoundaries.extend(new OpenLayers.Pixel(30, 30));
+		
+		return newBoundaries; 
 	}
 });
