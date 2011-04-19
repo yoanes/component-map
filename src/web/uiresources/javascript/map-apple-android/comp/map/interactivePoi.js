@@ -224,7 +224,7 @@ MobEMS.implement({
 		var filter = new RegExp(pattern, 'i');
 		var number = url.replace(filter, "$2");
 		
-		return number == url.length ? false : number;
+		return number.length == url.length ? false : number;
 	},
 	
 	addPopup: function(id, icon, marker) {
