@@ -79,8 +79,16 @@ EMS.Control.DoubleTap = OpenLayers.Class(OpenLayers.Control, {
 		/* animate the layerContainerDiv so it won't mess up with the panning / zooming
 		 * which will animate the viewportDiv
 		 */
+		
+		/* grab the new top and left because we need to translate the origin point relatives to how much
+		 * user has panned before doing double tap. The translate 3d properties of the viewport is unusable
+		 * as it is most likely has been reverted to null
+		 */
+		var newLeft = this.map.layerContainerDiv.style.left.toInt();
+		var newTop = this.map.layerContainerDiv.style.top.toInt();
+		
 		this.map.layerContainerDiv.style['-webkit-transition'] = '-webkit-transform ' + this.animationTime + 'ms linear';
-	    this.map.layerContainerDiv.style['-webkit-transform-origin'] = newX + 'px ' + newY + 'px 0';
+	    this.map.layerContainerDiv.style['-webkit-transform-origin'] = (newX-newLeft) + 'px ' + (newY-newTop) + 'px 0';
 	    this.map.layerContainerDiv.style['-webkit-transform'] = 'scale3d(2, 2, 1)';
 
 	    /* delay the css reset and actual zoom to allow for animation */
