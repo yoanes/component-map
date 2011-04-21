@@ -43,6 +43,9 @@ MobEMS.implement({
 		/* this method will bring the poi above all other pois when 
 		 * it is called. Ideally this is called on tap of the poi or
 		 * onShow on the Dock
+		 * 
+		 * This will also set a css class called 'highlight' to the poi Div
+		 * which the app is free to define
 		 */
 		this.Dock.bringPoiToFront = function(poiDiv) {
 			/* safe guard the method so we won't try to set any style 
@@ -50,10 +53,16 @@ MobEMS.implement({
 			 */
 			if(poiDiv == null) return;
 			/* revert the old poi zindex */
-			if(this.currentFrontPoi != null)
+			if(this.currentFrontPoi != null) {
 				this.currentFrontPoi.style.zIndex = '';
+				/* and remove the additional highlight class */
+				$(this.currentFrontPoi).removeClass('highlight');
+			}
+			
 			poiDiv.style.zIndex = this.frontPoiZIndex;
 			this.currentFrontPoi = poiDiv;
+			/* add the highlight class to the poi */
+			$(poiDiv).addClass('highlight');
 		}.bind(this.Dock);
 		
 		/* retrieve popup index from dock.contents array property */
