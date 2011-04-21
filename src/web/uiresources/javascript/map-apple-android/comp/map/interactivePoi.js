@@ -319,6 +319,27 @@ MobEMS.implement({
 		
 		else {
 			this.Dock.bindPoiWithPopup(icon);
+			/* next we need to handle the multi poi */
+			var isAMultiPoi = this.isPoiInArray(icon, this.MultiPois);
+			if(isAMultiPoi !== false) {
+				/* in a dock the multi poi by default is hooked to the 
+				 * first head of the multi poi chain. This means any other pois
+				 * down the chain are not associated with any poi on the map.
+				 * So here, we need to create a fake temporary poi with just enough information
+				 * so that we can bind the next poi in the chain to the head's actual poi.
+				 * The final behaviour is that when you have a multi poi chain selecting any
+				 * popup on the dock should trigger the corresponding poi
+				 */
+				var current = this.MultiPois[isAMultiPoi].next;
+				while(current != null) {
+					var tempNewPoi = {};
+					tempNewPoi.id = current.id;
+					tempNewPoi.div = icon.div;
+					this.Dock.bindPoiWithPopup(tempNewPoi);
+					current  = current.next;
+				}
+			}
+			
 			icon.div.addEventListener('touchend', function() {
 				this.Dock.bringPoiToFront(this.Dock.findPoiGivenPopup(icon.id));
 				this.loadDockWithContentFromIndex(this.Dock.getPopupIndexById(icon.id));
