@@ -1,7 +1,4 @@
 MobEMS.implement({
-	/* holds the dock */
-	Dock: null,
-	
 	/* holds the detected pois with the same lat lon */
 	MultiPois: new Array(),
 
@@ -79,7 +76,7 @@ MobEMS.implement({
 			
 			for(var i = 0; i < distinctPoisLength; i++) {
 				/* construct the marker and icon */
-				var newMarker = {coordinates: iconsList[i].coordinates};
+				var newMarker = {coordinates: distinctPois[i].coordinates};
 				var newIcon = {
 						id: distinctPois[i].id,
 						title: distinctPois[i].title,
@@ -321,8 +318,10 @@ MobEMS.implement({
 		} 
 		
 		else {
+			this.Dock.bindPoiWithPopup(icon);
 			icon.div.addEventListener('touchend', function() {
-				this.loadDockWithContentFromIndex(this.getPopupIndexById(icon.id));
+				this.Dock.bringPoiToFront(this.Dock.findPoiGivenPopup(icon.id));
+				this.loadDockWithContentFromIndex(this.Dock.getPopupIndexById(icon.id));
 			}.bind(this), false);
 		}
 	},
@@ -388,56 +387,6 @@ MobEMS.implement({
 		}
 		
 		return height;
-	},
-	
-	addDock: function(map, dOpt) {
-		/* instantiate */
-		this.Dock = new EMS.Control.DockedInfoBox();
-		/* if there's only 1 popup then use just that */
-		if($('mapPopup').getChildren().length == 1)
-			this.Dock.setContents(($('mapPopup').getChildren())[0], dOpt);
-		/* otherwise pass in the whole childNodes array */
-		else this.Dock.setContents($('mapPopup').getChildren(), dOpt);
-	
-		/* dock is a controller so add it to our map but we need to put it outside the viewport like anyother 
-		 * map controls 
-		 * 
-		 * try to detect if the app declare a dom with id = mapDockBox. If it is declared we'll
-		 * dump the box there. Otherwise it will be embedded to the map it self.
-		 * */
-		if($('mapDockBox')) {
-			$('mapDockBox').style.position = 'relative';
-			$('mapDockBox').appendChild(this.Dock.draw());
-			/* we need to target the Dock div and set the style to relative (by default it is 
-			 * absolute positioned at the bottom of the inside of the map)
-			 * We can't target the id however, because it will depend on many factors, hence the
-			 * id will be randomly generated at run time. Thus we'll target that dom
-			 * by targeting the last element appended to the #mapDockBox
-			 */
-			var mapDockBoxChildren = $('mapDockBox').getChildren();
-			$('mapDockBox').childNodes[mapDockBoxChildren.length - 1].style.position = 'relative';
-		}
-		else map.div.appendChild(this.Dock.draw()); 
-	},
-	
-	getPopupIndexById: function(id) {
-		var popupContents = this.Dock.contents;
-		if(this.Dock.contents instanceof Array) {
-			var popupContentsLength = popupContents.length;
-			for(var i = 0; i < popupContentsLength; i++) {
-				if(popupContents[i].id == id) {
-					return i;
-					break;
-				}
-			}
-		}
-		return -1;
-	},
-	
-	loadDockWithContentFromIndex: function(idx) {
-		if(this.Dock.contents instanceof Array) {
-			this.Dock.loadContentsForIndex(idx);
-		}
 	},
 	
 	/* build the pagination for the multi poi popup */
