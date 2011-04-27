@@ -1,4 +1,7 @@
 MobEMS.implement({
+	/* holds the dock */
+	Dock: null,
+	
 	/* holds the detected pois with the same lat lon */
 	MultiPois: new Array(),
 
@@ -318,31 +321,8 @@ MobEMS.implement({
 		} 
 		
 		else {
-			this.Dock.bindPoiWithPopup(icon);
-			/* next we need to handle the multi poi */
-			var isAMultiPoi = this.isPoiInArray(icon, this.MultiPois);
-			if(isAMultiPoi !== false) {
-				/* in a dock the multi poi by default is hooked to the 
-				 * first head of the multi poi chain. This means any other pois
-				 * down the chain are not associated with any poi on the map.
-				 * So here, we need to create a fake temporary poi with just enough information
-				 * so that we can bind the next poi in the chain to the head's actual poi.
-				 * The final behaviour is that when you have a multi poi chain selecting any
-				 * popup on the dock should trigger the corresponding poi
-				 */
-				var current = this.MultiPois[isAMultiPoi].next;
-				while(current != null) {
-					var tempNewPoi = {};
-					tempNewPoi.id = current.id;
-					tempNewPoi.div = icon.div;
-					this.Dock.bindPoiWithPopup(tempNewPoi);
-					current  = current.next;
-				}
-			}
-			
 			icon.div.addEventListener('touchend', function() {
-				this.Dock.bringPoiToFront(this.Dock.findPoiGivenPopup(icon.id));
-				this.loadDockWithContentFromIndex(this.Dock.getPopupIndexById(icon.id));
+				this.loadDockWithContentFromIndex(this.getPopupIndexById(icon.id));
 			}.bind(this), false);
 		}
 	},
@@ -408,6 +388,56 @@ MobEMS.implement({
 		}
 		
 		return height;
+	},
+	
+	addDock: function(map, dOpt) {
+		/* instantiate */
+		this.Dock = new EMS.Control.DockedInfoBox();
+		/* if there's only 1 popup then use just that */
+		if($('mapPopup').getChildren().length == 1)
+			this.Dock.setContents(($('mapPopup').getChildren())[0], dOpt);
+		/* otherwise pass in the whole childNodes array */
+		else this.Dock.setContents($('mapPopup').getChildren(), dOpt);
+	
+		/* dock is a controller so add it to our map but we need to put it outside the viewport like anyother 
+		 * map controls 
+		 * 
+		 * try to detect if the app declare a dom with id = mapDockBox. If it is declared we'll
+		 * dump the box there. Otherwise it will be embedded to the map it self.
+		 * */
+		if($('mapDockBox')) {
+			$('mapDockBox').style.position = 'relative';
+			$('mapDockBox').appendChild(this.Dock.draw());
+			/* we need to target the Dock div and set the style to relative (by default it is 
+			 * absolute positioned at the bottom of the inside of the map)
+			 * We can't target the id however, because it will depend on many factors, hence the
+			 * id will be randomly generated at run time. Thus we'll target that dom
+			 * by targeting the last element appended to the #mapDockBox
+			 */
+			var mapDockBoxChildren = $('mapDockBox').getChildren();
+			$('mapDockBox').childNodes[mapDockBoxChildren.length - 1].style.position = 'relative';
+		}
+		else map.div.appendChild(this.Dock.draw()); 
+	},
+	
+	getPopupIndexById: function(id) {
+		var popupContents = this.Dock.contents;
+		if(this.Dock.contents instanceof Array) {
+			var popupContentsLength = popupContents.length;
+			for(var i = 0; i < popupContentsLength; i++) {
+				if(popupContents[i].id == id) {
+					return i;
+					break;
+				}
+			}
+		}
+		return -1;
+	},
+	
+	loadDockWithContentFromIndex: function(idx) {
+		if(this.Dock.contents instanceof Array) {
+			this.Dock.loadContentsForIndex(idx);
+		}
 	},
 	
 	/* build the pagination for the multi poi popup */
