@@ -21,8 +21,8 @@ EMS.LocationMarkerIcon = OpenLayers.Class({
      * Contains all the default values for everything. Can be overridden on initialization.
      */
     defaultOptions: {
-        centerImageLocating: 'http://161.117.108.159:8081/web/mapexamples/mobile/location-center.png',
-        centerImageLocated:  'http://161.117.108.159:8081/web/mapexamples/mobile/location-center.png',
+        centerImageLocating: _MapImgPath_ + 'location-center.image',
+        centerImageLocated:  _MapImgPath_ + 'location-center.image',
         pulseRadiusWhenFound: 80,
         pulseTime: 150,
         pulseDelay: 2000,
