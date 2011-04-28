@@ -26,9 +26,11 @@ var MobEMS = new Class({
 	 * all of the above attributes will be used for setCenter() on load.
 	 */
 	initialize: function(mapWrapper, viewOptions, mapOptions, poiOptions, directionOptions) {
+		 _MapControlsCompulsory_ = _MapControlsCompulsory_.concat(this.filterOptionalMapControls());
+
 		window.addEvent('load', function() {
 			if(this.injectMapDiv(mapWrapper)) {
-				this.Map = new EMS.Services.Map('map-div', {controls: _MapControls_, showMaxExtent: false, 
+				this.Map = new EMS.Services.Map('map-div', {controls: _MapControlsCompulsory_, showMaxExtent: false, 
 					onInit: function(map) {
 						var mcl = map.controls.length;
 						/* loop the controls */
@@ -140,6 +142,71 @@ var MobEMS = new Class({
 		}
 	},
 
+	/* filter down the valid controllers by white listing them and ignore the rest */
+	filterOptionalMapControls: function() {
+		var filteredOptionalMapControls = new Array();
+		for(var i = 0; i < _MapControlsOptional_.length; i++) {
+			var mapControlToBeCreated = _MapControlsOptional_[i];
+			
+			switch(mapControlToBeCreated) {
+				case 'Zoom':
+					if($defined(EMS.Control.Zoom)) {
+						var tempOptionalMapControl = new EMS.Control.Zoom;
+						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
+							filteredOptionalMapControls.push(tempOptionalMapControl);
+					}
+					break;
+				
+				case 'ViewMode': 
+					if($defined(EMS.Control.ViewMode)) {
+						var tempOptionalMapControl = new EMS.Control.ViewMode;
+						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
+							filteredOptionalMapControls.push(tempOptionalMapControl);
+					}
+					break;
+					
+				case 'FullScreen':
+					if($defined(EMS.Control.FullScreen)) {
+						var tempOptionalMapControl = new EMS.Control.FullScreen;
+						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
+							filteredOptionalMapControls.push(tempOptionalMapControl);
+					}
+					break;
+				
+				case 'LocateMe': 
+					/* although this control is optional, it is recommended that the app includes it via the 
+					 * useMyLocation attribute in the setup.tag instead of registering it in the 
+					 * highEndMapControls attribute
+					 */
+					if($defined(EMS.Control.LocateMe)) {
+						var tempOptionalMapControl = new EMS.Control.LocateMe;
+						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
+							filteredOptionalMapControls.push(tempOptionalMapControl);
+					}
+					break;
+					
+				default: /* does nothing */
+			}
+		}
+		return filteredOptionalMapControls;
+	},
+	
+	/* double check that the passed in controllers is not a duplicate of the compulsory controllers
+	 * NOTE: although the white listing of the optional controllers kind of guarantee the uniqueness
+	 * of the optional controllers registered, there is an edge case where Zoom is an optional from app 
+	 * perspective but not quite so in the Android devices.
+	 */
+	crossCheckOptionalIsNotDuplicateOfCompulsory: function(optionalMapControlsInstance) {
+		for(var i = 0; i < _MapControlsCompulsory_.length; i++) {
+			if(optionalMapControlsInstance.CLASS_NAME == _MapControlsCompulsory_[i].CLASS_NAME) {
+				return false;
+				break;
+			}
+		}
+		
+		return true;
+	},
+	
 	/** Lat Lon Utils **/
 	isEMSLatLon: function(latlonObj) {
 		if($defined(latlonObj.CLASS_NAME) && latlonObj.CLASS_NAME == "OpenLayers.LonLat")
