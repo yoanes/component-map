@@ -11,5 +11,3 @@ EMS.Control.Zoom = OpenLayers.Class(EMS.Control.ZoomPrototype, {
 		return new OpenLayers.Size(this.zoomInImage.width + this.zoomOutImage.width, this.zoomInImage.height);
 	}
 });
-
-_MapControls_.push(new EMS.Control.Zoom);
