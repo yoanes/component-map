@@ -95,4 +95,4 @@ EMS.Control.Zoom = OpenLayers.Class(OpenLayers.Control, {
 	}
 });
 
-_MapControls_.push(new EMS.Control.Zoom);
+_MapControlsCompulsory_.push(new EMS.Control.Zoom);
