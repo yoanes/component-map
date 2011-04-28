@@ -65,7 +65,7 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		/* do resize when the device is tilted/resized. 'orientationchange' event won't trigger under android devices */
 		window.addEventListener('resize', function(e) {
 			this.reOrientate(); 
-		}.bind(this), true);
+		}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
 	},
@@ -75,23 +75,11 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 			if(this.fullPortraitHeight != null)
 				$(this.map.div.parentNode).style.height = this.fullPortraitHeight;
 			else $(this.map.div.parentNode).style.height = window.innerHeight + 'px';
-		
-			/*
-			if(this.fullPortraitWidth != null)
-				$(this.map.div.parentNode).style.width = this.fullPortraitWidth;
-			else $(this.map.div.parentNode).style.width = window.innerWidth + 'px';
-			*/
 		} 
 		else {
 			if(this.fullLandscapeHeight != null)
 				$(this.map.div.parentNode).style.height =  this.fullLandscapeHeight;
 			else $(this.map.div.parentNode).style.height =  window.innerHeight + 'px';
-			
-			/*
-			if(this.fullLandscapeWidth != null)
-				$(this.map.div.parentNode).style.width = this.fullLandscapeWidth;
-			else $(this.map.div.parentNode).style.width = window.innerWidth + 'px';
-			*/
 		}
 		window.scroll(0, this.map.div.parentNode.offsetTop);
 	},
