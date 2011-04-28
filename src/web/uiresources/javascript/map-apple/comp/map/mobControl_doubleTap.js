@@ -130,4 +130,4 @@ EMS.Control.DoubleTap = OpenLayers.Class(OpenLayers.Control, {
 	}
 });
 
-_MapControls_.push(new EMS.Control.DoubleTap);
+_MapControlsCompulsory_.push(new EMS.Control.DoubleTap);
