@@ -68,13 +68,9 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		/* do resize on click of the resize button */
 		this.div.addEventListener('touchend', function(e) {e.stopPropagation(); this.doMapResize();}.bind(this), false);
 		
-		/* do resize on resize event */
-		this.map.div.addEventListener('resize', function(e) {this.rePosition();}.bind(this), false);
-		
 		/* do resize when the device is tilted */
-		window.addEventListener('orientationchange', function(e) {
+		window.addEventListener('resize', function(e) {
 			this.reOrientate(); 
-			this.rePosition();
 		}.bind(this), false);
 		
 		this.map.div.appendChild(this.div);
@@ -116,7 +112,8 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		if(this.inFullscreenMode) {
 			this.adjustToFullScreen();	
 		}
-		else this.map.updateSize();
+		this.map.updateSize();
+		this.broadcastPosition();
 	},
 	
 	rePosition: function() {	
