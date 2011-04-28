@@ -429,12 +429,6 @@ MobEMS.implement({
 		nextImgOff.style.display = 'none';
 		nextImgOff.id = "nextOff";
 
-		next.style.width = '10px';
-		next.style.height = '16px';
-		next.style.padding = '6px 11px';
-		next.style.backgroundAttachment = 'scroll';
-		next.style.backgroundRepeat = 'no-repeat';
-		next.style.backgroundPosition = 'left top';
 		next.style.backgroundImage = "url('" + _MapImgPath_ + "bg.image')";
 		
 		next.appendChild(nextImg);
@@ -462,12 +456,6 @@ MobEMS.implement({
 		prevImgOff.src = _MapImgPath_ + 'left_off.image';
 		prevImgOff.id = "prevOff";
 		
-		prev.style.width = '10px';
-		prev.style.height = '16px';
-		prev.style.padding = '6px 11px';
-		prev.style.backgroundAttachment = 'scroll';
-		prev.style.backgroundRepeat = 'no-repeat';
-		prev.style.backgroundPosition = 'left top';
 		prev.style.backgroundImage = "url('" + _MapImgPath_ + "bg_off.image')";
 
 		prev.appendChild(prevImg);

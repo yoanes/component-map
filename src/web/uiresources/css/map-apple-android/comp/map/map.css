@@ -605,6 +605,15 @@
     left: 0px;
 }
 
+.poiPopupNext, .poiPopupPrev {
+	width: 10px;
+	height: 16px;
+	padding: 6px 11px;
+	background-attachment: scroll;
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+	
 .poiPopupNext { float: right; }
 
 .poiPopupPrev, .poiPopupShowing { float: left; }
