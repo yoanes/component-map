@@ -82,4 +82,4 @@ EMS.Control.Ornaments = OpenLayers.Class(OpenLayers.Control, {
 	}
 });
 
-_MapControls_.push(new EMS.Control.Ornaments);
+_MapControlsCompulsory_.push(new EMS.Control.Ornaments);
