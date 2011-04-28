@@ -7,5 +7,3 @@ EMS.Control.FullScreen = OpenLayers.Class(EMS.Control.FullScreenPrototype, {
 	fullPortraitHeight: '360px',
 	
 });
-
-_MapControls_.push(new EMS.Control.FullScreen);
