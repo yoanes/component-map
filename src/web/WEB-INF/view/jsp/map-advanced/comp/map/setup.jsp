@@ -16,6 +16,7 @@
 <c:set var="iconImagesSrcPrefix" value="${requestScope['mapComponentIconImagesSrcPrefix']}" />
 <c:set var="useMyLocation" value="${requestScope['mapComponentUseMyLocation']}" />
 <c:set var="useDockForPopup" value="${requestScope['mapComponentUseDockForPopup']}" />
+<c:set var="highEndMapControls" value="${requestScope['mapComponentHighEndMapControls']}" />
 
 <%-- Themes for current component. --%>
 <crf:link rel="stylesheet" type="text/css" href="comp/map/map.css" device="${device}"/>
@@ -29,8 +30,9 @@
     <logging:setup device="${device}" />
 
     <crf:script name="advanced-map-js-config" type="text/javascript" device="${device}">
-        _MapImgSrcPrefix_ = '<c:out value="${iconImagesSrcPrefix}" escapeXml="false"/>';
-       _MapControls_ = new Array();
+       _MapImgSrcPrefix_ = '<c:out value="${iconImagesSrcPrefix}" escapeXml="false"/>';
+       _MapControlsCompulsory_ = new Array();
+       _MapControlsOptional_ = [<c:out value="${highEndMapControls}" escapeXml="false" />];
        _MapImgPath_ = _MapImgSrcPrefix_ + 'comp/map/';
        _MapControlsPath_ = _MapImgPath_ + 'onmapcontrols/';
        _MapOrnamentsPath_ = _MapImgPath_ + 'ornaments/';
@@ -41,6 +43,9 @@
 
     <c:if test="${useMyLocation != null}">
     	<devicelocation:setup device="${device}" />
+    	<crf:script name="advanced-map-deviceLocation-config" type="text/javascript" device="${device}">
+			_MapControlsOptional_.push('LocateMe');
+    	</crf:script>
     </c:if>    
 
     <crf:script name="create-hiEnd-map" type="text/javascript" device="${device}">
