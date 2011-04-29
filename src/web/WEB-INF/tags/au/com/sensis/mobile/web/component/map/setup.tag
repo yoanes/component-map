@@ -32,6 +32,9 @@
 		     - Or pass a JS method to be called on content changed - your method will be called everytime a new popup is loaded
 			to the dock. Your method will receive the current index of the popup content's array as the argument." %>
 
+<%@ attribute name="highEndMapControls" required="false"
+	description="Comma separated list of map controls you want to be included with the map on initialization." %>
+
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />
 <logging:debug logger="${logger}" message="Entering setup.tag" />
 
@@ -45,6 +48,7 @@
 <c:set var="mapComponentIconImagesSrcPrefix" scope="request" value="${iconImagesSrcPrefix}" />
 <c:set var="mapComponentUseMyLocation" scope="request" value="${useMyLocation}" />
 <c:set var="mapComponentUseDockForPopup" scope="request" value="${useDockForPopup}" />
+<c:set var="mapComponentHighEndMapControls" scope="request" value="${highEndMapControls}" />
 
 <jsp:include page="/WEB-INF/view/jsp/comp/map/setup.crf" />
 
