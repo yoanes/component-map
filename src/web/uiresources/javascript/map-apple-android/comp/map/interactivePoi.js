@@ -133,10 +133,14 @@ MobEMS.implement({
 		 * (meaning there are other poi with the same latlon as this one) the generated poi won't be
 		 * interactive at all because the first poi happens to not have any popup hence you won't be able
 		 * to get to the other multipois down the chain.
+		 * 
+		 * NOTE: we do the detection from the last item to the first and later on reverse the concatenated
+		 * array. This is so that if you have a multi poi, the first listed multi poi in the array is 
+		 * displayed first rather than last. The previous approach will render the last one to the first one
 		 */
 		var nonInteractivePois = new Array();
 		
-		for(var i = 0; i < iconList.length; i++) {
+		for(var i = iconList.length - 1; i >=  0; i--) {
 			if(iconList[i].type == '' || iconList[i].id == '') {
 				nonInteractivePois.push(iconList[i]);
 				continue;
@@ -200,7 +204,7 @@ MobEMS.implement({
 		}
 		
 		/* return all unique arrays */
-		return nonInteractivePois.concat(pois);
+		return (nonInteractivePois.concat(pois)).reverse();
 	},
 	
 	/* check if there's any other poi in the neighbourhood with the same lat-lon */
