@@ -14,8 +14,14 @@
         							  device.isA('SE-X10-mini-OS2') or
         							  device.isA('SE-X10-mini-Pro-OS2')" />
 
-        <group name="iphone4" expr="device.isA('Apple-iPhone-OS-4.0')" />
+        <group name="iphone4" expr="
+        	(device.isA('Apple-iPhone') or device.isA('Apple-iPod-Touch'))
+        	and device.userAgent =~ '.*iPhone OS 4.*'" />
+        
+        <group name="ipad4" expr="device.isA('Apple-iPad') and !device.isA('Apple-iPad-OS-3.2')" />
+         
         <group name="ipad" expr="device.isA('Apple-iPad')" />
+        
         <group name="map-iphone-ipod-touch" expr="(
                 device.isA('Apple-iPhone') 
                     or device.isA('Apple-iPod-Touch') ) 
