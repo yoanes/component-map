@@ -1,3 +1,13 @@
 #mapWindow {
     height: 180px;
 }
+
+.non-geo-marker {
+   border-radius: 12px;
+   -webkit-border-radius: 12px;
+}
+
+.non-geo-marker.mini {
+	border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
