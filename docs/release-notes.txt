@@ -1,3 +1,10 @@
+==== Version 2.1.0.2_host_EMS_code (tag: map_v2_1_0_2) ====
+- Remove the temporary EMS code
+- Leave InteractiveIcon.js (EMS code) in the component because we need to patch
+  their bugs
+- Enable Android devices to get high end experience
+- Fix the jitters on ipad 4
+
 ==== Version 2.0.2.6_host_EMS_code (tag: map_v2_1_0_0) ====
 - Minor bug fix merged from head on interactivePoi.js
 - Host EMS code within the component due to EMS performance issue on PRD (delayed EMS' prod deployment)
