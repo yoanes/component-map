@@ -42,4 +42,4 @@ EMS.Control.MobileDefaults = OpenLayers.Class(EMS.Control.MobileDefaultsPrototyp
 	}
 });
 
-_MapControlsCompulsory_.push(new EMS.Control.MobileDefaults);
+_MapControls_.push(new EMS.Control.MobileDefaults);
