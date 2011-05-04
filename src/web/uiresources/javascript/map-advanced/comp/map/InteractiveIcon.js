@@ -384,7 +384,7 @@ EMS.InteractiveIcon = OpenLayers.Class({
 
         // make sure the map doesn't have any weird webkit translation applied before we do this
         // otherwise the calculations become inaccurate.
-        if (map.resetPan) {
+        if (this.map.resetPan) {
             this.map.resetPan();
         }
 
