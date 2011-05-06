@@ -1,3 +1,8 @@
+==== Version 2.1.0.3_host_EMS_code (tag: map_v2_1_0_3) ====
+- Fix the unclickable link within the popup
+- Optimise the multi poi pagination
+- Decode any ASCII code 
+
 ==== Version 2.1.0.2_host_EMS_code (tag: map_v2_1_0_2) ====
 - Remove the temporary EMS code
 - Leave InteractiveIcon.js (EMS code) in the component because we need to patch
