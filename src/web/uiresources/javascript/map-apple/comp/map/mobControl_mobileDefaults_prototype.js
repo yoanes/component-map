@@ -106,8 +106,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	 * for zoom animation.
 	 *  */
 	execTouchStart: function(e) {
-		e.preventDefault();
-		
 		var node = e.touches[0];
 		
 		this.X0 = node.pageX;
@@ -224,8 +222,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	
 	/* this is where the zoom in or out actually happens */
 	execTouchEnd: function(e) {
-		e.preventDefault();
-		
 		if(this.scale != null) {
 			/* only zoom if there's no finger left on screen. That way we consider all touches 
 			 * so the final view gives a more accurate expectation of what the user will get 
@@ -291,7 +287,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	
 	/* update the scale flag */
 	execGestureStart: function(e) { 
-		e.preventDefault();
 		if(!this.zooming)
 			this.scale = e.scale;
 		else this.lastScale = e.scale;
@@ -299,7 +294,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	
 	/* do animation and nothing else */
 	execGestureChange: function(e){
-		e.preventDefault(); 
 		if(this.zooming) {
 			var scaleDiff = this.lastScale - e.scale;
 			this.scale *= (1 - scaleDiff);
@@ -321,7 +315,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	 * the screen at the same time.
 	 *  */
 	execGestureEnd: function(e) {
-		 e.preventDefault();
 		 /* finalise the scale only for initial zoom */
 		 if(!this.zooming) {
 			 this.scale = e.scale;
@@ -335,27 +328,27 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	draw: function() { //see observe()
 		this.setupAnimation();
 		
-		this.map.div.addEventListener('touchstart', function(e){
+		this.map.viewPortDiv.addEventListener('touchstart', function(e){
 			this.execTouchStart(e);
 		}.bind(this), false);
 		
-		this.map.div.addEventListener('touchmove', function(e){
+		this.map.viewPortDiv.addEventListener('touchmove', function(e){
 			this.execTouchMove(e);
 		}.bind(this), false);
 		
-		this.map.div.addEventListener('touchend', function(e){
+		this.map.viewPortDiv.addEventListener('touchend', function(e){
 			this.execTouchEnd(e);
 		}.bind(this), false);
 		
-		this.map.div.addEventListener('gesturestart', function(e){
+		this.map.viewPortDiv.addEventListener('gesturestart', function(e){
 			this.execGestureStart(e);
 		}.bind(this), false);
 		
-		this.map.div.addEventListener('gesturechange', function(e){
+		this.map.viewPortDiv.addEventListener('gesturechange', function(e){
 			this.execGestureChange(e);
 		}.bind(this), false);
 		
-		this.map.div.addEventListener('gestureend', function(e){
+		this.map.viewPortDiv.addEventListener('gestureend', function(e){
 			this.execGestureEnd(e);
 		}.bind(this), false);
 
