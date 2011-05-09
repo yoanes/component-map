@@ -124,9 +124,9 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 	},
 	
 	broadcastPosition: function() {
-		var mcl = _MapControls_.length;
+		var mcl = this.map.controls.length;
 		for(var i = 0; i < mcl; i++) {
-			try{_MapControls_[i].rePosition();}
+			try{this.map.controls[i].rePosition();}
 			catch(e){}
 		}
 	},
