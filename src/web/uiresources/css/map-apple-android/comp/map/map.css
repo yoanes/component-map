@@ -214,6 +214,48 @@
 	height: 100px;
 }
 
+/** highlighted pois default behaviour */
+
+.poi.highlight { z-index: 351; }
+
+.poi.highlight .box{
+	 background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0, rgb(0,0,0)),
+	    color-stop(1, rgb(255,255,255))
+	);
+	
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(0,0,0) 0%,
+	    rgb(255,255,255) 100%
+	);
+}
+
+.poi.highlight .box .inside {
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0, rgb(0,0,0)),
+	    color-stop(0.9, rgb(255,255,255)),
+	    color-stop(1, rgb(255,255,255))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(0,0,0) 0%,
+	    rgb(255,255,255) 90%,
+	    rgb(255,255,255) 100%
+	);
+}
+
+.poi.highlight .triangle-cover, .poi.highlight .triangle-box .inside {
+	background-color: #000000;	
+}
+
+/** end of highlighted pois default behaviour */
 
 /** marker properties **/
 .marker {
