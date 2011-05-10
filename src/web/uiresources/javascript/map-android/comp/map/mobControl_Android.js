@@ -28,7 +28,6 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	},
 	
 	execTouchStart: function(e) {
-		e.preventDefault();
 		var node = e.touches[0];
 		
 		this.X = node.pageX;
@@ -66,7 +65,6 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	},            
 	
 	execTouchEnd: function(e) {
-		e.preventDefault();
 		this.map.pan(this.dX, this.dY, {animate: false});
 		
 		/* reset */
@@ -82,9 +80,9 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	
 	draw: function() { 
 		/* attach the event listener properly */
-		this.map.div.addEventListener('touchstart', function(e) { this.execTouchStart(e); }.bind(this), false);
-		this.map.div.addEventListener('touchmove', function(e) { this.execTouchMove(e); }.bind(this), false);
-		this.map.div.addEventListener('touchend', function(e) { this.execTouchEnd(e); }.bind(this), false);
+		this.map.viewPortDiv.addEventListener('touchstart', function(e) { this.execTouchStart(e); }.bind(this), false);
+		this.map.viewPortDiv.addEventListener('touchmove', function(e) { this.execTouchMove(e); }.bind(this), false);
+		this.map.viewPortDiv.addEventListener('touchend', function(e) { this.execTouchEnd(e); }.bind(this), false);
 
 	},
 	
