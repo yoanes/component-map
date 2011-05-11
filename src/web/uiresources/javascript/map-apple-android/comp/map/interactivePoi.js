@@ -53,7 +53,7 @@ MobEMS.implement({
 		else iconTitle = icon.title;
 		
 		var interactiveIcon = new EMS.InteractiveIcon(map,{
-			markerStyle:EMS.InteractiveMarkerStyles[icon.type], text:iconText, title:iconTitle
+			markerStyle:EMS.InteractiveMarkerStyles[icon.type], text:decodeASCII(iconText), title:decodeASCII(iconTitle), fadeDuration:3 
 		}); 
 		var interactiveMarker = new OpenLayers.Marker(this.formatLatLon(marker.coordinates), interactiveIcon);
 		
@@ -176,6 +176,11 @@ MobEMS.implement({
 				iconList[i].next = null;
 				iconList[i].prev = null;
 				
+				/* store the popup now so we don't have to keep looking for the element during
+				 * pagination
+				 */
+				iconList[i].popup = $(iconList[i].id);
+				
 				/* if the iconList[index] not in multiPois array then push it there */
 				var multipoiIndex = this.isPoiInArray(pois[poisIndex], this.MultiPois);
 				if(multipoiIndex === false) {
@@ -203,8 +208,9 @@ MobEMS.implement({
 			else pois.push(iconList[i]);
 		}
 		
-		/* return all unique arrays */
-		return (nonInteractivePois.concat(pois)).reverse();
+		/* return all unique arrays. We'll put the non interactive first because we don't 
+		 * want them to obscure the interactive poi */
+		return (pois.concat(nonInteractivePois)).reverse();
 	},
 	
 	/* check if there's any other poi in the neighbourhood with the same lat-lon */
@@ -522,7 +528,11 @@ MobEMS.implement({
 		/* generate the initial popup content */
 		var userContent = new Element('div');
 		userContent.id = icon.userContentDiv;
-		userContent.appendChild($(icon.id).clone());
+
+		/* this code below will work at this stage because icon.popup will be replaced 
+		 * by a new div element afterwards
+		 */
+		userContent.innerHTML = icon.popup.innerHTML;
 		
 		var popup = new Element('div');
 		popup.appendChild(pagination);
@@ -564,8 +574,7 @@ MobEMS.implement({
 	multiPoiGoPrev: function() {		
 		if(this.MultiPoisCurrentIcon.prev == null) return;
 		else {
-			$(this.MultiPoisCurrentPoi.userContentDiv).empty();
-			$(this.MultiPoisCurrentPoi.userContentDiv).appendChild($(this.MultiPoisCurrentIcon.prev.id).clone());
+			$(this.MultiPoisCurrentPoi.userContentDiv).innerHTML = this.MultiPoisCurrentIcon.prev.popup.innerHTML;
 			var currIndex = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
 			$(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML = --currIndex;
 			this.MultiPoisCurrentIcon = this.MultiPoisCurrentIcon.prev;
@@ -578,8 +587,7 @@ MobEMS.implement({
 	multiPoiGoNext: function() { 
 		if(this.MultiPoisCurrentIcon.next == null) return;
 		else {
-			$(this.MultiPoisCurrentPoi.userContentDiv).empty();
-			$(this.MultiPoisCurrentPoi.userContentDiv).appendChild($(this.MultiPoisCurrentIcon.next.id).clone());
+			$(this.MultiPoisCurrentPoi.userContentDiv).innerHTML = this.MultiPoisCurrentIcon.next.popup.innerHTML;
 			var currIndex = parseInt($(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML);
 			$(this.MultiPoisCurrentPoi.paginationIndexSpan).innerHTML = ++currIndex;
 			this.MultiPoisCurrentIcon = this.MultiPoisCurrentIcon.next;
@@ -628,3 +636,10 @@ MobEMS.implement({
 		$('prevContainer').style.backgroundImage = "url('" + _MapImgPath_ + "bg_off.image')";
 	}
 });
+
+function decodeASCII(str) {
+	if(str == '') return str;
+	var tDiv = document.createElement('div');
+	tDiv.innerHTML = str;
+	return tDiv.firstChild.nodeValue;
+}
