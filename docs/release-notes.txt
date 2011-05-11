@@ -1,3 +1,7 @@
+==== Version 2.1.0.5_host_EMS_code (tag: map_v2_1_0_5) ====
+- Reduce the popup animation duration
+- HTC A3335 and ZTE T3030 to get intermediate map
+
 ==== Version 2.1.0.4_host_EMS_code (tag: map_v2_1_0_4) ====
 - Fix the unclickable issue in android
 
