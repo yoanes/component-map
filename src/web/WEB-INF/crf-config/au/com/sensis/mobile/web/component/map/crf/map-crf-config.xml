@@ -44,10 +44,10 @@
                     and !device.isA('PC-Win32-IE') 
                     and !device.isA('PC-MacOS-IE') )" />
             
-        <group name="map-android" expr="device.isA('Android-OS')" />
+        <group name="map-android" expr="device.isA('Android-OS') and !(device.isA('HTC-A3335') or device.isA('ZTE-T3030'))" />
         
         <group name="map-apple-android" expr="(
-        		device.isA('Android-OS')
+        		device.isA('Android-OS') and !(device.isA('HTC-A3335') or device.isA('ZTE-T3030'))
             ) or (
             	( 
             	  (device.isA('Apple-iPhone') or device.isA('Apple-iPod-Touch')) 
@@ -59,7 +59,7 @@
             
         <!-- Broad map functionality groupings. -->
         <group name="map-advanced" expr="
-        	device.isA('Android-OS')
+        	device.isA('Android-OS') and !(device.isA('HTC-A3335') or device.isA('ZTE-T3030'))
             or (  (device.isA('Apple-iPhone') 
                     or device.isA('Apple-iPod-Touch')
                   ) and device.userAgent !~ '.*OS [012]_.*' and device.userAgent !~ '.*OS 3_0.*')
@@ -79,7 +79,9 @@
             or device.isA('Nokia-N96')
             or (  ( device.isA('Apple-iPhone') 
                     or device.isA('Apple-iPod-Touch')
-                  ) and device.userAgent =~ '.*OS 3_0.*' )" />
+                  ) and device.userAgent =~ '.*OS 3_0.*' )
+            or device.isA('HTC-A3335')
+            or device.isA('ZTE-T3030')" />
         
         <!-- Image category groups. -->
         <group name="HD1024" expr="device.imageCategory eq 'HD1024'" />
