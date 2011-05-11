@@ -56,7 +56,7 @@ MobEMS.implement({
 		else iconTitle = icon.title;
 		
 		var interactiveIcon = new EMS.InteractiveIcon(map,{
-			markerStyle:EMS.InteractiveMarkerStyles[icon.type], text:decodeASCII(iconText), title:decodeASCII(iconTitle)
+			markerStyle:EMS.InteractiveMarkerStyles[icon.type], text:decodeASCII(iconText), title:decodeASCII(iconTitle), fadeDuration:3
 		}); 
 		var interactiveMarker = new OpenLayers.Marker(this.formatLatLon(marker.coordinates), interactiveIcon);
 		
