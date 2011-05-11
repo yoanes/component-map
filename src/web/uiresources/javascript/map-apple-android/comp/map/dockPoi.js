@@ -8,7 +8,6 @@ MobEMS.implement({
 	extendDock: function() {
 		if(this.Dock == null) return;
 		
-		this.Dock.frontPoiZIndex = 351;
 		this.Dock.PoiPopupPair = new Array();
 		this.Dock.currentFrontPoi = null;
 		
@@ -54,12 +53,10 @@ MobEMS.implement({
 			if(poiDiv == null) return;
 			/* revert the old poi zindex */
 			if(this.currentFrontPoi != null) {
-				this.currentFrontPoi.style.zIndex = '';
 				/* and remove the additional highlight class */
 				$(this.currentFrontPoi).removeClass('highlight');
 			}
 			
-			poiDiv.style.zIndex = this.frontPoiZIndex;
 			this.currentFrontPoi = poiDiv;
 			/* add the highlight class to the poi */
 			$(poiDiv).addClass('highlight');
@@ -98,11 +95,8 @@ MobEMS.implement({
 		this.Dock = new EMS.Control.DockedInfoBox();
 		/* extend the Dock with our own utilities method */
 		this.extendDock();
-		/* if there's only 1 popup then use just that */
-		if($('mapPopup').getChildren().length == 1)
-			this.Dock.setContents(($('mapPopup').getChildren())[0], this.DockCallback.bind(this));
-		/* otherwise pass in the whole childNodes array */
-		else this.Dock.setContents($('mapPopup').getChildren(), this.DockCallback.bind(this));
+		/* always pass in the child node as an array */
+		this.Dock.setContents($('mapPopup').getChildren(), this.DockCallback.bind(this));
 	
 		/* dock is a controller so add it to our map but we need to put it outside the viewport like anyother 
 		 * map controls 
