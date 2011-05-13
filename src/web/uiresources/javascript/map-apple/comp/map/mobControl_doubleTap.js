@@ -107,7 +107,7 @@ EMS.Control.DoubleTap = OpenLayers.Class(OpenLayers.Control, {
 	},
 	
 	draw: function() {
-		this.map.div.addEventListener('touchstart', function(e){
+		this.map.viewPortDiv.addEventListener('touchstart', function(e){
 			/* reset if there are 2 or more touches on the map */
 			if(e.touches.length >= 2) {
 				this.reset();
@@ -119,11 +119,11 @@ EMS.Control.DoubleTap = OpenLayers.Class(OpenLayers.Control, {
 			this.detect(node);
 		}.bind(this), false);
 		
-		this.map.div.addEventListener('touchmove', function(e){
+		this.map.viewPortDiv.addEventListener('touchmove', function(e){
 			this.reset();
 		}.bind(this), false);
 		
-		this.map.div.addEventListener('gesturechange', function(e){
+		this.map.viewPortDiv.addEventListener('gesturechange', function(e){
 			this.reset();
 		}.bind(this), false);
 		
