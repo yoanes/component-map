@@ -1,6 +1,10 @@
 EMS.Control.Ornaments = OpenLayers.Class(EMS.Control.OrnamentsPrototype, {
 	
 	calcDimension: function() {
+	
+		this.northImage.height /= 2;
+		this.logoImage.height /= 2;
+		
 		/* set the used images sizes to half of it */
 		this.northImage.width /= 2;
 		this.logoImage.width /= 2;
