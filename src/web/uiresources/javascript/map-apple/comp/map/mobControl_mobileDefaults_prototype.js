@@ -351,10 +351,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.map.viewPortDiv.addEventListener('gestureend', function(e){
 			this.execGestureEnd(e);
 		}.bind(this), false);
-
-		this.map.div.addEventListener('resize', function(e) {
-			this.map.updateSize();
-		}.bind(this),false);
 		
 		/** register the zoomend event as well. Does the reverting back to original scale */
 		this.map.events.register('zoomend', this, function() { 
