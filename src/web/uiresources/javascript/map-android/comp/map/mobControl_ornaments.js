@@ -31,7 +31,7 @@ EMS.Control.Ornaments = OpenLayers.Class(OpenLayers.Control, {
 	
 	calcPosition: function() {
 		this.positions.north = new OpenLayers.Pixel(this.ornamentButtonPadding, this.ornamentButtonPadding);
-		this.positions.logo = new OpenLayers.Pixel(this.map.size.w - this.logoSize.w - this.ornamentButtonPadding, this.ornamentButtonPadding);
+		this.positions.logo = new OpenLayers.Pixel(this.map.size.w - this.logoSize.w - this.ornamentButtonPadding, 0);
 	},
 	
 	draw: function() {
