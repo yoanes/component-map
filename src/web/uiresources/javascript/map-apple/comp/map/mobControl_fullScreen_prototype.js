@@ -140,6 +140,8 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		else {
 			this.shrinkImage.style.display = 'none';
 			this.growImage.style.display = 'block';
+			
+			this.executeClickToEnable();
 		}
 	},
 	
@@ -148,5 +150,16 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 			this.handler.destroy();
 		}
 		this.handler = null;	
+	},
+	
+	executeClickToEnable: function() {
+		var mcl = this.map.controls.length;
+		for(var i = 0; i < mcl; i++) {
+			if(this.map.controls[i].CLASS_NAME == "EMS.Control.ClickToEnable") {
+				try{this.map.controls[i].close();}
+				catch(e){}
+				break;
+			}
+		}
 	}
 });
