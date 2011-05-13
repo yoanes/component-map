@@ -118,16 +118,7 @@ var MobEMS = new Class({
 			var mapDiv = new Element('div');
 			
 			mapDiv.id = "map-div";
-			mapDiv.style.position = 'absolute';
-			mapDiv.style.top = '0px';
-			mapDiv.style.left = '0px';
-			mapDiv.style.height = '100%';
-			mapDiv.style.width = '100%';
-			mapDiv.style.overflow = 'hidden';
-			
-			mapDiv.style['-webkit-user-select'] = 'none';
-			mapDiv.style['-webkit-touch-callout'] = 'none';
-			
+		
 			$(mapWrapper).appendChild(mapDiv);
 			return true;
 		}
@@ -148,44 +139,10 @@ var MobEMS = new Class({
 		for(var i = 0; i < _MapControlsOptional_.length; i++) {
 			var mapControlToBeCreated = _MapControlsOptional_[i];
 			
-			switch(mapControlToBeCreated) {
-				case 'Zoom':
-					if($defined(EMS.Control.Zoom)) {
-						var tempOptionalMapControl = new EMS.Control.Zoom;
-						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
-							filteredOptionalMapControls.push(tempOptionalMapControl);
-					}
-					break;
-				
-				case 'ViewMode': 
-					if($defined(EMS.Control.ViewMode)) {
-						var tempOptionalMapControl = new EMS.Control.ViewMode;
-						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
-							filteredOptionalMapControls.push(tempOptionalMapControl);
-					}
-					break;
-					
-				case 'FullScreen':
-					if($defined(EMS.Control.FullScreen)) {
-						var tempOptionalMapControl = new EMS.Control.FullScreen;
-						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
-							filteredOptionalMapControls.push(tempOptionalMapControl);
-					}
-					break;
-				
-				case 'LocateMe': 
-					/* although this control is optional, it is recommended that the app includes it via the 
-					 * useMyLocation attribute in the setup.tag instead of registering it in the 
-					 * highEndMapControls attribute
-					 */
-					if($defined(EMS.Control.LocateMe)) {
-						var tempOptionalMapControl = new EMS.Control.LocateMe;
-						if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
-							filteredOptionalMapControls.push(tempOptionalMapControl);
-					}
-					break;
-					
-				default: /* does nothing */
+			if($defined(EMS.Control[mapControlToBeCreated])) {
+				var tempOptionalMapControl = new EMS.Control[mapControlToBeCreated];
+				if(this.crossCheckOptionalIsNotDuplicateOfCompulsory(tempOptionalMapControl))
+					filteredOptionalMapControls.push(tempOptionalMapControl);
 			}
 		}
 		return filteredOptionalMapControls;
