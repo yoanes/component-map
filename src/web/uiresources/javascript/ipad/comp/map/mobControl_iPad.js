@@ -9,7 +9,7 @@ EMS.Control.MobileDefaults = OpenLayers.Class(EMS.Control.MobileDefaultsPrototyp
 	    var tScale = this.getScale3dCSS();
 		
 	/*	this.map.viewPortDiv.style['-webkit-transition'] = '-webkit-transform 10ms ease-out 0'; */
-        this.map.viewPortDiv.style['-webkit-transform'] = tScale + ' translate3d(' + (t3dp.x-dX) + 'px, ' + (t3dp.y-dY) + 'px, 0)';
+        this.map.viewPortDiv.style['-webkit-transform'] = 'translate3d(' + (t3dp.x-dX) + 'px, ' + (t3dp.y-dY) + 'px, 0) ' + tScale;
 	    
 		/* accumulate the dx and dy*/
 		this.dX += dX;
