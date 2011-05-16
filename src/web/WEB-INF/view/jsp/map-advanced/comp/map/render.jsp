@@ -6,7 +6,6 @@
 <%-- Retrieve attributes from request. --%>
 <c:set var="map" value="${requestScope['mapComponentMap']}" />
 <c:set var="clientSideGeneratedMapStateChangeUrl" value="${requestScope['mapComponentClientSideGeneratedMapStateChangeUrl']}" />
-<c:set var="popup" value="${requestScope['mapComponentPopup']}" />
 
 <c:if test="${not empty map && map.mapImageRetrievalDeferredToClient}">
 
@@ -22,6 +21,4 @@
     <div id="mapWindow">
         &#160;    
     </div>
-
-    <div id="mapPopup"><c:out value="${popup}" escapeXml="false" /></div>
 </c:if>
