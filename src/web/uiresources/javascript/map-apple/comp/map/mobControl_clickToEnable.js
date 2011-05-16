@@ -43,16 +43,18 @@ EMS.Control.ClickToEnable = OpenLayers.Class(OpenLayers.Control, {
 	
 	open: function() {
 		this.div.style.height = '0px';
-		this.div.style['-webkit-transition-property'] = 'height';
+		this.div.style.display = 'none';
+/*		this.div.style['-webkit-transition-property'] = 'height';
 		this.div.style['-webkit-transition-duration'] = '500ms';
-		this.div.style['-webkit-transition-timing-function'] = 'ease-out';
+		this.div.style['-webkit-transition-timing-function'] = 'ease-out'; */
 	},
 	
 	close: function() {
 		this.div.style.height = '100%';
-		this.div.style['-webkit-transition-property'] = 'height';
+		this.div.style.display = 'block';
+/*		this.div.style['-webkit-transition-property'] = 'height';
 		this.div.style['-webkit-transition-duration'] = '500ms';
-		this.div.style['-webkit-transition-timing-function'] = 'ease-in';
+		this.div.style['-webkit-transition-timing-function'] = 'ease-in'; */
 	},
 	
 	executeFullScreen: function() {
