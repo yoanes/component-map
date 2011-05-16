@@ -19,6 +19,6 @@
 	</c:when>
 	<c:otherwise>
 		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" 
-    		iconImagesSrcPrefix="${iconImagesSrcPrefix}" useMyLocation="true" highEndMapControls="'ViewMode', 'Zoom', 'FullScreen'" />
+    		iconImagesSrcPrefix="${iconImagesSrcPrefix}" useMyLocation="true" highEndMapControls="'ViewMode', 'Zoom', 'FullScreen', 'LocateMe', 'ClickToEnable'" />
 	</c:otherwise>
 </c:choose>
