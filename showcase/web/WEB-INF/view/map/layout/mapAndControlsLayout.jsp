@@ -102,7 +102,7 @@
 		</div>	
 		<c:if test="${not onePopup}">
 			<div id="poi-2">POI-2: have another popup content a very long poi a very long poi a very long poi a very long poi a very long poia very long poia very long poia very long poia very long poia very long poi a very long poi a very long poi a very long poi a very long poi a very long poi</div>
-			<div id="poi-3">POI-3: and another one too</div>
+			<div id="poi-3">POI-3: and another one too <a href="http://google.com.au">google link</a></div>
 			<div id="poi-4">POI-4: bla bla bla bla</div>
 			<div id="poi-5">POI-5: HOMER SAYS: DOH!</div>
 			<div id="poi-6">POI-6: POI POI POI POI POI POI!</div>
