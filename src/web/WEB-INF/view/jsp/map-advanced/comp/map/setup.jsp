@@ -7,15 +7,12 @@
 <%@ taglib prefix="util" uri="/au/com/sensis/mobile/web/component/core/util/util.tld"%>
 <%@ taglib prefix="logging" uri="/au/com/sensis/mobile/web/component/core/logging/logging.tld"%>
 <%@ taglib prefix="crf" uri="/au/com/sensis/mobile/crf/crf.tld"%>
-<%@ taglib prefix="devicelocation" uri="/au/com/sensis/mobile/web/component/devicelocation/devicelocation.tld" %>
 
 <%-- Retrieve attributes from request. --%>
 <c:set var="device" value="${requestScope['mapComponentDevice']}" />
 <c:set var="map" value="${requestScope['mapComponentMap']}" />
 <c:set var="emsJsUrl" value="${requestScope['mapComponentEmsJsUrl']}" />
 <c:set var="iconImagesSrcPrefix" value="${requestScope['mapComponentIconImagesSrcPrefix']}" />
-<c:set var="useMyLocation" value="${requestScope['mapComponentUseMyLocation']}" />
-<c:set var="useDockForPopup" value="${requestScope['mapComponentUseDockForPopup']}" />
 <c:set var="highEndMapControls" value="${requestScope['mapComponentHighEndMapControls']}" />
 
 <%-- Themes for current component. --%>
@@ -39,14 +36,7 @@
     </crf:script>
     
     <%-- Scripts for current component. --%>
-    <crf:script src="comp/map/package" type="text/javascript" device="${device}"></crf:script>
-
-    <c:if test="${useMyLocation != null}">
-    	<devicelocation:setup device="${device}" />
-    	<crf:script name="advanced-map-deviceLocation-config" type="text/javascript" device="${device}">
-			_MapControlsOptional_.push('LocateMe');
-    	</crf:script>
-    </c:if>    
+    <crf:script src="comp/map/package" type="text/javascript" device="${device}"></crf:script>  
 
     <crf:script name="create-hiEnd-map" type="text/javascript" device="${device}">
         if(typeof(MobEMS) != 'undefined') {
@@ -55,10 +45,6 @@
                 <c:forEach var="resolvedIcon" items="${map.resolvedIcons}" varStatus="resolvedIconLoopStatus">
                     <c:if test="${resolvedIconLoopStatus.index > 0}">,</c:if>
 		    	{
-		    		id: '<c:out value="${resolvedIcon.icon.interactive.id}" />',
-					title: '<c:out value="${resolvedIcon.icon.interactive.title}" />',
-					text: '<c:out value="${resolvedIcon.icon.interactive.description}" />',
-					type: '<c:out value="${resolvedIcon.icon.interactive.type}" />',
 		    		url: '<c:out value="${resolvedIcon.icon.clientImgSrcPath}" />' ,
                     width: <c:out value="${resolvedIcon.icon.width}" /> ,                    
                     height: <c:out value="${resolvedIcon.icon.height}" /> ,                    
@@ -130,14 +116,6 @@
                     };
                 </c:otherwise>
             </c:choose> 
-        
-            <%-- 
-		     - add dock attribute if specified. Note: dock can either be null or true or a name of a function
-		     - note: we can safely assume that mapOptions have been declared above
-		     --%>
-			<c:if test="${useDockForPopup != null }">
-			   	mapOptions.dock = <c:out value="${useDockForPopup}"/>; 
-		   	</c:if>
 		   	
             new MobEMS('mapWindow', 
                 {
