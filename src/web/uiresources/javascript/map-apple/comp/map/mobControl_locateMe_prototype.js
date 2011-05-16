@@ -11,6 +11,12 @@ EMS.Control.LocateMePrototype = OpenLayers.Class(OpenLayers.Control, {
 	
 	div: null,
 	locateImage: null,
+	loadingImage: null,
+	
+	/* loading location flag, not necessarily indicate that the gps is following user or not */
+	isLoading: false,
+	
+	firstLocationFound: false,
 	
 	mapNth: null,
 	
@@ -21,6 +27,11 @@ EMS.Control.LocateMePrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.locateImage.src = _MapControlsPath_ + 'locate.image';
 		this.locateImage.style.display = 'block';
 		this.locateImage.id = 'mapLocateMe';
+		
+		this.loadingImage = new Image();
+		this.loadingImage.src = _MapControlsPath_ + 'loading.image';
+		this.loadingImage.style.display = 'none';
+		this.loadingImage.id = 'mapLoadingLocation';
 	},
 	
 	calcPosition: function() {
@@ -49,11 +60,28 @@ EMS.Control.LocateMePrototype = OpenLayers.Class(OpenLayers.Control, {
 		
 		/* append the images */
 		this.div.appendChild(this.locateImage);
+		this.div.appendChild(this.loadingImage);
 
 		/* do view change on click of the button */
 		this.div.addEventListener('touchend', function(e) {
 			e.stopPropagation(); 
-			this.followUser();
+			if(this.isLoading) { 
+				MAP.instances[this.mapNth].DeviceLocation.softReset();
+				this.firstLocationFound = false;
+	        }
+			else { 
+				this.followUser(); 
+				/* don't toggle if the first location has been found */
+				if(this.firstLocationFound) return;
+			}
+			this.toggle();
+		}.bind(this), false);
+		
+		this.map.div.addEventListener('locationFound', function(e) {
+			if(!this.firstLocationFound) {
+				this.toggle();
+				this.firstLocationFound = true;
+			}
 		}.bind(this), false);
 		
 		/* do resize when the device is tilted */
@@ -80,6 +108,20 @@ EMS.Control.LocateMePrototype = OpenLayers.Class(OpenLayers.Control, {
 		
 		this.div.style.top = newPosition.y + 'px';
 		this.div.style.left = newPosition.x + 'px';
+	},
+	
+	toggle: function() {
+		if(this.isLoading) {
+			this.locateImage.style.display = 'block';
+			this.loadingImage.style.display = 'none';
+			this.isLoading = false;
+		}
+		
+		else {
+			this.locateImage.style.display = 'none';
+			this.loadingImage.style.display = 'block';
+			this.isLoading = true;
+		}
 	},
 	
 	destroy: function() {
