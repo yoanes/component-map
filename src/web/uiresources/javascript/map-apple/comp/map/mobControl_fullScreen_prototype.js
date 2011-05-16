@@ -69,7 +69,7 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.div.addEventListener('touchend', function(e) {e.stopPropagation(); this.doMapResize();}.bind(this), false);
 		
 		/* do resize when the device is tilted */
-		window.addEventListener('resize', function(e) {
+		window.addEventListener('orientationchange', function(e) {
 			this.reOrientate(); 
 		}.bind(this), false);
 		
