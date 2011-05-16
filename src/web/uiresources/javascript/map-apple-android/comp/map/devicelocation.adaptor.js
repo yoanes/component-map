@@ -13,14 +13,14 @@ MobEMS.implement({
 		
 			this.Map.markersLayer.addMarker(this.LocationMarker);
 			this.LocationPoi.setLocationAccuracy(accuracy);
-			this.LocationPoi.startLocatingAnimation();
 		} 
 		else {
-			this.LocationMarker.moveTo(this.Map.getViewPortPxFromLonLat(this.formatLatLon(coordinates)));
+			this.LocationMarker.moveTo(this.Map.getLayerPxFromLonLat(this.formatLatLon(coordinates)));
 			this.LocationPoi.setLocationAccuracy(accuracy);
 		}
 		
 		if(!stillLocating) this.LocationPoi.startLocatedAnimation();
+		else this.LocationPoi.startLocatingAnimation();
 	},
 	
 	clearLocationPoi: function() {
@@ -49,8 +49,9 @@ MobEMS.implement({
 	initDeviceLocationConfig: function() {
 		/* Device location instance on map component */
 		this.DeviceLocationConfig = {};
-		this.DeviceLocationConfig.errorMessage = "Sorry, we couldn't locate you.";
 
+		this.DeviceLocationConfig.allowZoomOnNextLocate = true;
+		
 		/* follow me */
 		this.DeviceLocationConfig.AutoLocate = {};
 		this.DeviceLocationConfig.AutoLocate.onlocate = function(position) {
@@ -76,7 +77,7 @@ MobEMS.implement({
 					/* do the pan */
 					this.Map.pan(panBy.x, panBy.y, {animate:true});
 					/* zoom in if the map is zoom out too much */
-					if(this.Map.getZoom() < 9)
+					if(this.DeviceLocationConfig.allowZoomOnNextLocate && this.Map.getZoom() < 9)
 						setTimeout(function() {
 							EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), this.Map.getCenter(), 11);
 						}.bind(this), 500);
@@ -91,18 +92,19 @@ MobEMS.implement({
 				 */
 				if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
 					var newBoundaries = this.getNewMapBoundsWithAllMarkers();
-					EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), newBoundaries.getCenterLonLat(), this.Map.getZoomForExtent(newBoundaries));
+					EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), newBoundaries.getCenterLonLat(), this.Map.getZoomForExtent(newBoundaries) - 1);
 				}
 				
 				this.LocateUserRelativeToPois = false;
+				this.DeviceLocationConfig.allowZoomOnNextLocate = false;
 			}
+			
+			this.triggerLocationFoundEvent();
 		}.bind(this);
 
 		this.DeviceLocationConfig.AutoLocate.prelocate = function () {
-			 this.LocateUserRelativeToPois = true;
-			/* reset the device location component manually */
-			navigator.geolocation.clearWatch(this.DeviceLocation._autoLocate_locationId);
-            this.DeviceLocation.reset();
+			this.LocateUserRelativeToPois = true;
+			this.DeviceLocation.softReset();
 		}.bind(this);
 
 		this.DeviceLocationConfig.AutoLocate.postlocate = function(lastRecordedPosition) {
@@ -112,17 +114,15 @@ MobEMS.implement({
 			else this.addLocationPoi(lastRecordedPosition, lastRecordedPosition.accuracy, false);
 		}.bind(this);
 
-		this.DeviceLocationConfig.AutoLocate.onerror = function(error) { 
-			alert(this.DeviceLocationConfig.errorMessage);
-		}.bind(this);
-
-		/* limits: we don't need any since we want to follow user always */
-		this.DeviceLocationConfig.AutoLocate.limits = {};
+		this.DeviceLocationConfig.AutoLocate.onerror = null;
 
 		/* options: set the timeout between search in 5 secs. Note that setting
 		 * timeout to infinity jitters the map slightly */
 		this.DeviceLocationConfig.AutoLocate.options = {};
 		this.DeviceLocationConfig.AutoLocate.options.timeout = 30000;
+		this.DeviceLocationConfig.AutoLocate.options.maximumAge = 0;
+		this.DeviceLocationConfig.AutoLocate.options.enableHighAccuracy = true;
+		this.DeviceLocationConfig.AutoLocate.options.exitOnError = false;
 	},
 	
 	createDeviceLocationInstance: function(map) {
@@ -134,20 +134,31 @@ MobEMS.implement({
 	},
 	
 	getNewMapBoundsWithAllMarkers: function() {
-		var currentBoundaries = this.Map.calculateBounds();
+		/* retrieve all markers */
 		var existingMarkers = this.Map.markersLayer.markers;
 		
-		var newBoundaries = currentBoundaries.clone();
-		for(var i = 0; i < existingMarkers.length; i++) {
+		/* create empty bounds and use the first marker lat lon to populate the initial
+		 * values
+		 */
+		var newBoundaries = new OpenLayers.Bounds();
+		newBoundaries.bottom = newBoundaries.top = existingMarkers[0].lonlat.lat;
+        newBoundaries.left = newBoundaries.right = existingMarkers[0].lonlat.lon;
+
+        /* start from 1 because the 0th marker has been used */
+		for(var i = 1; i < existingMarkers.length; i++) {
 			newBoundaries.left = Math.min(existingMarkers[i].lonlat.lon, newBoundaries.left);
 			newBoundaries.right = Math.max(existingMarkers[i].lonlat.lon, newBoundaries.right);
 			newBoundaries.top = Math.max(existingMarkers[i].lonlat.lat, newBoundaries.top);
 			newBoundaries.bottom = Math.min(existingMarkers[i].lonlat.lat, newBoundaries.bottom);
 		}
-	
-		/* extend the boundaries by 30 px */
-		newBoundaries.extend(new OpenLayers.Pixel(30, 30));
 		
 		return newBoundaries; 
+	},
+	
+	/* trigger our own custom event */
+	triggerLocationFoundEvent: function() {
+		var event = document.createEvent("HTMLEvents");
+		event.initEvent('locationFound', true, true ); 
+		this.Map.div.dispatchEvent(event);
 	}
 });
