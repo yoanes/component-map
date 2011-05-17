@@ -178,6 +178,7 @@
 /** poi related properties **/
 .poi {
 	position: absolute;
+	z-index: 352;
 }
 .poi .box {
 	width: 200px;
