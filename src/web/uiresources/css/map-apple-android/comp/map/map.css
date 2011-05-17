@@ -4,7 +4,7 @@
     height: 100px;
 
     position: absolute;
-    z-index:950;
+    z-index: 351;
 }
 .location-marker .background {
     width: 100%;
@@ -161,6 +161,7 @@
 
 .poi.popup {
     position:absolute;
+    z-index: 352;
 }
 .box .popup {
     height: 80px;
@@ -216,7 +217,7 @@
 
 /** highlighted pois default behaviour */
 
-.poi.highlight { z-index: 351; }
+.poi.highlight { z-index: 353; }
 
 .poi.highlight .box{
 	 background-image: -webkit-gradient(
@@ -263,6 +264,7 @@
 	position: absolute;
     width: 50px;
     height: 36px;
+    z-index: 352;
 }
 
 .marker .box {
