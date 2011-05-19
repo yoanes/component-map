@@ -1,5 +1,7 @@
 package au.com.sensis.mobile.web.component.map.showcase.presentation.action;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,9 @@ import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
  * Class for creating hard coded POI search results.
  */
 public final class PoiResult {
+	
+	private static Logger logger = Logger.getLogger(PoiResult.class);
+	
     private final double lat;
     private final double lon;
     private final String name;
@@ -28,7 +33,7 @@ public final class PoiResult {
 
         final double franceTravelLat = -37.8136;
         final double franceTravelLon = 144.962;
-        results.add(new PoiResult("France &amp; Travel",
+        results.add(new PoiResult("France & Travel",
                 "yellowCoreCombinedDataSource",
                 "1/ 361 Little Bourke St, Melbourne, VIC", franceTravelLat,
                 franceTravelLon));
@@ -40,7 +45,7 @@ public final class PoiResult {
                 "Level 1, 370 Little Bourke St, Melbourne, VIC",
                 leaseExpressLat, leaseExpressLon));
 
-        results.add(new PoiResult("Leasexpress",
+        results.add(new PoiResult("Leasexpress O",
                 "yellowCoreCombinedDataSource",
                 "Level 1, 370 Little Bourke St, Melbourne, VIC",
                 leaseExpressLat, leaseExpressLon));
@@ -54,7 +59,7 @@ public final class PoiResult {
 
         final double metroParkingLat = -37.81171;
         final double metroParkingLon = 144.96295;
-        results.add(new PoiResult("Metro Parking Management Pty Ltd",
+        results.add(new PoiResult("O'Connell / lala Metro Parking Management Pty Ltd",
                 "yellowCoreCombinedDataSource",
                 "St Francis, 312 Lonsdale St,, Melbourne, VIC",
                 metroParkingLat, metroParkingLon));
@@ -269,6 +274,20 @@ public final class PoiResult {
                 "At Crown, Southbank, VIC",
                 brubakersBagelBarLat, brubakersBagelBarLon));
 
+        final double brubakersBagelBarLatF = -37.8232656;
+        final double brubakersBagelBarLonF = 144.9602357;
+        results.add(new PoiResult("Brubakers Bagel Bar F",
+                "yellowCoreCombinedDataSource",
+                "At Crown, Southbank, VIC",
+                brubakersBagelBarLatF, brubakersBagelBarLonF));
+        
+        final double brubakersBagelBarLatG = -37.8232666;
+        final double brubakersBagelBarLonG = 144.9602376;
+        results.add(new PoiResult("Brubakers Bagel Bar G",
+                "yellowCoreCombinedDataSource",
+                "At Crown, Southbank, VIC",
+                brubakersBagelBarLatG, brubakersBagelBarLonG));
+        
         return results.toArray(new PoiResult[] {});
     }
 
@@ -431,8 +450,10 @@ public final class PoiResult {
         for (final PoiResult poiResult : PoiResult
                 .createWhereisMobileRestaurantsNearby3006WithPageSize10Results()) {
             iconDescriptors.add(createIconDescriptor(poiResult.getLat(),
-                    poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), poiResult.getAddress(), "poi-".concat(Integer.toString(c++)), InteractivePoiInfo.SLIM)));
+                    poiResult.getLon(), new InteractivePoiInfo(poiResult.getName(), poiResult.getAddress(), "poi-".concat(Integer.toString(c++)), InteractivePoiInfo.NAMED)));
         }
+        
+      //  logger.debug("iconDescriptors: " + iconDescriptors);
         return iconDescriptors;
     }
         
