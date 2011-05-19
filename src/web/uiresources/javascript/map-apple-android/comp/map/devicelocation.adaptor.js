@@ -2,8 +2,6 @@
 MobEMS.implement({
 	LocationMarker: null,
 	LocationPoi: null,
-	
-	LocateUserRelativeToPois: false,
 
 	addLocationPoi: function(coordinates, accuracy, stillLocating) {
 		/* if there's no location poi on the map */
@@ -49,8 +47,8 @@ MobEMS.implement({
 	initDeviceLocationConfig: function() {
 		/* Device location instance on map component */
 		this.DeviceLocationConfig = {};
-
-		this.DeviceLocationConfig.allowZoomOnNextLocate = true;
+		
+		this.DeviceLocationConfig.stopUpdatingMapOnLocate = false;
 		
 		/* follow me */
 		this.DeviceLocationConfig.AutoLocate = {};
@@ -64,46 +62,46 @@ MobEMS.implement({
 			/* if the map has only 1 markers, that is this location marker 
 			 * then we want to pan and center the map on the user's location
 			 * 
-			 * also pan the map only if the flag "LocateUserRelativeToPois" is set to
-			 * false
 			 */
-			if(this.Map.markersLayer.markers.length == 1 || !this.LocateUserRelativeToPois) {
-				/* if the user location is already within the boundaries 
-				 * the simply display it
-				 */
-				if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
-					/* get distance in px */
-					var panBy = this.getLocMapCtrPxDiff(position);
-					/* do the pan */
-					this.Map.pan(panBy.x, panBy.y, {animate:true});
-					/* zoom in if the map is zoom out too much */
-					if(this.DeviceLocationConfig.allowZoomOnNextLocate && this.Map.getZoom() < 9)
-						setTimeout(function() {
-							EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), this.Map.getCenter(), 11);
-						}.bind(this), 500);
+			if(!this.DeviceLocationConfig.stopUpdatingMapOnLocate) {
+				if(this.Map.markersLayer.markers.length == 1) {
+					/* if the user location is already within the boundaries 
+					 * the simply display it
+					 */
+					if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
+						/* get distance in px */
+						var panBy = this.getLocMapCtrPxDiff(position);
+						/* do the pan */
+						this.Map.pan(panBy.x, panBy.y, {animate:true});
+						/* zoom in if the map is zoom out too much */
+						if(this.Map.getZoom() < 9)
+							setTimeout(function() {
+								EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), this.Map.getCenter(), 11);
+							}.bind(this), 500);
+					}
 				}
-			}
-			/* else we want to zoom out the map to show user's location relatives
-			 * to the other pois already displayed
-			 */
-			else {
-				/* but only does that if the user's location is off the map
-				 * otherwise simply plot them there
+				/* else we want to zoom out the map to show user's location relatives
+				 * to the other pois already displayed
 				 */
-				if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
-					var newBoundaries = this.getNewMapBoundsWithAllMarkers();
-					EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), newBoundaries.getCenterLonLat(), this.Map.getZoomForExtent(newBoundaries) - 1);
+				else {
+					/* but only does that if the user's location is off the map
+					 * otherwise simply plot them there
+					 */
+					if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
+						var newBoundaries = this.getNewMapBoundsWithAllMarkers();
+						EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), newBoundaries.getCenterLonLat(), this.Map.getZoomForExtent(newBoundaries) - 1);
+					}
 				}
 				
-				this.LocateUserRelativeToPois = false;
-				this.DeviceLocationConfig.allowZoomOnNextLocate = false;
+				/* stop updating map after initial hit */
+				this.DeviceLocationConfig.stopUpdatingMapOnLocate = true;
 			}
 			
 			this.triggerLocationFoundEvent();
 		}.bind(this);
 
 		this.DeviceLocationConfig.AutoLocate.prelocate = function () {
-			this.LocateUserRelativeToPois = true;
+			this.DeviceLocationConfig.stopUpdatingMapOnLocate = false;
 			this.DeviceLocation.softReset();
 		}.bind(this);
 
