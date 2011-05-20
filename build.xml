@@ -22,4 +22,26 @@
     <!-- Import shared build scripts. --> 
     <import file="shared-build-scripts/src/toplevel/build-component-with-showcase-support.xml" />
 	
+	
+    <target name="showcase-prepare-resources-for-package" 
+        depends="build-showcase-prepare-resources-for-package.showcase-prepare-resources-for-package">
+        
+        <echo message="crf: Overriding showcase showcase-prepare-resources-for-package target to add additional steps." />
+
+        <!-- 
+          - Webapp context path for the showcase. Default value is empty, which means the app is assumd to be the
+          - default app.
+          -->
+        <property name="showcase.context.path" value=""/>
+
+        <!-- CRF -->
+        <copy tofile="${showcase.classes.dir}/crf-environment.properties" overwrite="true" 
+            file="${showcase.cfg.dir}/crf-environment.properties.${project.platform}" >
+            <filterset>
+                <filter token="TOMCAT_HOME" value="${tomcat.home}" />
+                <filter token="WEBAPP_CONTEXT_PATH" value="${showcase.context.path}" />
+            </filterset>
+        </copy>
+
+    </target>	
 </project>
