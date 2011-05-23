@@ -5,7 +5,9 @@ import org.apache.log4j.Logger;
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.mobile.web.component.map.showcase.presentation.form.MapForm;
+import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
+import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 
 /**
  * Demonstrates how to get an initial POI map using the {@link #getMapDelegate()}.
@@ -103,21 +105,21 @@ public class GetPoisAction extends AbstractMapAction {
             // This test case tests that the poi maps don't fall over if there is a single
             // result at the same (lat, lon) as the search centre.
             map = getMapDelegate().getInitialPoiMap(
-                    POSTCODE_3006_COORDINATES, MapLayer.Map,
+                    POSTCODE_3006_COORDINATES, MobilesIconType.CROSS_HAIR, null, MapLayer.Map,
                     PoiResult
                         .createWhereisMobileRestaurantsNearby3006WithPageSize10IconDescriptors(),
                     defaultZoom, getContext());
         } else if (VICTORIAN_COACHES_NEAR_3000_SEARCH_KEY.equals(getModel().getSearch())) {
         	  // This test case tests multi poi
             map = getMapDelegate().getInitialPoiMap(
-            		 POSTCODE_3006_COORDINATES, MapLayer.Map,
+            		 POSTCODE_3006_COORDINATES, MobilesIconType.CROSS_HAIR, null, MapLayer.Map, 
                      PoiResult
                          .createWhereisMobileVictorianCoachesMultiPoiIconDescriptors(""),
                      defaultZoom, getContext());
         }	else if (VICTORIAN_COACHES_NEAR_3000_TEXT_SEARCH_KEY.equals(getModel().getSearch())) {
         	  // This test case tests multi poi
             map = getMapDelegate().getInitialPoiMap(
-            		 POSTCODE_3006_COORDINATES, MapLayer.Map,
+            		 POSTCODE_3006_COORDINATES, MobilesIconType.CROSS_HAIR, new InteractivePoiInfo("","","", InteractivePoiInfo.LOCATION), MapLayer.Map,
                      PoiResult
                          .createWhereisMobileVictorianCoachesMultiPoiIconDescriptors("txt"),
                      defaultZoom, getContext());
