@@ -12,6 +12,6 @@
     -webkit-border-radius: 10px;
 }
 
-.non-geo-marker .inside .text {
+.non-geo-marker.mini .inside .text {
 	padding-left: 2px;
 }
