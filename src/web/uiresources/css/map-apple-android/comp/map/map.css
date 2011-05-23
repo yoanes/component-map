@@ -554,6 +554,8 @@
 
    margin-top: -37px;
    margin-left: 2px;
+   
+   z-index: 352;
 }
 .non-geo-marker .inside {
 	position:absolute;
