@@ -1,13 +1,13 @@
 ########################################################
 ## ENVIRONMENT : DESK
 ########################################################
-
-env.resources.jsp.root.dir=D:/Software/apache-tomcat-hotdeploy/webapps/wl-map-component-showcase/
-env.resources.properties.root.dir=D:/Software/apache-tomcat-hotdeploy/webapps/wl-map-component-showcase/WEB-INF/properties
-env.resources.css.root.dir=D:/Software/apache-tomcat-hotdeploy/webapps/wl-map-component-showcase/uiresources/css
-env.resources.javascript.root.dir=D:/Software/apache-tomcat-hotdeploy/webapps/wl-map-component-showcase/uiresources/javascript
-env.resources.images.root.dir=D:/Software/apache-tomcat-hotdeploy/webapps/wl-map-component-showcase/uiresources/images
-
-env.resources.css.client.path.prefix=/uiresources/css/
-env.resources.javascript.client.path.prefix=/uiresources/javascript/
-env.resources.images.client.path.prefix=/uiresources/images/
+   
+env.resources.jsp.root.dir=@TOMCAT_HOME@/webapps/wl-map-component-showcase
+env.resources.properties.root.dir=@TOMCAT_HOME@/webapps/wl-map-component-showcase/WEB-INF/properties
+env.resources.css.root.dir=@TOMCAT_HOME@/webapps/wl-map-component-showcase/uiresources/css
+env.resources.javascript.root.dir=@TOMCAT_HOME@/webapps/wl-map-component-showcase/uiresources/javascript
+env.resources.images.root.dir=@TOMCAT_HOME@/webapps/wl-map-component-showcase/uiresources/images
+   
+env.resources.css.client.path.prefix=@WEBAPP_CONTEXT_PATH@/uiresources/css/
+env.resources.javascript.client.path.prefix=@WEBAPP_CONTEXT_PATH@/uiresources/javascript/
+env.resources.images.client.path.prefix=@WEBAPP_CONTEXT_PATH@/uiresources/images/

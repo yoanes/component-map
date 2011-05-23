@@ -1,3 +1,33 @@
+==== Version 2.1.0.6_host_EMS_code (tag: map_v2_1_0_6) ====
+
+Default environment property files are no longer shipped with the component. This is due to the Mobiles team restructure.
+There is no longer anything common between the environments of each app and hence the components can no longer predict 
+sensible defaults.
+
+Upgrade steps:
+1. _Before you upgrade_, take the version prior to this and extract all property files that match the following pattern
+    from the component's jar file:
+
+    au/com/sensis/mobile/web/component/map/map-environment.properties.<platform>
+    
+2. Place these property files in your project source tree somewhere.
+
+3. Change your build scripts to ensure that these property files result in map-environment.properties being in the
+   root of your classpath at deployment time. For example:
+   
+   a) when building the deployment unit for dev, map-environment.properties.dev should be copied to 
+      map-environment.properties in the root of the deployed app's classpath.
+   b) when building the deployment unit for prd, map-environment.properties.prd should be copied to 
+      map-environment.properties in the root of the deployed app's classpath.
+      
+4. Now you can upgrade your dependency and pull in the new version of this component.
+
+5. For future upgrades, note that the following file in the jar is provided as a template for you to check what properties
+   should be specified by your app.
+
+    au/com/sensis/mobile/web/component/map/map-environment-template.properties
+
+
 ==== Version 2.1.0.5_host_EMS_code (tag: map_v2_1_0_5) ====
 - Reduce the popup animation duration
 - HTC A3335 and ZTE T3030 to get intermediate map
