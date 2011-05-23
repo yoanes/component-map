@@ -21,6 +21,20 @@ MobEMS.implement({
 			return this.__addPoi(marker, icon);
 		}
 		
+		else if(icon.type == 'LOCATION') {
+			try {
+			/* initialize the location poi if it hasn't been initialised */
+				if(this.LocationPoi == null) 
+					this.LocationPoi = this.createLocationPoi(map);
+				this.addLocationPoi(marker.coordinates, 100, false);
+			}
+			catch(e) {
+				/* fall back to the old poi */
+				return this.__addPoi(marker, icon);
+			}
+			return;
+		}
+		
 		/* try to use number for SLIM / THICK poi 
 		 * these 2 types of poi will just truncate the text with elipsis
 		 * which means you'll only get "A..." if we use text 
@@ -141,7 +155,7 @@ MobEMS.implement({
 		var nonInteractivePois = new Array();
 		
 		for(var i = iconList.length - 1; i >=  0; i--) {
-			if(iconList[i].type == '' || iconList[i].id == '') {
+			if(iconList[i].type == '' || iconList[i].type == 'LOCATION' || iconList[i].id == '') {
 				nonInteractivePois.push(iconList[i]);
 				continue;
 			}
