@@ -94,8 +94,9 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * {@inheritDoc}
      */
     public Map getInitialMap(final WGS84Point mapCentre,
-            final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
-            final MobileContext mobileContext, final InteractivePoiInfo centrePoiInfo) {
+            final int zoomLevel, final MapLayer mapLayer, 
+            final MobilesIconType centreIconType, final InteractivePoiInfo centrePoiInfo,
+            final MobileContext mobileContext) {
 
         final int emsZoomLevel = getEmsManager().getEmsZoomLevel(zoomLevel);
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
@@ -145,7 +146,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
     public Map getInitialMap(final WGS84Point mapCentre,
             final int zoomLevel, final MapLayer mapLayer, final MobilesIconType centreIconType,
             final MobileContext mobileContext) {
-    	return getInitialMap(mapCentre, zoomLevel, mapLayer, centreIconType, mobileContext, new InteractivePoiInfo("", "", "", ""));
+    	return getInitialMap(mapCentre, zoomLevel, mapLayer, centreIconType, new InteractivePoiInfo("","","",""), mobileContext);
     	
     }
     
@@ -303,16 +304,16 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
      * from WhereisMobile.
      * </p>
      */
-    public Map getInitialPoiMap(final WGS84Point mapCentre,
+    public Map getInitialPoiMap(final WGS84Point mapCentre, 
+    		final MobilesIconType centreIconType, final InteractivePoiInfo centrePoiInfo,
             final MapLayer mapLayer, final List<IconDescriptor> poiIcons,
-            final int mobilesZoomThreshold, final MobileContext mobileContext, 
-            final InteractivePoiInfo centrePoiInfo) {
+            final int mobilesZoomThreshold, final MobileContext mobileContext) {
 
         final ScreenDimensions screenDimensions =
             getScreenDimensionsStrategy().createScreenDimensions(
                     mobileContext);
         final List<ResolvedIcon> resolvedIcons = getEmsManager().resolvePoiIcons(mapCentre,
-                MobilesIconType.CROSS_HAIR, centrePoiInfo, poiIcons, screenDimensions);
+                centreIconType, centrePoiInfo, poiIcons, screenDimensions);
         if (deviceNeedsServerSideMapGenerated(mobileContext)) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Will retrieve map for device: "
@@ -355,7 +356,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
             final MapLayer mapLayer, final List<IconDescriptor> poiIcons,
             final int mobilesZoomThreshold, final MobileContext mobileContext) {
     	
-    	return getInitialPoiMap(mapCentre, mapLayer, poiIcons, mobilesZoomThreshold, mobileContext, new InteractivePoiInfo("", "", "", ""));
+    	return getInitialPoiMap(mapCentre, null, null, mapLayer, poiIcons, mobilesZoomThreshold, mobileContext);
     }
 
     /**
@@ -422,6 +423,7 @@ public class MapDelegateImpl implements Validatable, MapDelegate {
         }
     }
 
+   
     /**
      * @param existingMapUrl
      * @param mapManipulationAction
