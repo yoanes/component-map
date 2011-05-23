@@ -66,7 +66,7 @@ public class GetMapAction extends AbstractMapAction {
         final Map map =
                 getMapDelegate().getInitialMap(addressToMap.getCoordinates(),
                         getDefaultZoom(), MapLayer.Map,
-                        getModel().getCursorType(), getContext(), centerPoiInfo);
+                        getModel().getCursorType(), centerPoiInfo, getContext());
         setMap(map);
 
         if (logger.isDebugEnabled()) {
