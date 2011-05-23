@@ -82,6 +82,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     private Device mockDevice;
     private JourneyDescriptor mockJourneyDescriptor;
 
+    private InteractivePoiInfo emptyPoiInfo;
     /**
      * Setup test data.
      *
@@ -105,6 +106,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 GENERATE_SERVER_SIDE_MAP_PROPERTY_NAME);
 
         getObjectUnderTest().setPoiMapRadiusMultiplier(POI_MAP_RADIUS_MULTIPLIER);
+        
+        setEmptyInteractivePoiInfo(new InteractivePoiInfo("","","",""));
     }
 
     @Test
@@ -743,7 +746,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testGetInitialPoiMapWhenServerSideMapShouldBeGenerated()
+    public void testGetInitialPoiMapWhenServerSideMapShouldBeGeneratedWithoutCenterPoi()
             throws Exception {
 
         recordShouldGenerateServerSideMap(true);
@@ -780,7 +783,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-                MobilesIconType.CROSS_HAIR, new InteractivePoiInfo("","","",""),
+                null, null,
                 iconDescriptors, getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -809,7 +812,74 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     }
 
     @Test
-    public void testGetInitialPoiMapWhenServerSideMapShouldNotBeGenerated()
+    public void testGetInitialPoiMapWhenServerSideMapShouldBeGeneratedWithCenterPoi()
+            throws Exception {
+
+        recordShouldGenerateServerSideMap(true);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
+
+        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                getMockScreenDimensions());
+
+        EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
+                getMockUserContext());
+
+        final int mobilesZoomThreshold = 4;
+        EasyMock.expect(mockEmsManager.getPoiMap(
+                EasyMock.same(getMockScreenDimensions()), EasyMock.eq(getPoint1()),
+                EasyMock.eq(MapLayer.Photo), EasyMock.eq(iconDescriptors),
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01),
+                EasyMock.eq(mobilesZoomThreshold),
+                EasyMock.isA(UserContext.class))).andReturn(getMockMapUrl());
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockMapUrl().getImageUrl())
+            .andReturn("dummy url").anyTimes();
+
+        EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
+        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+                iconDescriptors, getMockScreenDimensions()))
+                .andReturn(resolvedIcons);
+
+        recordGetMinMaxZoom();
+
+        replay();
+
+        final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(), 
+        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+                MapLayer.Photo, iconDescriptors, mobilesZoomThreshold,
+                getMockMobileContext());
+
+        Assert.assertTrue("isMapRetrieved() should be true", map
+                .isMapImageRetrieved());
+        Assert.assertSame("map has wrong mapUrl", getMockMapUrl(),
+                map.getMapUrl());
+        Assert.assertSame("map has wrong originalMapCentre", getPoint1(),
+                map.getOriginalMapCentre());
+
+        assertMapLayers(map, false, true, false);
+
+        assertZoomDetails(map, EMS_ZOOM_LEVEL, false, false);
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+
+    }
+    
+    @Test
+    public void testGetInitialPoiMapWhenServerSideMapShouldNotBeGeneratedWithoutCenterPoi()
         throws Exception {
 
         recordShouldGenerateServerSideMap(false);
@@ -836,7 +906,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-                MobilesIconType.CROSS_HAIR, new InteractivePoiInfo("","","",""),
+                null, null,
                 iconDescriptors, getMockScreenDimensions()))
                     .andReturn(resolvedIcons);
 
@@ -874,6 +944,73 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         assertMapLayers(map, false, false, true);
     }
 
+    @Test
+    public void testGetInitialPoiMapWhenServerSideMapShouldNotBeGeneratedWithCenterPoi()
+        throws Exception {
+
+        recordShouldGenerateServerSideMap(false);
+
+        // Expectation to cover off debug logging.
+        EasyMock.expect(getMockDevice().getName())
+            .andReturn("Apple-iPhone").anyTimes();
+
+        final List<IconDescriptor> iconDescriptors = createIconDescriptors();
+
+        EasyMock.expect(
+                getMockScreenDimensionsStrategy().createScreenDimensions(
+                        getMockMobileContext())).andReturn(
+                getMockScreenDimensions());
+
+        final int mobilesZoomThreshold = 4;
+        EasyMock.expect(mockEmsManager.getPoiMapBoundingBox(
+                EasyMock.eq(getPoint1()),
+                EasyMock.eq(iconDescriptors),
+                EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
+                    .andReturn(getMockMobilesBoundingBox());
+        EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
+                EMS_ZOOM_LEVEL);
+
+        final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
+        EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
+        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+                iconDescriptors, getMockScreenDimensions()))
+                    .andReturn(resolvedIcons);
+
+        replay();
+
+        final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
+        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+                MapLayer.PhotoWithStreets, iconDescriptors, mobilesZoomThreshold,
+                getMockMobileContext());
+
+        Assert.assertFalse("isMapImageRetrieved() should be false", map
+                .isMapImageRetrieved());
+
+        Assert.assertNotNull("map should have non-null mapUrl",
+                map.getMapUrl());
+        Assert.assertEquals("mapUrl has wrong mapCentre", getPoint1(),
+                map.getMapUrl().getMapCentre());
+        Assert.assertEquals("mapUrl has wrong zoom", 0,
+                map.getMapUrl().getZoom());
+
+        Assert.assertFalse("isZoomDetailsDefined() should be false", map.isZoomDetailsDefined());
+        Assert.assertTrue("isBoundingBoxDefined() should be true", map.isBoundingBoxDefined());
+        Assert.assertEquals("geMobilesBoundingBox() is wrong", getMockMobilesBoundingBox(),
+                map.getMapUrl().getBoundingBox());
+
+        Assert.assertSame("resolvedIcons are wrong", resolvedIcons,
+                map.getResolvedIcons());
+
+        Assert.assertSame("map has wrong originalMapCentre", getPoint1(),
+                map.getOriginalMapCentre());
+
+        Assert.assertEquals("getBoundingBoxEmsJavaScriptZoomInThreshold() is wrong",
+                new Integer(EMS_ZOOM_LEVEL - 1),
+                map.getBoundingBoxEmsJavaScriptZoomInThreshold());
+
+        assertMapLayers(map, false, false, true);
+    }
+    
     @Test
     public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedPanEast()
             throws Throwable {
@@ -2741,5 +2878,17 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
      */
     private void setPoint5(final WGS84Point point5) {
         this.point5 = point5;
+    }
+    
+    private MobilesIconType getCrossHairIcon() {
+    	return MobilesIconType.CROSS_HAIR;
+    }
+    
+    private InteractivePoiInfo getEmptyInteractivePoiInfo() {
+    	return emptyPoiInfo;
+    }
+    
+    private InteractivePoiInfo setEmptyInteractivePoiInfo(final InteractivePoiInfo emptyPoiInfo) {
+    	return this.emptyPoiInfo = emptyPoiInfo;
     }
 }
