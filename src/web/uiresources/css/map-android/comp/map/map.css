@@ -11,3 +11,7 @@
 	border-radius: 10px;
     -webkit-border-radius: 10px;
 }
+
+.non-geo-marker .inside .text {
+	padding-left: 2px;
+}
