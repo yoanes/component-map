@@ -178,8 +178,8 @@ public interface MapDelegate {
      * @return {@link Map}. May not be null.
      */
     Map getInitialMap(final WGS84Point mapCentre,
-            final int zoomLevel, MapLayer mapLayer, MobilesIconType centreIconType,
-            final MobileContext mobileContext, InteractivePoiInfo centrePoiInfo);
+            final int zoomLevel, MapLayer mapLayer, MobilesIconType centreIconType, InteractivePoiInfo centrePoiInfo,
+            final MobileContext mobileContext);
 
     /**
      * Manipulate an existing map, such as panning or zooming it or changing
@@ -240,8 +240,9 @@ public interface MapDelegate {
      * @return {@link Map}. May not be null.
      */
     Map getInitialPoiMap(final WGS84Point mapCentre,
+    		final MobilesIconType centreIconType, final InteractivePoiInfo centrePoiInfo,
             MapLayer mapLayer, final List<IconDescriptor> poiIcons,
-            int mobilesZoomThreshold, final MobileContext mobileContext, InteractivePoiInfo centrePoiInfo);
+            int mobilesZoomThreshold, final MobileContext mobileContext);
     
     Map getInitialPoiMap(final WGS84Point mapCentre,
             MapLayer mapLayer, final List<IconDescriptor> poiIcons,
@@ -289,7 +290,7 @@ public interface MapDelegate {
             final Action mapManipulationAction,
             final MobileContext mobileContext);
 
-
+    
     /**
      * Retrieve an initial map containing a route through the given waypoints
      * (as opposed to manipulating an existing route map - see
