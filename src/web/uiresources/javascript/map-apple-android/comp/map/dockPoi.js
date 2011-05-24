@@ -50,12 +50,13 @@ MobEMS.implement({
 			/* safe guard the method so we won't try to set any style 
 			 * to a nonexistent div
 			 */
-			if(poiDiv == null) return;
-			/* revert the old poi zindex */
 			if(this.currentFrontPoi != null) {
 				/* and remove the additional highlight class */
 				$(this.currentFrontPoi).removeClass('highlight');
+				this.currentFrontPoi = null;
 			}
+			/* if there's no poi to be highlighted return */
+			if(poiDiv == null) return;
 			
 			this.currentFrontPoi = poiDiv;
 			/* add the highlight class to the poi */
@@ -82,9 +83,11 @@ MobEMS.implement({
 	 * otherwise we will have bunch of issue with YM requirement 
 	 * */
 	DockCallback: function(idx) {
-		this.Dock.bringPoiToFront(this.Dock.findPoiGivenPopup(this.Dock.contents[this.Dock.contentIndex].id));
+		/* pass the poi to the app call back */
+		var poi = this.Dock.findPoiGivenPopup(this.Dock.contents[this.Dock.contentIndex].id);
+		this.Dock.bringPoiToFront(poi);
 		if(this.AppCallback instanceof Function)
-			this.AppCallback(idx);
+			this.AppCallback(idx, poi);
 		return;
 	},
 	
