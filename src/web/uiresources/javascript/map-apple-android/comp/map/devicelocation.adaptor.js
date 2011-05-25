@@ -89,7 +89,10 @@ MobEMS.implement({
 					 */
 					if(!this.Map.calculateBounds().containsLonLat(this.formatLatLon(position))) {
 						var newBoundaries = this.getNewMapBoundsWithAllMarkers();
-						EMS.Util.smoothZoom(this.Map, this.Map.getCenter(), newBoundaries.getCenterLonLat(), this.Map.getZoomForExtent(newBoundaries) - 1);
+				        var zoomLevel = this.Map.getZoomForExtent(newBoundaries);
+
+		                var appropriateZoomLevel = this.Map.isValidZoomLevel(zoomLevel - 1) ? zoomLevel - 1 : zoomLevel;
+		                this.Map.setCenter(newBoundaries.getCenterLonLat(), appropriateZoomLevel);
 					}
 				}
 				
