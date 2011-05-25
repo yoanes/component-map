@@ -273,6 +273,7 @@ MobEMS.implement({
 			icon.div.addEventListener('touchend', function(e) {
 				/* stop the event to propagate */
 				e.stopPropagation();
+				e.preventDefault();
 				
 				/* initiate the MultiPoisCurrentPoi and MultiPoisCurrentIcon
 				 * hide other popup if it is showing
