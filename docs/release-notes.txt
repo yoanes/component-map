@@ -1,3 +1,24 @@
+==== Version 2.2.0.0 (tag: map_v2_2_0_0) ====
+Implements the following features:
+- Double tap to zoom
+- Configurable high end map controls
+- Follow Me
+- Non interactive Map on page load
+- Updated whereis logo
+- Make cross hair on high end map to be optional
+
+Remove the usage of EMS.Util.smoothZoom() on locate me call when we have to zoom out to
+display all pois including the user's location because the fraction goes too big and all
+iOS crashes unless those with nitro js. Use setCenter() instead.
+
+This version of map component will need the devicelocation component v2.0.11 or above
+
+Update the getInitialPoiMap interface into the following
+Map getInitialPoiMap(final WGS84Point mapCentre,
+    		final MobilesIconType centreIconType, final InteractivePoiInfo centrePoiInfo,
+            MapLayer mapLayer, final List<IconDescriptor> poiIcons,
+            int mobilesZoomThreshold, final MobileContext mobileContext);
+            
 ==== Version 2.1.0.6_host_EMS_code (tag: map_v2_1_0_6) ====
 
 Default environment property files are no longer shipped with the component. This is due to the Mobiles team restructure.
