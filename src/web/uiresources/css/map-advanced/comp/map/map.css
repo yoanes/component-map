@@ -5,6 +5,7 @@
 #mapPopup {
 	visibility: hidden;
 	height: 0px;
+	overflow: hidden;
 }
 
 #map-div {
