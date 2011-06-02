@@ -218,9 +218,9 @@
 
 /** highlighted pois default behaviour */
 
-.poi.highlight { z-index: 353; }
+.poi.highlight, .marker.highlight { z-index: 353; }
 
-.poi.highlight .box{
+.poi.highlight .box, .marker.highlight .box {
 	 background-image: -webkit-gradient(
 	    linear,
 	    left bottom,
@@ -236,7 +236,7 @@
 	);
 }
 
-.poi.highlight .box .inside {
+.poi.highlight .box .inside, .marker.highlight .box .inside {
 	background-image: -webkit-gradient(
 	    linear,
 	    left bottom,
@@ -253,7 +253,7 @@
 	);
 }
 
-.poi.highlight .triangle-cover, .poi.highlight .triangle-box .inside {
+.poi.highlight .triangle-cover, .poi.highlight .triangle-box .inside, .marker.highlight .triangle-box .inside {
 	background-color: #000000;	
 }
 
