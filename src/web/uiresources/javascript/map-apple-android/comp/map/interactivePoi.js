@@ -309,6 +309,9 @@ MobEMS.implement({
 				 * but will never do a real pan because the touchend is silenced
 				 * prevent the gesturechange as well so you don't zoom in the popup and not zoom in the map
 				 * */ 
+				this.popupDiv.addEventListener('touchstart', function(e){
+					e.stopPropagation();
+				}.bind(this), false);
 				this.popupDiv.addEventListener('touchend', function(e){
 					e.stopPropagation();
 				}.bind(this), false);
