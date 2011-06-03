@@ -1,3 +1,10 @@
+==== Version 2.2.0.1 (tag: map_v2_2_0_1) ====
+- Highlight the marker as well as the poi so it has the black color
+- Create another crf group for android 2.1. The touchmove preventDefault doesn't seem to do
+  its job but touchstart one does. Also it doesn't interfere with any link click. So it's ok.
+- Use translate instead of translate3d in all Android devices. This seems to work better. 
+- Correct the center pinch calculation on the apple family so the app can throw the map wherever and however they want it.
+  
 ==== Version 2.2.0.0 (tag: map_v2_2_0_0) ====
 Implements the following features:
 - Double tap to zoom
