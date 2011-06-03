@@ -270,7 +270,7 @@ MobEMS.implement({
 			}
 			
 			/* create event to open popup */
-			icon.div.addEventListener('touchend', function(e) {
+			icon.div.addEventListener('click', function(e) {
 				/* stop the event to propagate */
 				e.stopPropagation();
 				e.preventDefault();
