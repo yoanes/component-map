@@ -13,7 +13,7 @@
         <group name="sex10mini" expr="device.isA('SE-X10-mini') or
         							  device.isA('SE-X10-mini-OS2') or
         							  device.isA('SE-X10-mini-Pro-OS2')" />
-
+        							  
         <group name="iphone4" expr="
         	(device.isA('Apple-iPhone') or device.isA('Apple-iPod-Touch'))
         	and device.userAgent =~ '.*iPhone OS 4.*'" />
@@ -48,6 +48,9 @@
             or (device.isA('PC') 
                     and !device.isA('PC-Win32-IE') 
                     and !device.isA('PC-MacOS-IE') )" />
+        
+        <group name="map-android-2_1" expr="device.isA('Android-OS') and 
+        	(device.userAgent =~ '.*Android 2\.1.*' or device.userAgent =~ '.*Android 1\.6.*')" />
             
         <group name="map-android" expr="device.isA('Android-OS') and !(device.isA('HTC-A3335') or device.isA('ZTE-T3030'))" />
         
