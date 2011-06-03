@@ -18,8 +18,8 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 	/* return the x and y properties from the transflate3d css style */
 	getTranslate3dProperties: function() {
 		var transform = this.map.viewPortDiv.style.webkitTransform;
-		var t3dX = parseInt(transform.replace(/translate3d./,'').replace(/,.*/,''));
-		var t3dY = parseInt(transform.replace(/translate3d.*?,/,'').replace(/,0.*/,''));
+		var t3dX = parseInt(transform.replace(/translate./,'').replace(/,.*/,''));
+		var t3dY = parseInt(transform.replace(/translate.*?,/,'').replace(/,0.*/,''));
 		
 		if (t3dX == null || isNaN(t3dX)) t3dX = 0;
         if (t3dY == null || isNaN(t3dY)) t3dY = 0;
@@ -56,7 +56,7 @@ EMS.Control.MobileDefaults = OpenLayers.Class(OpenLayers.Control, {
 		
 		/* simulate the panning */
 	    var t3dp = this.getTranslate3dProperties();
-        this.map.viewPortDiv.style['-webkit-transform'] = 'translate3d(' + (t3dp.x-diffX) + 'px, ' + (t3dp.y-diffY) + 'px, 0)';
+        this.map.viewPortDiv.style['-webkit-transform'] = 'translate(' + (t3dp.x-diffX) + 'px, ' + (t3dp.y-diffY) + 'px)';
         
 		this.dX += diffX;
 		this.dY += diffY;
