@@ -1,3 +1,6 @@
+==== Version 2.2.0.2 (tag: map_v2_2_0_2) ====
+call preventDefault() on touchend of fullscreen button
+
 ==== Version 2.2.0.1 (tag: map_v2_2_0_1) ====
 - Highlight the marker as well as the poi so it has the black color
 - Create another crf group for android 2.1. The touchmove preventDefault doesn't seem to do
