@@ -41,6 +41,10 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	 */
 	zooming: false,
 	
+	/* hold the #mapWindow offset because we need to calculate the pinch based on this attribute. 
+	 * Relying on everything as relatively positioned in the page is no longer valid */
+	windowOffset: null,
+	
 	initialize: function() { 
 		this.active = true;
 	},
@@ -85,8 +89,8 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	
 	/* Util method. Returns the center point of multi touches with respect to the map viewport */
 	getCenterTouch: function(n1, n2, f, considerTranslate3dProperties) { 
-		var cX = (n1.pageX + n2.pageX) / 2 - $(this.map.div.parentNode).offsetLeft;
-		var cY = (n1.pageY + n2.pageY) / 2 - $(this.map.div.parentNode).offsetTop;
+		var cX = (n1.pageX + n2.pageX) / 2 - this.windowOffset.x;
+		var cY = (n1.pageY + n2.pageY) / 2 - this.windowOffset.y;
 		
 		if(considerTranslate3dProperties === true) {
 			var t3dp = this.getTranslate3dProperties();
@@ -106,7 +110,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	 * for zoom animation.
 	 *  */
 	execTouchStart: function(e) {
-		
 		var node = e.touches[0];
 		
 		this.X0 = node.pageX;
@@ -223,7 +226,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	
 	/* this is where the zoom in or out actually happens */
 	execTouchEnd: function(e) {
-		
 		if(this.scale != null) {
 			/* only zoom if there's no finger left on screen. That way we consider all touches 
 			 * so the final view gives a more accurate expectation of what the user will get 
@@ -328,6 +330,9 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 	 */
 	
 	draw: function() { //see observe()
+		/* initialise the windowOffset value. we assume the map never change position */
+		this.windowOffset = this.findPosition($(this.map.div.parentNode));
+		
 		this.setupAnimation();
 		
 		this.map.viewPortDiv.addEventListener('touchstart', function(e){
@@ -353,10 +358,6 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.map.viewPortDiv.addEventListener('gestureend', function(e){
 			this.execGestureEnd(e);
 		}.bind(this), false);
-
-		this.map.div.addEventListener('resize', function(e) {
-			this.map.updateSize();
-		}.bind(this),false);
 		
 		/** register the zoomend event as well. Does the reverting back to original scale */
 		this.map.events.register('zoomend', this, function() { 
@@ -378,5 +379,21 @@ EMS.Control.MobileDefaultsPrototype = OpenLayers.Class(OpenLayers.Control, {
 			this.handler.destroy();
 		}
 		this.handler = null;	
+	},
+	
+	/* define our own findPosition to calculate the dom offset and take into account all the parents offset */
+	findPosition: function(obj) {
+		var posX = obj.offsetLeft;
+		var posY = obj.offsetTop;
+		
+		while(obj.offsetParent){
+			if(obj==document.getElementsByTagName('body')[0]){ break; }
+			else{
+				posX = posX + obj.offsetParent.offsetLeft;
+				posY = posY + obj.offsetParent.offsetTop;
+				obj = obj.offsetParent;
+			}
+		}
+		return {x: posX, y: posY};
 	}
 });
