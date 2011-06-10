@@ -1,3 +1,6 @@
+==== Version 2.1.0.5.2 (tag: map_v2_1_0_5_2) ====
+Fix the iphone4 default controller bug 
+
 ==== Version 2.1.0.5_WPM_patch (tag: map_v2_1_0_5_1) ====
 patch the iphone4 controller
 preventDefault() on touchend of the fullscreen button
