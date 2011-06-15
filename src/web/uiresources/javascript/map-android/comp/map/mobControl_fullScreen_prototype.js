@@ -60,7 +60,7 @@ EMS.Control.FullScreenPrototype = OpenLayers.Class(OpenLayers.Control, {
 		this.div.appendChild(this.shrinkImage);
 
 		/* do resize on click of the resize button */
-		this.div.addEventListener('touchend', function(e) {e.stopPropagation(); this.doMapResize();}.bind(this), false);
+		this.div.addEventListener('click', function(e) {e.preventDefault(); e.stopPropagation(); this.doMapResize();}.bind(this), false);
 		
 		/* do resize when the device is tilted/resized. 'orientationchange' event won't trigger under android devices */
 		window.addEventListener('resize', function(e) {
