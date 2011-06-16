@@ -1,3 +1,6 @@
+==== Version 2.2.0.3 (tag: map_v2_2_0_3) ====
+Fix the fullscreen bubbling events.  
+
 ==== Version 2.2.0.2 (tag: map_v2_2_0_2) ====
 call preventDefault() on touchend of fullscreen button
 
