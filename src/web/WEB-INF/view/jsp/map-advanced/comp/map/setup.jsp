@@ -12,7 +12,6 @@
 <c:set var="device" value="${requestScope['mapComponentDevice']}" />
 <c:set var="map" value="${requestScope['mapComponentMap']}" />
 <c:set var="emsJsUrl" value="${requestScope['mapComponentEmsJsUrl']}" />
-<c:set var="iconImagesSrcPrefix" value="${requestScope['mapComponentIconImagesSrcPrefix']}" />
 <c:set var="highEndMapControls" value="${requestScope['mapComponentHighEndMapControls']}" />
 
 <%-- Themes for current component. --%>
@@ -26,8 +25,9 @@
     <util:setup device="${device}" />
     <logging:setup device="${device}" />
 
+    <crf:imgSrcPrefix var="imgSrcPrefix" />
     <crf:script name="advanced-map-js-config" type="text/javascript" device="${device}">
-       _MapImgSrcPrefix_ = '<c:out value="${iconImagesSrcPrefix}" escapeXml="false"/>';
+       _MapImgSrcPrefix_ = '<c:out value="${imgSrcPrefix}" escapeXml="false"/>';
        _MapControlsCompulsory_ = new Array();
        _MapControlsOptional_ = [<c:out value="${highEndMapControls}" escapeXml="false" />];
        _MapImgPath_ = _MapImgSrcPrefix_ + 'comp/map/';
@@ -45,7 +45,7 @@
                 <c:forEach var="resolvedIcon" items="${map.resolvedIcons}" varStatus="resolvedIconLoopStatus">
                     <c:if test="${resolvedIconLoopStatus.index > 0}">,</c:if>
 		    	{
-		    		url: '<c:out value="${resolvedIcon.icon.clientImgSrcPath}" />' ,
+                    url: '<c:out value="${imgSrcPrefix}${resolvedIcon.icon.clientImgSrcPath}" />' ,
                     width: <c:out value="${resolvedIcon.icon.width}" /> ,                    
                     height: <c:out value="${resolvedIcon.icon.height}" /> ,                    
                     offsetX: <c:out value="${resolvedIcon.icon.offsetX}" /> ,                    

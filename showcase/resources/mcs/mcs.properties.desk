@@ -1,7 +1,0 @@
-mcs.devicerepository.filepath=D:/var/mcs/devices/devices.mdpr
-
-# TODO: may be possible to change mcs-config.xml to get rid of the policies directory altogether.
-mcs.policies.filepath=D:/var/mcs/
-
-mcs.cache.policies=false
-mcs.script.asset.path=/wl-map-component-showcase/scripts/

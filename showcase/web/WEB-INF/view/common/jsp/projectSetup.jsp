@@ -7,18 +7,14 @@
 <c:set var="emsJsUrl">
     <fmt:message key="env.ems.service.js" /><fmt:message key="env.ems.token" />
 </c:set>
-<c:set var="iconImagesSrcPrefix">
-    <fmt:message key="env.ems.client.map.icons.img.src.prefix" />
-</c:set>
 
 <deviceport:setup device="${context.device}" />
 <c:choose>
 	<c:when test="${docked}">
-		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" 
-    		iconImagesSrcPrefix="${iconImagesSrcPrefix}" useDockForPopup="true"/>
+		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" useDockForPopup="true"/>
 	</c:when>
 	<c:otherwise>
 		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" 
-    		iconImagesSrcPrefix="${iconImagesSrcPrefix}" useMyLocation="true" highEndMapControls="'ViewMode', 'Zoom', 'FullScreen', 'LocateMe', 'ClickToEnable'" />
+    		useMyLocation="true" highEndMapControls="'ViewMode', 'Zoom', 'FullScreen', 'LocateMe', 'ClickToEnable'" />
 	</c:otherwise>
 </c:choose>

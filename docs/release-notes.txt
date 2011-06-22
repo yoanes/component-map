@@ -1,3 +1,26 @@
+==== Version 3.0.0 (tag: map_v3_0_0, merged in from branch_map_v2_0_2_5 and updated to latest dependencies) ====
+
+Jiras:
+- CRF-98 NEW - upgrade map component to use CRF 2
+
+Upgrade notes:
+- This version depends on CRF 2.x so don't upgrade unless you're okay with pulling in this 
+  dependency.
+- setup tag no longer accepts iconImagesSrcPrefix. The component will work out the correct
+  value itself using CRF.
+- In your emsManagerContext.xml, you must remove all occurrences of 
+  "${env.ems.client.map.icons.img.src.prefix}/". This occurs in lines like follows: 
+
+  <property name="clientImgSrcPath" value="${env.ems.client.map.icons.img.src.prefix}/comp/map/markers/large/start_27x34.image" />
+  
+- In your environment properties files, you should remove the no longer required env.ems.client.map.icons.img.src.prefix property.   
+  
+- Now depends on:
+    - wl-crf 2.0.2
+    - wl-core-component 2.0.8
+    - wl-build-scripts 2.3.3
+      sdpCommon-web 2.0-006
+
 ==== Version 2.2.0.3 (tag: map_v2_2_0_3) ====
 Fix the fullscreen bubbling events.  
 

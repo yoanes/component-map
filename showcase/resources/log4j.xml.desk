@@ -88,6 +88,10 @@
         <appender-ref ref="FILE"/>
     </logger>    
     
+    <!-- Silence the EhcacheStatisticsLogger. -->
+    <logger name="au.com.sensis.mobile.crf.util.EhcacheStatisticsLogger" additivity="false">
+    </logger>    
+    
     <logger name="SERVLET_CAPTURE" additivity="false">
         <level value="INFO" />
         <appender-ref ref="CAPTURE"/>

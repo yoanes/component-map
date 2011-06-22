@@ -1,5 +1,0 @@
-mcs.devicerepository.filepath=/app/smtestapp/testapps/mcstestapp/devices/devices.mdpr
-mcs.policies.filepath=/app/smtestapp/testapps/mcstestapp/policies
-
-mcs.cache.policies=false
-mcs.script.asset.path=/mcstestapp/scripts/

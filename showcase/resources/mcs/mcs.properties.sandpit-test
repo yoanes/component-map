@@ -1,5 +1,0 @@
-mcs.devicerepository.filepath=/app/smtestapp/sandpit-test/map-component/devices/devices.mdpr
-mcs.policies.filepath=/app/smtestapp/sandpit-test/map-component/policies
-
-mcs.cache.policies=false
-#!mcs.script.asset.path=/map-component-showcase/scripts/

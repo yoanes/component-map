@@ -19,9 +19,6 @@
 <%@ attribute name="emsJsUrl" required="true"
     description="URL of the EMS JavaScript library." %>
     
-<%@ attribute name="iconImagesSrcPrefix" required="true"
-    description="Prefix to use for advanced maps to retrieve icon images directly." %>
-
 <%@ attribute name="useMyLocation" required="false"
 	description="Flag to include the devicelocation component plus all features associated with it." %>
 
@@ -45,7 +42,6 @@
 <c:set var="mapComponentDevice" scope="request" value="${device}" />
 <c:set var="mapComponentMap" scope="request" value="${map}" />
 <c:set var="mapComponentEmsJsUrl" scope="request" value="${emsJsUrl}" />
-<c:set var="mapComponentIconImagesSrcPrefix" scope="request" value="${iconImagesSrcPrefix}" />
 <c:set var="mapComponentUseMyLocation" scope="request" value="${useMyLocation}" />
 <c:set var="mapComponentUseDockForPopup" scope="request" value="${useDockForPopup}" />
 <c:set var="mapComponentHighEndMapControls" scope="request" value="${highEndMapControls}" />

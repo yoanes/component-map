@@ -3,7 +3,7 @@
 }
 
 #mapControls {
-    background-image: url("/uiresources/images/comp/map/controls/mc_bg.image");
+    background-image: url("../../../../images/comp/map/controls/mc_bg.image");
     background-repeat: repeat-x;;
     text-align: center;    
 }

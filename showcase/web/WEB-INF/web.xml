@@ -72,12 +72,6 @@
         <filter-name>capture</filter-name>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
-<!--    
-    <filter-mapping>
-        <filter-name>capture</filter-name>
-        <url-pattern>*.xdime</url-pattern>
-    </filter-mapping>
--->
     <filter-mapping>
         <filter-name>capture</filter-name>
         <url-pattern>*.action</url-pattern>
