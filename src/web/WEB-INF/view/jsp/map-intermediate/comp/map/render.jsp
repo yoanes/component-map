@@ -70,4 +70,15 @@
                 ></a
         ></div
     ></div
-></c:if>
+>
+	<crf:script name="create-intermediate-map" type="text/javascript" device="${device}">
+        if(typeof(MobEMS) != 'undefined') {
+            new MobEMS(
+                'mapWindow',
+                {
+                    layer: '<c:out value="${map.jsMapLayer}"/>'
+                }                
+            );
+        }
+    </crf:script>
+</c:if>
