@@ -24,7 +24,7 @@ env.ems.password=dev?755545!!whitep
 #env.ems.password=dev?755545!!whitep
 
 # ems has it's own proxy settings so we can point to prod locally
-ems.http.proxyHost=161.117.238.233
+ems.http.proxyHost=sensis-proxy-vs.sensis.com.au
 ems.http.proxyPort=8080
 ems.http.proxyUser=
 ems.http.proxyPass=
