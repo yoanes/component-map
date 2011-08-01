@@ -28,7 +28,7 @@
     	<img src="${map.mapUrl.imageUrl}" id="map" />
 	</div>
    
-    <div id="mapControls"
+    <div id="mapControls" style="background-image:url(<crf:imgPath device='${device}' src='comp/map/controls/mc_bg.image'/>)"
         ><div id="mapZoomControls"
             ><c:choose>
                <c:when test="${map.zoomDetails.atMinimumZoom}"
