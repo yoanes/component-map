@@ -27,7 +27,7 @@
     <div id="mapWindow">    
         <img src="${map.mapUrl.imageUrl}" id="map" />
     </div>
-    <div id="mapControls" style="background-image:url(<crf:imgPath device='${device}' src='comp/map/controls/mc_bg.image'/>)"
+    <div id="mapControls"
         ><div id="mapZoomControls">
             <crf:img device="${device}" src="comp/map/controls/mc_in_g.image" id="mapZoomInFaded"
             >+</crf:img

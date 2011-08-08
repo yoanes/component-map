@@ -7,10 +7,12 @@ env.resources.properties.root.dir=/app/smtestapp/sandpit-uidev/map-component/web
 env.resources.css.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/uiresources/
 env.resources.javascript.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/uiresources/
 env.resources.images.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/uiresources/
+env.resources.app.bundles.root.dir=/app/smtestapp/sandpit-uidev/map-component/webapp/uiresources/
 
 env.resources.css.client.path.prefix=/uidev/map-component-showcase/uiresources/
 env.resources.javascript.client.path.prefix=/uidev/map-component-showcase/uiresources/
 env.resources.images.client.path.prefix=/uidev/map-component-showcase/uiresources/
+env.resources.app.bundles.client.path.prefix=/uidev/map-component-showcase/uiresources/
 
 # True if the loaded ui configuration should be cached or not. False indicates that it will be dynamically
 # reloaded to reflect changes.·
@@ -44,6 +46,11 @@ env.downstream.caching.enabled=false
 
 # True if you want CSS and JavaScript resources to be bundled.
 env.bundle.resources=false
+
+# Prefix to use for Ehcache MBean names. Set this to a unique prefix that identifies your
+# application. If you leave the default value unchanged and deploy another app that does the same,
+# the apps will interfere with each other at start up time (only one will succeed).
+env.ehcache.mbean.name.prefix=map-component-showcase
 
 # True if you want the resolved resource graph to be logged.·
 env.debug.resource.graph=true

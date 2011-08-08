@@ -1,3 +1,15 @@
+==== Version 3.0.1 (tag: map_v3_0_1) ====
+
+Upgraded to crf 2.0.9, wl-build-scripts 2.5.0 and sdpCommon-manager 1.1.011. 
+Background CSS images are now defined in internal stylesheets as per the CRF 2.x convention to allow 
+these image URLs to contain the application version number, whilst still playing nicely with the new 
+CRF bundleLinks and bundleScripts tags. 
+
+Also updated build.xml to get hotswap working.
+
+Upgrade steps:
+- should be transparent.
+
 ==== Version 3.0.0 (tag: map_v3_0_0, merged in from branch_map_v2_0_2_5 and updated to latest dependencies) ====
 
 Jiras:

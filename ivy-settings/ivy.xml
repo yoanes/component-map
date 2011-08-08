@@ -53,10 +53,10 @@
     <dependencies>
     
         <!-- Shared build scripts required by this project. -->    
-        <dependency org="com.sensis" name="wl-build-scripts" rev="2.3.3" conf="buildBootstrap->default" />
+        <dependency org="com.sensis" name="wl-build-scripts" rev="2.5.0" conf="buildBootstrap->default" />
         
         <!-- Content Rendering Framework. -->
-        <dependency org="com.sensis" name="wl-crf" rev="2.0.2" conf="default" />
+        <dependency org="com.sensis" name="wl-crf" rev="2.0.9" conf="default" />
         
         <!-- Components. -->
         <dependency org="com.sensis" name="wl-core-component" rev="2.0.8" conf="default,test"/>
@@ -120,7 +120,7 @@
         <!-- SDP Common -->
         <dependency org="com.sensis" name="sdpCommon-logging" rev="0.5" conf="default"/>        
         <dependency org="com.sensis" name="sdpCommon-web" rev="2.0-006" conf="default"/>
-        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.1.010" conf="default"/>
+        <dependency org="com.sensis" name="sdpCommon-manager" rev="1.1.011" conf="default"/>
         <dependency org="com.sensis" name="sdpCommon-utils" rev="1.0-005" conf="default"/>
 
         <!-- EMS dependencies -->
