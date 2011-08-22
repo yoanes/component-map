@@ -29,49 +29,45 @@ var MobEMS = new Class({
 	 * each buttons in the map toolbar
 	 */
 	initialize: function(mapWrapper, viewOptions) {
-		window.addEvent('load', function() {
-			/* get the map div */
-			this.Map = $(mapWrapper);
+		/* get the map div */
+		this.Map = $(mapWrapper);
 
-			/* grab all the buttons */
-			this.zoomIn.element = $('mapZoomInButton');
-			this.zoomIn.href = this.zoomIn.element.href;
-			this.zoomIn.faded = $('mapZoomInFaded');
-			
-			this.zoomOut.element= $('mapZoomOutButton');
-			this.zoomOut.href = this.zoomOut.element.href;
-			this.zoomOut.faded = $('mapZoomOutFaded');
-			
-			this.panNorth.element = $('mapPanNorthButton');
-			this.panNorth.href = this.panNorth.element.href;
-			
-			this.panSouth.element = $('mapPanSouthButton');
-			this.panSouth.href = this.panSouth.element.href;
-			
-			this.panWest.element = $('mapPanWestButton');
-			this.panWest.href = this.panWest.element.href;
-			
-			this.panEast.element = $('mapPanEastButton');
-			this.panEast.href = this.panEast.element.href;
-			
-			this.photoMode.element = $('mapPhotoViewButton');
-			this.photoMode.href = this.photoMode.element.href;
-			
-			this.mapMode.element = $('mapMapViewButton');
-			this.mapMode.href = this.mapMode.element.href;
-			
-			this.zoomIn.element.href = this.zoomOut.element.href = this.panNorth.element.href = this.panSouth.element.href = this.panWest.element.href = this.panEast.element.href = this.photoMode.element.href = this.mapMode.element.href = "#map";
-			
-			/* show and hide the appropriate controllers */
-			this.viewToggle(viewOptions.layer);
-			this.zoomInMaxToggle(false);
-			this.zoomOutMaxToggle(false);
-			
-			/* attach events to the links */
-			this.renderToolbar();
-			
-			return true;
-		}.bind(this));
+		/* grab all the buttons */
+		this.zoomIn.element = $('mapZoomInButton');
+		this.zoomIn.href = this.zoomIn.element.href;
+		this.zoomIn.faded = $('mapZoomInFaded');
+		
+		this.zoomOut.element= $('mapZoomOutButton');
+		this.zoomOut.href = this.zoomOut.element.href;
+		this.zoomOut.faded = $('mapZoomOutFaded');
+		
+		this.panNorth.element = $('mapPanNorthButton');
+		this.panNorth.href = this.panNorth.element.href;
+		
+		this.panSouth.element = $('mapPanSouthButton');
+		this.panSouth.href = this.panSouth.element.href;
+		
+		this.panWest.element = $('mapPanWestButton');
+		this.panWest.href = this.panWest.element.href;
+		
+		this.panEast.element = $('mapPanEastButton');
+		this.panEast.href = this.panEast.element.href;
+		
+		this.photoMode.element = $('mapPhotoViewButton');
+		this.photoMode.href = this.photoMode.element.href;
+		
+		this.mapMode.element = $('mapMapViewButton');
+		this.mapMode.href = this.mapMode.element.href;
+		
+		this.zoomIn.element.href = this.zoomOut.element.href = this.panNorth.element.href = this.panSouth.element.href = this.panWest.element.href = this.panEast.element.href = this.photoMode.element.href = this.mapMode.element.href = "#map";
+		
+		/* show and hide the appropriate controllers */
+		this.viewToggle(viewOptions.layer);
+		this.zoomInMaxToggle(false);
+		this.zoomOutMaxToggle(false);
+		
+		/* attach events to the links */
+		this.renderToolbar();
 		
 		this.nth = MAP.instances.push(this) - 1;
 	},
