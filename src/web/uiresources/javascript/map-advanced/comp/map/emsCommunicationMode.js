@@ -1,0 +1,1 @@
+EMS.Services.communicationMode = 'CrossDomain';

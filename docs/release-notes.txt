@@ -1,3 +1,19 @@
+==== Version 3.1.0 (tag: map_v3_1_0) ====
+
+Now depends on wl-core-component 3.1.0. The map component now sets the following explicitly
+itself since the core component no longer does it:
+
+    EMS.Services.communicationMode = 'CrossDomain';
+    
+All render.jsp files fixed so that they only invoke the MobEMS constructor function in response
+to a window 'domready' event. This makes the JavaScript more robust in the event that the order
+of loaded JS files is changed.  
+
+Upgrade steps:
+- mostly transparent but this component now depends on wl-core-component 3.1.0. The latter
+  no longer sets EMS.Services.communicationMode = 'CrossDomain'; so beware of this if any of 
+  your code uses EMS.
+
 ==== Version 3.0.1 (tag: map_v3_0_1) ====
 
 Upgraded to crf 2.0.9, wl-build-scripts 2.5.0 and sdpCommon-manager 1.1.011. 

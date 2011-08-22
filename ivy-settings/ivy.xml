@@ -59,7 +59,7 @@
         <dependency org="com.sensis" name="wl-crf" rev="2.0.9" conf="default" />
         
         <!-- Components. -->
-        <dependency org="com.sensis" name="wl-core-component" rev="2.0.8" conf="default,test"/>
+        <dependency org="com.sensis" name="wl-core-component" rev="3.1.0" conf="default,test"/>
         <dependency org="com.sensis" name="wl-devicelocation-component" rev="2.0.11" conf="default"/>
         
         <!-- Commons -->

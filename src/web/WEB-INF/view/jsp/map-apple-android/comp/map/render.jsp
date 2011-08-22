@@ -28,7 +28,7 @@
     <div id="mapPopup"><c:out value="${popup}" escapeXml="false" /></div>
     
     <crf:script name="create-hiEnd-map" type="text/javascript" device="${device}">
-        if(typeof(MobEMS) != 'undefined') {
+        (function () {   
         
             var icons = [
                 <c:forEach var="resolvedIcon" items="${map.resolvedIcons}" varStatus="resolvedIconLoopStatus">
@@ -118,14 +118,16 @@
 			   	mapOptions.dock = <c:out value="${useDockForPopup}"/>; 
 		   	</c:if>
 		   	
-            new MobEMS('mapWindow', 
-                {
-                    layer: '<c:out value="${map.jsMapLayer}"/>'
-                },                
-                mapOptions,
-                icons, 
-                directions
-            );
-        }
+		   	window.addEvent('domready', function() {
+	            new MobEMS('mapWindow', 
+	                {
+	                    layer: '<c:out value="${map.jsMapLayer}"/>'
+	                },                
+	                mapOptions,
+	                icons, 
+	                directions
+	            );
+	        });
+        })();
     </crf:script>
 </c:if>
