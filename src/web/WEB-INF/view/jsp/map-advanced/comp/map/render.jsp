@@ -102,7 +102,7 @@
 	            </c:otherwise>
 	        </c:choose> 
 		   	
-		   	window.addEvent('domready', function() {
+		   	window.addEvent('load', function() {
 		        new MobEMS('mapWindow', 
 		            {
 		                layer: '<c:out value="${map.jsMapLayer}"/>'

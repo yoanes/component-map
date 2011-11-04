@@ -1,3 +1,11 @@
+==== Version 3.1.2 (tag: map_v3_1_2) ====
+Changed MobEMS instantiation from "domready" back to "load". 
+Affected maps: map-advanced, map-apple-android, map-intermediate
+Trackit: WIM-276
+
+Upgrade steps:
+- should be transparent.
+
 ==== Version 3.1.1 (tag: map_v3_1_1) ====
 
 Removed redundant window.addEvent('load', ...) call from MobileEMS.js for both advanced and 

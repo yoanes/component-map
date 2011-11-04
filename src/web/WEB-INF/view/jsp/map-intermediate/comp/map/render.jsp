@@ -73,7 +73,7 @@
 >
 	<crf:script name="create-intermediate-map" type="text/javascript" device="${device}">
         (function () {
-            window.addEvent('domready', function() {
+            window.addEvent('load', function() {
 	            new MobEMS(
 	                'mapWindow',
 	                {
