@@ -102,7 +102,6 @@
 	            </c:otherwise>
 	        </c:choose> 
 		   	
-		   	window.addEvent('load', function() {
 		        new MobEMS('mapWindow', 
 		            {
 		                layer: '<c:out value="${map.jsMapLayer}"/>'
@@ -111,7 +110,7 @@
 		            icons, 
 		            directions
 		        );
-		    });
+		        
 	    })();
 	</crf:script>
 </c:if>

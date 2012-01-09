@@ -118,7 +118,6 @@
 			   	mapOptions.dock = <c:out value="${useDockForPopup}"/>; 
 		   	</c:if>
 		   	
-		   	window.addEvent('load', function() {
 	            new MobEMS('mapWindow', 
 	                {
 	                    layer: '<c:out value="${map.jsMapLayer}"/>'
@@ -127,7 +126,7 @@
 	                icons, 
 	                directions
 	            );
-	        });
+
         })();
     </crf:script>
 </c:if>

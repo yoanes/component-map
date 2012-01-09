@@ -28,77 +28,79 @@ var MobEMS = new Class({
 	initialize: function(mapWrapper, viewOptions, mapOptions, poiOptions, directionOptions) {
 		 _MapControlsCompulsory_ = _MapControlsCompulsory_.concat(this.filterOptionalMapControls());
 
-		if(this.injectMapDiv(mapWrapper)) {
-			this.Map = new EMS.Services.Map('map-div', {controls: _MapControlsCompulsory_, showMaxExtent: false, 
-				onInit: function(map) {
-					var mcl = map.controls.length;
-					/* loop the controls */
-					for(var i = 0; i<mcl; i++) {
-						/* to switch the view */
-						if(map.controls[i].CLASS_NAME == "EMS.Control.ViewMode"){
-							if($defined(viewOptions) && $defined(viewOptions.layer))
-								map.controls[i].switchTo(viewOptions.layer);
-						}
-						/* set this map instance to the LocateMe so the locate me controller
-						 * is bind to this particular map instance
-						 */
-						if(map.controls[i].CLASS_NAME == "EMS.Control.LocateMe") {
-							map.controls[i].setMapNth(this.nth);
-						}
-					}
-					
-					this.RouteManager = new EMS.Services.RouteManager(this.Map);
-					
-					/* parse the mapOption for initial display */
-					if($defined(mapOptions)) {
-						/* consider the boundingBox first. */
-						if($defined(mapOptions.boundingBox)) {
-							var bounds = new OpenLayers.Bounds();
-							bounds.extend(this.formatLatLon(mapOptions.boundingBox.topLeft));
-							bounds.extend(this.formatLatLon(mapOptions.boundingBox.bottomRight));
-							
-							/**
-		                     * Special case for POI maps. The bounding box is considered the minimum area
-		                     * to be viewed. Whereas the zoom might be more zoomed out to give the user more context
-		                     * for where the POIs are. 
-		                     */
-							var zoomForExtent = this.Map.getZoomForExtent(bounds);
-							if ($defined(mapOptions.zoomInThreshold)) {
-								var newZoom = zoomForExtent >= mapOptions.zoomInThreshold ? 
-										mapOptions.zoomInThreshold : zoomForExtent;
-							} else {
-								var newZoom = zoomForExtent;
+		window.addEvent('load', function() {
+			if(this.injectMapDiv(mapWrapper)) {
+				this.Map = new EMS.Services.Map('map-div', {controls: _MapControlsCompulsory_, showMaxExtent: false, 
+					onInit: function(map) {
+						var mcl = map.controls.length;
+						/* loop the controls */
+						for(var i = 0; i<mcl; i++) {
+							/* to switch the view */
+							if(map.controls[i].CLASS_NAME == "EMS.Control.ViewMode"){
+								if($defined(viewOptions) && $defined(viewOptions.layer))
+									map.controls[i].switchTo(viewOptions.layer);
 							}
-							this.Map.setCenter(bounds.getCenterLonLat(), newZoom);
-						}
-						/* if no boundingBox set the try the lat,lon and zoom */
-						else if($defined(mapOptions.latitude) && $defined(mapOptions.longitude)) {
-							var EMSLatLon = new EMS.LonLat(mapOptions.longitude, mapOptions.latitude);
-							this.Map.setCenter(EMSLatLon, mapOptions.zoom);
+							/* set this map instance to the LocateMe so the locate me controller
+							 * is bind to this particular map instance
+							 */
+							if(map.controls[i].CLASS_NAME == "EMS.Control.LocateMe") {
+								map.controls[i].setMapNth(this.nth);
+							}
 						}
 						
-						/* add dock for popup if specified */
-						if($defined(mapOptions.dock))
-							this.addDock(map, mapOptions.dock);
-					}
-					
-					/* parse the poiOption for initial display */
-					if($defined(poiOptions)) {
-						this.addPois(map, poiOptions);
-					}
-					
-					/* parse the directionOptions for initial display */ 
-					if($defined(directionOptions)) {
-						var wayPointsLength = directionOptions.wayPoints.length;	
-						for(var i = 0; i < wayPointsLength; i++)
-							this.routeHistory.push(this.routeAddress(directionOptions.wayPoints[i]));
-						this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
-					}
-					
-					this.createDeviceLocationInstance(map);
-				}.bind(this)
-			});		
-		}
+						this.RouteManager = new EMS.Services.RouteManager(this.Map);
+						
+						/* parse the mapOption for initial display */
+						if($defined(mapOptions)) {
+							/* consider the boundingBox first. */
+							if($defined(mapOptions.boundingBox)) {
+								var bounds = new OpenLayers.Bounds();
+								bounds.extend(this.formatLatLon(mapOptions.boundingBox.topLeft));
+								bounds.extend(this.formatLatLon(mapOptions.boundingBox.bottomRight));
+								
+								/**
+			                     * Special case for POI maps. The bounding box is considered the minimum area
+			                     * to be viewed. Whereas the zoom might be more zoomed out to give the user more context
+			                     * for where the POIs are. 
+			                     */
+								var zoomForExtent = this.Map.getZoomForExtent(bounds);
+								if ($defined(mapOptions.zoomInThreshold)) {
+									var newZoom = zoomForExtent >= mapOptions.zoomInThreshold ? 
+											mapOptions.zoomInThreshold : zoomForExtent;
+								} else {
+									var newZoom = zoomForExtent;
+								}
+								this.Map.setCenter(bounds.getCenterLonLat(), newZoom);
+							}
+							/* if no boundingBox set the try the lat,lon and zoom */
+							else if($defined(mapOptions.latitude) && $defined(mapOptions.longitude)) {
+								var EMSLatLon = new EMS.LonLat(mapOptions.longitude, mapOptions.latitude);
+								this.Map.setCenter(EMSLatLon, mapOptions.zoom);
+							}
+							
+							/* add dock for popup if specified */
+							if($defined(mapOptions.dock))
+								this.addDock(map, mapOptions.dock);
+						}
+						
+						/* parse the poiOption for initial display */
+						if($defined(poiOptions)) {
+							this.addPois(map, poiOptions);
+						}
+						
+						/* parse the directionOptions for initial display */ 
+						if($defined(directionOptions)) {
+							var wayPointsLength = directionOptions.wayPoints.length;	
+							for(var i = 0; i < wayPointsLength; i++)
+								this.routeHistory.push(this.routeAddress(directionOptions.wayPoints[i]));
+							this.route(directionOptions.fastest, directionOptions.tolls, directionOptions.transportType);
+						}
+						
+						this.createDeviceLocationInstance(map);
+					}.bind(this)
+				});		
+			}
+		}.bind(this));
 		
 		this.nth = MAP.instances.push(this) - 1;
 	},
@@ -125,7 +127,7 @@ var MobEMS = new Class({
 				sensis.warn('mapWrapper element is not defined');
 			}
 			catch(e) {}
-				
+			
 			return false;
 		}
 	},
