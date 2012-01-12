@@ -13,10 +13,12 @@
         <group name="sex10mini" expr="device.isA('SE-X10-mini') or
         							  device.isA('SE-X10-mini-OS2') or
         							  device.isA('SE-X10-mini-Pro-OS2')" />
-        							  
+        				
+        <!-- note this iphone4 group really means all ios with retina assets, thus it includes the iPhone 5.x -->			  
         <group name="iphone4" expr="
         	(device.isA('Apple-iPhone') or device.isA('Apple-iPod-Touch'))
-        	and device.userAgent =~ '.*iPhone OS 4.*'" />
+        	and 
+        	(device.userAgent =~ '.*iPhone OS 4.*' or device.userAgent =~ '.*iPhone OS 5.*')" />
         
         <group name="ipad4" expr="device.isA('Apple-iPad') and !device.isA('Apple-iPad-OS-3.2')" />
          

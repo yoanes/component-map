@@ -1,3 +1,6 @@
+==== Version 3.1.4 (tag: map_v3_1_4) ====
+update the copyright logo with the new one
+
 ==== Version 3.1.3 (tag: map_v3_1_3) ====
 fix bug, map doesn't put the control button on the right place when it first loads the page.
 
