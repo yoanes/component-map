@@ -5,8 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
-import au.com.sensis.wireless.common.volantis.devicerepository.api.ImageCategory;
+import au.com.sensis.devicerepository.Device;
+import au.com.sensis.devicerepository.ImageCategory;
 import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
 import au.com.sensis.wireless.web.mobile.MobileContext;
@@ -17,7 +17,7 @@ import au.com.sensis.wireless.web.mobile.MobileContext;
  * @author Adrian.Koh2@sensis.com.au
  */
 public class MarginAwareScreenDimensionsStrategyTestCase extends
-        AbstractJUnit4TestCase {
+AbstractJUnit4TestCase {
 
     private static final Integer DEFAULT_MARGIN = new Integer(2);
 
@@ -59,10 +59,10 @@ public class MarginAwareScreenDimensionsStrategyTestCase extends
             Assert.fail("IllegalStateException expected");
         } catch (final IllegalStateException e) {
             Assert
-                    .assertEquals(
-                            "IllegalStateException has wrong message",
-                            "mobileContext.getDevice() is null. This should never happen !!!",
-                            e.getMessage());
+            .assertEquals(
+                    "IllegalStateException has wrong message",
+                    "mobileContext.getDevice() is null. This should never happen !!!",
+                    e.getMessage());
         }
         verify();
 
@@ -80,11 +80,11 @@ public class MarginAwareScreenDimensionsStrategyTestCase extends
 
         final int devicePixelsX = 50;
         EasyMock.expect(getMockDevice().getPixelsX()).andReturn(devicePixelsX)
-                .atLeastOnce();
+        .atLeastOnce();
 
         final int devicePixelsY = 150;
         EasyMock.expect(getMockDevice().getPixelsY()).andReturn(devicePixelsY)
-                .atLeastOnce();
+        .atLeastOnce();
 
         replay();
 
@@ -93,9 +93,9 @@ public class MarginAwareScreenDimensionsStrategyTestCase extends
                         getMockMobileContext());
 
         Assert
-                .assertEquals("actualScreenDimensions width is wrong",
-                        devicePixelsX - SMALL_MARGIN, actualScreenDimensions
-                                .getWidth());
+        .assertEquals("actualScreenDimensions width is wrong",
+                devicePixelsX - SMALL_MARGIN, actualScreenDimensions
+                .getWidth());
         Assert.assertEquals("actualScreenDimensions height is wrong",
                 devicePixelsY, actualScreenDimensions.getHeight());
 
@@ -115,11 +115,11 @@ public class MarginAwareScreenDimensionsStrategyTestCase extends
 
         final int devicePixelsX = 50;
         EasyMock.expect(getMockDevice().getPixelsX()).andReturn(devicePixelsX)
-                .atLeastOnce();
+        .atLeastOnce();
 
         final int devicePixelsY = 150;
         EasyMock.expect(getMockDevice().getPixelsY()).andReturn(devicePixelsY)
-                .atLeastOnce();
+        .atLeastOnce();
 
         replay();
 
@@ -129,7 +129,7 @@ public class MarginAwareScreenDimensionsStrategyTestCase extends
 
         Assert.assertEquals("actualScreenDimensions width is wrong",
                 devicePixelsX - DEFAULT_MARGIN, actualScreenDimensions
-                        .getWidth());
+                .getWidth());
         Assert.assertEquals("actualScreenDimensions height is wrong",
                 devicePixelsY, actualScreenDimensions.getHeight());
 

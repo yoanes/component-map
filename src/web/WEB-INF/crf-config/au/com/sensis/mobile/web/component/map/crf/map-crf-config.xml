@@ -7,7 +7,10 @@
     <config-path>comp/map</config-path>
     <groups>
         <!-- Specific devices. -->      	
+        <!-- TODO: thub migration has to wait for WURFL DR fixes -->
         <group name="thub" expr="device.isA('SAGEM-HomeManager')" />    
+        
+        <!-- TODO: figure out mapping for sex10 and sex10mini. -->
         <group name="sex10" expr="device.isA('SonyEricsson-X10') or 
                  				  device.isA('SonyEricsson-X10-OS2')" />
         <group name="sex10mini" expr="device.isA('SE-X10-mini') or
@@ -20,7 +23,7 @@
         	and 
         	(device.userAgent =~ '.*iPhone OS 4.*' or device.userAgent =~ '.*iPhone OS 5.*')" />
         
-        <group name="ipad4" expr="device.isA('Apple-iPad') and !device.isA('Apple-iPad-OS-3.2')" />
+        <group name="ipad4" expr="device.isA('Apple-iPad') and !device.isA('Apple-iPad-3.2')" />
          
         <group name="ipad" expr="device.isA('Apple-iPad')" />
         

@@ -12,12 +12,12 @@ import org.junit.Test;
 
 import au.com.sensis.address.WGS84Point;
 import au.com.sensis.address.WGS84PointTestDataFactory;
+import au.com.sensis.devicerepository.Device;
 import au.com.sensis.mobile.crf.service.PropertiesLoader;
 import au.com.sensis.mobile.web.component.map.business.MapDelegate.Action;
 import au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.ScreenDimensionsStrategy;
 import au.com.sensis.mobile.web.component.map.model.Map;
 import au.com.sensis.sal.common.UserContext;
-import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
 import au.com.sensis.wireless.manager.directions.JourneyDescriptor;
 import au.com.sensis.wireless.manager.directions.JourneyWaypoints;
 import au.com.sensis.wireless.manager.directions.RouteHandle;
@@ -25,13 +25,13 @@ import au.com.sensis.wireless.manager.directions.RoutingOption;
 import au.com.sensis.wireless.manager.ems.EMSManager;
 import au.com.sensis.wireless.manager.mapping.IconDescriptor;
 import au.com.sensis.wireless.manager.mapping.IconType;
+import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 import au.com.sensis.wireless.manager.mapping.MapLayer;
 import au.com.sensis.wireless.manager.mapping.MapUrl;
 import au.com.sensis.wireless.manager.mapping.MobilesBoundingBox;
 import au.com.sensis.wireless.manager.mapping.MobilesIconType;
 import au.com.sensis.wireless.manager.mapping.PanZoomDetail;
 import au.com.sensis.wireless.manager.mapping.ResolvedIcon;
-import au.com.sensis.wireless.manager.mapping.InteractivePoiInfo;
 import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 import au.com.sensis.wireless.manager.mapping.UserMapInteraction;
 import au.com.sensis.wireless.test.AbstractJUnit4TestCase;
@@ -106,7 +106,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 GENERATE_SERVER_SIDE_MAP_PROPERTY_NAME);
 
         getObjectUnderTest().setPoiMapRadiusMultiplier(POI_MAP_RADIUS_MULTIPLIER);
-        
+
         setEmptyInteractivePoiInfo(new InteractivePoiInfo("","","",""));
     }
 
@@ -126,7 +126,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testValidateStateWhenPropertiesConfigLoaderIsNull()
-    throws Throwable {
+            throws Throwable {
         getObjectUnderTest().setPropertiesConfigLoader(null);
         ValidatableTestUtils.testValidateState(getObjectUnderTest(),
                 "propertiesConfigLoader", "null");
@@ -224,12 +224,12 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions()).atLeastOnce();
+                                getMockScreenDimensions()).atLeastOnce();
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -243,14 +243,14 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         getPoint1(), MobilesIconType.CROSS_HAIR,
                         MapLayer.PhotoWithStreets, panZoomDetail,
                         getMockUserContext())).andReturn(
-                getMockMapUrl());
+                                getMockMapUrl());
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl())
-            .andReturn("dummy url").anyTimes();
+        .andReturn("dummy url").anyTimes();
 
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(ZOOM_LEVEL))
-            .andReturn(EMS_ZOOM_LEVEL);
+        .andReturn(EMS_ZOOM_LEVEL);
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
 
@@ -294,7 +294,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
      */
     private void recordGetMaxZoom() {
         EasyMock.expect(getMockEmsManager().getMaxZoom())
-            .andReturn(MAX_ZOOM).atLeastOnce();
+        .andReturn(MAX_ZOOM).atLeastOnce();
     }
 
     /**
@@ -302,7 +302,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
      */
     private void recordGetMinZoom() {
         EasyMock.expect(getMockEmsManager().getMinZoom())
-            .andReturn(MIN_ZOOM).atLeastOnce();
+        .andReturn(MIN_ZOOM).atLeastOnce();
     }
 
     private void recordShouldGenerateServerSideMap(
@@ -312,10 +312,10 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 new Boolean(recordShouldGenerateServerSideMap).toString());
 
         EasyMock.expect(getMockMobileContext().getDevice())
-            .andReturn(getMockDevice()).atLeastOnce();
+        .andReturn(getMockDevice()).atLeastOnce();
         EasyMock.expect(getMockPropertiesConfigLoader().loadProperties(getMockDevice(),
                 ABSTRACT_PROPERTIES_PATH))
-            .andReturn(properties);
+                .andReturn(properties);
     }
 
     private void assertZoomDetails(final Map map, final int expectedEmsZoomLevel,
@@ -340,15 +340,15 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(ZOOM_LEVEL))
-            .andReturn(EMS_ZOOM_LEVEL);
+        .andReturn(EMS_ZOOM_LEVEL);
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                                getMockScreenDimensions());
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
@@ -423,7 +423,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
                 MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 MIN_ZOOM, MIN_ZOOM);
@@ -438,7 +438,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
                 MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 MAX_ZOOM, MAX_ZOOM);
@@ -454,7 +454,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldBeGeneratedChangeToMapView()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Photo,
                 MapLayer.Map, Action.MAP_VIEW, UserMapInteraction.NO_ACTION,
                 ZOOM_LEVEL, ZOOM_LEVEL);
@@ -462,7 +462,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldBeGeneratedChangeToPhotoView()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
                 MapLayer.Photo, Action.PHOTO_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
@@ -470,7 +470,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldBeGeneratedChangeToHybridView()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldBeGenerated(MapLayer.Map,
                 MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
@@ -487,12 +487,12 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions()).atLeastOnce();
+                                getMockScreenDimensions()).atLeastOnce();
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -501,7 +501,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 getMockMobilesBoundingBox());
 
         EasyMock.expect(getMockExistingMapUrl().getZoom())
-                .andReturn(oldZoomLevel);
+        .andReturn(oldZoomLevel);
         EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
                 getPoint1()).atLeastOnce();
 
@@ -514,14 +514,14 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         getPoint2(), MobilesIconType.CROSS_HAIR,
                         getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
                                 mapDelegateAction),
-                        panZoomDetail, getMockUserContext())).andReturn(
-                getMockMapUrl());
+                                panZoomDetail, getMockUserContext())).andReturn(
+                                        getMockMapUrl());
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
-            .atLeastOnce();
+        .atLeastOnce();
 
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
-            .andReturn(EMS_ZOOM_LEVEL);
+        .andReturn(EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
@@ -595,7 +595,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
                 MapLayer.Map, Action.ZOOM_IN, UserMapInteraction.ZOOM,
                 MIN_ZOOM, MIN_ZOOM);
@@ -610,7 +610,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
                 MapLayer.Map, Action.ZOOM_OUT, UserMapInteraction.ZOOM,
                 MAX_ZOOM, MAX_ZOOM);
@@ -626,7 +626,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedChangeToMapView()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Photo,
                 MapLayer.Map, Action.MAP_VIEW, UserMapInteraction.NO_ACTION,
                 ZOOM_LEVEL, ZOOM_LEVEL);
@@ -634,7 +634,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedChangeToPhotoView()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
                 MapLayer.Photo, Action.PHOTO_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
@@ -642,7 +642,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testManipulateMapWhenServerSideMapShouldNotBeGeneratedChangeToHybridView()
-        throws Throwable {
+            throws Throwable {
         doTestManipulateMapWhenServerSideMapShouldNotBeGenerated(MapLayer.Map,
                 MapLayer.PhotoWithStreets, Action.HYBRID_VIEW,
                 UserMapInteraction.NO_ACTION, ZOOM_LEVEL, ZOOM_LEVEL);
@@ -660,7 +660,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
@@ -671,16 +671,16 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 getMockMobilesBoundingBox());
 
         EasyMock.expect(getMockExistingMapUrl().getZoom())
-            .andReturn(oldZoomLevel);
+        .andReturn(oldZoomLevel);
         EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
                 getPoint1()).atLeastOnce();
 
         final PanZoomDetail panZoomDetail =
-            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
-                    userMapInteraction, newZoomLevel);
+                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                        userMapInteraction, newZoomLevel);
 
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
-            .andReturn(EMS_ZOOM_LEVEL);
+        .andReturn(EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
@@ -691,18 +691,18 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         // anyTimes expectations on MockMobilesBoundingBox methods to cater
         // to multiple possible paths through PanZoomDetail.calculateNewCentre.
         EasyMock.expect(getMockMobilesBoundingBox().getBottomRight())
-            .andReturn(getPoint4()).anyTimes();
+        .andReturn(getPoint4()).anyTimes();
         EasyMock.expect(getMockMobilesBoundingBox().getTopLeft())
-            .andReturn(getPoint5()).anyTimes();
+        .andReturn(getPoint5()).anyTimes();
 
         recordGetMinMaxZoom();
 
         replay();
 
         final Map map =
-            getObjectUnderTest().manipulateMap(getPoint2(), getMockExistingMapUrl(),
-                    existingMapLayer, MobilesIconType.CROSS_HAIR,
-                    mapDelegateAction, getMockMobileContext());
+                getObjectUnderTest().manipulateMap(getPoint2(), getMockExistingMapUrl(),
+                        existingMapLayer, MobilesIconType.CROSS_HAIR,
+                        mapDelegateAction, getMockMobileContext());
 
         Assert.assertFalse("isMapImageRetrieved() should be false", map
                 .isMapImageRetrieved());
@@ -753,7 +753,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
 
@@ -762,7 +762,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                                getMockScreenDimensions());
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -777,7 +777,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl())
-            .andReturn("dummy url").anyTimes();
+        .andReturn("dummy url").anyTimes();
 
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
 
@@ -819,7 +819,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
 
@@ -828,7 +828,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                                getMockScreenDimensions());
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -843,13 +843,13 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl())
-            .andReturn("dummy url").anyTimes();
+        .andReturn("dummy url").anyTimes();
 
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(ZOOM_LEVEL)).andReturn(EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+                getCrossHairIcon(), getEmptyInteractivePoiInfo(),
                 iconDescriptors, getMockScreenDimensions()))
                 .andReturn(resolvedIcons);
 
@@ -857,8 +857,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         replay();
 
-        final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(), 
-        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+        final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
+                getCrossHairIcon(), getEmptyInteractivePoiInfo(),
                 MapLayer.Photo, iconDescriptors, mobilesZoomThreshold,
                 getMockMobileContext());
 
@@ -877,30 +877,30 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 map.getResolvedIcons());
 
     }
-    
+
     @Test
     public void testGetInitialPoiMapWhenServerSideMapShouldNotBeGeneratedWithoutCenterPoi()
-        throws Exception {
+            throws Exception {
 
         recordShouldGenerateServerSideMap(false);
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final List<IconDescriptor> iconDescriptors = createIconDescriptors();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                                getMockScreenDimensions());
 
         final int mobilesZoomThreshold = 4;
         EasyMock.expect(mockEmsManager.getPoiMapBoundingBox(
                 EasyMock.eq(getPoint1()),
                 EasyMock.eq(iconDescriptors),
                 EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
-                    .andReturn(getMockMobilesBoundingBox());
+                .andReturn(getMockMobilesBoundingBox());
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
                 EMS_ZOOM_LEVEL);
 
@@ -908,7 +908,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
                 null, null,
                 iconDescriptors, getMockScreenDimensions()))
-                    .andReturn(resolvedIcons);
+                .andReturn(resolvedIcons);
 
         replay();
 
@@ -946,40 +946,40 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testGetInitialPoiMapWhenServerSideMapShouldNotBeGeneratedWithCenterPoi()
-        throws Exception {
+            throws Exception {
 
         recordShouldGenerateServerSideMap(false);
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final List<IconDescriptor> iconDescriptors = createIconDescriptors();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                                getMockScreenDimensions());
 
         final int mobilesZoomThreshold = 4;
         EasyMock.expect(mockEmsManager.getPoiMapBoundingBox(
                 EasyMock.eq(getPoint1()),
                 EasyMock.eq(iconDescriptors),
                 EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
-                    .andReturn(getMockMobilesBoundingBox());
+                .andReturn(getMockMobilesBoundingBox());
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
                 EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint1(),
-        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+                getCrossHairIcon(), getEmptyInteractivePoiInfo(),
                 iconDescriptors, getMockScreenDimensions()))
-                    .andReturn(resolvedIcons);
+                .andReturn(resolvedIcons);
 
         replay();
 
         final Map map = getObjectUnderTest().getInitialPoiMap(getPoint1(),
-        		getCrossHairIcon(), getEmptyInteractivePoiInfo(),
+                getCrossHairIcon(), getEmptyInteractivePoiInfo(),
                 MapLayer.PhotoWithStreets, iconDescriptors, mobilesZoomThreshold,
                 getMockMobileContext());
 
@@ -1010,7 +1010,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         assertMapLayers(map, false, false, true);
     }
-    
+
     @Test
     public void testManipulatePoiMapWhenServerSideMapShouldBeGeneratedPanEast()
             throws Throwable {
@@ -1118,14 +1118,14 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final List<IconDescriptor> iconDescriptors = createIconDescriptors();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions());
+                                getMockScreenDimensions());
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -1147,20 +1147,20 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         getPoint2(), iconDescriptors,
                         getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
                                 mapDelegateAction),
-                        panZoomDetail, getMockUserContext()))
-                .andReturn(getMockMapUrl());
+                                panZoomDetail, getMockUserContext()))
+                                .andReturn(getMockMapUrl());
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
-                .atLeastOnce();
+        .atLeastOnce();
 
         EasyMock.expect(getMockEmsManager().getEmsZoomLevel(newZoomLevel))
-                .andReturn(EMS_ZOOM_LEVEL);
+        .andReturn(EMS_ZOOM_LEVEL);
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         EasyMock.expect(getMockEmsManager().resolvePoiIcons(getPoint2(),
                 MobilesIconType.CROSS_HAIR,
                 iconDescriptors, getMockScreenDimensions()))
-                    .andReturn(resolvedIcons);
+                .andReturn(resolvedIcons);
 
         recordGetMinMaxZoom();
 
@@ -1234,7 +1234,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
         doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
@@ -1251,7 +1251,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    testManipulatePoiMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
         doTestManipulatePoiMapWhenServerSideMapShouldNotBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
@@ -1301,7 +1301,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final List<IconDescriptor> iconDescriptors = createIconDescriptors();
 
@@ -1315,7 +1315,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                 EasyMock.eq(getPoint1()),
                 EasyMock.eq(iconDescriptors),
                 EasyMock.eq(POI_MAP_RADIUS_MULTIPLIER, 0.01)))
-                    .andReturn(getMockMobilesBoundingBox());
+                .andReturn(getMockMobilesBoundingBox());
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(mobilesZoomThreshold)).andReturn(
                 EMS_ZOOM_LEVEL);
 
@@ -1328,11 +1328,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final Map map =
-            getObjectUnderTest().manipulatePoiMap(getPoint1(),
-                    getMockExistingMapUrl(), existingMapLayer,
-                    iconDescriptors, mobilesZoomThreshold,
-                    mapDelegateAction,
-                    getMockMobileContext());
+                getObjectUnderTest().manipulatePoiMap(getPoint1(),
+                        getMockExistingMapUrl(), existingMapLayer,
+                        iconDescriptors, mobilesZoomThreshold,
+                        mapDelegateAction,
+                        getMockMobileContext());
 
         Assert.assertFalse("isMapImageRetrieved() should be false", map
                 .isMapImageRetrieved());
@@ -1374,24 +1374,24 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions()).atLeastOnce();
+                                getMockScreenDimensions()).atLeastOnce();
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
 
         EasyMock.expect(getMockJourneyDescriptor().getMap())
-            .andReturn(getMockMapUrl()).atLeastOnce();
+        .andReturn(getMockMapUrl()).atLeastOnce();
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-            .andReturn(soapRouteHandle).atLeastOnce();
+        .andReturn(soapRouteHandle).atLeastOnce();
         EasyMock.expect(getMockJourneyDescriptor().getRoutingOption())
-            .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS).atLeastOnce();
+        .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS).atLeastOnce();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
@@ -1399,7 +1399,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         final double endLong = 146.146;
 
         final JourneyWaypoints journeyWaypoints
-            = createJourneyWaypoints(startLat, startLong, endLat, endLong);
+        = createJourneyWaypoints(startLat, startLong, endLat, endLong);
         EasyMock.expect(mockEmsManager.getJourneyDescriptor(
                 EasyMock.same(getMockScreenDimensions()), EasyMock.same(journeyWaypoints),
                 EasyMock.eq(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS), EasyMock.eq(MapLayer.Photo),
@@ -1407,7 +1407,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl())
-            .andReturn("dummy url").anyTimes();
+        .andReturn("dummy url").anyTimes();
 
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(ZOOM_LEVEL).atLeastOnce();
@@ -1446,7 +1446,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockEmsManager().resolveRouteWaypointIcons(
                 getMockJourneyDescriptor(),
                 getMockScreenDimensions()))
-                    .andReturn(resolvedIcons);
+                .andReturn(resolvedIcons);
     }
 
     private void assertRouteDetails(final Map map,
@@ -1464,13 +1464,13 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void testGetInitialRouteMapWhenServerSideMapShouldNotBeGenerated()
-        throws Exception {
+            throws Exception {
 
         recordShouldGenerateServerSideMap(false);
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
@@ -1478,11 +1478,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         final double endLong = 146.146;
 
         final JourneyWaypoints journeyWaypoints
-            = createJourneyWaypoints(startLat, startLong, endLat, endLong);
+        = createJourneyWaypoints(startLat, startLong, endLat, endLong);
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions()).atLeastOnce();
+                                getMockScreenDimensions()).atLeastOnce();
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(getMockUserContext());
         EasyMock.expect(getMockEmsManager().getJourneyDescriptorWithoutMapImageUrl(
                 getMockScreenDimensions(), journeyWaypoints,
@@ -1496,7 +1496,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
                 getMockMapUrl());
         EasyMock.expect(getMockMapUrl().getBoundingBox())
-            .andReturn(getMockMobilesBoundingBox()).atLeastOnce();
+        .andReturn(getMockMobilesBoundingBox()).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -1540,7 +1540,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         } catch (final IllegalStateException e) {
             Assert.assertEquals("IllegalStateException has wrong message",
                     "It is illegal to call getOriginalMapCentre() "
-                    + "when isRouteMap() is true", e.getMessage());
+                            + "when isRouteMap() is true", e.getMessage());
         }
     }
 
@@ -1651,7 +1651,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
@@ -1672,8 +1672,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
                 getPoint1()).atLeastOnce();
         final PanZoomDetail panZoomDetail =
-            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
-                    userMapInteraction, newZoomLevel);
+                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                        userMapInteraction, newZoomLevel);
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -1684,9 +1684,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
                         getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
                                 mapDelegateAction),
-                        getMockScreenDimensions(), panZoomDetail,
-                        getMockUserContext()))
-                .andReturn(getMockJourneyDescriptor());
+                                getMockScreenDimensions(), panZoomDetail,
+                                getMockUserContext()))
+                                .andReturn(getMockJourneyDescriptor());
 
 
         EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
@@ -1696,17 +1696,17 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl()).andReturn("dummy url")
-                .anyTimes();
+        .anyTimes();
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
-                .atLeastOnce();
+        .atLeastOnce();
 
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(newZoomLevel)).andReturn(
                 EMS_ZOOM_LEVEL);
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-            .andReturn(soapRouteHandle).atLeastOnce();
+        .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -1791,7 +1791,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
         recordGetMinMaxZoom();
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
@@ -1810,7 +1810,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    testManipulateRouteMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
         recordGetMinMaxZoom();
         doTestManipulateRouteMapWhenServerSideMapShouldNotBeGenerated(
@@ -1861,14 +1861,14 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
         final double endLat = -45.46;
         final double endLong = 146.146;
         final JourneyWaypoints journeyWaypoints =
-            createJourneyWaypoints(startLat, startLong, endLat, endLong);
+                createJourneyWaypoints(startLat, startLong, endLat, endLong);
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
@@ -1882,8 +1882,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
                 getPoint1()).atLeastOnce();
         final PanZoomDetail panZoomDetail =
-            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
-                    userMapInteraction, newZoomLevel);
+                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                        userMapInteraction, newZoomLevel);
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -1906,14 +1906,14 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl()).andReturn("dummy url")
-            .anyTimes();
+        .anyTimes();
 
         EasyMock.expect(getMockMapUrl().getBoundingBox()).andReturn(
                 getMockUpdatedMobilesBoundingBox()).atLeastOnce();
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-            .andReturn(soapRouteHandle).atLeastOnce();
+        .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -1921,11 +1921,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final Map map =
-            getObjectUnderTest().manipulateRouteMap(createRouteHandle(),
-                    journeyWaypoints,
-                    RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
-                    getMockExistingMapUrl(), existingMapLayer, mapDelegateAction,
-                    getMockMobileContext());
+                getObjectUnderTest().manipulateRouteMap(createRouteHandle(),
+                        journeyWaypoints,
+                        RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                        getMockExistingMapUrl(), existingMapLayer, mapDelegateAction,
+                        getMockMobileContext());
 
         Assert.assertFalse("isMapRetrieved() should be false", map
                 .isMapImageRetrieved());
@@ -1980,12 +1980,12 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName()).andReturn("Apple-iPhone")
-                .anyTimes();
+        .anyTimes();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions()).atLeastOnce();
+                                getMockScreenDimensions()).atLeastOnce();
 
         final RouteHandle routeHandle = createRouteHandle();
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
@@ -1993,13 +1993,13 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(
                 mockEmsManager.updateJourneyDescriptorMapFromRouteHandle(
                         EasyMock.eq(routeHandle), EasyMock
-                                .same(journeyWaypoints), EasyMock
-                                .eq(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS),
+                        .same(journeyWaypoints), EasyMock
+                        .eq(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS),
                         EasyMock.eq(MapLayer.Map), EasyMock
-                                .same(getMockScreenDimensions()), EasyMock
-                                .eq(panZoomDetail), EasyMock
-                                .same(getMockUserContext()))).andReturn(
-                getMockJourneyDescriptor());
+                        .same(getMockScreenDimensions()), EasyMock
+                        .eq(panZoomDetail), EasyMock
+                        .same(getMockUserContext()))).andReturn(
+                                getMockJourneyDescriptor());
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -2009,10 +2009,10 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-                .andReturn(soapRouteHandle).atLeastOnce();
+        .andReturn(soapRouteHandle).atLeastOnce();
         EasyMock.expect(getMockJourneyDescriptor().getRoutingOption())
-                .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS)
-                .atLeastOnce();
+        .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS)
+        .atLeastOnce();
 
         recordGetMinMaxZoom();
 
@@ -2065,30 +2065,30 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName()).andReturn("Apple-iPhone")
-                .anyTimes();
+        .anyTimes();
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
                         getMockMobileContext())).andReturn(
-                getMockScreenDimensions()).atLeastOnce();
+                                getMockScreenDimensions()).atLeastOnce();
 
         final RouteHandle routeHandle = createRouteHandle();
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
         EasyMock
-                .expect(
-                        mockEmsManager
-                                .updateJourneyDescriptorMapFromRouteHandleWithoutMapImageUrl(
-                                        EasyMock.eq(routeHandle),
-                                        EasyMock.same(journeyWaypoints),
-                                        EasyMock
-                                                .eq(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS),
-                                        EasyMock.eq(MapLayer.Map),
-                                        EasyMock
-                                                .same(getMockScreenDimensions()),
-                                        EasyMock.eq(panZoomDetail), EasyMock
-                                                .same(getMockUserContext())))
-                .andReturn(getMockJourneyDescriptor());
+        .expect(
+                mockEmsManager
+                .updateJourneyDescriptorMapFromRouteHandleWithoutMapImageUrl(
+                        EasyMock.eq(routeHandle),
+                        EasyMock.same(journeyWaypoints),
+                        EasyMock
+                        .eq(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS),
+                        EasyMock.eq(MapLayer.Map),
+                        EasyMock
+                        .same(getMockScreenDimensions()),
+                        EasyMock.eq(panZoomDetail), EasyMock
+                        .same(getMockUserContext())))
+                        .andReturn(getMockJourneyDescriptor());
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -2098,10 +2098,10 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-                .andReturn(soapRouteHandle).atLeastOnce();
+        .andReturn(soapRouteHandle).atLeastOnce();
         EasyMock.expect(getMockJourneyDescriptor().getRoutingOption())
-                .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS)
-                .atLeastOnce();
+        .andReturn(RoutingOption.FASTEST_BY_ROAD_NO_TOLLS)
+        .atLeastOnce();
 
         recordGetMinMaxZoom();
 
@@ -2176,7 +2176,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_IN,
@@ -2193,7 +2193,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    testManipulateRouteLegStepMapWhenServerSideMapShouldBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldBeGenerated(
                 MapLayer.Map, MapLayer.Map, Action.ZOOM_OUT,
@@ -2243,7 +2243,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
@@ -2264,8 +2264,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
                 getPoint1()).atLeastOnce();
         final PanZoomDetail panZoomDetail =
-            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
-                    userMapInteraction, newZoomLevel);
+                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                        userMapInteraction, newZoomLevel);
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -2276,9 +2276,9 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
                         RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
                         getNewMapLayerAfterApplyingMapDelegateAction(existingMapLayer,
                                 mapDelegateAction),
-                        getMockScreenDimensions(), panZoomDetail,
-                        getMockUserContext()))
-                .andReturn(getMockJourneyDescriptor());
+                                getMockScreenDimensions(), panZoomDetail,
+                                getMockUserContext()))
+                                .andReturn(getMockJourneyDescriptor());
 
 
         EasyMock.expect(getMockJourneyDescriptor().getMap()).andReturn(
@@ -2288,17 +2288,17 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl()).andReturn("dummy url")
-                .anyTimes();
+        .anyTimes();
 
         EasyMock.expect(getMockMapUrl().getZoom()).andReturn(newZoomLevel)
-                .atLeastOnce();
+        .atLeastOnce();
 
         EasyMock.expect(mockEmsManager.getEmsZoomLevel(newZoomLevel)).andReturn(
                 EMS_ZOOM_LEVEL);
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-            .andReturn(soapRouteHandle).atLeastOnce();
+        .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -2382,7 +2382,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
+    testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMinZoom()
             throws Throwable {
         recordGetMinMaxZoom();
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
@@ -2401,7 +2401,7 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
     @Test
     public void
-        testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
+    testManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGeneratedZoomInWhenAlreadyAtMaxZoom()
             throws Throwable {
         recordGetMinMaxZoom();
         doTestManipulateRouteLegStepMapWhenServerSideMapShouldNotBeGenerated(
@@ -2452,14 +2452,14 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockDevice().getName())
-            .andReturn("Apple-iPhone").anyTimes();
+        .andReturn("Apple-iPhone").anyTimes();
 
         final double startLat = -45.45;
         final double startLong = 145.145;
         final double endLat = -45.46;
         final double endLong = 146.146;
         final JourneyWaypoints journeyWaypoints =
-            createJourneyWaypoints(startLat, startLong, endLat, endLong);
+                createJourneyWaypoints(startLat, startLong, endLat, endLong);
 
         EasyMock.expect(
                 getMockScreenDimensionsStrategy().createScreenDimensions(
@@ -2473,8 +2473,8 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         EasyMock.expect(getMockExistingMapUrl().getMapCentre()).andReturn(
                 getPoint1()).atLeastOnce();
         final PanZoomDetail panZoomDetail =
-            new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
-                    userMapInteraction, newZoomLevel);
+                new PanZoomDetail(getMockMobilesBoundingBox(), getPoint1(),
+                        userMapInteraction, newZoomLevel);
 
         EasyMock.expect(getMockMobileContext().asUserContext()).andReturn(
                 getMockUserContext());
@@ -2497,14 +2497,14 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
 
         // Expectation to cover off debug logging.
         EasyMock.expect(getMockMapUrl().getImageUrl()).andReturn("dummy url")
-            .anyTimes();
+        .anyTimes();
 
         EasyMock.expect(getMockMapUrl().getBoundingBox()).andReturn(
                 getMockUpdatedMobilesBoundingBox()).atLeastOnce();
 
         final SoapRouteHandle soapRouteHandle = createSoapRouteHandle();
         EasyMock.expect(getMockJourneyDescriptor().getEmsRouteHandle())
-            .andReturn(soapRouteHandle).atLeastOnce();
+        .andReturn(soapRouteHandle).atLeastOnce();
 
         final ArrayList<ResolvedIcon> resolvedIcons = new ArrayList<ResolvedIcon>();
         recordResolveRouteWaypointIcons(resolvedIcons);
@@ -2512,11 +2512,11 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
         replay();
 
         final Map map =
-            getObjectUnderTest().manipulateRouteLegStepMap(createRouteHandle(),
-                    journeyWaypoints,
-                    RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
-                    getMockExistingMapUrl(), existingMapLayer, mapDelegateAction,
-                    getMockMobileContext());
+                getObjectUnderTest().manipulateRouteLegStepMap(createRouteHandle(),
+                        journeyWaypoints,
+                        RoutingOption.FASTEST_BY_ROAD_NO_TOLLS,
+                        getMockExistingMapUrl(), existingMapLayer, mapDelegateAction,
+                        getMockMobileContext());
 
         Assert.assertFalse("isMapRetrieved() should be false", map
                 .isMapImageRetrieved());
@@ -2879,16 +2879,16 @@ public class MapDelegateImplTestCase extends AbstractJUnit4TestCase {
     private void setPoint5(final WGS84Point point5) {
         this.point5 = point5;
     }
-    
+
     private MobilesIconType getCrossHairIcon() {
-    	return MobilesIconType.CROSS_HAIR;
+        return MobilesIconType.CROSS_HAIR;
     }
-    
+
     private InteractivePoiInfo getEmptyInteractivePoiInfo() {
-    	return emptyPoiInfo;
+        return emptyPoiInfo;
     }
-    
+
     private InteractivePoiInfo setEmptyInteractivePoiInfo(final InteractivePoiInfo emptyPoiInfo) {
-    	return this.emptyPoiInfo = emptyPoiInfo;
+        return this.emptyPoiInfo = emptyPoiInfo;
     }
 }
