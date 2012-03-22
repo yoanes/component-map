@@ -6,16 +6,12 @@
 
     <config-path>comp/map</config-path>
     <groups>
-        <!-- Specific devices. -->      	
-        <!-- TODO: thub migration has to wait for WURFL DR fixes -->
-        <group name="thub" expr="device.isA('SAGEM-HomeManager')" />    
+        <!-- Specific devices. -->
+        <group name="thub" expr="device.isA('Sagem-HomeManager')" />    
         
-        <!-- TODO: figure out mapping for sex10 and sex10mini. -->
-        <group name="sex10" expr="device.isA('SonyEricsson-X10') or 
-                 				  device.isA('SonyEricsson-X10-OS2')" />
-        <group name="sex10mini" expr="device.isA('SE-X10-mini') or
-        							  device.isA('SE-X10-mini-OS2') or
-        							  device.isA('SE-X10-mini-Pro-OS2')" />
+        <import name="sex10" />
+        
+        <import name="sex10mini" />
         				
         <!-- note this iphone4 group really means all ios with retina assets, thus it includes the iPhone 5.x -->			  
         <group name="iphone4" expr="
@@ -38,25 +34,24 @@
         	device.getPropertyAsString('custom.device.classification') eq 'pc'" />
         	    
         <!-- Device families. -->
-        <group name="nonIEPC" expr="device.isA('PC') 
-            and !device.isA('PC-Win32-IE') 
-            and !device.isA('PC-MacOS-IE')" />    
+        <group name="nonIEPC" expr="device.getPropertyAsString('custom.device.classification') eq 'pc' 
+            and !(device.getPropertyAsString('custom.device.classification') eq 'internet explorer')" />    
         
         <group name="map-apple" expr="inAnyGroup('iphone4', 'ipad', 'map-iphone-ipod-touch')" />
 
         <group name="map-advanced-nonGesturalTouch" expr="inAnyGroup('thub', 'nonIEPC')" />
         
-        <group name="map-android-2_1" expr="device.isA('Android-OS') and 
+        <group name="map-android-2_1" expr="device.supportsOs('Android') and 
         	(device.userAgent =~ '.*Android 2\.1.*' or device.userAgent =~ '.*Android 1\.6.*')" />
             
-        <group name="map-android" expr="device.isA('Android-OS') and !(device.isA('HTC-A3335') or device.isA('ZTE-T3030'))" />
+        <group name="map-android" expr="device.supportsOs('Android') and !(device.isA('HTC-A3335') or device.isA('ZTE-T3030'))" />
         <group name="map-apple-android" expr="inAnyGroup('map-apple', 'map-android')"/>
             
         <!-- Broad map functionality groupings. -->
         <group name="map-advanced" expr="inAnyGroup('map-android', 'map-apple', 'map-advanced-nonGesturalTouch')"/> 
             
-        <group name="map-intermediate" expr="device.isA('Nokia-6120c') 
-            or device.isA('Nokia-6720c') 
+        <group name="map-intermediate" expr="device.isA('Nokia-6120-classic') 
+            or device.isA('Nokia-6720') 
             or device.isA('Nokia-E51') 
             or device.isA('Nokia-E71') 
             or device.isA('Nokia-N85') 

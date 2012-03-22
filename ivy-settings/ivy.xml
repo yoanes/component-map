@@ -61,7 +61,7 @@
         
         <!-- Components. -->
         <dependency org="com.sensis" name="wl-core-component" rev="4.0.wurfl-snapshot-1" conf="default,test"/>
-        <dependency org="com.sensis" name="wl-devicelocation-component" rev="2.0.11" conf="default"/>
+        <dependency org="com.sensis" name="wl-devicelocation-component" rev="4.0.wurfl-snapshot-1" conf="default"/>
         
         <!-- Commons -->
         <dependency org="apache" name="commons-lang" rev="2.4" conf="default" />
@@ -70,10 +70,7 @@
         <!-- jstl tags -->
         <!-- note this is already referenced in the spring 2.0.6 ivy.xml -->
         <!-- not sure why - seems a weird place for it -->
-        <dependency org="taglibs" name="standard" rev="1.1.2" conf="default"/>        
-        
-        <!-- MCS -->
-        <dependency org="com.volantis" name="com.volantis.mcs.servlet" rev="5.1.2" conf="showcase->default"/>
+        <dependency org="taglibs" name="standard" rev="1.1.2" conf="default"/>
         
         <!-- Struts2 -->
         <dependency org="org.apache" name="struts2-core" rev="2.0.11.2" conf="showcase->default"/>

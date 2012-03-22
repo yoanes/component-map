@@ -1,3 +1,13 @@
+==== Version 4.0.???
+
+Migrated to use WURFL based CRF 3.x.
+Removed any Volantis dependencies.
+Please CRF release notes for further details about the wurfl migration.
+
+Upgrade Steps:
+
+None.
+
 ==== Version 3.1.4 (tag: map_v3_1_4) ====
 update the copyright logo with the new one
 

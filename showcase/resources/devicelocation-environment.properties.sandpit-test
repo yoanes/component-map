@@ -1,0 +1,6 @@
+########################################################
+## ENVIRONMENT : SANDPIT-TEST
+########################################################
+
+#Example (note the env prefix):
+#env.devicelocationSampleProperty=devicelocation
