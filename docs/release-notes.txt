@@ -1,3 +1,6 @@
+==== Version 3.1.5 (tag: map_v3_1_5) ====
+attach the position attribute to the "locationFound" event in the javascript
+
 ==== Version 3.1.4 (tag: map_v3_1_4) ====
 update the copyright logo with the new one
 

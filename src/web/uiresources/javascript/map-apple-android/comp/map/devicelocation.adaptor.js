@@ -100,7 +100,7 @@ MobEMS.implement({
 				this.DeviceLocationConfig.stopUpdatingMapOnLocate = true;
 			}
 			
-			this.triggerLocationFoundEvent();
+			this.triggerLocationFoundEvent(position);
 		}.bind(this);
 
 		this.DeviceLocationConfig.AutoLocate.prelocate = function () {
@@ -157,9 +157,10 @@ MobEMS.implement({
 	},
 	
 	/* trigger our own custom event */
-	triggerLocationFoundEvent: function() {
+	triggerLocationFoundEvent: function(position) {
 		var event = document.createEvent("HTMLEvents");
-		event.initEvent('locationFound', true, true ); 
+		event.initEvent('locationFound', true, true);
+		event.coordinates = position;
 		this.Map.div.dispatchEvent(event);
 	}
 });
