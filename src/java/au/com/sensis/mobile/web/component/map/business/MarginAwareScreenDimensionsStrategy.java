@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import au.com.sensis.devicerepository.Device;
+import au.com.sensis.devicerepository.ImageCategory;
 import au.com.sensis.mobile.web.component.map.business.MapDelegateImpl.ScreenDimensionsStrategy;
-import au.com.sensis.wireless.common.volantis.devicerepository.api.Device;
-import au.com.sensis.wireless.common.volantis.devicerepository.api.ImageCategory;
 import au.com.sensis.wireless.manager.mapping.ScreenDimensions;
 import au.com.sensis.wireless.web.mobile.MobileContext;
 
@@ -22,7 +22,7 @@ public class MarginAwareScreenDimensionsStrategy implements ScreenDimensionsStra
             Logger.getLogger(MarginAwareScreenDimensionsStrategy.class);
 
     private final Map<ImageCategory, Integer> marginsByImageCategory =
-        new HashMap<ImageCategory, Integer>();
+            new HashMap<ImageCategory, Integer>();
 
     private int defaultMargin;
 

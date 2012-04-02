@@ -52,15 +52,16 @@
 
     <dependencies>
     
+    
         <!-- Shared build scripts required by this project. -->    
         <dependency org="com.sensis" name="wl-build-scripts" rev="2.5.8" conf="buildBootstrap->default" />
         
         <!-- Content Rendering Framework. -->
-        <dependency org="com.sensis" name="wl-crf" rev="2.0.14.24" conf="default" />
+        <dependency org="com.sensis" name="wl-crf" rev="3.0.0.30" conf="default" />
         
         <!-- Components. -->
-        <dependency org="com.sensis" name="wl-core-component" rev="3.1.0" conf="default,test"/>
-        <dependency org="com.sensis" name="wl-devicelocation-component" rev="2.0.11" conf="default"/>
+        <dependency org="com.sensis" name="wl-core-component" rev="4.0.0" conf="default,test"/>
+        <dependency org="com.sensis" name="wl-devicelocation-component" rev="4.0.0" conf="default"/>
         
         <!-- Commons -->
         <dependency org="apache" name="commons-lang" rev="2.4" conf="default" />
@@ -69,10 +70,7 @@
         <!-- jstl tags -->
         <!-- note this is already referenced in the spring 2.0.6 ivy.xml -->
         <!-- not sure why - seems a weird place for it -->
-        <dependency org="taglibs" name="standard" rev="1.1.2" conf="default"/>        
-        
-        <!-- MCS -->
-        <dependency org="com.volantis" name="com.volantis.mcs.servlet" rev="5.1.2" conf="showcase->default"/>
+        <dependency org="taglibs" name="standard" rev="1.1.2" conf="default"/>
         
         <!-- Struts2 -->
         <dependency org="org.apache" name="struts2-core" rev="2.0.11.2" conf="showcase->default"/>
@@ -119,7 +117,7 @@
 
         <!-- SDP Common -->
         <dependency org="com.sensis" name="sdpCommon-logging" rev="0.5" conf="default"/>        
-        <dependency org="com.sensis" name="sdpCommon-web" rev="2.0-006" conf="default"/>
+        <dependency org="com.sensis" name="sdpCommon-web" rev="3.0-001" conf="default"/>
         <dependency org="com.sensis" name="sdpCommon-manager" rev="1.1.011" conf="default"/>
         <dependency org="com.sensis" name="sdpCommon-utils" rev="1.0-005" conf="default"/>
 
@@ -145,7 +143,7 @@
         <dependency org="com.thoughtworks" name="selenium-server" rev="1.0-beta-1" conf="test->default"/>
         <dependency org="com.vladium" name="emma" rev="2.0" conf="test->default"/>
 
-        <dependency org="com.sensis" name="wl-webapp-testbed" rev="2.1.0" conf="showcase->default"/>        
+        <dependency org="com.sensis" name="wl-webapp-testbed" rev="3.0.0" conf="showcase->default"/>        
         
         <!-- ================================================================================ -->
         <!-- Exclusions. -->
