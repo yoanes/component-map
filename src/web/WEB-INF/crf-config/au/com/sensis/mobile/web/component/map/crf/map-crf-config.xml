@@ -35,7 +35,7 @@
         	    
         <!-- Device families. -->
         <group name="nonIEPC" expr="device.getPropertyAsString('custom.device.classification') eq 'pc' 
-            and !(device.getPropertyAsString('custom.device.classification') eq 'internet explorer')" />    
+            and !(device.getPropertyAsString('model_name') eq 'internet explorer')" />    
         
         <group name="map-apple" expr="inAnyGroup('iphone4', 'ipad', 'map-iphone-ipod-touch')" />
 
