@@ -1,3 +1,16 @@
+==== Version 4.0.1 (tag: map_v4_0_1) ====
+
+Bug-Fix to group configuration.
+
+In wurfl the following device names have changed.
+
+HTC-A3335 -> HTC-Buzz
+ZTE-T3030 -> ZTE-T3020
+
+Upgrade Steps:
+
+None.
+
 ==== Version 4.0.0 (tag: map_v4_0_0) ====
 
 Migrated to use WURFL based CRF 3.x.

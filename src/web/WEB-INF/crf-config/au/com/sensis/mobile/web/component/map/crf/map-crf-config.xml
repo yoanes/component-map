@@ -44,7 +44,7 @@
         <group name="map-android-2_1" expr="device.supportsOs('Android') and 
         	(device.userAgent =~ '.*Android 2\.1.*' or device.userAgent =~ '.*Android 1\.6.*')" />
             
-        <group name="map-android" expr="device.supportsOs('Android') and !(device.isA('HTC-A3335') or device.isA('ZTE-T3030'))" />
+        <group name="map-android" expr="device.supportsOs('Android') and !(device.isA('HTC-Buzz') or device.isA('ZTE-T3020'))" />
         <group name="map-apple-android" expr="inAnyGroup('map-apple', 'map-android')"/>
             
         <!-- Broad map functionality groupings. -->
@@ -60,8 +60,8 @@
             or (  ( device.isA('Apple-iPhone') 
                     or device.isA('Apple-iPod-Touch')
                   ) and device.userAgent =~ '.*OS 3_0.*' )
-            or device.isA('HTC-A3335')
-            or device.isA('ZTE-T3030')" />
+            or device.isA('HTC-Buzz')
+            or device.isA('ZTE-T3020')" />
         
         <!-- Image category groups. -->
         <group name="HD1024" expr="device.imageCategory eq 'HD1024'" />
