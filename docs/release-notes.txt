@@ -1,3 +1,6 @@
+==== Version 4.0.2 (tag: map_v4_0_2) ====
+Remove locate me button from thub 2
+
 ==== Version 4.0.1 (tag: map_v4_0_1) ====
 
 Bug-Fix to group configuration.

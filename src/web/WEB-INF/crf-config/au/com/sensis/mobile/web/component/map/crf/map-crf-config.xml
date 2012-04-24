@@ -9,6 +9,8 @@
         <!-- Specific devices. -->
         <group name="thub" expr="device.isA('Sagem-HomeManager')" />    
         
+        <group name="thub2" expr="device.isA('Sagem-HomeManager2-2.3')"/>
+        
         <import name="sex10" />
         
         <import name="sex10mini" />
