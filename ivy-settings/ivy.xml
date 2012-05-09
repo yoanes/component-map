@@ -61,7 +61,7 @@
         
         <!-- Components. -->
         <dependency org="com.sensis" name="wl-core-component" rev="4.0.0" conf="default,test"/>
-        <dependency org="com.sensis" name="wl-devicelocation-component" rev="4.0.1" conf="default"/>
+        <dependency org="com.sensis" name="wl-devicelocation-component" rev="4.0.2" conf="default"/>
         
         <!-- Commons -->
         <dependency org="apache" name="commons-lang" rev="2.4" conf="default" />
