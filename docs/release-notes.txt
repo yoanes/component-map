@@ -1,3 +1,6 @@
+==== Version 4.0.4 (tag: map_v4_0_4) ====
+Now depends on devicelocation component version 4.0.3
+
 ==== Version 4.0.3 (tag: map_v4_0_3) ====
 Now depends on devicelocation component version 4.0.2
 
