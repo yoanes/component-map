@@ -8,6 +8,7 @@
 <c:set var="map" value="${requestScope['mapComponentMap']}" />
 <c:set var="clientSideGeneratedMapStateChangeUrl" value="${requestScope['mapComponentClientSideGeneratedMapStateChangeUrl']}" />
 <c:set var="popup" value="${requestScope['mapComponentPopup']}" />
+<c:set var="useDockForPopup" value="${requestScope['mapComponentUseDockForPopup']}" />
 
 <crf:imgSrcPrefix var="imgSrcPrefix" />
 <c:if test="${not empty map && map.mapImageRetrievalDeferredToClient}">

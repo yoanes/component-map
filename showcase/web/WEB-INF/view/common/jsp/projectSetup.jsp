@@ -11,7 +11,7 @@
 <deviceport:setup device="${context.device}" />
 <c:choose>
 	<c:when test="${docked}">
-		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" useDockForPopup="true"/>
+		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}"/>
 	</c:when>
 	<c:otherwise>
 		<map:setup device="${context.device}" map="${map}" emsJsUrl="${emsJsUrl}" 

@@ -1,3 +1,11 @@
+==== Version 4.0.5 (tag: map_v4_0_5) ====
+
+Fixed usage of the useDockForPopup tag attribute. It was broken and being ignored.
+
+Upgrade steps:
+- The setup tag no longer accepts the useDockForPopup attribute. You must pass it to the render
+  tag instead.
+
 ==== Version 4.0.4 (tag: map_v4_0_4) ====
 Now depends on devicelocation component version 4.0.3
 

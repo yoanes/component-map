@@ -14,7 +14,6 @@
 <c:set var="map" value="${requestScope['mapComponentMap']}" />
 <c:set var="emsJsUrl" value="${requestScope['mapComponentEmsJsUrl']}" />
 <c:set var="useMyLocation" value="${requestScope['mapComponentUseMyLocation']}" />
-<c:set var="useDockForPopup" value="${requestScope['mapComponentUseDockForPopup']}" />
 <c:set var="highEndMapControls" value="${requestScope['mapComponentHighEndMapControls']}" />
 
 <%-- Themes for current component. --%>

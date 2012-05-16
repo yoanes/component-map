@@ -37,6 +37,13 @@
 <%@ attribute name="clientSideGeneratedMapStateChangeUrl" required="false" 
     description="URL to be used by high end maps to indicate that the state of the map has changed. 
     Request params indicate what state has changed. If ommitted, state changes will not be reported." %>
+    
+<%@ attribute name="useDockForPopup" required="false"
+    description="Flag to determine where the popup will go. 
+             - If it's not set then the popup will be displayed in the poi itself.
+             - Set it to true if you want the popup to go to the dock instead of updating the poi.
+             - Or pass a JS method to be called on content changed - your method will be called everytime a new popup is loaded
+            to the dock. Your method will receive the current index of the popup content's array as the argument." %>
 
 <logging:logger var="logger" name="au.com.sensis.mobile.web.component.map" />    
 <logging:debug logger="${logger}" message="Entering render.tag" />
@@ -56,6 +63,8 @@
 <c:set var="mapComponentPhotoLayerUrl" scope="request" value="${photoLayerUrl}" />
 <c:set var="mapComponentMapLayerUrl" scope="request" value="${mapLayerUrl}" />
 <c:set var="mapComponentClientSideGeneratedMapStateChangeUrl" scope="request" value="${clientSideGeneratedMapStateChangeUrl}" />
+<c:set var="mapComponentUseDockForPopup" scope="request" value="${useDockForPopup}" />
+
 
 <jsp:doBody var="popup"/>
 <c:set var="mapComponentPopup" scope="request" value="${popup}" />

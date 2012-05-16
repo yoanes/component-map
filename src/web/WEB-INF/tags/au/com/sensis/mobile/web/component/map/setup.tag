@@ -22,12 +22,6 @@
 <%@ attribute name="useMyLocation" required="false"
 	description="Flag to include the devicelocation component plus all features associated with it." %>
 
-<%@ attribute name="useDockForPopup" required="false"
-	description="Flag to determine where the popup will go. 
-		     - If it's not set then the popup will be displayed in the poi itself.
-		     - Set it to true if you want the popup to go to the dock instead of updating the poi.
-		     - Or pass a JS method to be called on content changed - your method will be called everytime a new popup is loaded
-			to the dock. Your method will receive the current index of the popup content's array as the argument." %>
 
 <%@ attribute name="highEndMapControls" required="false"
 	description="Comma separated list of map controls you want to be included with the map on initialization." %>
@@ -43,7 +37,6 @@
 <c:set var="mapComponentMap" scope="request" value="${map}" />
 <c:set var="mapComponentEmsJsUrl" scope="request" value="${emsJsUrl}" />
 <c:set var="mapComponentUseMyLocation" scope="request" value="${useMyLocation}" />
-<c:set var="mapComponentUseDockForPopup" scope="request" value="${useDockForPopup}" />
 <c:set var="mapComponentHighEndMapControls" scope="request" value="${highEndMapControls}" />
 
 <jsp:include page="/WEB-INF/view/jsp/comp/map/setup.crf" />
