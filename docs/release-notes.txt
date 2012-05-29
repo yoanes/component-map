@@ -1,3 +1,12 @@
+==== Version 4.0.6 (tag: map_v4_0_6) ====
+
+Changed optional clickToEnable control from opacity of 0.6 to 0.2. At
+present, this optional control is only used by Yellow Pages Mobile and
+we doubt that any other apps will ever want it.
+
+Upgrade steps:
+- should be transparent except for the above UI change.
+
 ==== Version 4.0.5 (tag: map_v4_0_5) ====
 
 Fixed usage of the useDockForPopup tag attribute. It was broken and being ignored.

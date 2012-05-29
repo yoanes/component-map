@@ -16,7 +16,7 @@ EMS.Control.ClickToEnable = OpenLayers.Class(OpenLayers.Control, {
 		left: 0,
 		top: 0,
 		zIndex: 751,
-		opacity: 0.6,
+		opacity: 0.2,
 		
 	},
 	
